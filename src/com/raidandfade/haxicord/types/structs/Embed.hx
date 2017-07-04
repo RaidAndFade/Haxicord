@@ -1,4 +1,4 @@
-package com.raidandfade.haxicord.types;
+package com.raidandfade.haxicord.types.structs;
 
 
 //@serverside is for when you decide to at some point have an embed creator. fun times.

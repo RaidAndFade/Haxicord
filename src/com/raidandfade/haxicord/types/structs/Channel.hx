@@ -1,4 +1,4 @@
-package com.raidandfade.haxicord.types;
+package com.raidandfade.haxicord.types.structs;
 
 enum ChannelType{
     Text;
