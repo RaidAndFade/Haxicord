@@ -7,20 +7,19 @@ class Tag{
 
     public function new(_tag:String){
         tag = _tag;
-        if(tag.charAt(0)!="<")throw "Invalid Tag Given";
+
+        if(tag.charAt(tag.length-1)!=">")throw "Invalid Tag";
         //Why haxe is good : also why it's bad : 
-        type = switch(tag.charAt(1)){
-            default:throw "Invalid Tag Given";
-            case "@":
-                switch(tag.charAt(2)){
-                    default: User
-                    case "!": Nick
-                    case "&": Role
-                }
-            case "#": Channel
-            case ":": Emoji
+        type = switch(tag.substr(0,3).split("")){
+            case ["<","@","&"]: Role;
+            case ["<","@","!"]: Nick;
+            case ["<","@",_]: User;
+            case ["<",":",_]: Emoji;
+            case ["<","#",_]: Channel;
+            case _: throw "Invalid Tag";
         }
-        var offset = type==User?1:type==Emoji?tag.lastIndexOf(":"):2;
+        
+        var offset = ( type==User ? 1 : ( type==Emoji ? tag.lastIndexOf(":") : 2 ));
         var flakeStr = tag.substr(offset,tag.length-(offset+1));
         value = new Snowflake(flakeStr);
     }

@@ -24,7 +24,7 @@ class Guild{
     var large:Bool;
     var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
     var member_count:Int;
-    var members:Array<Member>; //guild member. ezpz
+    var members:Array<GuildMember>; 
     var channels:Array<GuildChannel>;
     var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
 }

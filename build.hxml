@@ -1,9 +1,18 @@
 
 ### TEST BUILDS : 
--cp src
+# ###NOT IMPLEMENTED gotta make some sort of http proxy for this, it wont send user-agent.
+# # -cp src
+# # -main com/raidandfade/haxicord/test/Test.hx
+# # -js test/bin/Haxicord-js/haxicord.js
+# # -cmd echo '<script src="haxicord.js"></script>' > test/bin/Haxicord-js/index.html
+
+#--next
+-debug
+-cp src 
+-lib hxnodejs
 -main com/raidandfade/haxicord/test/Test.hx
--js test/bin/Haxicord-js/haxicord.js
--cmd echo '<script src="haxicord.js"></script>' > test/bin/Haxicord-js/index.html
+-js test/bin/Haxicord-nodejs/haxicord.js
+-D nodejs
 
 # # ###NOT IMPLEMENTED _SOCKET BROKE_
 # # --next
@@ -23,7 +32,8 @@
 # -main com/raidandfade/haxicord/test/Test.hx
 # -cpp test/bin/Haxicord-cpp
 
---next
+# --next
+# SAME AS JS BUT NO HTTPS. USER AGENT IS FINE
 -debug
 -net-lib libs/websocket-sharp.dll
 -cp src
@@ -43,6 +53,7 @@
 # -lua test/bin/Haxicord-lua/Haxicord.lua
 
 --next
+-debug
 -cp src
 -main com/raidandfade/haxicord/test/Test.hx
 -neko test/bin/Haxicord-neko/Haxicord.n
