@@ -19,7 +19,7 @@ class Test
 		var endpoints = new Endpoints(discordBot);
 
 		endpoints.callEndpoint("GET","/gateway",receiveData);
-
+		trace("1: ");
 
 #if !js
         while(true){
@@ -30,6 +30,6 @@ class Test
 	}
 
 	public static function receiveData(r){
-		trace(r);
+		trace("2: " + r);
 	}
 }

@@ -4,6 +4,17 @@ import haxe.Http;
 import haxe.Json;
 
 #if cs
+//Refer to line 79 if you're confused.
+@:classCode("void httpCallBack(System.IAsyncResult res){
+                System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function> r = (System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function>)res.AsyncState;
+                System.Net.HttpWebResponse response = r.Item1.EndGetResponse(res) as System.Net.HttpWebResponse;
+                using (var streamReader = new System.IO.StreamReader(response.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                    r.Item2.__hx_invoke1_o(default(double), result);
+                }
+            }\n\n"
+            )
 #end
 
 #if (js&&nodejs)
@@ -74,12 +85,7 @@ class Endpoints{
             ,Json.stringify(data));
         }
         untyped __cs__('
-                var httpResponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
-                using (var streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
-                {
-                    var result = streamReader.ReadToEnd();
-                    {0}.__hx_invoke1_o(default(double), result);
-                }
+                httpWebRequest.BeginGetResponse(new System.AsyncCallback(httpCallBack),System.Tuple.Create(httpWebRequest,{0}));
             '
         ,callback);
 #elseif js
