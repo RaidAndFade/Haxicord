@@ -3,6 +3,9 @@ package com.raidandfade.haxicord.endpoints;
 import haxe.Http;
 import haxe.Json;
 
+#if cs
+#end
+
 #if (js&&nodejs)
 import js.node.Https;
 import js.node.Url;
@@ -20,10 +23,12 @@ class Endpoints{
     }
 
     public function callEndpoint(method:String,endpoint:String,callback:Null<Dynamic->Void>=null,data:{}=null,authorized:Bool=true){
+        if(callback == null){
+            callback = function(f){}
+            callback("a");
+        }
         method=method.toUpperCase();
         if(["GET","HEAD","POST","PUT","PATCH","DELETE","OPTIONS"].indexOf(method)==-1)throw "Invalid Method Request";
-        //Set auth : 
-
 
         var url = "https://discordapp.com/api"+endpoint;
 #if (js && nodejs)
@@ -50,7 +55,33 @@ class Endpoints{
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null)res.write(Querystring.stringify(data));
         res.end();
 #elseif cs
-        
+        untyped __cs__('
+                var httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create({0});
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = {1};
+                httpWebRequest.Headers.Add("Authentication",{2});
+                httpWebRequest.UserAgent = {3};
+                '
+            ,url,method,client.token,DiscordClient.userAgent);
+        if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null){
+        untyped __cs__('
+                using (var streamWriter = new System.IO.StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    streamWriter.Write({0});
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }'
+            ,Json.stringify(data));
+        }
+        untyped __cs__('
+                var httpResponse = (System.Net.HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new System.IO.StreamReader(httpResponse.GetResponseStream()))
+                {
+                    var result = streamReader.ReadToEnd();
+                    {0}.__hx_invoke1_o(default(double), result);
+                }
+            '
+        ,callback);
 #elseif js
         throw "JS IS NOT SUPPORTED AT THE MOMENT.";
 #else
