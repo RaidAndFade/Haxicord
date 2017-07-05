@@ -47,7 +47,6 @@ class WebSocketConnection {
         ws.add_OnMessage(new cs.system.EventHandler_1<websocketsharp.MessageEventArgs>(function(f:Dynamic,m:websocketsharp.MessageEventArgs){
             trace(m);this.onMessage(m.Data);
         }));
-        // ws.add_OnError
         ws.Connect();
 #else 
         ws = WebSocket.create(host, [], null, true);

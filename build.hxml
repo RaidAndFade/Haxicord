@@ -27,12 +27,11 @@
 # # -main com/raidandfade/haxicord/test/Test.hx
 # # -php test/bin/Haxicord-php
 
-# --next
-# -cp src
-# -main com/raidandfade/haxicord/test/Test.hx
-# -cpp test/bin/Haxicord-cpp
+--next
+-cp src
+-main com/raidandfade/haxicord/test/Test.hx
+-cpp test/bin/Haxicord-cpp
 
-# SAME AS JS BUT NO HTTPS. USER AGENT IS FINE
 --next
 -debug
 -net-lib libs/websocket-sharp.dll

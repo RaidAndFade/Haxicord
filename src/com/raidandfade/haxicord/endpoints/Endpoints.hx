@@ -106,7 +106,7 @@ class Endpoints{
         call.onStatus = function(status) 
         {};
         //call.request(true);
-        //call.customRequest(false,result,method);
+        call.customRequest(false,result,method);
 #end
 
 
