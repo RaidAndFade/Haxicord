@@ -13,13 +13,15 @@ class Test
 		var f = new Features();
 		trace((f.calculatePercentage()*100)+"% OF FEATURES ARE DONE.");
 
-		var discordBot = new DiscordClient("MzMxNjU5NjAwODQxNTM5NTg3.DD4goA.qW87aMd13sVmuhSgOvG1l_vlxAs");
-		discordBot.onOpen = onOpen;
-		discordBot.start();
 
+		//var ws = new WebSocketConnection("wss://echo.websocket.org?test");
+		//ws.send("hi");
+		var discordBot = new DiscordClient("");
+		discordBot.onReady = onReady;
+		discordBot.start();
 	}
 
-	public static function onOpen(){
+	public static function onReady(){
 		trace("Client done");
 	};
 

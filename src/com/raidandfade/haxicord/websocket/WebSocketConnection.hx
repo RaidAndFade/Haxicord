@@ -51,6 +51,7 @@ class WebSocketConnection {
         }));
         ws.Connect();
 #else 
+        trace("ws");
         ws = WebSocket.create(host, [], null, true);
         ws.onopen = function(){
             ready=true;
@@ -60,11 +61,12 @@ class WebSocketConnection {
             onReady();
         }
         ws.onmessageString = function(m){this.onMessage(m);}
-        ws.onmessageBytes = function(m){}
+        ws.onmessageBytes = function(m){trace(m);}
         ws.onerror = onError;
         ws.onclose = onClose;
+        trace("nows");
 #if sys
-        while (true==true) {
+        while (true) {
             try{        
                 ws.process();
                 Sys.sleep(0.1);
@@ -93,14 +95,13 @@ class WebSocketConnection {
     }
 
     dynamic public function onClose(){
-
     }
 
     dynamic public function onReady(){
     }
 
     dynamic public function onError(s){
-
+        trace(s);
     }
 
     dynamic public function onMessage(m){

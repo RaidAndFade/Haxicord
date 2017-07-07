@@ -115,17 +115,10 @@ class Endpoints{
                 var limit = Std.parseInt(headers.get("x-ratelimit-limit"));
                 var remaining = Std.parseInt(headers.get("x-ratelimit-remaining"));
                 var reset = Std.parseFloat(headers.get("x-ratelimit-reset"));
-                trace("B:",rateLimitName,rateLimitCache.get(rateLimitName));
                 rateLimitCache.set(rateLimitName,new RateLimit(limit,remaining,reset));
                 if(remaining==0){
                     var delay = Std.int(reset-(Date.now().getTime()/1000))*1000+500;
                     var waitForLimit = function(rateLimitName,rateLimit){
-#if (cpp||cs)
-                        //var delay = Std.parseInt(cpp.vm.Thread.readMessage(true)); -- Read  note line 139                        
-
-                        trace("Must wait for "+delay+"ms.");
-                        Sys.sleep(delay/1000);
-#end
                         trace("Ratelimit reset reached.");
                         rateLimitCache.set(rateLimitName,new RateLimit(limit,limit,-1));
                         if(limitedQueue.exists(rateLimitName)){
@@ -143,9 +136,7 @@ class Endpoints{
                     Timer.delay(f,delay);
                 }
                 if(remaining!=0){
-                    trace("LQ: "+limitedQueue.exists(rateLimitName));
                     if(limitedQueue.exists(rateLimitName)){
-                        trace("LL: "+limitedQueue.get(rateLimitName).length);
                         if(limitedQueue.get(rateLimitName).length>0){
                             var arrCopy = limitedQueue.get(rateLimitName).map(function(l){return l;});
                             limitedQueue.set(rateLimitName,new Array<EndpointCall>());
@@ -158,10 +149,8 @@ class Endpoints{
                 }
             }else{
                 trace("No ratelimits on this endpoint.");
-                trace("LQ: "+limitedQueue.exists(rateLimitName));
                 rateLimitCache.set(rateLimitName,new RateLimit(50,50,-1));
                 if(limitedQueue.exists(rateLimitName)){
-                    trace("LL: "+limitedQueue.get(rateLimitName).length);
                     if(limitedQueue.get(rateLimitName).length>0){
                         var arrCopy = limitedQueue.get(rateLimitName).map(function(l){return l;});
                         limitedQueue.set(rateLimitName,new Array<EndpointCall>());

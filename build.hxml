@@ -27,39 +27,40 @@
 # # -main com/raidandfade/haxicord/test/Test.hx
 # # -php test/bin/Haxicord-php
 
-# ## callbacks are not a thing apparently.
-# --next
-# -lib nme
-# -cp src
-# -main com/raidandfade/haxicord/test/Test.hx
-# -cpp test/bin/Haxicord-cpp
+## callbacks are not a thing apparently.
+--next
+-debug
+-lib nme
+-cp src
+-main com/raidandfade/haxicord/test/Test.hx
+-cpp test/bin/Haxicord-cpp
+
+--next
+-debug
+-net-lib libs/websocket-sharp.dll
+-cp src
+-main com/raidandfade/haxicord/test/Test.hx
+-cs test/bin/Haxicord-cs
+-D net-ver=40
+
+# ###maybe when i feel like it 
+# # --next
+# # -cp src
+# # -main com/raidandfade/haxicord/test/Test.hx
+# # -python test/bin/Haxicord-python/Haxicord.py
 
 # --next
-# -debug
-# -net-lib libs/websocket-sharp.dll
 # -cp src
 # -main com/raidandfade/haxicord/test/Test.hx
-# -cs test/bin/Haxicord-cs
-# -D net-ver=40
+# -lua test/bin/Haxicord-lua/Haxicord.lua
 
-# # ###maybe when i feel like it 
-# # # --next
-# # # -cp src
-# # # -main com/raidandfade/haxicord/test/Test.hx
-# # # -python test/bin/Haxicord-python/Haxicord.py
+--next
+-debug
+-cp src
+-main com/raidandfade/haxicord/test/Test.hx
+-neko test/bin/Haxicord-neko/Haxicord.n
 
 # # --next
 # # -cp src
 # # -main com/raidandfade/haxicord/test/Test.hx
-# # -lua test/bin/Haxicord-lua/Haxicord.lua
-
-# --next
-# -debug
-# -cp src
-# -main com/raidandfade/haxicord/test/Test.hx
-# -neko test/bin/Haxicord-neko/Haxicord.n
-
-# # # --next
-# # # -cp src
-# # # -main com/raidandfade/haxicord/test/Test.hx
-# # # -hl test/bin/Haxicord-hl/Haxicord.hl
+# # -hl test/bin/Haxicord-hl/Haxicord.hl

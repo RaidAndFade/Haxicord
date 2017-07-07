@@ -25,10 +25,11 @@ class WebSocketGeneric extends WebSocket {
         this.origin = origin;
         this.key = key;
         this.debug = debug;
-        var reg = ~/^(\w+?):\/\/([\w\.-]+)(:(\d+))?(\/.*)?$/;
+        var reg = ~/^(\w+?):\/\/([\w\.-]+)(:(\d+))?(\/.*)?.{0,}$/;
         //var reg = ~/^(\w+?):/;
         if (!reg.match(uri)) throw 'Uri not matching websocket uri "${uri}"';
         scheme = reg.matched(1);
+        trace(scheme);
         switch (scheme) {
             case "ws": secure = false;
             case "wss": secure = true;
@@ -101,7 +102,6 @@ class WebSocketGeneric extends WebSocket {
             socket.send(data);
         } catch (e:Dynamic) {
             trace(e);
-            trace("REE");
             onerror(Std.string(e));
         }
     }
