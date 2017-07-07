@@ -1,7 +1,7 @@
 package com.raidandfade.haxicord.endpoints;
 
 import haxe.Json;
-import haxe.impl.Timer;
+import haxe.Timer;
 
 #if (js&&nodejs)
 import js.node.Https;
@@ -172,6 +172,9 @@ class Endpoints{
                     }
                 }
             }
+#if cs
+            var data = Json.parse(data);
+#end
             callback(data);
         }
         var path = endpoint.getPath();
@@ -189,10 +192,11 @@ class Endpoints{
         if(["GET","HEAD","POST","PUT","PATCH","DELETE","OPTIONS"].indexOf(method)==-1)throw "Invalid Method Request";
 
         var url = "https://discordapp.com/api"+endpoint;
+        var token = "Bot " + client.token;
 #if (js && nodejs)
         var headers = new DynamicAccess<EitherType<String,Array<String>>>();
 
-        if(authorized)headers.set("Authorization",client.token);
+        if(authorized)headers.set("Authorization",token);
         headers.set("User-Agent",DiscordClient.userAgent);
         headers.set("Content-Type","application/x-www-form-urlencoded");
 
@@ -228,7 +232,7 @@ class Endpoints{
                 httpWebRequest.Headers.Add("Authorization",{2});
                 httpWebRequest.UserAgent = {3};
                 '
-            ,url,method,client.token,DiscordClient.userAgent);
+            ,url,method,token,DiscordClient.userAgent);
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null){
         untyped __cs__('
                 using (var streamWriter = new System.IO.StreamWriter(httpWebRequest.GetRequestStream()))
@@ -251,7 +255,7 @@ class Endpoints{
         var call = new Http(url);
         var result = new haxe.io.BytesOutput();
 
-        call.setHeader("Authorization",client.token);
+        call.setHeader("Authorization",token);
         call.setHeader("User-Agent",DiscordClient.userAgent);
         call.onError = function(no){
             throw no;

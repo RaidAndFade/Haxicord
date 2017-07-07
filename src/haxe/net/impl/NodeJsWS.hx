@@ -3,6 +3,7 @@ package haxe.net.impl;
 import haxe.extern.EitherType;
 import js.node.events.EventEmitter;
 
+//By RAIDANDFADE.
 @:enum abstract NodeJsWSEvent<T:haxe.Constraints.Function>(Event<T>) to Event<T>{
 
     

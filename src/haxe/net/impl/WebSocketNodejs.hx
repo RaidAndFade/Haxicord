@@ -4,6 +4,7 @@ import haxe.io.Bytes;
 import haxe.net.WebSocket;
 import haxe.extern.EitherType;
 
+//By RAIDANDFADE.
 class WebSocketNodejs extends WebSocket {
     private var impl:NodeJsWS;
 
@@ -25,7 +26,6 @@ class WebSocketNodejs extends WebSocket {
         });
 
         impl.on("message",function(e:EitherType< String, EitherType< js.node.buffer.Buffer, EitherType< js.html.ArrayBuffer, Array< js.node.buffer.Buffer >>>>) {
-            trace(e);
             var m = e;
             if (Std.is(m, String)) {
                 this.onmessageString(m);

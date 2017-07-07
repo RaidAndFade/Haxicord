@@ -1,5 +1,7 @@
 package com.raidandfade.haxicord.websocket;
 
+import haxe.Json;
+
 #if !cs
 import haxe.net.WebSocket;
 #else
@@ -51,18 +53,17 @@ class WebSocketConnection {
 #else 
         ws = WebSocket.create(host, [], null, true);
         ws.onopen = function(){
-            trace("Connection done");
             ready=true;
             for(m in queue){
                 send(m);
             }
             onReady();
         }
-        ws.onmessageString = function(m){trace(m);this.onMessage(m);}
-        ws.onmessageBytes = function(m){trace(m);}
-        ws.onerror = function(e){trace(e);};
+        ws.onmessageString = function(m){this.onMessage(m);}
+        ws.onmessageBytes = function(m){}
+        ws.onerror = onError;
+        ws.onclose = onClose;
 #if sys
-        trace("Thread started?");
         while (true==true) {
             try{        
                 ws.process();
@@ -71,13 +72,16 @@ class WebSocketConnection {
                 trace(e);
             }
         }
-        trace("No fuck can fuck enough fucks.");
 #end
 #end
     }
     
+    public function sendJson(d:Dynamic){
+        this.send(Json.stringify(d));
+    }
+    
     public function send(m:String){
-        trace("Sending "+m);
+        trace(m);
         if(!ready)
             queue.push(m);
         else
@@ -88,10 +92,14 @@ class WebSocketConnection {
 #end
     }
 
+    dynamic public function onClose(){
+
+    }
+
     dynamic public function onReady(){
     }
 
-    dynamic public function onError(){
+    dynamic public function onError(s){
 
     }
 
