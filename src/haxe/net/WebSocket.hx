@@ -15,7 +15,9 @@ class WebSocket {
     }
 
     dynamic static public function create(url:String, protocols:Array<String> = null, origin:String = null, debug:Bool = false):WebSocket {
-        #if js
+        #if (js&&nodejs)
+        return new haxe.net.impl.WebSocketNodejs(url);
+        #elseif js
         return new haxe.net.impl.WebSocketJs(url, protocols);
         #else
             #if flash

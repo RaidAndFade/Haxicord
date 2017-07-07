@@ -60,7 +60,7 @@ class WebSocketConnection {
         }
         ws.onmessageString = function(m){trace(m);this.onMessage(m);}
         ws.onmessageBytes = function(m){trace(m);}
-        //ws.onerror
+        ws.onerror = function(e){trace(e);};
 #if sys
         trace("Thread started?");
         while (true==true) {
