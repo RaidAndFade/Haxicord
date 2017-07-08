@@ -3,19 +3,23 @@ package com.raidandfade.haxicord.endpoints;
 import haxe.Json;
 import haxe.Timer;
 
+import com.raidandfade.haxicord.types.Message;
+import com.raidandfade.haxicord.types.structs.GuildChannel.Overwrite;
+import com.raidandfade.haxicord.types.Channel;
+import com.raidandfade.haxicord.types.Invite;
+
+import haxe.extern.EitherType;
 #if (js&&nodejs)
 import js.node.Https;
 import js.node.Url;
 import js.node.Querystring;
 import haxe.DynamicAccess;
-import haxe.extern.EitherType;
 import js.node.http.IncomingMessage;
 #elseif cs
 //Refer to line 79 if you're confused.
 @:classCode("void httpCallBack(System.IAsyncResult res){
-                System.Console.WriteLine(\"Not good?\");
+                System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function> r = (System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function>)res.AsyncState; 
                 try{
-                System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function> r = (System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function>)res.AsyncState;
                 System.Net.HttpWebResponse response = r.Item1.EndGetResponse(res) as System.Net.HttpWebResponse;
                 using (var streamReader = new System.IO.StreamReader(response.GetResponseStream()))
                 {
@@ -28,9 +32,23 @@ import js.node.http.IncomingMessage;
                     }
 
                     var result = streamReader.ReadToEnd();
-                    r.Item2.__hx_invoke2_o(default(double), result, default(double), headers);
+                    var status = response.StatusCode;
+                    r.Item2.__hx_invoke3_o(default(double), status, default(double), result, default(double), headers);
                 }
-                }catch(System.Exception e){System.Console.WriteLine(e);}
+                }catch(System.Net.WebException e){
+                    if(e.Status == System.Net.WebExceptionStatus.ProtocolError){
+                        global::haxe.ds.StringMap<object> headers = new global::haxe.ds.StringMap<object>();
+                        foreach (string n in e.Response.Headers){
+                            foreach(string s in e.Response.Headers.GetValues(n)){
+                                headers.@set(n.ToLower(),s);
+                            }
+                        }
+                        r.Item2.__hx_invoke3_o(default(double), ((int)((System.Net.HttpWebResponse)e.Response).StatusCode), default(double), \"{\\\"status\\\":\\\"\"+((int)((System.Net.HttpWebResponse)e.Response).StatusCode)+\"\\\",\\\"error\\\":\\\"\"+((System.Net.HttpWebResponse)e.Response).StatusDescription+\"\\\"}\", default(double), headers);
+                    }else{
+                        System.Console.WriteLine(\"Something quite bad happened\");
+                        System.Console.WriteLine(e);
+                    }
+                }
             }\n\n"
             )
 #else
@@ -49,46 +67,163 @@ class Endpoints{
     var limitedQueue:Map<String,Array<EndpointCall>> = new Map<String,Array<EndpointCall>>();
 
 //ACTUAL ENDPOINTS : 
-    public function getGateway(bot=false,cb:Typedefs.Gateway->Void=null){
-        //GET
-        //gateway(?/bot)
+
+//GATEWAY START
+    public function getGateway(bot=false,cb:Typedefs.Gateway->String->Void=null){
         var endpoint = new EndpointPath("/gateway"+(bot?"/bot":""),[]);
-        var _cb = function(j){
-            trace(j);
-            cb(j);
+        callEndpoint("GET",endpoint,cb);
+    }
+
+//CHANNEL START
+    //TODO change to Channel->String->Void
+    public function getChannel(channel_id:String,cb:Channel->String->Void){
+        var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
+        callEndpoint("GET",endpoint,cb);
+    }
+
+    //TODO change to Channel->String->Void
+    public function modifyChannel(channel_id:String,channel_data:Typedefs.ChannelUpdate,cb:Channel->String->Void){
+         //Requires manage_channels
+        var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
+        callEndpoint("PATCH",endpoint,cb,channel_data);
+    }
+
+    //TODO change to Channel->String->Void
+    public function deleteChannel(channel_id:String,cb:Channel->String->Void){
+         //Requires manage_channels
+        var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
+        callEndpoint("DELETE",endpoint,cb);
+    }
+
+    public function editChannelPermissions(channel_id:String,overwrite_id:String,new_permission:Overwrite,cb:EmptyResponseCallback){
+        //Requires manage_roles
+        var endpoint = new EndpointPath("/channels/{0}/permissions/{1}",[channel_id,overwrite_id]);
+        callEndpoint("PUT",endpoint,cb,new_permission); //204
+    }
+
+    public function deleteChannelPermission(channel_id:String,overwrite_id:String,cb:EmptyResponseCallback){
+        //Requires manage_roles
+        var endpoint = new EndpointPath("/channels/{0}/permissions/{1}",[channel_id,overwrite_id]);
+        callEndpoint("DELETE",endpoint,cb); //204
+    }
+
+    //TODO change to Array<Invite>->String->Void
+    public function getChannelInvites(channel_id:String,cb:Array<Invite>->String->Void){
+        //Requires manage_channels
+        var endpoint = new EndpointPath("/channels/{0}/invites",[channel_id]);
+        callEndpoint("GET",endpoint,cb);
+    }
+
+    //TODO change to Invite->String->Void
+    public function createChannelInvite(channel_id:String,invite:Typedefs.InviteCreate,cb:Invite->String->Void){
+        //requires create_instant_invite
+        var endpoint = new EndpointPath("/channels/{0}/invites",[channel_id]);
+        callEndpoint("POST",endpoint,cb,invite);
+    }
+
+//MESSAGE START
+    //TODO change to Array<Messages>->String->Void
+    public function getChannelPins(channel_id:String,cb:Array<Message>->String->Void){
+        //Requires read_messages
+        var endpoint = new EndpointPath("/channels/{0}/pins",[channel_id]);
+        callEndpoint("GET",endpoint,cb);
+    }
+
+    //TODO change to Array<Messages>->String->Void
+    public function getMessages(channel_id:String,format:Typedefs.MessagesRequest,cb:Array<Message>->String->Void){
+        //Requires read_messages
+        var endpoint = new EndpointPath("/channels/{0}/messages{1}",[channel_id,queryString(format)]);
+        callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.Message>,e){
+            if(e!=null)cb(null,e);
+            else cb([for(m in r){new Message(m,client);}],null);
+        });
+    }
+
+    //TODO change to Message->String->Void
+    public function getMessage(channel_id:String,message_id:String,cb:Message->String->Void){
+        //Requires read_message_history
+        var endpoint = new EndpointPath("/channels/{0}/messages/{1}",[channel_id,message_id]);
+        callEndpoint("GET",endpoint,cb);
+    }
+
+    //TODO change to Message->String->Void
+    public function sendMessage(channel_id:String,message:Typedefs.MessageCreate,cb:Message->String->Void){
+        //Requires send_messages
+        var endpoint = new EndpointPath("/channels/{0}/messages",[channel_id]);
+        callEndpoint("POST",endpoint,cb,message);        
+    }
+
+    public function startTyping(channel_id:String,cb:EmptyResponseCallback){
+        //Requires send_messages
+        var endpoint = new EndpointPath("/channels/{0}/typing",[channel_id]);
+        callEndpoint("POST",endpoint,cb,{});        //204
+    }
+
+    //TODO change to Message->String->Void
+    public function editMessage(channel_id:String,message:Typedefs.MessageEdit,cb:Message->String->Void){
+        var endpoint = new EndpointPath("/channels/{0}/messages",[channel_id]);
+        callEndpoint("PATCH",endpoint,cb,message);
+    }
+
+    public function deleteMessage(channel_id:String,message_id:String,cb:EmptyResponseCallback){
+        //If !currentUser==author, requires Manage Messages
+        var endpoint = new EndpointPath("/channels/{0}/messages/{1}",[channel_id,message_id]);
+        callEndpoint("DELETE",endpoint,cb); //204
+    }
+
+    public function deleteMessages(channel_id:String,message_ids:Typedefs.MessageBulkDelete,cb:EmptyResponseCallback){
+        //Requires manage_messages
+        var endpoint = new EndpointPath("/channels/{0}/messages/bulk-delete",[channel_id]);
+        callEndpoint("POST",endpoint,cb,message_ids); //204
+    }
+
+//REACTION START
+    public function createReaction(channel_id:String,message_id:String,emoji:String,cb:EmptyResponseCallback){
+        //Requires read_message_history, and add_reactions if emoji not already on message
+        var endpoint = new EndpointPath("/channels/{0}/messages/{1}/reactions/{2}/@me",[channel_id,message_id,emoji]);
+        callEndpoint("PUT",endpoint,cb); //204
+    }
+
+    public function deleteOwnReaction(channel_id:String,message_id:String,emoji:String,cb:EmptyResponseCallback){
+        var endpoint = new EndpointPath("/channels/{0}/messages/{1}/reactions/{2}/@me",[channel_id,message_id,emoji]);
+        callEndpoint("DELETE",endpoint,cb); //204
+    }
+
+    public function deleteUserReaction(channel_id:String,message_id:String,user_id:String,emoji:String,cb:EmptyResponseCallback){
+        //Requires MANAGE_MESSAGES
+        var endpoint = new EndpointPath("/channels/{0}/messages/{1}/reactions/{2}/{3}",[channel_id,message_id,emoji,user_id]);
+        callEndpoint("DELETE",endpoint,cb); //204
+    }
+
+    public function getReactions(channel_id:String,message_id:String,emoji:String,cb:Array<Reaction>->String->Void){
+        var endpoint = new EndpointPath("/channels/{0}/messages/{1}/reactions/{2}",[channel_id,message_id,emoji]);
+        callEndpoint("GET",endpoint,cb);
+    }
+
+    public function deleteAllReactions(channel_id:String,message_id:String,cb:EmptyResponseCallback){
+        //Requires MANAGE_MESSAGES
+        var endpoint = new EndpointPath("/channels/{0}/messages/{1}/reactions",[channel_id,message_id]);
+        callEndpoint("DELETE",endpoint,cb); //204
+    }
+
+//BACKEND
+    //later on if it matters see if there's a better way to do this
+    public static function queryString(datar:{}):String{
+        if(Std.is(datar,new Map<String,Dynamic>())){
+            var data:Map<String,Dynamic> = cast(datar,Map<String,Dynamic>);
+            var s = "?";
+            var c = 0;
+            for(k in data.keys()){
+                var v = data.get(k);
+                if(c++!=0)s+="&";
+                s+=k+"="+Std.string(v);
+            }
+            return s;
         }
-        callEndpoint("GET",endpoint,_cb);
+        return "";
     }
 
-    public function getChannel(channel_id:String){
-        //GET
-        //channels/{0}
-    }
-
-
-//BACKEND : 
-    public function callEndpointSync():Dynamic{
-#if js
-        //ree
-#end
-        //Implement a blocking version of callEndpoint for not-js languages? or dont
-        return null;
-    }
-
-// also how 2 deal with race conditions
-// since async web request
-// say x-remaining is 1
-// and same endpoint is called by bot 2 times
-// in my cache i know i have 1 left until x time
-// so i guess just let whichever one called first go, and delay the 2nd one until it can :Think:
-// yea
-// how does your burst thing work then if not like that
-// maybe i can hook into the callback
-// and have my own
-// and in that callback see if there's anything waiting in the queue
-// that way i avoid the whole loop concept
-
-    public function callEndpoint(method:String,endpoint:EndpointPath,callback:Null<Dynamic->Void>=null,data:{}=null,authorized:Bool=true){
+    public function callEndpoint(method:String,endpoint:EndpointPath,callback:Null<Dynamic->String->Void>=null,data:{}=null,authorized:Bool=true){
         trace("Req : "+endpoint.getPath());
         var rateLimitName = method+endpoint.endpoint;
         trace("RLC: "+rateLimitCache.exists(rateLimitName));
@@ -161,10 +296,12 @@ class Endpoints{
                     }
                 }
             }
-#if cs
-            var data = Json.parse(data);
-#end
-            callback(data);
+            //TODO if data is not an error luleh
+            if(data.status < 200 || data.status>=300){
+                callback(null,data.error);
+            }else{
+                callback(data.data,null);
+            }
         }
         var path = endpoint.getPath();
         rawCallEndpoint(method,path,_callback,data,authorized);
@@ -206,13 +343,19 @@ class Endpoints{
                     var v = res.headers[k];
                     m.set(k.toLowerCase(),v);
                 }
-                callback(Json.parse(all),m);
+                callback({status:res.statusCode,data:Json.parse(all)},m);
             });
+        });
+        req.on('error',function(e){
+            trace(e);
         });
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null)req.write(Querystring.stringify(data));
         req.end();
 #elseif cs
-        trace("Sending req to "+url);
+        var cscb = function(status,response,headers){
+            var data = Json.parse(response);
+            callback({status:status,data:data},headers);
+        }
         untyped __cs__('
                 try{
                 var httpWebRequest = (System.Net.HttpWebRequest)System.Net.WebRequest.Create({0});
@@ -233,11 +376,13 @@ class Endpoints{
             ,Json.stringify(data));
         }
         untyped __cs__('
-                System.Console.WriteLine("Sending Req!");
                 httpWebRequest.BeginGetResponse(new System.AsyncCallback(httpCallBack),System.Tuple.Create(httpWebRequest,{0}));
-                }catch(System.Net.WebException e){System.Console.WriteLine(e);}
+                }catch(System.Net.WebException e){
+                    System.Console.WriteLine("Something quite bad happened");
+                    System.Console.WriteLine(e);
+                }
             '
-        ,callback);
+        ,cscb);
 #elseif js
         throw "Browser JS is not supported as it's not possible to send modified User-Agents.";
 #else
@@ -246,8 +391,25 @@ class Endpoints{
 
         call.setHeader("Authorization",token);
         call.setHeader("User-Agent",DiscordClient.userAgent);
+        var status:Int = -1;
+        call.onStatus = function(st){
+            status = st;
+        }
         call.onError = function(no){
-            throw no;
+            var m = new Map<String,String>();
+            for(k in call.responseHeaders.keys()){
+                var v = call.responseHeaders[k];
+                m.set(k.toLowerCase(),v);
+            }
+            var errReg = ~/Http Error #([0-9]{0,5})/;
+            if(errReg.match(no)){
+                callback({"status":status,"error":"HTTP error"},m);
+            }else{
+                callback({"status":"-1","error":no},m);
+            }
+        }
+        if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null){
+            call.setPostData(Json.stringify(data));
         }
         call.onData = function(data){
             var m = new Map<String,String>();
@@ -255,8 +417,10 @@ class Endpoints{
                 var v = call.responseHeaders[k];
                 m.set(k.toLowerCase(),v);
             }
-            callback(Json.parse(data),m);
+            var data = Json.parse(data);
+            callback({status:status,data:data},m);
         }
+        //TODO data
         call.customRequest(false,result,method);
 #end
     }
@@ -281,7 +445,7 @@ class RateLimit {
 class EndpointCall {
     public var method:String;
     public var endpoint:EndpointPath;
-    public var callback:Null<Dynamic->Void>;
+    public var callback:Null<Dynamic->String->Void>;
     public var data:{};
     public var authorized:Bool;
     public function new(_m,_e,_c=null,_d=null,_a=true){
@@ -306,3 +470,5 @@ class EndpointPath {
         return cur;
     }
 }
+
+typedef EmptyResponseCallback = Dynamic->String->Void;
