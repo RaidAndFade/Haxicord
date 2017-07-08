@@ -1,16 +1,16 @@
 package com.raidandfade.haxicord.types.structs;
 
-class Guild{
-    var id:Snowflake;
+typedef Guild = {
+    var id:Int;
     var name:String; //2-100chars
     var icon:String; //Image hash
     var splash:String; //splash hash
-    var owner_id:Snowflake;
+    var owner_id:Int;
     var region:String; // voice_region.id
-    var afk_channel_id:Snowflake;
+    var afk_channel_id:Int;
     var afk_timeout:Int;
     var embed_enabled:Bool; //Widgetable?
-    var embed_channel_id:Snowflake; //What channel is widgetted?
+    var embed_channel_id:Int; //What channel is widgetted?
     var verification_level:Int;
     var default_message_notifications:Int;
     var roles:Array<Role>;

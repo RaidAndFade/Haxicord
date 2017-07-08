@@ -1,6 +1,6 @@
 package com.raidandfade.haxicord.types.structs;
 
-class Connection { 
+typedef Connection = { 
     var id:String;
     var name:String;
     var type:String;

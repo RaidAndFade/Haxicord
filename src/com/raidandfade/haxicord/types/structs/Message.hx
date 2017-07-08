@@ -1,12 +1,12 @@
 package com.raidandfade.haxicord.types.structs;
 
-class Message {
+typedef Message = {
     var id:Snowflake;
     var channel_id:Snowflake;
     var author:User;
     var content:String;
-    var timestamp:Date;
-    var edited_timestamp:Date;
+    var timestamp:Float;
+    var edited_timestamp:Float;
     var tts:Bool;
     var mention_everyone:Bool;
     var mentions:Array<User>;
@@ -19,7 +19,7 @@ class Message {
     var webhook_id:String;
 }
 
-class Attachment { 
+typedef Attachment = { 
     var id:Snowflake;
     var filename:String;
     var size:Int;
@@ -29,8 +29,7 @@ class Attachment {
     var width:Int;
 }
 
-//Might have to make separate classes for these two at some point. hope not.
-class Reaction {
+typedef Reaction = {
     var count:Int;
     var me:Bool;
     var emoji:Emoji;

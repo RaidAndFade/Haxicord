@@ -1,6 +1,6 @@
 package com.raidandfade.haxicord.types.structs;
 
-class InviteMetadata{
+typedef InviteMetadata = {
     var inviter:User;
     var uses:Int;
     var max_uses:Int;

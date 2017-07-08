@@ -1,13 +1,7 @@
 package com.raidandfade.haxicord.types.structs;
 
-enum ChannelType{
-    Text;
-    Voice;
-    DirectMessage;
-}
-
-class Channel{
-    var id:Snowflake;
+typedef Channel = {
+    var id:String;
     var is_private:Bool;
-    var type:ChannelType;
+    var type:String;
 }

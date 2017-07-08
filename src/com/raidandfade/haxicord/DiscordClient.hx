@@ -40,7 +40,8 @@ class DiscordClient {
 #end
     }
 //Flowchart
-    public function connect(gateway){
+    public function connect(gateway,error){
+        if(error!=null)throw error;
         trace("Gottening");
         ws = new WebSocketConnection(gateway.url+"/?v="+gatewayVersion+"&encoding=json");
         ws.onMessage = webSocketMessage;
@@ -55,6 +56,7 @@ class DiscordClient {
     }
 
     public function webSocketMessage(msg){
+        trace(msg);
         var m:WSMessage = Json.parse(msg);
         var d:Dynamic;
         d = m.d;

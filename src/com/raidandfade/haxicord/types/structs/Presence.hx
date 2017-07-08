@@ -1,10 +1,10 @@
 package com.raidandfade.haxicord.types.structs;
 
-class Presence {
+typedef Presence = {
     var idle_since:Int;
     var game:PresenceGame;
 }
 
-class PresenceGame {
+typedef PresenceGame = {
     var name:String;
 }

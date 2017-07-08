@@ -1,20 +1,20 @@
 package com.raidandfade.haxicord.types.structs;
 
-class GuildIntegration {
-    var id:Snowflake;
+typedef GuildIntegration = {
+    var id:String;
     var name:String;
     var type:String;
     var enabled:Bool;
     var syncing:Bool;
-    var role_id:Snowflake;
+    var role_id:String;
     var expire_behavior:Int;
     var expire_grace_period:Int;
     var user:User;
     var account:IntegrationAccount;
-    var synced_at:Date;
+    var synced_at:Float;
 }
 
-class IntegrationAccount{
+typedef IntegrationAccount = {
     var id:String;
     var name:String;
 }

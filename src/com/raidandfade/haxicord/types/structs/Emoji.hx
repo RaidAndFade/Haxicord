@@ -1,7 +1,7 @@
 package com.raidandfade.haxicord.types.structs;
 
-class Emoji {
-    var id:Snowflake;
+typedef Emoji = {
+    var id:String;
     var name:String;
     var roles:Array<Role>;
     var require_colons:Bool;

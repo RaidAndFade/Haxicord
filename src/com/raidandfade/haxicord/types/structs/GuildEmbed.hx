@@ -1,6 +1,6 @@
 package com.raidandfade.haxicord.types.structs;
 
-class GuildEmbed {
+typedef GuildEmbed = {
     var enabled:Bool;
     var channel_id:Snowflake;
 }

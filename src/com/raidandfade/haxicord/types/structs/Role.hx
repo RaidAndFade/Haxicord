@@ -1,7 +1,7 @@
 package com.raidandfade.haxicord.types.structs;
 
-class Role { 
-    var id:Snowflake;
+typedef Role = { 
+    var id:String;
     var name:String;
     var color:Int; 
     var hoist:Bool; //pinned in user listing?

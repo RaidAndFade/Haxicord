@@ -1,7 +1,7 @@
 package com.raidandfade.haxicord.types.structs;
 
-class User{
-    var id:Snowflake; 
+typedef User = {
+    var id:String; 
     var username:String;
     var discriminator:String;
     var avatar:String;

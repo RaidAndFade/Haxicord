@@ -1,10 +1,10 @@
 package com.raidandfade.haxicord.types.structs;
 
-class GuildMember{
+typedef GuildMember = {
     var user:User;
     var nick:Null<String>;
-    var roles:Array<Snowflake>;
-    var joined_at:Date;
+    var roles:Array<String>;
+    var joined_at:Float;
     var deaf:Bool;
     var mute:Bool;
 }

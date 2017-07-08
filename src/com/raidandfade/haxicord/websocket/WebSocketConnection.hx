@@ -67,12 +67,8 @@ class WebSocketConnection {
         trace("nows");
 #if sys
         while (true) {
-            try{        
-                ws.process();
-                Sys.sleep(0.1);
-            }catch(e:Dynamic){
-                trace(e);
-            }
+            ws.process();
+            Sys.sleep(0.1);
         }
 #end
 #end
