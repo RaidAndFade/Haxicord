@@ -80,7 +80,35 @@ class DiscordClient {
         switch(m.t){
             case "READY":
                 onReady();
-                
+            case "CHANNEL_CREATE":
+            case "CHANNEL_UPDATE":
+            case "CHANNEL_DELETE":
+            case "GUILD_CREATE":
+            case "GUILD_UPDATE":
+            case "GUILD_DELETE":
+            case "GUILD_BAN_ADD":
+            case "GUILD_BAN_REMOVE":
+            case "GUILD_EMOJIS_UPDATE":
+            case "GUILD_INTEGRATIONS_UPDATE": //lol ok
+            case "GUILD_MEMBER_ADD":
+            case "GUILD_MEMBER_REMOVE":
+            case "GUILD_MEMBER_UPDATE":
+            case "GUILD_MEMBERS_CHUNK": //gg
+            case "GUILD_ROLE_CREATE":
+            case "GUILD_ROLE_UPDATE":
+            case "GUILD_ROLE_DELETE":
+            case "MESSAGE_CREATE":
+            case "MESSAGE_UPDATE":
+            case "MESSAGE_DELETE":
+            case "MESSAGE_DELETE_BULK":
+            case "MESSAGE_REACTION_ADD":
+            case "MESSAGE_REACTION_REMOVE":
+            case "MESSAGE_REACTION_REMOVE_ALL":
+            case "PRESENCE_UPDATE":
+            case "TYPING_START":
+            case "USER_UPDATE":
+            case "VOICE_STATE_UPDATE":
+            case "VOICE_SERVER_UPDATE":
             default:
                 trace("Unhandled event "+m.t);
         }
