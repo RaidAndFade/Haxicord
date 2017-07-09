@@ -28,7 +28,7 @@ import js.node.events.EventEmitter;
     var UnexpectedResponse 
                 : NodeJsWSEvent<js.node.http.ClientRequest ->
                                 js.node.http.IncomingMessage ->
-                                Void>                                   = "unexpected0response";
+                                Void>                                   = "unexpected_response";
 }
 
 @:jsRequire("ws")
