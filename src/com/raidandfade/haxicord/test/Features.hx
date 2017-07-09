@@ -1,5 +1,10 @@
 package com.raidandfade.haxicord.test;
 
+/* The concept behind the features and featurestest files:
+* - To check every single endpoint
+* - To check every single event
+* - To compare results to desired results, and mark as working or not working.
+*/
 //This class lists all features that have been completed and all that have not. 
 class Features {
     //Various categories from the comparison chart at https://discordapi.com/unofficial/comparison.html
@@ -28,8 +33,8 @@ class Features {
         channel_management.set("delete",false);
         channel_management.set("dm",false);
         channel_management.set("edit",false);
-        channel_management.set("history",false);
-        channel_management.set("info",false);
+        channel_management.set("history",true);
+        channel_management.set("info",true);
         channel_management.set("permission",false);
 
         misc.set("edit profile",false);
