@@ -1,7 +1,7 @@
 package com.raidandfade.haxicord.types.structs;
 
 typedef GuildChannel = {>Channel,
-    var guild_id:Int; //flake
+    var guild_id:String; //flake
     var name:String;
     var position:Int;
     var permission_overwrites:Array<Overwrite>;
@@ -9,7 +9,7 @@ typedef GuildChannel = {>Channel,
 
 typedef TextChannel = {>GuildChannel,
     var topic:String;
-    var last_message_id:Int; //flake 
+    var last_message_id:String; //flake 
 }
 
 typedef VoiceChannel = {>GuildChannel,

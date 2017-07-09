@@ -1,12 +1,12 @@
 package com.raidandfade.haxicord.types.structs;
 
-typedef Message = {
-    var id:Snowflake;
-    var channel_id:Snowflake;
+typedef MessageStruct = {
+    var id:String;
+    var channel_id:String;
     var author:User;
     var content:String;
-    var timestamp:Float;
-    var edited_timestamp:Float;
+    var timestamp:String;
+    var edited_timestamp:String;
     var tts:Bool;
     var mention_everyone:Bool;
     var mentions:Array<User>;
@@ -14,13 +14,13 @@ typedef Message = {
     var attachments:Array<Attachment>;
     var embeds:Array<Embed>;
     var reactions:Array<Reaction>;
-    var nonce:Snowflake;
+    var nonce:String;
     var pinned:Bool;
     var webhook_id:String;
 }
 
 typedef Attachment = { 
-    var id:Snowflake;
+    var id:String;
     var filename:String;
     var size:Int;
     var url:String;

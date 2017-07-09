@@ -7,7 +7,7 @@ class TextChannel extends GuildChannel {
     public function new(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.TextChannel,_client:DiscordClient){
         client = _client;
 
-        id = _chan.id;
+        id = new Snowflake(_chan.id);
         is_private = _chan.is_private;
         type = _chan.type;
         guild_id = new Snowflake(_chan.guild_id);
@@ -16,5 +16,9 @@ class TextChannel extends GuildChannel {
         permission_overwrites = _chan.permission_overwrites;
         topic = _chan.topic;
         last_message_id = new Snowflake(_chan.last_message_id);
+    }
+
+    public static function fromStruct(_chan,_client){
+        return new TextChannel(_chan,_client);
     }
 }

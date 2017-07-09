@@ -21,11 +21,11 @@ class User {
         id = new Snowflake(_user.id);
         username = _user.username;
         discriminator = _user.discriminator;
-        if(_user.exists("avatar"))      avatar = _user.avatar;
-        if(_user.exists("bot"))         bot = _user.bot;
-        if(_user.exists("mfa_enabled")) mfa_enabled = _user.mfa_enabled;
-        if(_user.exists("verified"))    verified = _user.verified;
-        if(_user.exists("email"))       email = _user.email;
+        avatar = _user.avatar;
+        bot = _user.bot;
+        if(_user.mfa_enabled!=null) mfa_enabled = _user.mfa_enabled;
+        if(_user.verified!=null)    verified = _user.verified;
+        if(_user.email!=null)       email = _user.email;
     }
     //TODO live endpoints
 }

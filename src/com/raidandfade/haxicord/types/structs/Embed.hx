@@ -61,7 +61,7 @@ typedef EmbedAuthor = {
 typedef EmbedField = {
     @:optional var name:String;
     @:optional var value:String;
-    @:optional var inline:Bool;
+    @:optional var _inline:Bool;
 
     //TODO somehow fix the issue with inline being an identifier
 }

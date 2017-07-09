@@ -1,10 +1,12 @@
 package com.raidandfade.haxicord.types;
 
-import com.raidandfade.haxicord.types.structs.Message.Attachment;
-import com.raidandfade.haxicord.types.structs.Message.Reaction;
+import com.raidandfade.haxicord.types.structs.MessageStruct.Attachment;
+import com.raidandfade.haxicord.types.structs.MessageStruct.Reaction;
+
+import haxe.DateUtils;
 
 //TODO do it properly.
-import com.raidandfade.haxicord.types.structs.Embed;
+//import com.raidandfade.haxicord.types.structs.Embed;
 
 class Message {
 
@@ -19,7 +21,7 @@ class Message {
     public var mentions:Array<User>;
     public var mention_roles:Array<Role>;
     public var attachments:Array<Attachment>;
-    public var embeds:Array<Embed>;
+    public var embeds:Array<Dynamic>;
     public var reactions:Array<Reaction>;
     public var nonce:Snowflake;
     public var pinned:Bool;
@@ -27,21 +29,21 @@ class Message {
 
     var client:DiscordClient;
 
-    public function new(_msg:com.raidandfade.haxicord.types.structs.Message,_client:DiscordClient){
+    public function new(_msg:com.raidandfade.haxicord.types.structs.MessageStruct,_client:DiscordClient){
         client = _client;
 
         id = new Snowflake(_msg.id);
         channel_id = new Snowflake(_msg.channel_id);
         author = new User(_msg.author,client);
         content = _msg.content;
-        timestamp = _msg.timestamp;
-        edited_timestamp = _msg.edited_timestamp;
+        if(_msg.timestamp!=null)timestamp = DateUtils.fromISO8601(_msg.timestamp);
+        if(_msg.edited_timestamp!=null)edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
         tts = _msg.tts;
         mention_everyone = _msg.mention_everyone;
         mentions = [for(u in _msg.mentions){new User(u,client);}];
         mention_roles = [for(r in _msg.mention_roles){new Role(r,client);}];
         attachments = _msg.attachments; // maybe live, idk why i would though
-        embeds = [for(ue in _msg.embeds){new Embed(e,client);}];
+        embeds = _msg.embeds; //[for(ue in _msg.embeds){new Embed(e,client);}]; // TODO this properly
         reactions = _msg.reactions; // same as attachments
         nonce = new Snowflake(_msg.nonce);
         pinned = _msg.pinned;

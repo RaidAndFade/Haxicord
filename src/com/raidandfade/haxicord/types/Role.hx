@@ -1,4 +1,4 @@
-package com.raidandfade.haxicord.types.structs;
+package com.raidandfade.haxicord.types;
 
 class Role { 
     var client:DiscordClient;

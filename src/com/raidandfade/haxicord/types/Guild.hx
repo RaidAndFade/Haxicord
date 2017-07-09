@@ -1,4 +1,8 @@
 package com.raidandfade.haxicord.types;
+
+import com.raidandfade.haxicord.types.structs.Emoji;
+import com.raidandfade.haxicord.types.structs.Presence;
+
 class Guild{
     var client:DiscordClient;
 
@@ -26,12 +30,13 @@ class Guild{
     public var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
     public var member_count:Int;
     public var members:Array<GuildMember>; 
-    public var channels:Array<GuildChannel>;
+    public var textChannels:Array<TextChannel>;
+    public var voiceChannels:Array<VoiceChannel>;
     public var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
 
-    public function new(_guild:com.raidandfade.haxicord.structs.types.Guild,_client:DiscordClient){
+    public function new(_guild:com.raidandfade.haxicord.types.structs.Guild,_client:DiscordClient){
         id = new Snowflake(_guild.id);
-        if(_guild.exists("unavailable")) unavailable = _guild.unavailable;
+        if(_guild.unavailable!=null) unavailable = _guild.unavailable;
         if(!unavailable){
             name = _guild.name;
             icon = _guild.icon;
@@ -48,12 +53,19 @@ class Guild{
             emojis = _guild.emojis;
             features = _guild.features;
             mfa_level = _guild.mfa_level;
-            if(_guild.exists("joined_at"))joined_at = _guild.joined_at;
-            if(_guild.exists("large"))large = _guild.large;
-            if(_guild.exists("member_count"))member_count = _guild.member_count;
-            if(_guild.exists("members"))members = [for(m in _guild.members){new Member(m.client)}];
-            if(_guild.exists("channels"))channels = [for(m in _guild.channels){new GuildChannel(m.client)}];
-            if(_guild.exists("presences"))presences = _guild.presences;
+            if(_guild.joined_at!=null)joined_at = _guild.joined_at;
+            if(_guild.large!=null)large = _guild.large;
+            if(_guild.member_count!=null)member_count = _guild.member_count;
+            if(_guild.members!=null)members = [for(m in _guild.members){new GuildMember(m,client)}];
+            if(_guild.channels!=null)
+                for(c in _guild.channels){
+                    if(c.type=="text"){
+                        textChannels.push(new TextChannel(c,client));
+                    }else{
+                        voiceChannels.push(new VoiceChannel(c,client));
+                    }
+                }
+            if(_guild.presences!=null)presences = _guild.presences;
         }
     }
 }

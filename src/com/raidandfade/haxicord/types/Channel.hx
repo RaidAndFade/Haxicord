@@ -1,6 +1,6 @@
 package com.raidandfade.haxicord.types;
 
-import com.raidandfade.haxicord.types.structs.Channel.ChannelType;
+import haxe.extern.EitherType;
 
 class Channel{
     var client:DiscordClient;
@@ -8,11 +8,13 @@ class Channel{
     public var id:Snowflake;
     public var is_private:Bool;
 
-    public function fromStruct(_chan:com.raidandfade.haxicord.types.structs.Channel,_client:DiscordClient){
+    public static function fromStruct(_chan:com.raidandfade.haxicord.types.structs.Channel):Dynamic->DiscordClient->Channel{
         if(_chan.is_private){
-            return new DMChannel(_chan,_client);
+            return DMChannel.fromStruct;
         }else{
-            return GuildChannel.fromStruct(_chan,_client);
+            return GuildChannel.fromStruct(_chan);
         }
     }
 }
+
+typedef PossibleChannelTypes = EitherType < com.raidandfade.haxicord.types.structs.DMChannel , com.raidandfade.haxicord.types.structs.GuildChannel > ;
