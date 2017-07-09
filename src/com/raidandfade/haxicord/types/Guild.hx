@@ -45,21 +45,22 @@ class Guild{
             region = _guild.region;
             afk_timeout = _guild.afk_timeout;
             afk_channel_id = new Snowflake(_guild.afk_channel_id);
-            embed_enabled = _guild.embed_enabled
+            embed_enabled = _guild.embed_enabled;
             embed_channel_id = new Snowflake(_guild.embed_channel_id);
             verification_level = _guild.verification_level;
             default_message_notifications = _guild.default_message_notifications;
-            roles = [for(r in _guild.roles){new Role(r,client)}];
+            roles = [for(r in _guild.roles){new Role(r,client);}];
             emojis = _guild.emojis;
             features = _guild.features;
             mfa_level = _guild.mfa_level;
             if(_guild.joined_at!=null)joined_at = _guild.joined_at;
             if(_guild.large!=null)large = _guild.large;
             if(_guild.member_count!=null)member_count = _guild.member_count;
-            if(_guild.members!=null)members = [for(m in _guild.members){new GuildMember(m,client)}];
+            if(_guild.members!=null)members = [for(m in _guild.members){new GuildMember(m,client);}];
             if(_guild.channels!=null)
                 for(c in _guild.channels){
-                    if(c.type=="text"){
+                    var ch = Channel.fromStruct(c)(c,client);
+                    if(Std.is(ch,TextChannel)){
                         textChannels.push(new TextChannel(c,client));
                     }else{
                         voiceChannels.push(new VoiceChannel(c,client));

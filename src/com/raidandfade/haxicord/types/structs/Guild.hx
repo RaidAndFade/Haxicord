@@ -22,13 +22,13 @@ typedef Guild = {
 
     //SENT ON GUILD_CREATE : 
 
-    var joined_at:Date;
-    var large:Bool;
-    var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
-    var member_count:Int;
-    var members:Array<GuildMember>; 
-    var channels:Array<GuildChannelTypes>;
-    var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
+    @:optional var joined_at:Date;
+    @:optional var large:Bool;
+    @:optional var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
+    @:optional var member_count:Int;
+    @:optional var members:Array<GuildMember>; 
+    @:optional var channels:Array<GuildChannelTypes>;
+    @:optional var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
 }
 
 typedef GuildChannelTypes = EitherType < GuildChannel.TextChannel , GuildChannel.VoiceChannel >
