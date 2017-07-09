@@ -34,14 +34,14 @@ class Message {
 
         id = new Snowflake(_msg.id);
         channel_id = new Snowflake(_msg.channel_id);
-        author = new User(_msg.author,client);
+        author = client.newUser(_msg.author);
         content = _msg.content;
         if(_msg.timestamp!=null)timestamp = DateUtils.fromISO8601(_msg.timestamp);
         if(_msg.edited_timestamp!=null)edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
         tts = _msg.tts;
         mention_everyone = _msg.mention_everyone;
-        mentions = [for(u in _msg.mentions){new User(u,client);}];
-        mention_roles = [for(r in _msg.mention_roles){new Role(r,client);}];
+        mentions = [for(u in _msg.mentions){client.newUser(u);}];
+        mention_roles = [for(r in _msg.mention_roles){cast(client.getChannelUnsafe(_msg.channel_id),GuildChannel).getGuild().newRole(r);}];
         attachments = _msg.attachments; // maybe live, idk why i would though
         embeds = _msg.embeds; //[for(ue in _msg.embeds){new Embed(e,client);}]; // TODO this properly
         reactions = _msg.reactions; // same as attachments

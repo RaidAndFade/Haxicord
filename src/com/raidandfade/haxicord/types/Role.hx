@@ -23,4 +23,13 @@ class Role {
         managed = _role.managed;
         mentionable = _role.mentionable;
     }
+
+    public function update(_role:com.raidandfade.haxicord.types.structs.Role){
+        if(_role.color!=null) color = _role.color;
+        if(_role.hoist!=null) hoist = _role.hoist;
+        if(_role.position!=null) position = _role.position;
+        if(_role.permissions!=null) permissions = _role.permissions;
+        if(_role.managed!=null) managed = _role.managed;
+        if(_role.mentionable!=null) mentionable = _role.mentionable;
+    }
 }

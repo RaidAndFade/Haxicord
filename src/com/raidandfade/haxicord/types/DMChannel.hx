@@ -10,7 +10,7 @@ class DMChannel extends Channel{
 
         id = new Snowflake(_chan.id);
         is_private = _chan.is_private;
-        recipient = new User(_chan.recipient,_client);
+        recipient = client.newUser(_chan.recipient);
         last_message_id = new Snowflake(_chan.last_message_id);
     }
 

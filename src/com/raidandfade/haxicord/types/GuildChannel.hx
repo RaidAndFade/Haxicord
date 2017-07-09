@@ -11,6 +11,10 @@ class GuildChannel extends Channel {
     public var position:Int;
     public var permission_overwrites:Array<Overwrite>;
 
+    public function getGuild(){
+        return client.getGuildUnsafe(guild_id.id);
+    }
+
     public static function fromStruct(_chan){
         if(_chan.type=="text"){
             return TextChannel.fromStruct;

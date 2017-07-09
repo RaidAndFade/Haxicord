@@ -3,10 +3,10 @@ package com.raidandfade.haxicord.types.structs;
 typedef Role = { 
     var id:String;
     var name:String;
-    var color:Int; 
-    var hoist:Bool; //pinned in user listing?
-    var position:Int;   
-    var permissions:Int;
-    var managed:Bool; //Is this an integrated role?
-    var mentionable:Bool;
+    @:optional var color:Int; 
+    @:optional var hoist:Bool; //pinned in user listing?
+    @:optional var position:Int;   
+    @:optional var permissions:Int;
+    @:optional var managed:Bool; //Is this an integrated role?
+    @:optional var mentionable:Bool;
 }

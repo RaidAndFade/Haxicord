@@ -3,13 +3,31 @@ package com.raidandfade.haxicord;
 import com.raidandfade.haxicord.websocket.WebSocketConnection;
 import com.raidandfade.haxicord.endpoints.Endpoints;
 
+
+import com.raidandfade.haxicord.types.Message;
+import com.raidandfade.haxicord.types.User;
+import com.raidandfade.haxicord.types.Channel;
+import com.raidandfade.haxicord.types.DMChannel;
+import com.raidandfade.haxicord.types.Guild;
+
 import haxe.Json;
 import haxe.Timer;
+
+//TODO connect to gw first
 
 class DiscordClient { 
     public static var libName:String = "Haxicord";
     public static var userAgent:String = "DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.0.1)";
     public static var gatewayVersion:Int = 6;
+    
+    //cache arrays (id,object)
+    public var messageCache:Map<String,Message> = new Map<String,Message>();
+    public var userCache:Map<String,User> = new Map<String,User>();
+    public var channelCache:Map<String,Channel> = new Map<String,Channel>();
+    public var dmChannelCache:Map<String,DMChannel> = new Map<String,DMChannel>();
+    public var guildCache:Map<String,Guild> = new Map<String,Guild>();
+
+    public var user:User; //me
 
     public var token:String;
     public var isBot:Bool;
@@ -47,11 +65,9 @@ class DiscordClient {
         ws.onMessage = webSocketMessage;
         ws.onClose = function(){
             if(hbThread!=null)hbThread.pause();
-            trace("Rip'd");
         }
         ws.onError = function(e){
             if(hbThread!=null)hbThread.pause();
-
         }
     }
 
@@ -118,6 +134,109 @@ class DiscordClient {
 
     }
 
+//get
+    public function getGuild(id,cb:Guild->Void){
+        if(guildCache.exists(id)){
+            cb(guildCache.get(id));
+        }else{
+            endpoints.getGuild(id,function(r,e){
+                if(e!=null)throw(e);
+                cb(r);
+            });
+        }
+    }
+
+    public function getGuildUnsafe(id){
+        if(guildCache.exists(id)){
+            return guildCache.get(id);
+        }else{
+            throw "Guild not in cache. try loading it safely first!";
+        }
+    }
+
+    public function getChannel(id,cb:Channel->Void){
+        if(channelCache.exists(id)){
+            cb(channelCache.get(id));
+        }else{
+            endpoints.getChannel(id,function(r,e){
+                if(e!=null)throw(e);
+                cb(r);
+            });
+        }
+    }
+
+    public function getChannelUnsafe(id){
+        if(channelCache.exists(id)){
+            return channelCache.get(id);
+        }else{
+            throw "Channel not in cache. try loading it safely first!";
+        }
+    }
+
+//"constructors"
+
+
+//deal with updating when new is already in cache.
+//Channels in client cache should be updated in guild cache.
+    public function newMessage(message_struct:com.raidandfade.haxicord.types.structs.MessageStruct){
+        var id = message_struct.id;
+        if(messageCache.exists(id)){
+            return messageCache.get(id);
+        }else{
+            var msg = new Message(message_struct,this);
+            messageCache.set(id,msg);
+            return messageCache.get(id);
+        }
+    }
+
+    public function newUser(user_struct:com.raidandfade.haxicord.types.structs.User){
+        var id = user_struct.id;
+        if(userCache.exists(id)){
+            return userCache.get(id);
+        }else{
+            var user = new User(user_struct,this);
+            userCache.set(id,user);
+            return userCache.get(id);
+        }
+    }
+
+    public function newChannel(channel_struct){
+        return _newChannel(channel_struct)(channel_struct);
+    }
+
+    public function _newChannel(channel_struct):Dynamic->Channel{
+        var id = channel_struct.id;
+        if(channel_struct.is_private)return newDMChannel;
+        if(channelCache.exists(id)){
+            return function(_){return channelCache.get(id);};
+        }else{
+            var channel = Channel.fromStruct(channel_struct)(channel_struct,this);
+            channelCache.set(id,channel);
+            return function(_){return channelCache.get(id);};
+        }
+    }
+
+    public function newDMChannel(channel_struct:com.raidandfade.haxicord.types.structs.DMChannel){
+        var id = channel_struct.id;
+        if(dmChannelCache.exists(id)){
+            return dmChannelCache.get(id);
+        }else{
+            var channel = DMChannel.fromStruct(channel_struct,this);
+            dmChannelCache.set(id,channel);
+            return dmChannelCache.get(id);
+        }
+    }
+
+    public function newGuild(guild_struct:com.raidandfade.haxicord.types.structs.Guild){
+        var id = guild_struct.id;
+        if(guildCache.exists(id)){
+            return guildCache.get(id);
+        }else{
+            var guild = new Guild(guild_struct,this);
+            guildCache.set(id,guild);
+            return guildCache.get(id);
+        }
+    }
 
 //Events 
     public dynamic function onReady(){}

@@ -18,7 +18,7 @@ class Guild{
     public var embed_channel_id:Snowflake; //What channel is widgetted?
     public var verification_level:Int;
     public var default_message_notifications:Int;
-    public var roles:Array<Role>;
+    public var roles:Map<String,Role>;
     public var emojis:Array<Emoji>;
     public var features:Array<String>;// wth is a guild feature?
     public var mfa_level:Int;
@@ -29,7 +29,7 @@ class Guild{
     public var large:Bool;
     public var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
     public var member_count:Int;
-    public var members:Array<GuildMember>; 
+    public var members:Map<String,GuildMember>; 
     public var textChannels:Array<TextChannel>;
     public var voiceChannels:Array<VoiceChannel>;
     public var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
@@ -49,24 +49,48 @@ class Guild{
             embed_channel_id = new Snowflake(_guild.embed_channel_id);
             verification_level = _guild.verification_level;
             default_message_notifications = _guild.default_message_notifications;
-            roles = [for(r in _guild.roles){new Role(r,client);}];
+            for(r in _guild.roles){
+                roles.set(r.id,new Role(r,client));
+            }
             emojis = _guild.emojis;
             features = _guild.features;
             mfa_level = _guild.mfa_level;
             if(_guild.joined_at!=null)joined_at = _guild.joined_at;
             if(_guild.large!=null)large = _guild.large;
             if(_guild.member_count!=null)member_count = _guild.member_count;
-            if(_guild.members!=null)members = [for(m in _guild.members){new GuildMember(m,client);}];
+            if(_guild.members!=null) for(m in _guild.members){members.set(m.user.id,new GuildMember(m,client));}
             if(_guild.channels!=null)
                 for(c in _guild.channels){
-                    var ch = Channel.fromStruct(c)(c,client);
+                    var ch = _client.newChannel(c);
                     if(Std.is(ch,TextChannel)){
-                        textChannels.push(new TextChannel(c,client));
+                        textChannels.push(cast(ch,TextChannel));
                     }else{
-                        voiceChannels.push(new VoiceChannel(c,client));
+                        voiceChannels.push(cast(ch,VoiceChannel));
                     }
                 }
             if(_guild.presences!=null)presences = _guild.presences;
+        }
+    }
+
+    public function newMember(memberStruct:com.raidandfade.haxicord.types.structs.GuildMember){
+        if(members.exists(memberStruct.user.id)){
+            members.get(memberStruct.user.id).update(memberStruct);
+            return members.get(memberStruct.user.id);
+        }else{
+            var member = new GuildMember(memberStruct,client);
+            members.set(memberStruct.user.id,member);
+            return members.get(memberStruct.user.id);
+        }
+    }
+
+    public function newRole(roleStruct:com.raidandfade.haxicord.types.structs.Role){
+        if(roles.exists(roleStruct.id)){
+            roles.get(roleStruct.id).update(roleStruct);
+            return roles.get(roleStruct.id);
+        }else{
+            var role = new Role(roleStruct,client);
+            roles.set(roleStruct.id,role);
+            return roles.get(roleStruct.id);
         }
     }
 }
