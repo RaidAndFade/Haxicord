@@ -4,29 +4,30 @@ import com.raidandfade.haxicord.websocket.WebSocketConnection;
 import haxe.Json;
 import haxe.Timer;
 
+import com.raidandfade.haxicord.types.Message;
+
 class Test
 {
 
+	static var discordBot:DiscordClient;
+
 	static function main()
 	{
-		//Features : 
-		var f = new Features();
-		trace((f.calculatePercentage()*100)+"% OF FEATURES ARE DONE.");
-
-
-		//var ws = new WebSocketConnection("wss://echo.websocket.org?test");
-		//ws.send("hi");
-		var discordBot = new DiscordClient("");
+		discordBot = new DiscordClient("");
 		discordBot.onReady = onReady;
+		discordBot.onMessage = onMessage;
+
 		discordBot.start();
+
+	}
+
+	public static function onMessage(m:Message){
+		if(m.content=="!ping"){
+			m.reply({"content":"pong!"},function(m,e){});
+		}
 	}
 
 	public static function onReady(){
-		trace("Client done");
+		trace("Loaded up.");
 	};
-
-	public static function receiveData(r){
-		//trace("Headers : " + h);
-		trace("Response: " + Json.stringify(r));
-	}
 }
