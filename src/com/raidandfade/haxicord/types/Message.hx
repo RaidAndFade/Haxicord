@@ -65,4 +65,8 @@ class Message {
     }
 
     //TODO Live struct shit
+
+    public function reply(msg:com.raidandfade.haxicord.endpoints.Typedefs.MessageCreate,cb){
+        client.endpoints.sendMessage(channel_id.id,msg,cb);
+    }
 }

@@ -126,7 +126,7 @@ class DiscordClient {
             case "GUILD_ROLE_UPDATE":
             case "GUILD_ROLE_DELETE":
             case "MESSAGE_CREATE":
-                newMessage(m.d);
+                onMessage(newMessage(m.d));
             case "MESSAGE_UPDATE":
                 newMessage(m.d);
             case "MESSAGE_DELETE":
@@ -316,7 +316,7 @@ class DiscordClient {
 //Events 
     public dynamic function onReady(){}
 
-    public dynamic function onMessage(m){}
+    public dynamic function onMessage(m:Message){}
 
     public dynamic function onEvent(){}
 
