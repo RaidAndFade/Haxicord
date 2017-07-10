@@ -495,7 +495,7 @@ class Endpoints{
      */
     public function getChannels(guild_id:String,cb:Array<Channel>->String->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/channels",[guild_id]);
-        callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.Channel>,e){
+        callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.Guild.GuildChannelTypes>,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
@@ -515,7 +515,7 @@ class Endpoints{
     public function moveChannel(guild_id:String,changes:Typedefs.PositionChange,cb:Array<Channel>->String->Void=null){
         //Requires manage_channels
         var endpoint = new EndpointPath("/guilds/{0}/channels",[guild_id]);
-        callEndpoint("PATCH",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.Channel>,e){
+        callEndpoint("PATCH",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.Guild.GuildChannelTypes>,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
@@ -969,7 +969,7 @@ class Endpoints{
      *  @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
      *  @param cb - Returns the list of Guilds according to the filter specified, or an error.
      */
-    public function getGuilds(filter:Typedefs.GetGuildFilter:Array<Guild>->String->Void=null){ 
+    public function getGuilds(filter:Typedefs.GetGuildFilter,cb:Array<Guild>->String->Void=null){ 
         var endpoint = new EndpointPath("/users/@me/guilds{0}",[]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.Guild>,e){
             if(cb==null)return;
