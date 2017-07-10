@@ -47,7 +47,7 @@ class WebSocketConnection {
             onReady();
         }));
         ws.add_OnMessage(new cs.system.EventHandler_1<websocketsharp.MessageEventArgs>(function(f:Dynamic,m:websocketsharp.MessageEventArgs){
-            trace(m);this.onMessage(m.Data);
+            this.onMessage(m.Data);
         }));
         ws.Connect();
 #else 
