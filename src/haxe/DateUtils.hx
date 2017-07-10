@@ -23,11 +23,9 @@ class DateUtils {
         var second = Std.parseInt(isoreg.matched(12));
         var fraction = Std.parseFloat("0"+isoreg.matched(13));
 
-        trace(year,month,day,hour,minute,second);
-        trace(fraction);
         var date = new Date(year,month,day,hour,minute,second);
         var properd = Date.fromTime(date.getTime()+fraction);
-        
+
         return properd;
     }
 
