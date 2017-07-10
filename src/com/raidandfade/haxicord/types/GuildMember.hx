@@ -15,12 +15,9 @@ class GuildMember {
     public function new(_mem:com.raidandfade.haxicord.types.structs.GuildMember,_client:DiscordClient){
         client = _client;
         
-        trace("m1");
         user = client.newUser(_mem.user);
-        trace("m2");
         nick = _mem.nick;
         roles = _mem.roles;
-        trace("m3: "+_mem.joined_at);
         joined_at = DateUtils.fromISO8601(_mem.joined_at);
         deaf = _mem.deaf;
         mute = _mem.mute;

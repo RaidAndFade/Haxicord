@@ -43,36 +43,29 @@ class Guild{
         client = _client;
 
         id = new Snowflake(_guild.id);
-        trace("1");
         if(_guild.unavailable!=null) unavailable = _guild.unavailable;
         if(!unavailable){
-            trace("2");
             name = _guild.name;
             icon = _guild.icon;
             splash = _guild.splash;
             owner_id = new Snowflake(_guild.owner_id);
             region = _guild.region;
             afk_timeout = _guild.afk_timeout;
-            trace("3");
             afk_channel_id = new Snowflake(_guild.afk_channel_id);
             embed_enabled = _guild.embed_enabled;
             embed_channel_id = new Snowflake(_guild.embed_channel_id);
             verification_level = _guild.verification_level;
             default_message_notifications = _guild.default_message_notifications;
-            trace("4");
             for(r in _guild.roles){
                 newRole(r);
             }
             emojis = _guild.emojis;
             features = _guild.features;
             mfa_level = _guild.mfa_level;
-            trace("5");
             if(_guild.joined_at!=null)joined_at = DateUtils.fromISO8601(_guild.joined_at);
             if(_guild.large!=null)large = _guild.large;
             if(_guild.member_count!=null)member_count = _guild.member_count;
-            trace("6");
             if(_guild.members!=null) for(m in _guild.members){newMember(m);}
-            trace("7");
             if(_guild.channels!=null)
                 for(c in _guild.channels){
                     var ch = cast(_client.newChannel(c),GuildChannel);
@@ -82,9 +75,7 @@ class Guild{
                         voiceChannels.push(cast(ch,VoiceChannel));
                     }
                 }
-            trace("8");
             if(_guild.presences!=null) presences = _guild.presences;
-            trace("9");
         }
     }
 
