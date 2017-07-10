@@ -1296,7 +1296,8 @@ class Endpoints{
 
         if(authorized)headers.set("Authorization",token);
         headers.set("User-Agent",DiscordClient.userAgent);
-        headers.set("Content-Type","application/x-www-form-urlencoded");
+        headers.set("Content-Type","application/json");
+        //headers.set("Content-Type","application/x-www-form-urlencoded");
 
         var path = Url.parse(url).pathname;
 
@@ -1375,12 +1376,13 @@ class Endpoints{
             }
             var errReg = ~/Http Error #([0-9]{0,5})/;
             if(errReg.match(no)){
-                callback({"status":status,"error":"HTTP error"},m);
+                callback({"status":status,"error":"HTTP error "+status},m);
             }else{
                 callback({"status":"-1","error":no},m);
             }
         }
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null){
+            call.setHeader("Content-Type","application/json");
             call.setPostData(Json.stringify(data));
         }
         call.onData = function(data){
@@ -1435,8 +1437,8 @@ class EndpointPath {
 
     public function getRoute(){
         var cur = endpoint;
-        if(endpoint.charAt(0)=="c") StringTools.replace(cur,"channels/{0}","channels/"+data[0]);
-        if(endpoint.charAt(0)=="g") StringTools.replace(cur,"guilds/{0}","guilds/"+data[0]);
+        if(endpoint.charAt(1)=="c") StringTools.replace(cur,"channels/{0}","channels/"+data[0]);
+        if(endpoint.charAt(1)=="g") StringTools.replace(cur,"guilds/{0}","guilds/"+data[0]);
         return cur;
     }
 
