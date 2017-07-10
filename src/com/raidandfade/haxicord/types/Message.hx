@@ -66,7 +66,7 @@ class Message {
 
     //TODO Live struct shit
 
-    public function reply(msg:com.raidandfade.haxicord.endpoints.Typedefs.MessageCreate,cb){
+    public function reply(msg:com.raidandfade.haxicord.endpoints.Typedefs.MessageCreate,cb=null){
         client.endpoints.sendMessage(channel_id.id,msg,cb);
     }
 }

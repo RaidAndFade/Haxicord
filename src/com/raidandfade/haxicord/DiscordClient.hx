@@ -30,6 +30,8 @@ class DiscordClient {
     public var dmChannelCache:Map<String,DMChannel> = new Map<String,DMChannel>();
     public var guildCache:Map<String,Guild> = new Map<String,Guild>();
 
+    public var userDMChannels:Map<String,String> = new Map<String,String>();//put this in somewhere.
+
     public var user:User; //me
 
     public var token:String;
@@ -149,11 +151,23 @@ class DiscordClient {
 
     }
 
+//Misc funcs that cant fit anywhere else
+    public function sendMessage(chan,mesg,cb=null){
+        if(userDMChannels.exists(chan))
+            endpoints.sendMessage(userDMChannels.get(chan),mesg,cb);
+        else if(userCache.exists(chan))
+            endpoints.createDM({recipient_id:chan},function(ch,e){
+                ch.sendMessage(mesg,cb);
+            });
+        else 
+            endpoints.sendMessage(chan,mesg,cb);
+    }
+
 //remove
     public function removeChannel(id){
         //remove from guild too.
         var c = channelCache.get(id);
-        if(!c.is_private){
+        if(c.type!=1){
             var gc = cast(c,GuildChannel);
             var g = gc.getGuild();
             if(gc.type==0){
@@ -272,8 +286,8 @@ class DiscordClient {
 
     public function _newChannel(channel_struct:Dynamic):Dynamic->Channel{
         var id = channel_struct.id;
-        trace("NEW CHANNEL: "+id);
-        if(channel_struct.is_private)return newDMChannel;
+        trace("NEW CHANNEL: "+id+"("+channel_struct.type+")");
+        if(channel_struct.type==1)return newDMChannel;
         if(channelCache.exists(id)){
             var c = cast(channelCache.get(id),GuildChannel);
             if(c.type==0)
@@ -297,6 +311,8 @@ class DiscordClient {
         }else{
             var channel = DMChannel.fromStruct(channel_struct,this);
             dmChannelCache.set(id,channel);
+            if(channel.recipient!=null) userDMChannels.set(channel.recipient.id.id,id);
+            else if(channel.recipients!=null && channel.recipients.length==1) userDMChannels.set(channel.recipients[0].id.id,id);
             return dmChannelCache.get(id);
         }
     }

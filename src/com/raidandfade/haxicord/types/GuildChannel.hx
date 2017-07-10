@@ -5,7 +5,6 @@ import com.raidandfade.haxicord.types.structs.GuildChannel.Overwrite;
 import haxe.extern.EitherType;
 
 class GuildChannel extends Channel {
-    public var type:Int;
     public var guild_id:Snowflake;
     public var name:String;
     public var position:Int;

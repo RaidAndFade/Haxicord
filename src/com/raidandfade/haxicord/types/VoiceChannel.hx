@@ -8,7 +8,6 @@ class VoiceChannel extends GuildChannel {
         client = _client;
 
         id = new Snowflake(_chan.id);
-        is_private = _chan.is_private;
         type = _chan.type;
         guild_id = new Snowflake(_chan.guild_id);
         name = _chan.name;
