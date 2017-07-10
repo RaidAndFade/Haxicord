@@ -2,19 +2,19 @@ package com.raidandfade.haxicord.types.structs;
 
 typedef GuildChannel = {>Channel,
     var guild_id:String; //flake
-    var name:String;
-    var position:Int;
-    var permission_overwrites:Array<Overwrite>;
+    @:optional var name:String;
+    @:optional var position:Int;
+    @:optional var permission_overwrites:Array<Overwrite>;
 }
 
 typedef TextChannel = {>GuildChannel,
-    var topic:String;
-    var last_message_id:String; //flake 
+    @:optional var topic:String;
+    @:optional var last_message_id:String; //flake 
 }
 
 typedef VoiceChannel = {>GuildChannel,
-    var bitrate:Int;
-    var user_limit:Int;
+    @:optional var bitrate:Int;
+    @:optional var user_limit:Int;
 }
 
 enum OverwriteType{

@@ -22,7 +22,7 @@ typedef Guild = {
 
     //SENT ON GUILD_CREATE : 
 
-    @:optional var joined_at:Date;
+    @:optional var joined_at:String;
     @:optional var large:Bool;
     @:optional var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
     @:optional var member_count:Int;

@@ -18,7 +18,15 @@ class VoiceChannel extends GuildChannel {
         user_limit = _chan.user_limit;
     }
 
+    public function update(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.VoiceChannel){
+        if(_chan.name!=null) name = _chan.name;
+        if(_chan.position!=null) position = _chan.position;
+        if(_chan.permission_overwrites!=null) permission_overwrites = _chan.permission_overwrites;
+        if(_chan.bitrate!=null) bitrate = _chan.bitrate;
+        if(_chan.user_limit!=null) user_limit = _chan.user_limit;
+    }
+
     public static function fromStruct(_chan,_client){
-        return new TextChannel(_chan,_client);
+        return new VoiceChannel(_chan,_client);
     }
 }

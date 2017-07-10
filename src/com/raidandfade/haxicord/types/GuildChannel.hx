@@ -5,7 +5,7 @@ import com.raidandfade.haxicord.types.structs.GuildChannel.Overwrite;
 import haxe.extern.EitherType;
 
 class GuildChannel extends Channel {
-    public var type:String;
+    public var type:Int;
     public var guild_id:Snowflake;
     public var name:String;
     public var position:Int;
@@ -15,11 +15,11 @@ class GuildChannel extends Channel {
         return client.getGuildUnsafe(guild_id.id);
     }
 
-    public static function fromStruct(_chan){
-        if(_chan.type=="text"){
+    public static function fromStruct(_chan):Dynamic->DiscordClient->GuildChannel{
+        if(_chan.type==0){
             return TextChannel.fromStruct;
         }
-        if(_chan.type=="voice"){
+        if(_chan.type==2){
             return VoiceChannel.fromStruct;
         }
         throw "Invalid Struct";

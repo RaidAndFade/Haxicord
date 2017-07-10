@@ -8,6 +8,9 @@ import com.raidandfade.haxicord.types.Message;
 import com.raidandfade.haxicord.types.User;
 import com.raidandfade.haxicord.types.Channel;
 import com.raidandfade.haxicord.types.DMChannel;
+import com.raidandfade.haxicord.types.GuildChannel;
+import com.raidandfade.haxicord.types.TextChannel;
+import com.raidandfade.haxicord.types.VoiceChannel;
 import com.raidandfade.haxicord.types.Guild;
 
 import haxe.Json;
@@ -76,7 +79,6 @@ class DiscordClient {
         var m:WSMessage = Json.parse(msg);
         var d:Dynamic;
         d = m.d;
-        trace(m);
         switch(m.op){
             case 10: 
                 ws.sendJson(WSPrepareData.Identify(token));
@@ -93,17 +95,27 @@ class DiscordClient {
         var m:WSMessage = msg;
         var d:Dynamic;
         d = m.d;
+        trace(m.t);
         switch(m.t){
             case "READY":
+            //save the session, for resumes.
                 onReady();
             case "CHANNEL_CREATE":
+                newChannel(m.d);
             case "CHANNEL_UPDATE":
+                newChannel(m.d);
             case "CHANNEL_DELETE":
+                removeChannel(m.d);
             case "GUILD_CREATE":
+                newGuild(m.d);
             case "GUILD_UPDATE":
+                newGuild(m.d);
             case "GUILD_DELETE":
+                removeGuild(m.d.id);
             case "GUILD_BAN_ADD":
+                getGuildUnsafe(m.d.guild_id).addBan(getUserUnsafe(m.d));
             case "GUILD_BAN_REMOVE":
+                getGuildUnsafe(m.d.guild_id).removeBan(getUserUnsafe(m.d));
             case "GUILD_EMOJIS_UPDATE":
             case "GUILD_INTEGRATIONS_UPDATE": //lol ok
             case "GUILD_MEMBER_ADD":
@@ -114,8 +126,11 @@ class DiscordClient {
             case "GUILD_ROLE_UPDATE":
             case "GUILD_ROLE_DELETE":
             case "MESSAGE_CREATE":
+                newMessage(m.d);
             case "MESSAGE_UPDATE":
+                newMessage(m.d);
             case "MESSAGE_DELETE":
+                removeMessage(m.d);
             case "MESSAGE_DELETE_BULK":
             case "MESSAGE_REACTION_ADD":
             case "MESSAGE_REACTION_REMOVE":
@@ -132,6 +147,34 @@ class DiscordClient {
 
     public function receiveGuildCreate(data){
 
+    }
+
+//remove
+    public function removeChannel(id){
+        //remove from guild too.
+        var c = channelCache.get(id);
+        if(!c.is_private){
+            var gc = cast(c,GuildChannel);
+            var g = gc.getGuild();
+            if(gc.type==0){
+                g.textChannels.remove(cast(c,TextChannel));
+            }else{
+                g.voiceChannels.remove(cast(c,VoiceChannel));
+            }
+        }
+        channelCache.remove(id);
+    }
+
+    public function removeMessage(id){
+        messageCache.remove(id);
+    }
+
+    public function removeGuild(id){
+        guildCache.remove(id);
+    }
+
+    public function removeUser(id){
+        userCache.remove(id);
     }
 
 //get
@@ -173,6 +216,25 @@ class DiscordClient {
         }
     }
 
+
+    public function getUser(id,cb:User->Void){
+        if(userCache.exists(id)){
+            cb(userCache.get(id));
+        }else{
+            endpoints.getUser(id,function(r,e){
+                if(e!=null)throw(e);
+                cb(r);
+            });
+        }
+    }
+
+    public function getUserUnsafe(id){
+        if(userCache.exists(id)){
+            return userCache.get(id);
+        }else{
+            throw "Channel not in cache. try loading it safely first!";
+        }
+    }
 //"constructors"
 
 
@@ -180,7 +242,9 @@ class DiscordClient {
 //Channels in client cache should be updated in guild cache.
     public function newMessage(message_struct:com.raidandfade.haxicord.types.structs.MessageStruct){
         var id = message_struct.id;
+        trace("NEW MESSAGE: "+id);
         if(messageCache.exists(id)){
+            messageCache.get(id).update(message_struct);
             return messageCache.get(id);
         }else{
             var msg = new Message(message_struct,this);
@@ -191,7 +255,9 @@ class DiscordClient {
 
     public function newUser(user_struct:com.raidandfade.haxicord.types.structs.User){
         var id = user_struct.id;
+        trace("NEW USER: "+id);
         if(userCache.exists(id)){
+            userCache.get(id).update(user_struct);
             return userCache.get(id);
         }else{
             var user = new User(user_struct,this);
@@ -204,11 +270,19 @@ class DiscordClient {
         return _newChannel(channel_struct)(channel_struct);
     }
 
-    public function _newChannel(channel_struct):Dynamic->Channel{
+    public function _newChannel(channel_struct:Dynamic):Dynamic->Channel{
         var id = channel_struct.id;
+        trace("NEW CHANNEL: "+id);
         if(channel_struct.is_private)return newDMChannel;
         if(channelCache.exists(id)){
-            return function(_){return channelCache.get(id);};
+            var c = cast(channelCache.get(id),GuildChannel);
+            if(c.type==0)
+                cast(c,TextChannel).update(channel_struct);
+            else
+                cast(c,VoiceChannel).update(channel_struct);
+            return function(c,_){
+                return c;
+            }.bind(c,_);
         }else{
             var channel = Channel.fromStruct(channel_struct)(channel_struct,this);
             channelCache.set(id,channel);
@@ -217,7 +291,7 @@ class DiscordClient {
     }
 
     public function newDMChannel(channel_struct:com.raidandfade.haxicord.types.structs.DMChannel){
-        var id = channel_struct.id;
+        var id = channel_struct.id; 
         if(dmChannelCache.exists(id)){
             return dmChannelCache.get(id);
         }else{
@@ -229,6 +303,7 @@ class DiscordClient {
 
     public function newGuild(guild_struct:com.raidandfade.haxicord.types.structs.Guild){
         var id = guild_struct.id;
+        trace("NEW GUILD: "+id);
         if(guildCache.exists(id)){
             return guildCache.get(id);
         }else{

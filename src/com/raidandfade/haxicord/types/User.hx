@@ -27,5 +27,15 @@ class User {
         if(_user.verified!=null)    verified = _user.verified;
         if(_user.email!=null)       email = _user.email;
     }
+
+    public function update(_user:com.raidandfade.haxicord.types.structs.User){
+        if(_user.username!=null) username = _user.username;
+        if(_user.discriminator!=null) discriminator = _user.discriminator;
+        if(_user.avatar!=null) avatar = _user.avatar;
+        if(_user.bot!=null) bot = _user.bot;
+        if(_user.mfa_enabled!=null) mfa_enabled = _user.mfa_enabled;
+        if(_user.verified!=null)    verified = _user.verified;
+        if(_user.email!=null)       email = _user.email;
+    }
     //TODO live endpoints
 }

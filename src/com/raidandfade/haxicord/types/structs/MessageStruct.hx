@@ -3,20 +3,20 @@ package com.raidandfade.haxicord.types.structs;
 typedef MessageStruct = {
     var id:String;
     var channel_id:String;
-    var author:User;
-    var content:String;
-    var timestamp:String;
-    var edited_timestamp:String;
-    var tts:Bool;
-    var mention_everyone:Bool;
-    var mentions:Array<User>;
-    var mention_roles:Array<Role>;
-    var attachments:Array<Attachment>;
-    var embeds:Array<Embed>;
-    var reactions:Array<Reaction>;
-    var nonce:String;
-    var pinned:Bool;
-    var webhook_id:String;
+    @:optional var author:User;
+    @:optional var content:String;
+    @:optional var timestamp:String;
+    @:optional var edited_timestamp:String;
+    @:optional var tts:Bool;
+    @:optional var mention_everyone:Bool;
+    @:optional var mentions:Array<User>;
+    @:optional var mention_roles:Array<Role>;
+    @:optional var attachments:Array<Attachment>;
+    @:optional var embeds:Array<Embed>;
+    @:optional var reactions:Array<Reaction>;
+    @:optional var nonce:String;
+    @:optional var pinned:Bool;
+    @:optional var webhook_id:String;
 }
 
 typedef Attachment = { 
