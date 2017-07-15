@@ -68,7 +68,7 @@ class Guild{
             if(_guild.members!=null) for(m in _guild.members){_newMember(m);}
             if(_guild.channels!=null)
                 for(c in _guild.channels){
-                    var ch = cast(_client.newChannel(c),GuildChannel);
+                    var ch = cast(_client._newChannel(c),GuildChannel);
                     if(Std.is(ch,TextChannel)){
                         textChannels.push(cast(ch,TextChannel));
                     }else{

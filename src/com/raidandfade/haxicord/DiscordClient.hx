@@ -104,15 +104,15 @@ class DiscordClient {
             //save the session, for resumes.
                 onReady();
             case "CHANNEL_CREATE":
-                newChannel(m.d);
+                _newChannel(m.d);
             case "CHANNEL_UPDATE":
-                newChannel(m.d);
+                _newChannel(m.d);
             case "CHANNEL_DELETE":
                 removeChannel(m.d);
             case "GUILD_CREATE":
-                newGuild(m.d);
+                _newGuild(m.d);
             case "GUILD_UPDATE":
-                newGuild(m.d);
+                _newGuild(m.d);
             case "GUILD_DELETE":
                 removeGuild(m.d.id);
             case "GUILD_BAN_ADD":
@@ -140,9 +140,9 @@ class DiscordClient {
             case "GUILD_ROLE_DELETE":
                 getGuildUnsafe(m.d.guild_id).roles.remove(m.d.role_id);
             case "MESSAGE_CREATE":
-                onMessage(newMessage(m.d));
+                onMessage(_newMessage(m.d));
             case "MESSAGE_UPDATE":
-                newMessage(m.d);
+                _newMessage(m.d);
             case "MESSAGE_DELETE":
                 removeMessage(m.d);
             case "MESSAGE_DELETE_BULK":
@@ -153,11 +153,11 @@ class DiscordClient {
             case "MESSAGE_REACTION_ADD": //not too sure what to do about this except for fire an event.
             case "MESSAGE_REACTION_REMOVE": //same as above
             case "MESSAGE_REACTION_REMOVE_ALL": //same as above
-            case "PRESENCE_UPDATE": 
-            case "TYPING_START": 
-            case "USER_UPDATE": 
-            case "VOICE_STATE_UPDATE":
-            case "VOICE_SERVER_UPDATE":
+            case "PRESENCE_UPDATE": // user
+            case "TYPING_START": // event
+            case "USER_UPDATE": // user
+            case "VOICE_STATE_UPDATE": // ...
+            case "VOICE_SERVER_UPDATE": // ...
             default:
                 trace("Unhandled event "+m.t);
         }
@@ -289,7 +289,7 @@ class DiscordClient {
 
 //deal with updating when new is already in cache.
 //Channels in client cache should be updated in guild cache.
-    public function newMessage(message_struct:com.raidandfade.haxicord.types.structs.MessageStruct){
+    public function _newMessage(message_struct:com.raidandfade.haxicord.types.structs.MessageStruct){
         var id = message_struct.id;
         trace("NEW MESSAGE: "+id);
         if(messageCache.exists(id)){
@@ -302,7 +302,7 @@ class DiscordClient {
         }
     }
 
-    public function newUser(user_struct:com.raidandfade.haxicord.types.structs.User){
+    public function _newUser(user_struct:com.raidandfade.haxicord.types.structs.User){
         var id = user_struct.id;
         trace("NEW USER: "+id);
         if(userCache.exists(id)){
@@ -315,14 +315,14 @@ class DiscordClient {
         }
     }
 
-    public function newChannel(channel_struct){
-        return _newChannel(channel_struct)(channel_struct);
+    public function _newChannel(channel_struct){
+        return __newChannel(channel_struct)(channel_struct);
     }
 
-    public function _newChannel(channel_struct:Dynamic):Dynamic->Channel{
+    public function __newChannel(channel_struct:Dynamic):Dynamic->Channel{
         var id = channel_struct.id;
         trace("NEW CHANNEL: "+id+"("+channel_struct.type+")");
-        if(channel_struct.type==1)return newDMChannel;
+        if(channel_struct.type==1)return _newDMChannel;
         if(channelCache.exists(id)){
             var c = cast(channelCache.get(id),GuildChannel);
             if(c.type==0)
@@ -339,7 +339,7 @@ class DiscordClient {
         }
     }
 
-    public function newDMChannel(channel_struct:com.raidandfade.haxicord.types.structs.DMChannel){
+    public function _newDMChannel(channel_struct:com.raidandfade.haxicord.types.structs.DMChannel){
         var id = channel_struct.id; 
         if(dmChannelCache.exists(id)){
             return dmChannelCache.get(id);
@@ -352,7 +352,7 @@ class DiscordClient {
         }
     }
 
-    public function newGuild(guild_struct:com.raidandfade.haxicord.types.structs.Guild){
+    public function _newGuild(guild_struct:com.raidandfade.haxicord.types.structs.Guild){
         var id = guild_struct.id;
         trace("NEW GUILD: "+id);
         if(guildCache.exists(id)){

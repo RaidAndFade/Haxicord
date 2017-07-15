@@ -14,12 +14,12 @@ class DMChannel extends Channel{
         type = _chan.type;
         if(_chan.recipient!=null) 
         {
-            recipient = client.newUser(_chan.recipient);
+            recipient = client._newUser(_chan.recipient);
             recipients = [recipient];
         }
         if(_chan.recipients!=null) 
         {
-            recipients = [for(u in _chan.recipients){client.newUser(u);}];
+            recipients = [for(u in _chan.recipients){client._newUser(u);}];
             if(recipients.length==1){
                 recipient = recipients[0];
             }

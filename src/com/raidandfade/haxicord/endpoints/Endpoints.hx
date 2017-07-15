@@ -109,7 +109,7 @@ class Endpoints{
         callEndpoint("GET",endpoint,function(ch,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newChannel(ch),null);
+            else cb(client._newChannel(ch),null);
         });
     }
 
@@ -125,7 +125,7 @@ class Endpoints{
         callEndpoint("POST",endpoint,function(ch,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newChannel(ch),null);
+            else cb(client._newChannel(ch),null);
         },channel_data);
     }
 
@@ -141,7 +141,7 @@ class Endpoints{
         callEndpoint("PATCH",endpoint,function(ch,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newChannel(ch),null);
+            else cb(client._newChannel(ch),null);
         },channel_data);
     }
 
@@ -156,7 +156,7 @@ class Endpoints{
         callEndpoint("DELETE",endpoint,function(ch,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newChannel(ch),null);
+            else cb(client._newChannel(ch),null);
         });
     }
 
@@ -218,7 +218,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var msgs = [for(m in r){client.newMessage(m);}];
+                var msgs = [for(m in r){client._newMessage(m);}];
                 cb(msgs,null);
             }
         });
@@ -289,7 +289,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var msgs = [for(m in r){client.newMessage(m);}];
+                var msgs = [for(m in r){client._newMessage(m);}];
                 cb(msgs,null);
             }
         });
@@ -307,7 +307,7 @@ class Endpoints{
         callEndpoint("GET",endpoint,function(m,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newMessage(m),null);
+            else cb(client._newMessage(m),null);
         });
     }
 
@@ -323,7 +323,7 @@ class Endpoints{
         callEndpoint("POST",endpoint,function(m,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newMessage(m),null);
+            else cb(client._newMessage(m),null);
         },message);        
     }
 
@@ -350,7 +350,7 @@ class Endpoints{
         callEndpoint("PATCH",endpoint,function(m,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newMessage(m),null);
+            else cb(client._newMessage(m),null);
         },message);
     }
 
@@ -453,7 +453,7 @@ class Endpoints{
         callEndpoint("GET",endpoint,function(g,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newGuild(g),null);
+            else cb(client._newGuild(g),null);
         });
     }
     
@@ -469,7 +469,7 @@ class Endpoints{
         callEndpoint("PATCH",endpoint,function(g,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newGuild(g),null);
+            else cb(client._newGuild(g),null);
         },guild_data);
     }
 
@@ -484,7 +484,7 @@ class Endpoints{
         callEndpoint("DELETE",endpoint,function(g,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.newGuild(g),null);
+            else cb(client._newGuild(g),null);
         });        
     }
 
@@ -499,7 +499,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var channels = [for(c in r){client.newChannel(c);}];
+                var channels = [for(c in r){client._newChannel(c);}];
                 cb(channels,null);
             }
         });
@@ -519,7 +519,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var channels = [for(c in r){client.newChannel(c);}];
+                var channels = [for(c in r){client._newChannel(c);}];
                 cb(channels,null);
             }
         });
@@ -535,7 +535,7 @@ class Endpoints{
         var endpoint = new EndpointPath("/guilds/{0}/members/{1}",[guild_id,user_id]);
         callEndpoint("GET",endpoint,function(gm,e){
             if(e!=null)cb(null,e);
-            else cb(client.getGuildUnsafe(guild_id).newMember(gm),null); //TODO this like the others. (look @410)
+            else cb(client.getGuildUnsafe(guild_id)._newMember(gm),null); //TODO this like the others. (look @410)
         });        
     }
 
@@ -551,7 +551,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var members = [for(gm in r){client.getGuildUnsafe(guild_id).newMember(gm);}]; //TODO this like the others. 
+                var members = [for(gm in r){client.getGuildUnsafe(guild_id)._newMember(gm);}]; //TODO this like the others. 
                 cb(members,null);
             }
         });      
@@ -571,7 +571,7 @@ class Endpoints{
         callEndpoint("PUT",endpoint,function(gm,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.getGuildUnsafe(guild_id).newMember(gm),null); 
+            else cb(client.getGuildUnsafe(guild_id)._newMember(gm),null); 
         },member_data);        //201. probably ok but make sure to _specifically_ test this func
     }
     
@@ -648,7 +648,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var users = [for(gm in r){client.newUser(gm);}];
+                var users = [for(gm in r){client._newUser(gm);}];
                 cb(users,null);
             }
         });      
@@ -691,7 +691,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var roles = [for(r in res){client.getGuildUnsafe(guild_id).newRole(r);}];
+                var roles = [for(r in res){client.getGuildUnsafe(guild_id)._newRole(r);}];
                 cb(roles,null);
             }
         });      
@@ -709,7 +709,7 @@ class Endpoints{
         callEndpoint("POST",endpoint,function(r,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(client.getGuildUnsafe(guild_id).newRole(r),null); 
+            else cb(client.getGuildUnsafe(guild_id)._newRole(r),null); 
         },role_data); 
     }
 
@@ -727,7 +727,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var roles = [for(r in res){client.getGuildUnsafe(guild_id).newRole(r);}];
+                var roles = [for(r in res){client.getGuildUnsafe(guild_id)._newRole(r);}];
                 cb(roles,null);
             }
         });
@@ -975,7 +975,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var guilds = [for(g in r){client.newGuild(g);}];
+                var guilds = [for(g in r){client._newGuild(g);}];
                 cb(guilds,null);
             }
         });
@@ -1001,7 +1001,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var channels = [for(c in r){client.newDMChannel(c);}];
+                var channels = [for(c in r){client._newDMChannel(c);}];
                 cb(channels,null);
             }
         });
@@ -1018,7 +1018,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var channels = client.newDMChannel(r);
+                var channels = client._newDMChannel(r);
                 cb(channels,null);
             }
         },data);
@@ -1035,7 +1035,7 @@ class Endpoints{
             if(cb==null)return;
             if(e!=null)cb(null,e);
             else{
-                var channels = client.newDMChannel(r);
+                var channels = client._newDMChannel(r);
                 cb(channels,null);
             }
         },data);

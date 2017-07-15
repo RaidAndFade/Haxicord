@@ -34,14 +34,14 @@ class Message {
 
         id = new Snowflake(_msg.id);
         channel_id = new Snowflake(_msg.channel_id);
-        author = client.newUser(_msg.author);
+        author = client._newUser(_msg.author);
         content = _msg.content;
         if(_msg.timestamp!=null)timestamp = DateUtils.fromISO8601(_msg.timestamp);
         if(_msg.edited_timestamp!=null)edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
         tts = _msg.tts;
         mention_everyone = _msg.mention_everyone;
-        mentions = [for(u in _msg.mentions){client.newUser(u);}];
-        mention_roles = [for(r in _msg.mention_roles){cast(client.getChannelUnsafe(_msg.channel_id),GuildChannel).getGuild().newRole(r);}];
+        mentions = [for(u in _msg.mentions){client._newUser(u);}];
+        mention_roles = [for(r in _msg.mention_roles){cast(client.getChannelUnsafe(_msg.channel_id),GuildChannel).getGuild()._newRole(r);}];
         attachments = _msg.attachments; // maybe live, idk why i would though
         embeds = _msg.embeds; //[for(ue in _msg.embeds){new Embed(e,client);}]; // TODO this properly
         reactions = _msg.reactions; // same as attachments
@@ -54,8 +54,8 @@ class Message {
         if(_msg.edited_timestamp!=null)edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
         if(_msg.tts!=null)tts = _msg.tts;
         if(_msg.mention_everyone!=null)mention_everyone = _msg.mention_everyone;
-        if(_msg.mentions!=null)mentions = [for(u in _msg.mentions){client.newUser(u);}];
-        if(_msg.mention_roles!=null)mention_roles = [for(r in _msg.mention_roles){cast(client.getChannelUnsafe(_msg.channel_id),GuildChannel).getGuild().newRole(r);}];
+        if(_msg.mentions!=null)mentions = [for(u in _msg.mentions){client._newUser(u);}];
+        if(_msg.mention_roles!=null)mention_roles = [for(r in _msg.mention_roles){cast(client.getChannelUnsafe(_msg.channel_id),GuildChannel).getGuild()._newRole(r);}];
         if(_msg.attachments!=null)attachments = _msg.attachments; // maybe live, idk why i would though
         if(_msg.embeds!=null)embeds = _msg.embeds; //[for(ue in _msg.embeds){new Embed(e,client);}]; // TODO this properly
         if(_msg.reactions!=null)reactions = _msg.reactions; // same as attachments

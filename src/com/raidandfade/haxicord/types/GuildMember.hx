@@ -15,7 +15,7 @@ class GuildMember {
     public function new(_mem:com.raidandfade.haxicord.types.structs.GuildMember,_client:DiscordClient){
         client = _client;
         
-        user = client.newUser(_mem.user);
+        user = client._newUser(_mem.user);
         nick = _mem.nick;
         roles = _mem.roles;
         joined_at = DateUtils.fromISO8601(_mem.joined_at);
@@ -24,7 +24,7 @@ class GuildMember {
     }
 
     public function _update(_mem:com.raidandfade.haxicord.types.structs.GuildMember){
-        if(_mem.user!=null) user = client.newUser(_mem.user);
+        if(_mem.user!=null) user = client._newUser(_mem.user);
         if(_mem.nick!=null) nick = _mem.nick;
         if(_mem.roles!=null) roles = _mem.roles;
     }
