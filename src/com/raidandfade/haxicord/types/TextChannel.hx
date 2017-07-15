@@ -17,7 +17,7 @@ class TextChannel extends GuildChannel {
         last_message_id = new Snowflake(_chan.last_message_id);
     }
 
-    public function update(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.TextChannel){
+    public function _update(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.TextChannel){
         if(_chan.name!=null) name = _chan.name;
         if(_chan.position!=null) position = _chan.position;
         if(_chan.permission_overwrites!=null) permission_overwrites = _chan.permission_overwrites;

@@ -50,7 +50,7 @@ class Message {
         webhook_id = _msg.webhook_id;
     }
 
-    public function update(_msg:com.raidandfade.haxicord.types.structs.MessageStruct){
+    public function _update(_msg:com.raidandfade.haxicord.types.structs.MessageStruct){
         if(_msg.edited_timestamp!=null)edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
         if(_msg.tts!=null)tts = _msg.tts;
         if(_msg.mention_everyone!=null)mention_everyone = _msg.mention_everyone;
@@ -62,6 +62,14 @@ class Message {
         if(_msg.nonce!=null)nonce = new Snowflake(_msg.nonce);
         if(_msg.pinned!=null)pinned = _msg.pinned;
         if(_msg.webhook_id!=null)webhook_id = _msg.webhook_id;
+    }
+
+    public function _addReaction(_u:User,_e){
+        reactions.push({who:_u.id.id,emoji:_e});
+    }
+
+    public function _delReaction(){
+
     }
 
     //TODO Live struct shit

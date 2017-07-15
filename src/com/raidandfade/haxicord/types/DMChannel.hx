@@ -27,11 +27,12 @@ class DMChannel extends Channel{
         last_message_id = new Snowflake(_chan.last_message_id);
     }
 
-    public function sendMessage(mesg,cb=null){
-        client.endpoints.sendMessage(id.id,mesg,cb);
-    }
-
     public static function fromStruct(_chan,_client){
         return new DMChannel(_chan,_client);
+    }
+
+//Live endpoints
+    public function sendMessage(mesg,cb=null){
+        client.endpoints.sendMessage(id.id,mesg,cb);
     }
 }

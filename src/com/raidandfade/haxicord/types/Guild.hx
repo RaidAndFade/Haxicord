@@ -57,7 +57,7 @@ class Guild{
             verification_level = _guild.verification_level;
             default_message_notifications = _guild.default_message_notifications;
             for(r in _guild.roles){
-                newRole(r);
+                _newRole(r);
             }
             emojis = _guild.emojis;
             features = _guild.features;
@@ -65,7 +65,7 @@ class Guild{
             if(_guild.joined_at!=null)joined_at = DateUtils.fromISO8601(_guild.joined_at);
             if(_guild.large!=null)large = _guild.large;
             if(_guild.member_count!=null)member_count = _guild.member_count;
-            if(_guild.members!=null) for(m in _guild.members){newMember(m);}
+            if(_guild.members!=null) for(m in _guild.members){_newMember(m);}
             if(_guild.channels!=null)
                 for(c in _guild.channels){
                     var ch = cast(_client.newChannel(c),GuildChannel);
@@ -79,17 +79,21 @@ class Guild{
         }
     }
 
-    public function addBan(user){
+    public function _updateEmojis(e:Array<com.raidandfade.haxicord.types.structs.Emoji>){
+        emojis=e;
+    }
+
+    public function _addBan(user){
         bans.push(user);
     }
 
-    public function removeBan(user){
+    public function _removeBan(user){
         bans.remove(user);
     }
 
-    public function newMember(memberStruct:com.raidandfade.haxicord.types.structs.GuildMember){
+    public function _newMember(memberStruct:com.raidandfade.haxicord.types.structs.GuildMember){
         if(members.exists(memberStruct.user.id)){
-            members.get(memberStruct.user.id).update(memberStruct);
+            members.get(memberStruct.user.id)._update(memberStruct);
             return members.get(memberStruct.user.id);
         }else{
             var member = new GuildMember(memberStruct,client);
@@ -98,9 +102,9 @@ class Guild{
         }
     }
 
-    public function newRole(roleStruct:com.raidandfade.haxicord.types.structs.Role){
+    public function _newRole(roleStruct:com.raidandfade.haxicord.types.structs.Role){
         if(roles.exists(roleStruct.id)){
-            roles.get(roleStruct.id).update(roleStruct);
+            roles.get(roleStruct.id)._update(roleStruct);
             return roles.get(roleStruct.id);
         }else{
             var role = new Role(roleStruct,client);

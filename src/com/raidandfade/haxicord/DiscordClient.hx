@@ -3,6 +3,7 @@ package com.raidandfade.haxicord;
 import com.raidandfade.haxicord.websocket.WebSocketConnection;
 import com.raidandfade.haxicord.endpoints.Endpoints;
 
+import com.raidandfade.haxicord.types.structs.MessageStruct;
 
 import com.raidandfade.haxicord.types.Message;
 import com.raidandfade.haxicord.types.User;
@@ -115,18 +116,29 @@ class DiscordClient {
             case "GUILD_DELETE":
                 removeGuild(m.d.id);
             case "GUILD_BAN_ADD":
-                getGuildUnsafe(m.d.guild_id).addBan(getUserUnsafe(m.d));
+                getGuildUnsafe(m.d.guild_id)._addBan(getUserUnsafe(m.d));
             case "GUILD_BAN_REMOVE":
-                getGuildUnsafe(m.d.guild_id).removeBan(getUserUnsafe(m.d));
+                getGuildUnsafe(m.d.guild_id)._removeBan(getUserUnsafe(m.d));
             case "GUILD_EMOJIS_UPDATE":
-            case "GUILD_INTEGRATIONS_UPDATE": //lol ok
+                getGuildUnsafe(m.d.guild_id)._updateEmojis(m.d.emojis);
+            case "GUILD_INTEGRATIONS_UPDATE": //lol ok ~ just set a flag somewhere
             case "GUILD_MEMBER_ADD":
+                getGuildUnsafe(m.d.guild_id)._newMember(m.d);
             case "GUILD_MEMBER_REMOVE":
+                getGuildUnsafe(m.d.guild_id).members.remove(m.d.user.id);
             case "GUILD_MEMBER_UPDATE":
-            case "GUILD_MEMBERS_CHUNK": //gg
+                getGuildUnsafe(m.d.guild_id)._newMember(m.d);
+            case "GUILD_MEMBERS_CHUNK": 
+                var members:Array<com.raidandfade.haxicord.types.structs.GuildMember> = m.d.members;
+                for(g in members){
+                    getGuildUnsafe(m.d.guild_id)._newMember(g);
+                }
             case "GUILD_ROLE_CREATE":
+                getGuildUnsafe(m.d.guild_id)._newRole(m.d.role);
             case "GUILD_ROLE_UPDATE":
+                getGuildUnsafe(m.d.guild_id)._newRole(m.d.role);
             case "GUILD_ROLE_DELETE":
+                getGuildUnsafe(m.d.guild_id).roles.remove(m.d.role_id);
             case "MESSAGE_CREATE":
                 onMessage(newMessage(m.d));
             case "MESSAGE_UPDATE":
@@ -134,12 +146,16 @@ class DiscordClient {
             case "MESSAGE_DELETE":
                 removeMessage(m.d);
             case "MESSAGE_DELETE_BULK":
-            case "MESSAGE_REACTION_ADD":
-            case "MESSAGE_REACTION_REMOVE":
-            case "MESSAGE_REACTION_REMOVE_ALL":
-            case "PRESENCE_UPDATE":
-            case "TYPING_START":
-            case "USER_UPDATE":
+                var msgs:Array<String> = m.d.ids;
+                for(m in msgs){
+                    removeMessage(m);
+                }
+            case "MESSAGE_REACTION_ADD": //not too sure what to do about this except for fire an event.
+            case "MESSAGE_REACTION_REMOVE": //same as above
+            case "MESSAGE_REACTION_REMOVE_ALL": //same as above
+            case "PRESENCE_UPDATE": 
+            case "TYPING_START": 
+            case "USER_UPDATE": 
             case "VOICE_STATE_UPDATE":
             case "VOICE_SERVER_UPDATE":
             default:
@@ -226,7 +242,7 @@ class DiscordClient {
         if(channelCache.exists(id)){
             return channelCache.get(id);
         }else{
-            throw "Channel not in cache. try loading it safely first!";
+            throw "User not in cache. try loading it safely first!";
         }
     }
 
@@ -246,7 +262,26 @@ class DiscordClient {
         if(userCache.exists(id)){
             return userCache.get(id);
         }else{
-            throw "Channel not in cache. try loading it safely first!";
+            throw "Message not in cache. try loading it safely first!";
+        }
+    }
+
+    public function getMessage(id,channel_id,cb:Message->Void){
+        if(messageCache.exists(id)){
+            cb(messageCache.get(id));
+        }else{
+            endpoints.getMessage(channel_id,id,function(r,e){
+                if(e!=null)throw(e);
+                cb(r);
+            });
+        }
+    }
+
+    public function getMessageUnsafe(id){
+        if(messageCache.exists(id)){
+            return messageCache.get(id);
+        }else{
+            throw "Message not in cache. try loading it safely first!";
         }
     }
 //"constructors"
@@ -258,7 +293,7 @@ class DiscordClient {
         var id = message_struct.id;
         trace("NEW MESSAGE: "+id);
         if(messageCache.exists(id)){
-            messageCache.get(id).update(message_struct);
+            messageCache.get(id)._update(message_struct);
             return messageCache.get(id);
         }else{
             var msg = new Message(message_struct,this);
@@ -271,7 +306,7 @@ class DiscordClient {
         var id = user_struct.id;
         trace("NEW USER: "+id);
         if(userCache.exists(id)){
-            userCache.get(id).update(user_struct);
+            userCache.get(id)._update(user_struct);
             return userCache.get(id);
         }else{
             var user = new User(user_struct,this);
@@ -291,9 +326,9 @@ class DiscordClient {
         if(channelCache.exists(id)){
             var c = cast(channelCache.get(id),GuildChannel);
             if(c.type==0)
-                cast(c,TextChannel).update(channel_struct);
+                cast(c,TextChannel)._update(channel_struct);
             else
-                cast(c,VoiceChannel).update(channel_struct);
+                cast(c,VoiceChannel)._update(channel_struct);
             return function(c,_){
                 return c;
             }.bind(c,_);
@@ -334,7 +369,7 @@ class DiscordClient {
 
     public dynamic function onMessage(m:Message){}
 
-    public dynamic function onEvent(){}
+    public dynamic function onEvent(e:String,d:Dynamic){}
 
 }
 

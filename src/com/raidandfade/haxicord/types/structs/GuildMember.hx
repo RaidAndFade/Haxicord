@@ -7,4 +7,6 @@ typedef GuildMember = {
     @:optional var joined_at:String;
     @:optional var deaf:Bool;
     @:optional var mute:Bool;
+
+    @:optional var guild_id:String;
 }

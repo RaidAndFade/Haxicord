@@ -24,7 +24,7 @@ class Role {
         mentionable = _role.mentionable;
     }
 
-    public function update(_role:com.raidandfade.haxicord.types.structs.Role){
+    public function _update(_role:com.raidandfade.haxicord.types.structs.Role){
         if(_role.color!=null) color = _role.color;
         if(_role.hoist!=null) hoist = _role.hoist;
         if(_role.position!=null) position = _role.position;

@@ -28,7 +28,7 @@ class User {
         if(_user.email!=null)       email = _user.email;
     }
 
-    public function update(_user:com.raidandfade.haxicord.types.structs.User){
+    public function _update(_user:com.raidandfade.haxicord.types.structs.User){
         if(_user.username!=null) username = _user.username;
         if(_user.discriminator!=null) discriminator = _user.discriminator;
         if(_user.avatar!=null) avatar = _user.avatar;

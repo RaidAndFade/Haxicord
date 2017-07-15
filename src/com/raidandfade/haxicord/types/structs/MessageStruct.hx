@@ -30,7 +30,8 @@ typedef Attachment = {
 }
 
 typedef Reaction = {
-    var count:Int;
-    var me:Bool;
+    @:optional var count:Int;
+    @:optional var me:Bool;
+    @:optional var who:String;
     var emoji:Emoji;
 }
