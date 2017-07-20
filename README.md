@@ -1,2 +1,2 @@
 # Haxicord
->> TODO - This.
+>> Some meme, don't actually use please.
