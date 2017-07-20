@@ -9,11 +9,13 @@ class User {
     public var discriminator:String;
     public var avatar:String;
     public var bot:Bool;
-    public var mfa_enabled:Bool;
+    public var mfa_enabled:Bool; //only me :(
+    public var game:com.raidandfade.haxicord.types.structs.Presence.PresenceGame;
 
     //The next two can only be gained from the OAUTH2 Endpoint.
     public var verified:Bool;
     public var email:String;
+
 
     public function new(_user:com.raidandfade.haxicord.types.structs.User,_client:DiscordClient){
         client = _client;

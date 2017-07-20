@@ -119,14 +119,10 @@ class Endpoints{
      *  @param channel_data - The channel's starting data 
      *  @param cb - Callback to send the new channel object to. Or null if result is not desired.
      */
-    public function createChannel(guild_id:String,channel_data:Typedefs.ChannelCreate,cb:Channel->String->Void=null){
+    public function createChannel(guild_id:String,channel_data:Typedefs.ChannelCreate,cb:EmptyResponseCallback=null){
          //Requires manage_channels
         var endpoint = new EndpointPath("/guilds/{0}/channels",[guild_id]);
-        callEndpoint("POST",endpoint,function(ch,e){
-            if(cb==null)return;
-            if(e!=null)cb(null,e);
-            else cb(client._newChannel(ch),null);
-        },channel_data);
+        callEndpoint("POST",endpoint,cb,channel_data);
     }
 
     /**
@@ -201,7 +197,7 @@ class Endpoints{
      *  @param invite - The invite data.
      *  @param cb - Return the invite or an error.
      */
-    public function createChannelInvite(channel_id:String,invite:Typedefs.InviteCreate,cb:Invite->String->Void=null){
+    public function createChannelInvite(channel_id:String,invite:Typedefs.InviteCreate,cb:EmptyResponseCallback=null){
         //requires create_instant_invite
         var endpoint = new EndpointPath("/channels/{0}/invites",[channel_id]);
         callEndpoint("POST",endpoint,cb,invite);
@@ -233,7 +229,7 @@ class Endpoints{
     public function addChannelPin(channel_id:String,message_id:String,cb:EmptyResponseCallback=null){
         //requires manage_messages
         var endpoint = new EndpointPath("/channels/{0}/pins/{1}",[channel_id,message_id]);
-        callEndpoint("PUT",endpoint,cb);
+        callEndpoint("PUT",endpoint,cb,"");
     }
 
     /**
@@ -442,7 +438,21 @@ class Endpoints{
     }
 
 //GUILD START
-
+    /**
+     *  Create a new guild based on the data given
+     *  @param guild_data - The data to be changed, All fields are optional.
+     *  @param cb - Returns the new guild object, or an error.
+     */
+    public function createGuild(guild_data:Typedefs.GuildCreate,cb:Guild->String->Void=null){
+        //Requires manage_guild
+        var endpoint = new EndpointPath("/guilds",[]);
+        callEndpoint("POST",endpoint,function(g,e){
+            if(cb==null)return;
+            if(e!=null)cb(null,e);
+            else cb(client._newGuild(g),null);
+        },guild_data);
+    }
+    
     /**
      *  Get a guild by the id.
      *  @param guild_id - The guild id
@@ -478,14 +488,10 @@ class Endpoints{
      *  @param guild_id - The guild to delete.
      *  @param cb - Return the old guild object, or an error.
      */
-    public function deleteGuild(guild_id:String,cb:Guild->String->Void=null){
+    public function deleteGuild(guild_id:String,cb:EmptyResponseCallback=null){
         //Requires owner
         var endpoint = new EndpointPath("/guilds/{0}",[guild_id]);
-        callEndpoint("DELETE",endpoint,function(g,e){
-            if(cb==null)return;
-            if(e!=null)cb(null,e);
-            else cb(client._newGuild(g),null);
-        });        
+        callEndpoint("DELETE",endpoint,cb);        
     }
 
     /**
@@ -608,7 +614,7 @@ class Endpoints{
     public function giveMemberRole(guild_id:String,user_id:String,role_id:String,cb:EmptyResponseCallback=null){
         //requires MANAGE_ROLES
         var endpoint = new EndpointPath("/guilds/{0}/members/{1}/roles/{2}",[guild_id,user_id,role_id]);
-        callEndpoint("PUT",endpoint,cb);
+        callEndpoint("PUT",endpoint,cb,{});
     }
 
     /**
@@ -1269,6 +1275,7 @@ class Endpoints{
             }
             //TODO if data is not an error luleh
             if(callback==null)return;
+            //trace(data);
             if(data.status < 200 || data.status>=300){
                 callback(null,data.error);
             }else{
@@ -1280,6 +1287,11 @@ class Endpoints{
         return;
     }
 
+
+    //this exists because i screwed up. 
+    public static function stringify(d:Dynamic):String{
+        return Json.stringify(d);
+    }
 
     //TODO doc
     public function rawCallEndpoint(method:String,endpoint:String,callback:Null<Dynamic->Map<String,String>->Void>=null,data:{}=null,authorized:Bool=true){
@@ -1297,7 +1309,7 @@ class Endpoints{
         if(authorized)headers.set("Authorization",token);
         headers.set("User-Agent",DiscordClient.userAgent);
         headers.set("Content-Type","application/json");
-        //headers.set("Content-Type","application/x-www-form-urlencoded");
+        //
 
         var path = Url.parse(url).pathname;
 
@@ -1310,19 +1322,31 @@ class Endpoints{
 
         var req = Https.request(options,function(res:IncomingMessage){
             //trace(res.headers);
+            var datas = "";
             res.on('data', function (all) {
+                datas += all;
+                trace(datas);
+            });
+            res.on('end', function(){
                 var m:Map<String,String> = new Map<String,String>();
                 for(k in res.headers.keys()){
                     var v = res.headers[k];
                     m.set(k.toLowerCase(),v);
                 }
-                callback({status:res.statusCode,data:Json.parse(all)},m);
+                trace(res.statusCode);
+                var r = res.statusCode==204?null:Json.parse(datas);
+                trace(r);
+                if(res.statusCode<200||res.statusCode>=300)
+                    callback({status:res.statusCode,error:r},m);
+                else
+                    callback({status:res.statusCode,data:r},m);
             });
         });
         req.on('error',function(e){
             trace(e);
         });
-        if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null)req.write(Querystring.stringify(data));
+        if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null)
+            req.write(stringify(data));
         req.end();
 #elseif cs
         var cscb = function(status,response,headers){
@@ -1346,7 +1370,7 @@ class Endpoints{
                     streamWriter.Flush();
                     streamWriter.Close();
                 }'
-            ,Json.stringify(data));
+            ,stringify(data));
         }
         untyped __cs__('
                 httpWebRequest.BeginGetResponse(new System.AsyncCallback(httpCallBack),System.Tuple.Create(httpWebRequest,{0}));
@@ -1378,12 +1402,13 @@ class Endpoints{
             if(errReg.match(no)){
                 callback({"status":status,"error":"HTTP error "+status},m);
             }else{
-                callback({"status":"-1","error":no},m);
+                callback({"status":status,"error":no},m);
             }
         }
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null){
+            var sd = stringify(data);
             call.setHeader("Content-Type","application/json");
-            call.setPostData(Json.stringify(data));
+            call.setPostData(sd);
         }
         call.onData = function(data){
             var m = new Map<String,String>();

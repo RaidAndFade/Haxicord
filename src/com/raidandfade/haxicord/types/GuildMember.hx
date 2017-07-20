@@ -28,4 +28,10 @@ class GuildMember {
         if(_mem.nick!=null) nick = _mem.nick;
         if(_mem.roles!=null) roles = _mem.roles;
     }
+
+    public function _updatePresence(_pre:com.raidandfade.haxicord.types.structs.Presence){
+        if(_pre.nick!=null) nick = _pre.nick;
+        if(_pre.roles!=null) roles = _pre.roles;
+
+    }
 }

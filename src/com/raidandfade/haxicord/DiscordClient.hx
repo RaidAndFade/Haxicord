@@ -10,6 +10,7 @@ import com.raidandfade.haxicord.types.User;
 import com.raidandfade.haxicord.types.Channel;
 import com.raidandfade.haxicord.types.DMChannel;
 import com.raidandfade.haxicord.types.GuildChannel;
+import com.raidandfade.haxicord.types.GuildMember;
 import com.raidandfade.haxicord.types.TextChannel;
 import com.raidandfade.haxicord.types.VoiceChannel;
 import com.raidandfade.haxicord.types.Guild;
@@ -32,6 +33,7 @@ class DiscordClient {
     public var guildCache:Map<String,Guild> = new Map<String,Guild>();
 
     public var userDMChannels:Map<String,String> = new Map<String,String>();//put this in somewhere.
+    public var ready = false;
 
     public var user:User; //me
 
@@ -80,12 +82,10 @@ class DiscordClient {
     public function webSocketMessage(msg){
         trace(msg);
         var m:WSMessage = Json.parse(msg);
-        var d:Dynamic;
-        d = m.d;
         switch(m.op){
             case 10: 
                 ws.sendJson(WSPrepareData.Identify(token));
-                hbThread = new HeartbeatThread(d.heartbeat_interval,ws,null);
+                hbThread = new HeartbeatThread(m.d.heartbeat_interval,ws,null);
             case 9:
                 trace("oh god...");
             case 0:
@@ -99,54 +99,71 @@ class DiscordClient {
         var d:Dynamic;
         d = m.d;
         trace(m.t);
+        hbThread.setSeq(m.s);
         switch(m.t){
             case "READY":
             //save the session, for resumes.
-                onReady();
+                var re:WSReady = d;
+                for(g in re.guilds){
+                    _newGuild(g);
+                }
+                user=_newUser(re.user);
             case "CHANNEL_CREATE":
-                _newChannel(m.d);
+                _newChannel(d);
             case "CHANNEL_UPDATE":
-                _newChannel(m.d);
+                _newChannel(d);
             case "CHANNEL_DELETE":
-                removeChannel(m.d);
+                removeChannel(d);
             case "GUILD_CREATE":
-                _newGuild(m.d);
+                _newGuild(d);
+                var done = true;
+                for(g in guildCache){
+                    if(g.unavailable){
+                        trace(g.id + " is not done.");
+                        done=false;
+                        break;
+                    }
+                }
+                if(done&&!ready){
+                    ready=true;
+                    onReady();
+                }
             case "GUILD_UPDATE":
-                _newGuild(m.d);
+                _newGuild(d);
             case "GUILD_DELETE":
-                removeGuild(m.d.id);
+                removeGuild(d.id);
             case "GUILD_BAN_ADD":
-                getGuildUnsafe(m.d.guild_id)._addBan(getUserUnsafe(m.d));
+                getGuildUnsafe(d.guild_id)._addBan(getUserUnsafe(d));
             case "GUILD_BAN_REMOVE":
-                getGuildUnsafe(m.d.guild_id)._removeBan(getUserUnsafe(m.d));
+                getGuildUnsafe(d.guild_id)._removeBan(getUserUnsafe(d));
             case "GUILD_EMOJIS_UPDATE":
-                getGuildUnsafe(m.d.guild_id)._updateEmojis(m.d.emojis);
+                getGuildUnsafe(d.guild_id)._updateEmojis(d.emojis);
             case "GUILD_INTEGRATIONS_UPDATE": //lol ok ~ just set a flag somewhere
             case "GUILD_MEMBER_ADD":
-                getGuildUnsafe(m.d.guild_id)._newMember(m.d);
+                onMemberJoin(getGuildUnsafe(d.guild_id),getGuildUnsafe(d.guild_id)._newMember(d));
             case "GUILD_MEMBER_REMOVE":
-                getGuildUnsafe(m.d.guild_id).members.remove(m.d.user.id);
+                getGuildUnsafe(d.guild_id).members.remove(d.user.id);
             case "GUILD_MEMBER_UPDATE":
-                getGuildUnsafe(m.d.guild_id)._newMember(m.d);
+                getGuildUnsafe(d.guild_id)._newMember(d);
             case "GUILD_MEMBERS_CHUNK": 
-                var members:Array<com.raidandfade.haxicord.types.structs.GuildMember> = m.d.members;
+                var members:Array<com.raidandfade.haxicord.types.structs.GuildMember> = d.members;
                 for(g in members){
-                    getGuildUnsafe(m.d.guild_id)._newMember(g);
+                    getGuildUnsafe(d.guild_id)._newMember(g);
                 }
             case "GUILD_ROLE_CREATE":
-                getGuildUnsafe(m.d.guild_id)._newRole(m.d.role);
+                getGuildUnsafe(d.guild_id)._newRole(d.role);
             case "GUILD_ROLE_UPDATE":
-                getGuildUnsafe(m.d.guild_id)._newRole(m.d.role);
+                getGuildUnsafe(d.guild_id)._newRole(d.role);
             case "GUILD_ROLE_DELETE":
-                getGuildUnsafe(m.d.guild_id).roles.remove(m.d.role_id);
+                getGuildUnsafe(d.guild_id).roles.remove(d.role_id);
             case "MESSAGE_CREATE":
-                onMessage(_newMessage(m.d));
+                onMessage(_newMessage(d));
             case "MESSAGE_UPDATE":
-                _newMessage(m.d);
+                _newMessage(d);
             case "MESSAGE_DELETE":
-                removeMessage(m.d);
+                removeMessage(d);
             case "MESSAGE_DELETE_BULK":
-                var msgs:Array<String> = m.d.ids;
+                var msgs:Array<String> = d.ids;
                 for(m in msgs){
                     removeMessage(m);
                 }
@@ -154,6 +171,7 @@ class DiscordClient {
             case "MESSAGE_REACTION_REMOVE": //same as above
             case "MESSAGE_REACTION_REMOVE_ALL": //same as above
             case "PRESENCE_UPDATE": // user
+                getGuildUnsafe(d.guild_id).members[d]._updatePresence(d);
             case "TYPING_START": // event
             case "USER_UPDATE": // user
             case "VOICE_STATE_UPDATE": // ...
@@ -168,6 +186,14 @@ class DiscordClient {
     }
 
 //Misc funcs that cant fit anywhere else
+    public function listVoiceRegions(cb){
+        endpoints.listVoiceRegions(cb);
+    }
+
+    public function createGuild(d,cb){
+        endpoints.createGuild(d,cb);
+    }
+
     public function sendMessage(chan,mesg,cb=null){
         if(userDMChannels.exists(chan))
             endpoints.sendMessage(userDMChannels.get(chan),mesg,cb);
@@ -187,9 +213,9 @@ class DiscordClient {
             var gc = cast(c,GuildChannel);
             var g = gc.getGuild();
             if(gc.type==0){
-                g.textChannels.remove(cast(c,TextChannel));
+                g.textChannels.remove(c.id.id);
             }else{
-                g.voiceChannels.remove(cast(c,VoiceChannel));
+                g.voiceChannels.remove(c.id.id);
             }
         }
         channelCache.remove(id);
@@ -320,6 +346,9 @@ class DiscordClient {
     }
 
     public function __newChannel(channel_struct:Dynamic):Dynamic->Channel{
+        if(channel_struct.type == "text" || channel_struct.type == "voice"){
+            channel_struct.type = channel_struct.type=="text"?0:2;
+        }
         var id = channel_struct.id;
         trace("NEW CHANNEL: "+id+"("+channel_struct.type+")");
         if(channel_struct.type==1)return _newDMChannel;
@@ -335,6 +364,8 @@ class DiscordClient {
         }else{
             var channel = Channel.fromStruct(channel_struct)(channel_struct,this);
             channelCache.set(id,channel);
+            var c = cast(channelCache.get(id),GuildChannel);
+            try{getGuildUnsafe(c.guild_id.id)._addChannel(c);}catch(e:Dynamic){} //Try. but if it doesn't... meh
             return function(_){return channelCache.get(id);};
         }
     }
@@ -342,6 +373,7 @@ class DiscordClient {
     public function _newDMChannel(channel_struct:com.raidandfade.haxicord.types.structs.DMChannel){
         var id = channel_struct.id; 
         if(dmChannelCache.exists(id)){
+            dmChannelCache.get(id)._update(channel_struct);
             return dmChannelCache.get(id);
         }else{
             var channel = DMChannel.fromStruct(channel_struct,this);
@@ -356,6 +388,7 @@ class DiscordClient {
         var id = guild_struct.id;
         trace("NEW GUILD: "+id);
         if(guildCache.exists(id)){
+            guildCache.get(id)._update(guild_struct);
             return guildCache.get(id);
         }else{
             var guild = new Guild(guild_struct,this);
@@ -366,6 +399,8 @@ class DiscordClient {
 
 //Events 
     public dynamic function onReady(){}
+
+    public dynamic function onMemberJoin(g:Guild,m:GuildMember){}
 
     public dynamic function onMessage(m:Message){}
 
@@ -400,6 +435,19 @@ typedef WSIdentify_Properties = {
     @:optional var device:String;
     @:optional var referrer:String;
     @:optional var referring_domain:String;
+}
+
+typedef WSReady = {
+    @:optional var v:Int;
+    @:optional var user_settings:Dynamic;
+    @:optional var user:com.raidandfade.haxicord.types.structs.User;
+    @:optional var shard:Array<Int>;
+    @:optional var session_id:String;
+    @:optional var relationships:Dynamic;
+    @:optional var private_channels:Array<com.raidandfade.haxicord.types.structs.DMChannel>;
+    @:optional var presences:Array<com.raidandfade.haxicord.types.structs.Presence>;
+    @:optional var guilds:Array<com.raidandfade.haxicord.types.structs.Guild>;
+    @:optional var _trace:Dynamic;
 }
 
 class HeartbeatThread { 

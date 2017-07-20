@@ -32,12 +32,15 @@ class Guild{
     public var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
     public var member_count:Int;
     public var members:Map<String,GuildMember> = new Map<String,GuildMember>(); 
-    public var textChannels:Array<TextChannel> = new Array<TextChannel>();
-    public var voiceChannels:Array<VoiceChannel> = new Array<VoiceChannel>();
+    public var textChannels:Map<String,TextChannel> = new Map<String,TextChannel>();
+    public var voiceChannels:Map<String,VoiceChannel> = new Map<String,VoiceChannel>();
     public var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
+
+    public var nextChancb:GuildChannel->Void;
 
     //live variables
     public var bans:Array<User> = new Array<User>();
+    public var owner:GuildMember;
 
     public function new(_guild:com.raidandfade.haxicord.types.structs.Guild,_client:DiscordClient){
         client = _client;
@@ -66,13 +69,52 @@ class Guild{
             if(_guild.large!=null)large = _guild.large;
             if(_guild.member_count!=null)member_count = _guild.member_count;
             if(_guild.members!=null) for(m in _guild.members){_newMember(m);}
+            owner = members[owner_id.id];
             if(_guild.channels!=null)
                 for(c in _guild.channels){
                     var ch = cast(_client._newChannel(c),GuildChannel);
                     if(Std.is(ch,TextChannel)){
-                        textChannels.push(cast(ch,TextChannel));
+                        textChannels.set(ch.id.id,cast(ch,TextChannel));
                     }else{
-                        voiceChannels.push(cast(ch,VoiceChannel));
+                        voiceChannels.set(ch.id.id,cast(ch,VoiceChannel));
+                    }
+                }
+            if(_guild.presences!=null) presences = _guild.presences;
+        }
+    }
+
+    public function _update(_guild:com.raidandfade.haxicord.types.structs.Guild.Update){
+        if(_guild.unavailable!=null) unavailable = _guild.unavailable;
+        if(!unavailable){
+            if(_guild.name!=null) name = _guild.name;
+            if(_guild.icon!=null) icon = _guild.icon;
+            if(_guild.splash!=null) splash = _guild.splash;
+            if(_guild.owner_id!=null) owner_id = new Snowflake(_guild.owner_id);
+            if(_guild.region!=null) region = _guild.region;
+            if(_guild.afk_timeout!=null) afk_timeout = _guild.afk_timeout;
+            if(_guild.afk_channel_id!=null) afk_channel_id = new Snowflake(_guild.afk_channel_id);
+            if(_guild.embed_enabled!=null) embed_enabled = _guild.embed_enabled;
+            if(_guild.embed_channel_id!=null) embed_channel_id = new Snowflake(_guild.embed_channel_id);
+            if(_guild.verification_level!=null) verification_level = _guild.verification_level;
+            if(_guild.default_message_notifications!=null) default_message_notifications = _guild.default_message_notifications;
+            if(_guild.roles!=null) 
+            for(r in _guild.roles){
+                _newRole(r);
+            }
+            if(_guild.emojis!=null) emojis = _guild.emojis;
+            if(_guild.features!=null) features = _guild.features;
+            if(_guild.mfa_level!=null) mfa_level = _guild.mfa_level;
+            if(_guild.joined_at!=null)joined_at = DateUtils.fromISO8601(_guild.joined_at);
+            if(_guild.large!=null)large = _guild.large;
+            if(_guild.member_count!=null)member_count = _guild.member_count;
+            if(_guild.members!=null) for(m in _guild.members){_newMember(m);}
+            if(_guild.channels!=null)
+                for(c in _guild.channels){
+                    var ch = cast(client._newChannel(c),GuildChannel);
+                    if(Std.is(ch,TextChannel)){
+                        textChannels.set(ch.id.id,cast(ch,TextChannel));
+                    }else{
+                        voiceChannels.set(ch.id.id,cast(ch,VoiceChannel));
                     }
                 }
             if(_guild.presences!=null) presences = _guild.presences;
@@ -81,6 +123,14 @@ class Guild{
 
     public function _updateEmojis(e:Array<com.raidandfade.haxicord.types.structs.Emoji>){
         emojis=e;
+    }
+
+    public function _addChannel(c){
+        if(nextChancb!=null){nextChancb(c);nextChancb=function(c){};}
+        if(c.type==0)
+            textChannels.set(c.id.id,cast(c,TextChannel));
+        else
+            voiceChannels.set(c.id.id,cast(c,VoiceChannel));
     }
 
     public function _addBan(user){
@@ -111,5 +161,40 @@ class Guild{
             roles.set(roleStruct.id,role);
             return roles.get(roleStruct.id);
         }
+    }
+    //Live structs
+
+    public function delete(cb=null){
+        client.endpoints.deleteGuild(id.id,cb);
+    }
+
+    public function createChannel(cs,cb:GuildChannel->String->Void=null){
+        client.endpoints.createChannel(id.id,cs,function(c,e){
+            if(e!=null)cb(null,e);
+            else nextChancb = function(c){cb(c,null);};
+        });
+    }
+
+    public function createRole(rs,cb=null){
+        client.endpoints.createRole(id.id,rs,cb); 
+    }
+
+    public function addRole(m:GuildMember,r:Role,cb=null){
+        client.endpoints.giveMemberRole(id.id,m.user.id.id,r.id.id,cb);
+    }
+
+    public function removeRole(m:GuildMember,r:Role,cb=null){
+        client.endpoints.takeMemberRole(id.id,m.user.id.id,r.id.id,cb);
+    }
+
+    public function changeNickname(s:String,m:GuildMember=null,cb=null){
+        if(m==null||m.user.id.id==client.user.id.id)
+            client.endpoints.changeNickname(id.id,s,cb);
+        else
+            client.endpoints.editGuildMember(id.id,m.user.id.id,{nick:s},cb);
+    }
+
+    public function getChannel(id,cb:Channel->Void=null){
+        client.getChannel(id,cb);
     }
 }

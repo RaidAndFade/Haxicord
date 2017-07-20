@@ -12,6 +12,7 @@ class Snowflake {
             id="-1";
             timestamp=-1;
         }
+
     }
 
     public static function generate(){
@@ -25,4 +26,11 @@ class Snowflake {
     public function toString(){
         return id;
     }
+    public function equals(b:Snowflake){
+        return eq(this,b);
+    }
+    static inline function eq(a:Snowflake,b:Snowflake):Bool{
+        return a.id==b.id;
+    }
+
 }

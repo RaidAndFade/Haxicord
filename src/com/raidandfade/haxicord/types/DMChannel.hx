@@ -27,6 +27,23 @@ class DMChannel extends Channel{
         last_message_id = new Snowflake(_chan.last_message_id);
     }
 
+    public function _update(_chan:com.raidandfade.haxicord.types.structs.DMChannel){
+        
+        if(_chan.recipient!=null) 
+        {
+            recipient = client._newUser(_chan.recipient);
+            recipients = [recipient];
+        }
+        if(_chan.recipients!=null) 
+        {
+            recipients = [for(u in _chan.recipients){client._newUser(u);}];
+            if(recipients.length==1){
+                recipient = recipients[0];
+            }
+        }
+        if(_chan.last_message_id!=null)last_message_id = new Snowflake(_chan.last_message_id);
+    }
+
     public static function fromStruct(_chan,_client){
         return new DMChannel(_chan,_client);
     }

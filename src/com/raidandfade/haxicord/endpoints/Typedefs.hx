@@ -2,6 +2,7 @@ package com.raidandfade.haxicord.endpoints;
 
 import com.raidandfade.haxicord.types.Snowflake;
 import com.raidandfade.haxicord.types.structs.Embed;
+import com.raidandfade.haxicord.types.structs.Role;
 
 typedef Gateway = {
     var url:String;
@@ -33,7 +34,7 @@ typedef MessageBulkDelete = {
 }
 
 typedef ChannelCreate = {
-    @:optional var name:String; // 2 - 100 chars
+    var name:String; // 2 - 100 chars
     @:optional var type:String;
     @:optional var topic:String; // text -- 0 - 1024 characters
     @:optional var bitrate:Int; // voice 
@@ -46,6 +47,16 @@ typedef ChannelUpdate = {
     @:optional var topic:String; // text -- 0 - 1024 characters
     @:optional var bitrate:Int; // voice 
     @:optional var user_limit:Int; // voice
+}
+
+typedef GuildCreate = {
+    var name:String;
+    var region:String;
+    var icon:String;
+    var verification_level:Int;
+    var default_message_notifications:Int;
+    var roles:Array<Role>;
+    var channels:Array<ChannelCreate>;
 }
 
 typedef GuildUpdate = {

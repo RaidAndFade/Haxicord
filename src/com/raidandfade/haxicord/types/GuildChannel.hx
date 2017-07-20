@@ -23,4 +23,9 @@ class GuildChannel extends Channel {
         }
         throw "Invalid Struct";
     }
+
+    //Live structs
+    public function createInvite(cd,cb){
+        client.endpoints.createChannelInvite(id.id,cd,cb);
+    }
 }
