@@ -215,7 +215,7 @@ class Guild{
         if(members.exists(id)){
             return members.get(id);
         }else{
-            throw "Message not in cache. try loading it safely first!";
+            return null;//throw "Message not in cache. try loading it safely first!";
         }
     }
 

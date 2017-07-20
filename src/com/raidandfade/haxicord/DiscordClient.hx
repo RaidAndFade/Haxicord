@@ -168,7 +168,8 @@ class DiscordClient {
             case "MESSAGE_REACTION_REMOVE": //same as above
             case "MESSAGE_REACTION_REMOVE_ALL": //same as above
             case "PRESENCE_UPDATE": // user
-                getGuildUnsafe(d.guild_id).members[d.user.id]._updatePresence(d);
+                var m = getGuildUnsafe(d.guild_id).getMemberUnsafe(d.user.id);
+                if(m!=null)m._updatePresence(d);
             case "TYPING_START": // event
             case "USER_UPDATE": // user
             case "VOICE_STATE_UPDATE": // ...
