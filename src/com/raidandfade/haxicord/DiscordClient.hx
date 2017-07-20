@@ -53,9 +53,6 @@ class DiscordClient {
 
         trace("Getting gotten");
         endpoints.getGateway(false,connect);
-        //Init websocket
-		//ws = new WebSocketConnection("ws://echo.websocket.org");
-		//ws.send("Henlo!");
     }
     
     public function start(blocking=true){
@@ -66,7 +63,7 @@ class DiscordClient {
 #end
     }
 //Flowchart
-    public function connect(gateway,error){
+    function connect(gateway,error){
         if(error!=null)throw error;
         trace("Gottening");
         ws = new WebSocketConnection(gateway.url+"/?v="+gatewayVersion+"&encoding=json");
@@ -79,7 +76,7 @@ class DiscordClient {
         }
     }
 
-    public function webSocketMessage(msg){
+    function webSocketMessage(msg){
         trace(msg);
         var m:WSMessage = Json.parse(msg);
         switch(m.op){
@@ -94,7 +91,7 @@ class DiscordClient {
         }
     }
 
-    public function receiveEvent(msg){
+    function receiveEvent(msg){
         var m:WSMessage = msg;
         var d:Dynamic;
         d = m.d;
@@ -171,7 +168,7 @@ class DiscordClient {
             case "MESSAGE_REACTION_REMOVE": //same as above
             case "MESSAGE_REACTION_REMOVE_ALL": //same as above
             case "PRESENCE_UPDATE": // user
-                getGuildUnsafe(d.guild_id).members[d]._updatePresence(d);
+                getGuildUnsafe(d.guild_id).members[d.user.id]._updatePresence(d);
             case "TYPING_START": // event
             case "USER_UPDATE": // user
             case "VOICE_STATE_UPDATE": // ...
@@ -186,23 +183,102 @@ class DiscordClient {
     }
 
 //Misc funcs that cant fit anywhere else
+    /**
+     *  Get a list of voice regions.
+     *  @param cb - Returns a list of voice regions, or an error.
+     */
     public function listVoiceRegions(cb){
         endpoints.listVoiceRegions(cb);
     }
 
-    public function createGuild(d,cb){
-        endpoints.createGuild(d,cb);
+    /**
+     *  Create a new guild based on the data given
+     *  @param guild_data - The data to be changed, All fields are optional.
+     *  @param cb - Returns the new guild object, or an error.
+     */
+    public function createGuild(guild_data,cb){
+        endpoints.createGuild(guild_data,cb);
     }
 
-    public function sendMessage(chan,mesg,cb=null){
-        if(userDMChannels.exists(chan))
-            endpoints.sendMessage(userDMChannels.get(chan),mesg,cb);
-        else if(userCache.exists(chan))
-            endpoints.createDM({recipient_id:chan},function(ch,e){
-                ch.sendMessage(mesg,cb);
+    /**
+     *  Send a message to a channel
+     *  @param channel_id - The channel to send to
+     *  @param message - Message data
+     *  @param cb - Return the message sent, or an error
+     */
+    public function sendMessage(channel_id,message,cb=null){
+        if(userDMChannels.exists(channel_id))
+            endpoints.sendMessage(userDMChannels.get(channel_id),message,cb);
+        else if(userCache.exists(channel_id))
+            endpoints.createDM({recipient_id:channel_id},function(ch,e){
+                ch.sendMessage(message,cb);
             });
         else 
-            endpoints.sendMessage(chan,mesg,cb);
+            endpoints.sendMessage(channel_id,message,cb);
+    }
+
+     /**
+     *  Get information about an invite code.
+     *  @param invite_code - The invite code.
+     *  @param cb - Returns an Invite object, or an error.
+     */
+    public function getInvite(invite_code,cb=null){
+        endpoints.getInvite(invite_code,cb);
+    }
+
+    /**
+     *  (NOT AVAILABLE FOR BOTS) Accept an invite code and join the server.
+     *  @param invite_code - The invite code to join.
+     *  @param cb - Returns the invite that was joined, or an error.
+     */
+    public function joinInvite(invite_code,cb=null){
+        endpoints.acceptInvite(invite_code,cb);
+    }
+
+    /**
+     *  Delete an invite based on it's invite code. Requires the MANAGE_CHANNELS permission in the guild the invite is from.
+     *  @param invite_code - The invite code of the invite to delete.
+     *  @param cb - Returns the Invite that was removed, or an error.
+     */
+    public function deleteInvite(invite_code,cb=null){
+        endpoints.deleteInvite(invite_code,cb);
+    }
+
+    /**
+     *  Create a DM group. 
+     *  @param data - A struct that contains the necessary arguments required to invite members.
+     *  @param cb - Returns the group dm channel, or an error.
+     */
+    public function createDMGroup(data,cb=null){
+        endpoints.createGroupDM(data,cb);
+    }
+
+//User @me Endpoints
+
+    /**
+     *  Edit the current user's settings.
+     *  @param user_data - The parameters to change, all fields are optional.
+     *  @param cb - Return the changed user, or an error.
+     */
+    public function editUser(user_data,cb=null){
+        endpoints.editUser(user_data,cb);
+    }
+
+    /**
+     *  Get a list of all guilds that the current user is in. Normal users do not need to use the filter and can leave it blank `{}`
+     *  @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
+     *  @param cb - Returns the list of Guilds according to the filter specified, or an error.
+     */
+    public function getGuilds(filter,cb=null){
+        endpoints.getGuilds(filter,cb);
+    }
+
+    /**
+     *  Get a list of connections hooked up to the current account.
+     *  @param cb - Returns a list of connections, or an error.
+     */
+    public function getConnections(cb=null){
+        endpoints.getConnections(cb);
     }
 
 //remove
@@ -253,6 +329,17 @@ class DiscordClient {
         }
     }
 
+    public function getDMChannels(cb:Array<DMChannel>->Void){
+        endpoints.getDMChannels(function(r,e){
+            if(e!=null)throw(e);
+            cb(r);
+        });
+    }
+
+    public function getDMChannelsUnsafe(id){
+        return [for(dm in dmChannelCache.iterator()) dm];
+    }
+
     public function getChannel(id,cb:Channel->Void){
         if(channelCache.exists(id)){
             cb(channelCache.get(id));
@@ -268,7 +355,7 @@ class DiscordClient {
         if(channelCache.exists(id)){
             return channelCache.get(id);
         }else{
-            throw "User not in cache. try loading it safely first!";
+            throw "Channel not in cache. try loading it safely first!";
         }
     }
 
@@ -288,7 +375,7 @@ class DiscordClient {
         if(userCache.exists(id)){
             return userCache.get(id);
         }else{
-            throw "Message not in cache. try loading it safely first!";
+            throw "User not in cache. try loading it safely first!";
         }
     }
 

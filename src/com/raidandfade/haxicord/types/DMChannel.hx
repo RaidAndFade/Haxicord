@@ -52,4 +52,13 @@ class DMChannel extends Channel{
     public function sendMessage(mesg,cb=null){
         client.endpoints.sendMessage(id.id,mesg,cb);
     }
+
+    public function addMember(user_id,access_token,cb=null){
+        client.endpoints.groupDMAddRecipient(id.id,user_id,access_token,cb);
+    }
+
+    public function kickMember(user_id,cb=null){
+        client.endpoints.groupDMRemoveRecipient(id.id,user_id,cb);
+    }
+    
 }

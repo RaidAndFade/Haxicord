@@ -36,7 +36,7 @@ class Guild{
     public var voiceChannels:Map<String,VoiceChannel> = new Map<String,VoiceChannel>();
     public var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
 
-    public var nextChancb:GuildChannel->Void;
+    public var nextChancb:Array<GuildChannel->Void> = new Array<GuildChannel->Void>();
 
     //live variables
     public var bans:Array<User> = new Array<User>();
@@ -126,7 +126,7 @@ class Guild{
     }
 
     public function _addChannel(c){
-        if(nextChancb!=null){nextChancb(c);nextChancb=function(c){};}
+        if(nextChancb.length>0){nextChancb.splice(0,1)[0](c);}
         if(c.type==0)
             textChannels.set(c.id.id,cast(c,TextChannel));
         else
@@ -146,7 +146,7 @@ class Guild{
             members.get(memberStruct.user.id)._update(memberStruct);
             return members.get(memberStruct.user.id);
         }else{
-            var member = new GuildMember(memberStruct,client);
+            var member = new GuildMember(memberStruct,this,client);
             members.set(memberStruct.user.id,member);
             return members.get(memberStruct.user.id);
         }
@@ -157,34 +157,74 @@ class Guild{
             roles.get(roleStruct.id)._update(roleStruct);
             return roles.get(roleStruct.id);
         }else{
-            var role = new Role(roleStruct,client);
+            var role = new Role(roleStruct,this,client);
             roles.set(roleStruct.id,role);
             return roles.get(roleStruct.id);
         }
     }
     //Live structs
-
-    public function delete(cb=null){
-        client.endpoints.deleteGuild(id.id,cb);
+    public function getChannels(cb=null){
+        client.endpoints.getChannels(id.id,cb); 
     }
 
     public function createChannel(cs,cb:GuildChannel->String->Void=null){
         client.endpoints.createChannel(id.id,cs,function(c,e){
             if(e!=null)cb(null,e);
-            else nextChancb = function(c){cb(c,null);};
+            else {
+                nextChancb.push((function(c:GuildChannel,cb):Void{cb(c,null);}).bind(_,cb));
+            }
         });
+    }
+
+    public function getChannel(cid,cb:Channel->Void=null){
+        client.getChannel(cid,cb);
+    }
+
+    public function moveChannels(){
+        //TODO this...
+    }
+    
+    public function getInvites(cb=null){
+        client.endpoints.getInvites(id.id,cb);
+    }
+
+    public function getRoles(cb=null){
+        client.endpoints.getGuildRoles(id.id,cb); 
     }
 
     public function createRole(rs,cb=null){
         client.endpoints.createRole(id.id,rs,cb); 
     }
 
-    public function addRole(m:GuildMember,r:Role,cb=null){
-        client.endpoints.giveMemberRole(id.id,m.user.id.id,r.id.id,cb);
+    public function moveRole(rs,cb=null){ //translate from the thing you impl in d.io
+        //TODO this
     }
 
-    public function removeRole(m:GuildMember,r:Role,cb=null){
-        client.endpoints.takeMemberRole(id.id,m.user.id.id,r.id.id,cb);
+    public function getMember(mid,cb:GuildMember->Void){
+        if(members.exists(mid)){
+            cb(members.get(mid));
+        }else{
+            client.endpoints.getGuildMember(id.id,mid,function(r,e){
+                if(e!=null)throw(e);
+                cb(r);
+            });
+        }
+    }
+
+    public function getMemberUnsafe(id){
+        if(members.exists(id)){
+            return members.get(id);
+        }else{
+            throw "Message not in cache. try loading it safely first!";
+        }
+    }
+
+    public function getMembers(format,cb=null){
+        client.endpoints.getGuildMembers(id.id,format,cb);
+    }
+
+    public function addMember(uid,mdata,cb=null){
+        client.endpoints.addGuildMember(id.id,uid,mdata,cb);
     }
 
     public function changeNickname(s:String,m:GuildMember=null,cb=null){
@@ -194,7 +234,59 @@ class Guild{
             client.endpoints.editGuildMember(id.id,m.user.id.id,{nick:s},cb);
     }
 
-    public function getChannel(id,cb:Channel->Void=null){
-        client.getChannel(id,cb);
+    public function getBans(cb=null){
+        client.endpoints.getGuildBans(id.id,cb);
+    }
+
+    public function getPruneCount(days,cb=null){
+        client.endpoints.getPruneCount(id.id,days,cb);
+    }
+
+    public function beginPrune(days,cb=null){
+        client.endpoints.beginPrune(id.id,days,cb);
+    }
+
+    public function getVoiceRegions(cb=null){
+        client.endpoints.guildVoiceRegions(id.id,cb);
+    }
+
+    public function getIntegrations(cb=null){
+        client.endpoints.getIntegrations(id.id,cb);
+    }
+
+    public function addIntegration(intd,cb=null){
+        client.endpoints.addIntegration(id.id,intd,cb);
+    }
+
+    public function editIntegration(intid,intd,cb=null){
+        client.endpoints.editIntegration(id.id,intid,intd,cb);
+    }
+
+    public function syncIntegration(intid,cb=null){
+        client.endpoints.syncIntegration(id.id,intid,cb);
+    }
+
+    public function deleteIntegration(intid,cb=null){
+        client.endpoints.deleteIntegration(id.id,intid,cb);
+    }
+
+    public function getWidget(cb=null){
+        client.endpoints.getWidget(id.id,cb);
+    }
+
+    public function editWidget(wd,cb=null){
+        client.endpoints.modifyWidget(id.id,wd,cb);
+    }
+
+    public function edit(gd,cb=null){
+        client.endpoints.modifyGuild(id.id,gd,cb);
+    }
+
+    public function delete(cb=null){
+        client.endpoints.deleteGuild(id.id,cb);
+    }
+
+    public function leave(cb=null){
+        client.endpoints.leaveGuild(id.id,cb);
     }
 }

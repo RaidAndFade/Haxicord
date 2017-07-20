@@ -27,4 +27,9 @@ class TextChannel extends GuildChannel {
     public static function fromStruct(_chan,_client){
         return new TextChannel(_chan,_client);
     }
+
+    //livestruct
+    public function sendMessage(mesg,cb=null){
+        client.endpoints.sendMessage(id.id,mesg,cb);
+    }
 }

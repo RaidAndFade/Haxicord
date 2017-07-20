@@ -11,9 +11,11 @@ class GuildMember {
     public var joined_at:Date;
     public var deaf:Bool;
     public var mute:Bool;
+    public var guild:Guild;
 
-    public function new(_mem:com.raidandfade.haxicord.types.structs.GuildMember,_client:DiscordClient){
+    public function new(_mem:com.raidandfade.haxicord.types.structs.GuildMember,_guild:Guild,_client:DiscordClient){
         client = _client;
+        guild = _guild;
         
         user = client._newUser(_mem.user);
         nick = _mem.nick;
@@ -32,6 +34,31 @@ class GuildMember {
     public function _updatePresence(_pre:com.raidandfade.haxicord.types.structs.Presence){
         if(_pre.nick!=null) nick = _pre.nick;
         if(_pre.roles!=null) roles = _pre.roles;
+        if(_pre.game!=null) user.game = _pre.game;
+    }
 
+    //Live funcs
+    public function addRole(r:Role,cb=null){
+        client.endpoints.giveMemberRole(guild.id.id,user.id.id,r.id.id,cb);
+    }
+
+    public function removeRole(r:Role,cb=null){
+        client.endpoints.takeMemberRole(guild.id.id,user.id.id,r.id.id,cb);
+    }
+
+    public function edit(data,cb=null){
+        client.endpoints.editGuildMember(guild.id.id,user.id.id,data,cb);
+    }
+
+    public function changeNickname(s,cb=null){
+        guild.changeNickname(s,this,cb);
+    }
+
+    public function kick(cb=null){
+        client.endpoints.kickMember(guild.id.id,user.id.id,cb);
+    }
+
+    public function ban(days=0,cb=null){
+        client.endpoints.banMember(guild.id.id,user.id.id,days,cb);
     }
 }

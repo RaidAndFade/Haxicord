@@ -55,10 +55,10 @@
 # -lua test/bin/Haxicord-lua/Haxicord.lua
 
 --next
--debug
 -cp src
 -main com/raidandfade/haxicord/test/Test.hx
 -neko test/bin/Haxicord-neko/Haxicord.n
+-debug
 
 # # --next
 # # -cp src

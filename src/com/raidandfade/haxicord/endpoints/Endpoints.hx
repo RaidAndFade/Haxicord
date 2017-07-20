@@ -93,7 +93,7 @@ class Endpoints{
      *  @param bot - Will get the bot gateway along with reccomended shard info if true.
      *  @param cb - The callback to call once gotten. Or null if result is not desired.
      */
-    public function getGateway(bot=false,cb:Typedefs.Gateway->String->Void=null){
+    public function getGateway(bot=false,cb:Typedefs.Gateway->String->Void=null){ //y
         var endpoint = new EndpointPath("/gateway"+(bot?"/bot":""),[]);
         callEndpoint("GET",endpoint,cb);
     }
@@ -104,7 +104,7 @@ class Endpoints{
      *  @param channel_id - The channel id to get the channel from
      *  @param cb - Callback to send the receivied channel object to. Or null if result is not desired.
      */
-    public function getChannel(channel_id:String,cb:Channel->String->Void=null){
+    public function getChannel(channel_id:String,cb:Channel->String->Void=null){ //y
         var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
         callEndpoint("GET",endpoint,function(ch,e){
             if(cb==null)return;
@@ -119,7 +119,7 @@ class Endpoints{
      *  @param channel_data - The channel's starting data 
      *  @param cb - Callback to send the new channel object to. Or null if result is not desired.
      */
-    public function createChannel(guild_id:String,channel_data:Typedefs.ChannelCreate,cb:EmptyResponseCallback=null){
+    public function createChannel(guild_id:String,channel_data:Typedefs.ChannelCreate,cb:EmptyResponseCallback=null){ //y
          //Requires manage_channels
         var endpoint = new EndpointPath("/guilds/{0}/channels",[guild_id]);
         callEndpoint("POST",endpoint,cb,channel_data);
@@ -131,7 +131,7 @@ class Endpoints{
      *  @param channel_data - The changed channel data, all fields are optional
      *  @param cb - Callback to send the new channel object to. Or null if result is not desired.
      */
-    public function modifyChannel(channel_id:String,channel_data:Typedefs.ChannelUpdate,cb:Channel->String->Void=null){
+    public function modifyChannel(channel_id:String,channel_data:Typedefs.ChannelUpdate,cb:Channel->String->Void=null){ //y
          //Requires manage_channels
         var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
         callEndpoint("PATCH",endpoint,function(ch,e){
@@ -146,7 +146,7 @@ class Endpoints{
      *  @param channel_id - Channel id of channel to delete
      *  @param cb - Callback to send old channel to. Or null if result is not desired.
      */
-    public function deleteChannel(channel_id:String,cb:Channel->String->Void=null){
+    public function deleteChannel(channel_id:String,cb:Channel->String->Void=null){ //y
          //Requires manage_channels
         var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
         callEndpoint("DELETE",endpoint,function(ch,e){
@@ -163,7 +163,7 @@ class Endpoints{
      *  @param new_permission - The modified overwrite permission object
      *  @param cb - Call once finished.
      */
-    public function editChannelPermissions(channel_id:String,overwrite_id:String,new_permission:Overwrite,cb:EmptyResponseCallback=null){
+    public function editChannelPermissions(channel_id:String,overwrite_id:String,new_permission:Overwrite,cb:EmptyResponseCallback=null){ //y
         //Requires manage_roles
         var endpoint = new EndpointPath("/channels/{0}/permissions/{1}",[channel_id,overwrite_id]);
         callEndpoint("PUT",endpoint,cb,new_permission); //204
@@ -174,7 +174,7 @@ class Endpoints{
      *  @param overwrite_id - The overwrite id to delete
      *  @param cb - Call once finished.
      */
-    public function deleteChannelPermission(channel_id:String,overwrite_id:String,cb:EmptyResponseCallback=null){
+    public function deleteChannelPermission(channel_id:String,overwrite_id:String,cb:EmptyResponseCallback=null){ //y
         //Requires manage_roles
         var endpoint = new EndpointPath("/channels/{0}/permissions/{1}",[channel_id,overwrite_id]);
         callEndpoint("DELETE",endpoint,cb); //204
@@ -185,7 +185,7 @@ class Endpoints{
      *  @param channel_id - The channel
      *  @param cb - Array of Invites (or error).
      */
-    public function getChannelInvites(channel_id:String,cb:Array<Invite>->String->Void=null){
+    public function getChannelInvites(channel_id:String,cb:Array<Invite>->String->Void=null){ //y
         //Requires manage_channels
         var endpoint = new EndpointPath("/channels/{0}/invites",[channel_id]);
         callEndpoint("GET",endpoint,cb);
@@ -197,7 +197,7 @@ class Endpoints{
      *  @param invite - The invite data.
      *  @param cb - Return the invite or an error.
      */
-    public function createChannelInvite(channel_id:String,invite:Typedefs.InviteCreate,cb:EmptyResponseCallback=null){
+    public function createChannelInvite(channel_id:String,invite:Typedefs.InviteCreate,cb:EmptyResponseCallback=null){ //y
         //requires create_instant_invite
         var endpoint = new EndpointPath("/channels/{0}/invites",[channel_id]);
         callEndpoint("POST",endpoint,cb,invite);
@@ -752,7 +752,7 @@ class Endpoints{
         callEndpoint("PATCH",endpoint,function(r,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
-            else cb(new Role(r,client),null); 
+            else cb(new Role(r,client.getGuildUnsafe(guild_id),client),null); 
         },role_data); 
     }
 
@@ -847,7 +847,7 @@ class Endpoints{
     public function editIntegration(guild_id:String,int_id:String,int_data:Typedefs.IntegrationModify,cb:EmptyResponseCallback=null){
         //requires MANAGE_GUILD
         var endpoint = new EndpointPath("/guilds/{0}/integrations/{1}",[guild_id,int_id]);
-        callEndpoint("POST",endpoint,cb,int_data);
+        callEndpoint("PATCH",endpoint,cb,int_data);
     }
 
     /**
@@ -905,17 +905,18 @@ class Endpoints{
      */
     public function getInvites(guild_id:String,cb:Array<Invite>->String->Void=null){
         //requires MANAGE_GUILD
-        var endpoint = new EndpointPath("/guilds/{0}/regions",[guild_id]);
+        var endpoint = new EndpointPath("/guilds/{0}/invites",[guild_id]);
         callEndpoint("GET",endpoint,cb);
     }
 
     /**
      *  Get information about an invite code.
      *  @param invite_code - The invite code.
+     *  @param with_counts - Get some extra data from the invite's server
      *  @param cb - Returns an Invite object, or an error.
      */
-    public function getInvite(invite_code:String,cb:Invite->String->Void=null){
-        var endpoint = new EndpointPath("/invite/{0}",[invite_code]);
+    public function getInvite(invite_code:String,with_counts:Bool=true,cb:Invite->String->Void=null){
+        var endpoint = new EndpointPath("/invite/{0}?with_counts={1}",[invite_code,with_counts?"true":"false"]);
         callEndpoint("GET",endpoint,cb);
     }
 
@@ -1053,7 +1054,7 @@ class Endpoints{
      */
     public function getConnections(cb:Array<Connection>->String->Void=null){
         var endpoint = new EndpointPath("/users/@me/connections",[]);
-        callEndpoint("POST",endpoint,cb);
+        callEndpoint("GET",endpoint,cb);
     }
 
 //VOICE START
@@ -1070,7 +1071,7 @@ class Endpoints{
         }); 
     }
 
-//WEBHOOK START
+//WEBHOOK START ~ consider caching these
 
     /**
      *  Create a webhook for a given channel based on the given data.

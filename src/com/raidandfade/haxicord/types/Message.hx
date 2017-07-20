@@ -73,8 +73,43 @@ class Message {
     }
 
     //TODO Live struct shit
+    public function pin(cb=null){
+        client.getChannelUnsafe(channel_id.id).pinMessage(id.id,cb);
+    }
+
+    public function unpin(cb=null){
+        client.getChannelUnsafe(channel_id.id).unpinMessage(id.id,cb);
+    }
 
     public function reply(msg:com.raidandfade.haxicord.endpoints.Typedefs.MessageCreate,cb=null){
         client.endpoints.sendMessage(channel_id.id,msg,cb);
+    }
+
+    public function edit(msg,cb=null){
+        client.endpoints.editMessage(channel_id.id,id.id,msg,cb);
+    }
+
+    public function delete(cb=null){
+        client.endpoints.deleteMessage(channel_id.id,id.id,cb);
+    }
+
+    public function getReactions(e,cb=null){
+        client.endpoints.getReactions(channel_id.id,id.id,e,cb);
+    }
+
+    public function react(e,cb=null){
+        client.endpoints.createReaction(channel_id.id,id.id,e,cb);
+    }
+
+    public function unreact(e,cb=null){
+        client.endpoints.deleteOwnReaction(channel_id.id,id.id,e,cb);
+    }
+
+    public function removeReaction(e,uid,cb=null){
+        client.endpoints.deleteUserReaction(channel_id.id,id.id,uid,e,cb);
+    }
+
+    public function removeAllReactions(cb=null){
+        client.endpoints.deleteAllReactions(channel_id.id,id.id,cb);
     }
 }

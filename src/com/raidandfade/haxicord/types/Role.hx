@@ -12,7 +12,9 @@ class Role {
     public var managed:Bool; //Is this an integrated role?
     public var mentionable:Bool;
 
-    public function new(_role:com.raidandfade.haxicord.types.structs.Role,_client:DiscordClient){
+    public var guild:Guild;
+
+    public function new(_role:com.raidandfade.haxicord.types.structs.Role,_guild,_client:DiscordClient){
         client = _client;
         id = new Snowflake(_role.id);
         name = _role.name;
@@ -31,5 +33,14 @@ class Role {
         if(_role.permissions!=null) permissions = _role.permissions;
         if(_role.managed!=null) managed = _role.managed;
         if(_role.mentionable!=null) mentionable = _role.mentionable;
+    }
+
+    //Live funcs
+    public function edit(rd,cb=null){
+        client.endpoints.editRole(guild.id.id,id.id,rd,cb);
+    }
+
+    public function delete(cb=null){
+        client.endpoints.deleteRole(guild.id.id,id.id,cb);
     }
 }
