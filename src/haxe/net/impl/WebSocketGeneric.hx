@@ -16,10 +16,10 @@ class WebSocketGeneric extends WebSocket {
     private var secure = false;
     private var protocols = [];
     private var state = State.Handshake;
-    public var debug:Bool = true;
+    public var debug:Bool = false;
     private var needHandleData:Bool = false;
 
-    function initialize(uri:String, protocols:Array<String> = null, origin:String = null, key:String = "wskey", debug:Bool = true) {
+    function initialize(uri:String, protocols:Array<String> = null, origin:String = null, key:String = "wskey", debug:Bool = false) {
         if (origin == null) origin = "http://127.0.0.1/";
         this.protocols = protocols;
         this.origin = origin;
@@ -29,7 +29,7 @@ class WebSocketGeneric extends WebSocket {
         //var reg = ~/^(\w+?):/;
         if (!reg.match(uri)) throw 'Uri not matching websocket uri "${uri}"';
         scheme = reg.matched(1);
-        trace(scheme);
+        //trace(scheme);
         switch (scheme) {
             case "ws": secure = false;
             case "wss": secure = true;
