@@ -24,6 +24,7 @@ class Role {
         permissions = _role.permissions;
         managed = _role.managed;
         mentionable = _role.mentionable;
+        guild = _guild;
     }
 
     public function _update(_role:com.raidandfade.haxicord.types.structs.Role){
