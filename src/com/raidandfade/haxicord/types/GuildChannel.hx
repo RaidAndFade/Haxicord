@@ -11,6 +11,7 @@ class GuildChannel extends Channel {
     public var permission_overwrites:Array<Overwrite>;
 
     public function getGuild(){
+        trace(guild_id);
         return client.getGuildUnsafe(guild_id.id);
     }
 

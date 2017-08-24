@@ -73,6 +73,7 @@ class Guild{
             if(_guild.channels!=null)
                 for(c in _guild.channels){
                     var ch = cast(_client._newChannel(c),GuildChannel);
+                    ch.guild_id = this.id;
                     if(Std.is(ch,TextChannel)){
                         textChannels.set(ch.id.id,cast(ch,TextChannel));
                     }else{
@@ -111,6 +112,7 @@ class Guild{
             if(_guild.channels!=null)
                 for(c in _guild.channels){
                     var ch = cast(client._newChannel(c),GuildChannel);
+                    ch.guild_id = this.id;
                     if(Std.is(ch,TextChannel)){
                         textChannels.set(ch.id.id,cast(ch,TextChannel));
                     }else{
