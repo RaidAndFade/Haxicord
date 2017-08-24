@@ -52,7 +52,7 @@ class WebSocketConnection {
         ws.Connect();
 #else 
         trace("ws");
-        ws = WebSocket.create(host, [], null, true);
+        ws = WebSocket.create(host, [], null, false);
         ws.onopen = function(){
             ready=true;
             for(m in queue){
@@ -61,7 +61,7 @@ class WebSocketConnection {
             onReady();
         }
         ws.onmessageString = function(m){this.onMessage(m);}
-        ws.onmessageBytes = function(m){trace(m);}
+        ws.onmessageBytes = function(m){}
         ws.onerror = onError;
         ws.onclose = onClose;
         trace("nows");
@@ -79,7 +79,7 @@ class WebSocketConnection {
     }
     
     public function send(m:String){
-        trace(m);
+        //trace(m);
         if(!ready)
             queue.push(m);
         else
@@ -97,11 +97,11 @@ class WebSocketConnection {
     }
 
     dynamic public function onError(s){
-        trace(s);
+        //trace(s);
     }
 
     dynamic public function onMessage(m){
-        trace("Receiving "+m);
+        //trace("Receiving "+m);
     }
 
 }
