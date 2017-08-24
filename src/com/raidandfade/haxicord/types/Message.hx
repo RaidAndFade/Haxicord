@@ -18,11 +18,11 @@ class Message {
     public var edited_timestamp:Date;
     public var tts:Bool;
     public var mention_everyone:Bool;
-    public var mentions:Array<User>;
-    public var mention_roles:Array<Role>;
-    public var attachments:Array<Attachment>;
-    public var embeds:Array<Dynamic>;
-    public var reactions:Array<Reaction>;
+    public var mentions:Array<User> = new Array<User>();
+    public var mention_roles:Array<Role> = new Array<Role>();
+    public var attachments:Array<Attachment> = new Array<Attachment>();
+    public var embeds:Array<Dynamic> = new Array<Dynamic>();
+    public var reactions:Array<Reaction> = new Array<Reaction>();
     public var nonce:Snowflake;
     public var pinned:Bool;
     public var webhook_id:String;
@@ -42,9 +42,9 @@ class Message {
         mention_everyone = _msg.mention_everyone;
         mentions = [for(u in _msg.mentions){client._newUser(u);}];
         mention_roles = [for(r in _msg.mention_roles){cast(client.getChannelUnsafe(_msg.channel_id),GuildChannel).getGuild()._newRole(r);}];
-        attachments = _msg.attachments; // maybe live, idk why i would though
+        if(_msg.attachments!=null)attachments = _msg.attachments; // maybe live, idk why i would though
         embeds = _msg.embeds; //[for(ue in _msg.embeds){new Embed(e,client);}]; // TODO this properly
-        reactions = _msg.reactions; // same as attachments
+        if(_msg.reactions!=null)reactions = _msg.reactions; // same as attachments
         nonce = new Snowflake(_msg.nonce);
         pinned = _msg.pinned;
         webhook_id = _msg.webhook_id;
@@ -68,17 +68,36 @@ class Message {
         reactions.push({who:_u.id.id,emoji:_e});
     }
 
-    public function _delReaction(){
+    public function _delReaction(_u:User,_e){
+        reactions = [for (r in reactions) if(!(r.who == _u.id.id && r.emoji == _e)) r];
+    }
 
+    public function _purgeReactions(){
+        reactions = new Array<Reaction>();
     }
 
     //TODO Live struct shit
     public function pin(cb=null){
-        client.getChannelUnsafe(channel_id.id).pinMessage(id.id,cb);
+       cast(client.getChannelUnsafe(channel_id.id),MessageChannel).pinMessage(id.id,cb);
     }
 
     public function unpin(cb=null){
-        client.getChannelUnsafe(channel_id.id).unpinMessage(id.id,cb);
+        cast(client.getChannelUnsafe(channel_id.id),MessageChannel).unpinMessage(id.id,cb);
+    }
+
+    public function getChannel():MessageChannel{
+        return cast(client.getChannelUnsafe(channel_id.id),MessageChannel);
+    }
+
+    public function inGuild():Bool{
+        return getChannel().inGuild();
+    }
+
+    public function getGuild():Null<Guild>{
+        if(inGuild())
+            return cast(getChannel(),TextChannel).getGuild();
+        else
+            return null;
     }
 
     public function reply(msg:com.raidandfade.haxicord.endpoints.Typedefs.MessageCreate,cb=null){
