@@ -16,17 +16,17 @@ typedef MessagesRequest = {
     @:optional var limit:Int;
 }
 
-typedef MessageCreate = {
-    @:optional var content:String;
-    @:optional var nonce:Snowflake;
-    @:optional var tts:Bool;
-    @:optional var file:String; //TODO: ?? how do??
-    @:optional var embed:Embed;
-}
-
 typedef MessageEdit = {
     @:optional var content:String;
     @:optional var embed:Embed;
+}
+
+typedef MessageCreate = {
+    @:optional var content:String;
+    @:optional var embed:Embed;
+    @:optional var nonce:Snowflake;
+    @:optional var tts:Bool;
+    @:optional var file:String; //TODO: ?? how do??
 }
 
 typedef MessageBulkDelete = {
