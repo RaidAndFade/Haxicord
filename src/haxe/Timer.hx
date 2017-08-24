@@ -44,13 +44,15 @@ class Timer {
 		private var task : java.util.TimerTask;
 	#else
 		private var event : MainLoop.MainEvent;
+		private var stopped = true;
+		private var runDelay:Float = 0;
 	#end
 
 	/**
 		Creates a new timer that will run every `time_ms` milliseconds.
 
 		After creating the Timer instance, it calls `this.run` repeatedly,
-		with delays of `time_ms` milliseconds, until `this.stop` is called.
+		with delays of `time_ms` milliseconds,  until `this.stop` is called.
 
 		The first invocation occurs after `time_ms` milliseconds, not
 		immediately.
@@ -58,23 +60,35 @@ class Timer {
 		The accuracy of this may be platform-dependent.
 	**/
 	public function new( time_ms : Int ){
+
 		#if flash
 			var me = this;
 			id = untyped __global__["flash.utils.setInterval"](function() { me.run(); },time_ms);
 		#elseif js
 			var me = this;
 			id = untyped setInterval(function() me.run(),time_ms);
-		#elseif java
-			timer = new java.util.Timer();
-			timer.scheduleAtFixedRate(task = new TimerTask(this), haxe.Int64.ofInt(time_ms), haxe.Int64.ofInt(time_ms));
 		#else
-			var dt = time_ms / 1000;
-			event = MainLoop.add(function() {
-				@:privateAccess event.nextRun += dt;
-				run();
-			});
-			event.delay(dt);
+			stopped=false;
+			runDelay = time_ms/1000;
+        	var th:Dynamic;
+			#if cpp
+				th = cpp.vm.Thread.create(fn);
+			#elseif java
+				th = java.vm.Thread.create(fn);
+			#elseif neko
+				th = neko.vm.Thread.create(fn);
+			#elseif cs
+				th = new cs.system.threading.Thread(new cs.system.threading.ThreadStart(fn.bind(time_ms/1000)));
+				th.Start();
+			#end
 		#end
+	}
+
+	public function fn(){
+		if(stopped)return;
+		Sys.sleep(runDelay);
+		run();
+		fn();
 	}
 
 	/**
@@ -102,10 +116,7 @@ class Timer {
 			}
 			task = null;
 		#else
-			if( event != null ) {
-				event.stop();
-				event = null;
-			}
+			stopped=true;
 		#end
 	}
 
@@ -134,11 +145,13 @@ class Timer {
 		If `f` is null, the result is unspecified.
 	**/
 	public static function delay( f : Void -> Void, time_ms : Int ) {
+		trace("Timer set to call in "+time_ms+"ms");
 		var t = new haxe.Timer(time_ms);
-		t.run = function() {
+		t.run = function(f) {
+			trace("Timer called");
 			t.stop();
 			f();
-		};
+		}.bind(f);
 		return t;
 	}
 
@@ -183,6 +196,10 @@ class Timer {
 		#else
 			return 0;
 		#end
+	}
+
+	public function isStopped(){
+		return stopped;
 	}
 
 }
