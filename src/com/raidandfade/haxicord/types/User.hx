@@ -8,6 +8,7 @@ class User {
     public var username:String;
     public var discriminator:String;
     public var avatar:String;
+    public var avatarUrl:String;
     public var bot:Bool;
     public var mfa_enabled:Bool; //only me :(
     public var game:com.raidandfade.haxicord.types.structs.Presence.PresenceGame;
@@ -24,6 +25,7 @@ class User {
         username = _user.username;
         discriminator = _user.discriminator;
         avatar = _user.avatar;
+        avatarUrl = "https://cdn.discordapp.com/avatars/"+_user.id+"/"+_user.avatar+".png"; //TODO gifs? other filetypes? 
         bot = _user.bot;
         if(_user.mfa_enabled!=null) mfa_enabled = _user.mfa_enabled;
         if(_user.verified!=null)    verified = _user.verified;
@@ -34,6 +36,7 @@ class User {
         if(_user.username!=null) username = _user.username;
         if(_user.discriminator!=null) discriminator = _user.discriminator;
         if(_user.avatar!=null) avatar = _user.avatar;
+        if(_user.avatar!=null) avatarUrl = "https://cdn.discordapp.com/avatars/"+_user.id+"/"+_user.avatar+".png"; //TODO gifs? other filetypes? \
         if(_user.bot!=null) bot = _user.bot;
         if(_user.mfa_enabled!=null) mfa_enabled = _user.mfa_enabled;
         if(_user.verified!=null)    verified = _user.verified;
