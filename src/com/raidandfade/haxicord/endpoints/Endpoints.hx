@@ -2,6 +2,7 @@ package com.raidandfade.haxicord.endpoints;
 
 import haxe.Json;
 import haxe.Timer;
+import haxe.Utf8;
 
 //TODO 
 
@@ -35,7 +36,7 @@ import js.node.Querystring;
 import haxe.DynamicAccess;
 import js.node.http.IncomingMessage;
 #elseif cs
-//Refer to line 79 if you're confused.
+//Refer to line 1346 if you're confused.
 @:classCode("void httpCallBack(System.IAsyncResult res){
                 System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function> r = (System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function>)res.AsyncState; 
                 try{
@@ -1222,6 +1223,20 @@ class Endpoints{
         }else{
             rateLimitCache.set(rateLimitName,new RateLimit(1,0,-1));
         }
+        var popQueue = function(rateLimitName){
+            if(limitedQueue.exists(rateLimitName)&&limitedQueue.get(rateLimitName)!=null){
+                trace(limitedQueue.get(rateLimitName));
+                trace(limitedQueue.get(rateLimitName).length);
+                if(limitedQueue.get(rateLimitName).length>0){
+                    var arrCopy = limitedQueue.get(rateLimitName).map(function(l){return l;});
+                    limitedQueue.set(rateLimitName,new Array<EndpointCall>());
+                    for(calli in 0...arrCopy.length){ 
+                        var call = arrCopy[calli];
+                        callEndpoint(call.method,call.endpoint,call.callback,call.data,call.authorized);
+                    }
+                }
+            }
+        }
         var _callback = function(data,headers:Map<String,String>){
             trace("?: ",rateLimitName,rateLimitCache.get(rateLimitName));
             if(headers.exists("x-ratelimit-reset")){
@@ -1234,14 +1249,7 @@ class Endpoints{
                     var waitForLimit = function(rateLimitName,rateLimit){
                         trace("Ratelimit reset reached.");
                         rateLimitCache.set(rateLimitName,new RateLimit(limit,limit,-1));
-                        if(limitedQueue.exists(rateLimitName)){
-                            var arrCopy = limitedQueue.get(rateLimitName).map(function(l){return l;});
-                            limitedQueue.set(rateLimitName,new Array<EndpointCall>());
-                            for(calli in 0...arrCopy.length){
-                                var call = arrCopy[calli];
-                                callEndpoint(call.method,call.endpoint,call.callback,call.data,call.authorized);
-                            }
-                        }
+                        popQueue(rateLimitName);
                     }
 
                     trace("Must wait for "+delay+"ms.");
@@ -1250,29 +1258,13 @@ class Endpoints{
                 }
                 if(remaining!=0){
                     if(limitedQueue.exists(rateLimitName)){
-                        if(limitedQueue.get(rateLimitName).length>0){
-                            var arrCopy = limitedQueue.get(rateLimitName).map(function(l){return l;});
-                            limitedQueue.set(rateLimitName,new Array<EndpointCall>());
-                            for(calli in 0...arrCopy.length){
-                                var call = arrCopy[calli];
-                                callEndpoint(call.method,call.endpoint,call.callback,call.data,call.authorized);
-                            }
-                        }
+                        popQueue(rateLimitName);
                     }
                 }
             }else{
                 trace("No ratelimits on this endpoint.");
                 rateLimitCache.set(rateLimitName,new RateLimit(50,50,-1));
-                if(limitedQueue.exists(rateLimitName)){
-                    if(limitedQueue.get(rateLimitName).length>0){
-                        var arrCopy = limitedQueue.get(rateLimitName).map(function(l){return l;});
-                        limitedQueue.set(rateLimitName,new Array<EndpointCall>());
-                        for(calli in 0...arrCopy.length){ 
-                            var call = arrCopy[calli];
-                            callEndpoint(call.method,call.endpoint,call.callback,call.data,call.authorized);
-                        }
-                    }
-                }
+                popQueue(rateLimitName);
             }
             //TODO if data is not an error luleh
             if(callback==null)return;
@@ -1310,7 +1302,10 @@ class Endpoints{
         if(authorized)headers.set("Authorization",token);
         headers.set("User-Agent",DiscordClient.userAgent);
         headers.set("Content-Type","application/json");
+        if(["POST","PUT","PATCH"].indexOf(method)>-1&&data==null)
+            headers.set("Content-Length","0");
         //
+
 
         var path = Url.parse(url).pathname;
 
@@ -1326,7 +1321,7 @@ class Endpoints{
             var datas = "";
             res.on('data', function (all) {
                 datas += all;
-                trace(datas);
+                //trace(datas);
             });
             res.on('end', function(){
                 var m:Map<String,String> = new Map<String,String>();
@@ -1334,9 +1329,7 @@ class Endpoints{
                     var v = res.headers[k];
                     m.set(k.toLowerCase(),v);
                 }
-                trace(res.statusCode);
                 var r = res.statusCode==204?null:Json.parse(datas);
-                trace(r);
                 if(res.statusCode<200||res.statusCode>=300)
                     callback({status:res.statusCode,error:r},m);
                 else
@@ -1344,8 +1337,8 @@ class Endpoints{
             });
         });
         req.on('error',function(e){
-            trace(e);
-        });
+            //trace(e); 
+        }); 
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null)
             req.write(stringify(data));
         req.end();
@@ -1363,6 +1356,9 @@ class Endpoints{
                 httpWebRequest.UserAgent = {3};
                 '
             ,url,method,token,DiscordClient.userAgent);
+        if(["POST","PUT","PATCH"].indexOf(method)>-1&&data==null){
+            untyped __cs__('httpWebRequest.Headers.Add("Content Length",0);');
+        }
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&data!=null){
         untyped __cs__('
                 using (var streamWriter = new System.IO.StreamWriter(httpWebRequest.GetRequestStream()))
@@ -1392,8 +1388,10 @@ class Endpoints{
         var status:Int = -1;
         call.onStatus = function(st){
             status = st;
+            //trace("Status!");
         }
         call.onError = function(no){
+            //trace("Error!");
             var m = new Map<String,String>();
             for(k in call.responseHeaders.keys()){
                 var v = call.responseHeaders[k];
@@ -1411,7 +1409,11 @@ class Endpoints{
             call.setHeader("Content-Type","application/json");
             call.setPostData(sd);
         }
+        if(["POST","PUT","PATCH"].indexOf(method)>-1&&data==null){
+            call.setHeader("Content-Length","0");
+        }
         call.onData = function(data){
+            //trace("Data!");
             var m = new Map<String,String>();
             for(k in call.responseHeaders.keys()){
                 var v = call.responseHeaders[k];
@@ -1420,7 +1422,6 @@ class Endpoints{
             var data = Json.parse(data);
             callback({status:status,data:data},m);
         }
-        //TODO data
         call.customRequest(false,result,method);
 #end
     }
@@ -1471,7 +1472,7 @@ class EndpointPath {
     public function getPath(){
         var cur = endpoint;
         for(i in 0...data.length){
-            var d = data[i];
+            var d = StringTools.urlEncode(data[i]);
             cur = StringTools.replace(cur,"{"+i+"}",d);
         }
         return cur;
