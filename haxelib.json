@@ -1,0 +1,12 @@
+{
+    "name": "Haxicord",
+    "url": "https://github.com/RaidAndFade/Haxicord",
+    "license": "MIT",
+    "tags": ["Discord"],
+    "description": "Interface with Discord using Haxe",
+    "version": "0.0.1",
+    "classPath": "src",
+    "releasenote": "Initial release. Many things are untested, most should work.",
+    "contributors": ["RaidAndFade"],
+    "dependencies": {}
+}
