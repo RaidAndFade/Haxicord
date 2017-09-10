@@ -2,6 +2,8 @@ package com.raidandfade.haxicord.types.structs;
 
 typedef GuildChannel = {>Channel,
     var guild_id:String; //flake
+    @:optional var nsfw:Bool;
+    @:optional var parent_id:String;
     @:optional var name:String;
     @:optional var position:Int;
     @:optional var permission_overwrites:Array<Overwrite>;

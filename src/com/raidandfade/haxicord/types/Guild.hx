@@ -34,6 +34,7 @@ class Guild{
     public var members:Map<String,GuildMember> = new Map<String,GuildMember>(); 
     public var textChannels:Map<String,TextChannel> = new Map<String,TextChannel>();
     public var voiceChannels:Map<String,VoiceChannel> = new Map<String,VoiceChannel>();
+    public var categoryChannels:Map<String,CategoryChannel> = new Map<String,CategoryChannel>();
     public var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
 
     public var nextChancb:Array<GuildChannel->Void> = new Array<GuildChannel->Void>();
@@ -76,8 +77,10 @@ class Guild{
                     ch.guild_id = this.id;
                     if(Std.is(ch,TextChannel)){
                         textChannels.set(ch.id.id,cast(ch,TextChannel));
-                    }else{
+                    }else if(Std.is(ch,VoiceChannel)){
                         voiceChannels.set(ch.id.id,cast(ch,VoiceChannel));
+                    }else{
+                        categoryChannels.set(ch.id.id,cast(ch,CategoryChannel));
                     }
                 }
             if(_guild.presences!=null) presences = _guild.presences;
@@ -115,8 +118,10 @@ class Guild{
                     ch.guild_id = this.id;
                     if(Std.is(ch,TextChannel)){
                         textChannels.set(ch.id.id,cast(ch,TextChannel));
-                    }else{
+                    }else if(Std.is(ch,VoiceChannel)){
                         voiceChannels.set(ch.id.id,cast(ch,VoiceChannel));
+                    }else{
+                        categoryChannels.set(ch.id.id,cast(ch,CategoryChannel));
                     }
                 }
             if(_guild.presences!=null) presences = _guild.presences;
@@ -131,8 +136,10 @@ class Guild{
         if(nextChancb.length>0){nextChancb.splice(0,1)[0](c);}
         if(c.type==0)
             textChannels.set(c.id.id,cast(c,TextChannel));
-        else
+        else if(c.type==2)
             voiceChannels.set(c.id.id,cast(c,VoiceChannel));
+        else
+            categoryChannels.set(c.id.id,cast(c,CategoryChannel));
     }
 
     public function _addBan(user){

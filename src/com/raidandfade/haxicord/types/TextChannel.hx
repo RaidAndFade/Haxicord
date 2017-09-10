@@ -9,8 +9,10 @@ class TextChannel extends GuildChannel implements MessageChannel {
 
         id = new Snowflake(_chan.id);
         type = _chan.type;
+        parent_id = new Snowflake(_chan.parent_id);
         guild_id = new Snowflake(_chan.guild_id);
         name = _chan.name;
+        nsfw = _chan.nsfw;
         position = _chan.position;
         permission_overwrites = _chan.permission_overwrites;
         topic = _chan.topic;
@@ -22,6 +24,7 @@ class TextChannel extends GuildChannel implements MessageChannel {
         if(_chan.position!=null) position = _chan.position;
         if(_chan.permission_overwrites!=null) permission_overwrites = _chan.permission_overwrites;
         if(_chan.topic!=null) topic = _chan.topic;
+        if(_chan.nsfw!=null) nsfw = _chan.nsfw;
     }
 
     public static function fromStruct(_chan,_client){

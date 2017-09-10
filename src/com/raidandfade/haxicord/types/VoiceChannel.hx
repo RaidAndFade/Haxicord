@@ -9,8 +9,10 @@ class VoiceChannel extends GuildChannel {
 
         id = new Snowflake(_chan.id);
         type = _chan.type;
+        parent_id = new Snowflake(_chan.parent_id);
         guild_id = new Snowflake(_chan.guild_id);
         name = _chan.name;
+        nsfw = _chan.nsfw;
         position = _chan.position;
         permission_overwrites = _chan.permission_overwrites;
         bitrate = _chan.bitrate;
@@ -23,6 +25,7 @@ class VoiceChannel extends GuildChannel {
         if(_chan.permission_overwrites!=null) permission_overwrites = _chan.permission_overwrites;
         if(_chan.bitrate!=null) bitrate = _chan.bitrate;
         if(_chan.user_limit!=null) user_limit = _chan.user_limit;
+        if(_chan.nsfw!=null) nsfw = _chan.nsfw;
     }
 
     public static function fromStruct(_chan,_client){

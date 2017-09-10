@@ -7,11 +7,12 @@ import haxe.extern.EitherType;
 class GuildChannel extends Channel {
     public var guild_id:Snowflake;
     public var name:String;
+    public var parent_id:Snowflake;
+    public var nsfw:Bool;
     public var position:Int;
     public var permission_overwrites:Array<Overwrite>;
 
     public function getGuild(){
-        trace(guild_id);
         return client.getGuildUnsafe(guild_id.id);
     }
 
@@ -21,6 +22,9 @@ class GuildChannel extends Channel {
         }
         if(_chan.type==2){
             return VoiceChannel.fromStruct;
+        }
+        if(_chan.type==4){
+            return CategoryChannel.fromStruct;
         }
         throw "Invalid Struct";
     }

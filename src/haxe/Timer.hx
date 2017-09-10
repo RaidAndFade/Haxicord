@@ -61,6 +61,9 @@ class Timer {
 	**/
 	public function new( time_ms : Int ){
 
+		if(time_ms<0)
+			time_ms=0;
+
 		#if flash
 			var me = this;
 			id = untyped __global__["flash.utils.setInterval"](function() { me.run(); },time_ms);
@@ -78,19 +81,20 @@ class Timer {
 			#elseif neko
 				th = neko.vm.Thread.create(fn);
 			#elseif cs
-				th = new cs.system.threading.Thread(new cs.system.threading.ThreadStart(fn.bind(time_ms/1000)));
+				th = new cs.system.threading.Thread(new cs.system.threading.ThreadStart(fn));
 				th.Start();
 			#end
 		#end
 	}
 
+	#if !(flash||js)
 	public function fn(){
-		if(stopped)return;
+		if(stopped) return;
 		Sys.sleep(runDelay);
 		run();
 		fn();
 	}
-
+	#end
 	/**
 		Stops `this` Timer.
 
@@ -145,10 +149,8 @@ class Timer {
 		If `f` is null, the result is unspecified.
 	**/
 	public static function delay( f : Void -> Void, time_ms : Int ) {
-		trace("Timer set to call in "+time_ms+"ms");
 		var t = new haxe.Timer(time_ms);
 		t.run = function(f) {
-			trace("Timer called");
 			t.stop();
 			f();
 		}.bind(f);
@@ -198,9 +200,11 @@ class Timer {
 		#end
 	}
 
+	#if !(flash||js)
 	public function isStopped(){
 		return stopped;
 	}
+	#end
 
 }
 

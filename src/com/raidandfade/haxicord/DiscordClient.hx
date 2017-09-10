@@ -12,6 +12,7 @@ import com.raidandfade.haxicord.types.DMChannel;
 import com.raidandfade.haxicord.types.GuildChannel;
 import com.raidandfade.haxicord.types.GuildMember;
 import com.raidandfade.haxicord.types.TextChannel;
+import com.raidandfade.haxicord.types.CategoryChannel;
 import com.raidandfade.haxicord.types.VoiceChannel;
 import com.raidandfade.haxicord.types.Guild;
 import com.raidandfade.haxicord.types.Role;
@@ -343,7 +344,7 @@ class DiscordClient {
     public function removeChannel(id){
         //remove from guild too.
         var c = channelCache.get(id);
-        if(c.type!=1){
+        if(c!=null&&c.type!=1){
             var gc = cast(c,GuildChannel);
             var g = gc.getGuild();
             if(gc.type==0){
@@ -546,8 +547,10 @@ class DiscordClient {
             var c = cast(channelCache.get(id),GuildChannel);
             if(c.type==0)
                 cast(channelCache.get(id),TextChannel)._update(channel_struct);
-            else
+            else if(c.type==2)
                 cast(channelCache.get(id),VoiceChannel)._update(channel_struct);
+            else 
+                cast(channelCache.get(id),CategoryChannel)._update(channel_struct);
             return function(c,_){
                 return c;
             }.bind(c,_);
