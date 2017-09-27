@@ -27,8 +27,8 @@ import haxe.Timer;
 @:expose
 class DiscordClient { 
     public static var libName:String = "Haxicord";
-    public static var userAgent:String = "DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.0.1)";
-    public static var gatewayVersion:Int = 6;
+    public static var userAgent:String = "DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.0.2)";
+    public static var gatewayVersion:Int = 7;
     
     //cache arrays (id,object)
     public var messageCache:Map<String,Message> = new Map<String,Message>();

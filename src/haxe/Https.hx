@@ -7,7 +7,7 @@ import js.node.Querystring;
 import haxe.DynamicAccess;
 import js.node.http.IncomingMessage;
 #elseif cs
-//Refer to line 1346 if you're confused.
+//Refer to makeRequest for c# if you're confused.
 @:classCode("static void httpCallBack(System.IAsyncResult res){
                 System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function> r = (System.Tuple<System.Net.HttpWebRequest,global::haxe.lang.Function>)res.AsyncState; 
                 try{
@@ -52,8 +52,27 @@ class Https{
         return Json.stringify(d);
     }
 
-    public static function makeRequest(url,method="GET",_callback:Null<Dynamic->Map<String,String>->Void>=null,_data:{}=null,_headers:Map<String,String>=null){
+    public static function makeRequest(url,method="GET",_callback:Null<Dynamic->Map<String,String>->Void>=null,_d:Dynamic=null,_headers:Map<String,String>=null,async=true){
+        if(async)
+            Timer.delay(_makeRequest.bind(url,method,_callback,_d,_headers),0);
+        else
+            _makeRequest(url,method,_callback,_d,_headers);
+    }
 
+
+    public static function parseJson(st:Int,j:String,forceError:Bool=false):Dynamic{
+        try{
+            if(forceError)
+                return {"status":st,"error":Json.parse(j)};
+            else
+                return {"status":st,"data":Json.parse(j)};
+        }catch(d:Dynamic){
+            return {"status":st,"error":"Could not parse Json.","Content":j};
+        }
+    }
+        
+    static function _makeRequest(url,method="GET",_callback:Null<Dynamic->Map<String,String>->Void>=null,_d:Dynamic=null,_headers:Map<String,String>=null){
+        try{
         var _cb:Null<Dynamic->Map<String,String>->Void> = function(d,e){ //because otherwise the http handler throws the error and shit hits the fan.
             try{
                 _callback(d,e);
@@ -67,6 +86,8 @@ class Https{
             _headers = new Map<String,String>();
         }
         method = method.toUpperCase();
+
+        var _data = Std.is(_d,String)?_d:stringify(_d);
 
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&_data==null)
             _headers.set("Content-Length","0");
@@ -101,22 +122,22 @@ class Https{
                     var v = res.headers[k];
                     m.set(k.toLowerCase(),v);
                 }
-                var r = res.statusCode==204?null:Json.parse(datas);
                 if(res.statusCode<200||res.statusCode>=300)
-                    _cb({status:res.statusCode,error:r},m);
+                    _cb(parseJson(res.statusCode,datas,true),m);
                 else
-                    _cb({status:res.statusCode,data:r},m);
+                    _cb(parseJson(res.statusCode,datas),m);
             });
+            req.on('error',function(e){
+                _cb({status:res.statusCode,error:e,data:parseJson(res.statusCode,datas,true).error},m);
+            }); 
         });
-        req.on('error',function(e){
-            //trace(e); 
-        }); 
+
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&_data!=null)
-            req.write(stringify(_data));
+            req.write(_data);
         req.end();
 #elseif cs
         var cscb = function(status,response,headers){
-            var data = Json.parse(response);
+            var data = parseJson(response);
             _cb({status:status,data:data},headers);
         }
         untyped __cs__('
@@ -141,7 +162,7 @@ class Https{
                     streamWriter.Flush();
                     streamWriter.Close();
                 }'
-            ,stringify(_data));
+            ,_data);
         }
         untyped __cs__('
                 httpWebRequest.BeginGetResponse(new System.AsyncCallback(httpCallBack),System.Tuple.Create(httpWebRequest,{0}));
@@ -153,6 +174,10 @@ class Https{
         ,cscb);
 #else
         var call = new Http(url);
+        #if sys
+        call.noShutdown = true;
+        call.cnxTimeout = 600;
+        #end
         var result = new haxe.io.BytesOutput();
 
         for(h in _headers.keys()){
@@ -165,7 +190,8 @@ class Https{
             //trace("Status!");
         }
         call.onError = function(no){
-            trace("Error!");
+            trace("Error! "+no);
+            trace(call.responseData);
             var m = new Map<String,String>();
             for(k in call.responseHeaders.keys()){
                 var v = call.responseHeaders[k];
@@ -173,13 +199,13 @@ class Https{
             }
             var errReg = ~/Http Error #([0-9]{0,5})/;
             if(errReg.match(no)){
-                _cb({"status":status,"error":"HTTP error "+status},m);
+                _cb({"status":status,"error":"HTTP error "+status,"data":parseJson(status,call.responseData,true).error},m);
             }else{
-                _cb({"status":status,"error":no},m);
+                _cb({"status":status,"error":no,"data":parseJson(status,call.responseData,true).error},m);
             }
         }
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&_data!=null){
-            var sd = stringify(_data);
+            var sd = _data;
             call.setPostData(sd);
         }
         call.onData = function(data){
@@ -189,10 +215,13 @@ class Https{
                 var v = call.responseHeaders[k];
                 m.set(k.toLowerCase(),v);
             }
-            var data = Json.parse(data);
-            _cb({status:status,data:data},m);
+            _cb(parseJson(status,data),m);
         }
         call.customRequest(false,result,method);
 #end
+        }catch(er:Dynamic){
+            trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
+             _callback({status:-1,error:Std.string(er)},null);
+        }
     }
 }

@@ -49,7 +49,7 @@ class Endpoints{
      *  @param bot - Will get the bot gateway along with reccomended shard info if true.
      *  @param cb - The callback to call once gotten. Or null if result is not desired.
      */
-    public function getGateway(bot=false,cb:Typedefs.Gateway->String->Void=null){ //y
+    public function getGateway(bot=false,cb:Typedefs.Gateway->ErrorReport->Void=null){ //y
         var endpoint = new EndpointPath("/gateway"+(bot?"/bot":""),[]);
         callEndpoint("GET",endpoint,cb);
     }
@@ -60,7 +60,7 @@ class Endpoints{
      *  @param channel_id - The channel id to get the channel from
      *  @param cb - Callback to send the receivied channel object to. Or null if result is not desired.
      */
-    public function getChannel(channel_id:String,cb:Channel->String->Void=null){ //y
+    public function getChannel(channel_id:String,cb:Channel->ErrorReport->Void=null){ //y
         var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
         callEndpoint("GET",endpoint,function(ch,e){
             if(cb==null)return;
@@ -87,7 +87,7 @@ class Endpoints{
      *  @param channel_data - The changed channel data, all fields are optional
      *  @param cb - Callback to send the new channel object to. Or null if result is not desired.
      */
-    public function modifyChannel(channel_id:String,channel_data:Typedefs.ChannelUpdate,cb:Channel->String->Void=null){ //y
+    public function modifyChannel(channel_id:String,channel_data:Typedefs.ChannelUpdate,cb:Channel->ErrorReport->Void=null){ //y
          //Requires manage_channels
         var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
         callEndpoint("PATCH",endpoint,function(ch,e){
@@ -102,7 +102,7 @@ class Endpoints{
      *  @param channel_id - Channel id of channel to delete
      *  @param cb - Callback to send old channel to. Or null if result is not desired.
      */
-    public function deleteChannel(channel_id:String,cb:Channel->String->Void=null){ //y
+    public function deleteChannel(channel_id:String,cb:Channel->ErrorReport->Void=null){ //y
          //Requires manage_channels
         var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
         callEndpoint("DELETE",endpoint,function(ch,e){
@@ -141,7 +141,7 @@ class Endpoints{
      *  @param channel_id - The channel
      *  @param cb - Array of Invites (or error).
      */
-    public function getChannelInvites(channel_id:String,cb:Array<Invite>->String->Void=null){ //y
+    public function getChannelInvites(channel_id:String,cb:Array<Invite>->ErrorReport->Void=null){ //y
         //Requires manage_channels
         var endpoint = new EndpointPath("/channels/{0}/invites",[channel_id]);
         callEndpoint("GET",endpoint,cb);
@@ -164,7 +164,7 @@ class Endpoints{
      *  @param channel_id - The channel
      *  @param cb - Return an array of pins (or an error)
      */
-    public function getChannelPins(channel_id:String,cb:Array<Message>->String->Void=null){
+    public function getChannelPins(channel_id:String,cb:Array<Message>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/pins",[channel_id]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.MessageStruct>,e){
             if(cb==null)return;
@@ -234,7 +234,7 @@ class Endpoints{
      *  @param format - Before, After, or Around. 
      *  @param cb - The array of messages, or an error.
      */
-    public function getMessages(channel_id:String,format:Typedefs.MessagesRequest,cb:Array<Message>->String->Void=null){
+    public function getMessages(channel_id:String,format:Typedefs.MessagesRequest,cb:Array<Message>->ErrorReport->Void=null){
         //Requires read_messages
         var endpoint = new EndpointPath("/channels/{0}/messages{1}",[channel_id,queryString(format)]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.MessageStruct>,e){
@@ -253,7 +253,7 @@ class Endpoints{
      *  @param message_id - The message id
      *  @param cb - Return the message, or an error.
      */
-    public function getMessage(channel_id:String,message_id:String,cb:Message->String->Void=null){
+    public function getMessage(channel_id:String,message_id:String,cb:Message->ErrorReport->Void=null){
         //Requires read_message_history
         var endpoint = new EndpointPath("/channels/{0}/messages/{1}",[channel_id,message_id]);
         callEndpoint("GET",endpoint,function(m,e){
@@ -269,7 +269,7 @@ class Endpoints{
      *  @param message - Message data
      *  @param cb - Return the message sent, or an error
      */
-    public function sendMessage(channel_id:String,message:Typedefs.MessageCreate,cb:Message->String->Void=null){
+    public function sendMessage(channel_id:String,message:Typedefs.MessageCreate,cb:Message->ErrorReport->Void=null){
         //Requires send_messages
         var endpoint = new EndpointPath("/channels/{0}/messages",[channel_id]);
         callEndpoint("POST",endpoint,function(m,e){
@@ -297,7 +297,7 @@ class Endpoints{
      *  @param message - The new content of the message, all fields are optional.
      *  @param cb - Return the new message, or an error.
      */
-    public function editMessage(channel_id:String,message_id:String,message:Typedefs.MessageEdit,cb:Message->String->Void=null){
+    public function editMessage(channel_id:String,message_id:String,message:Typedefs.MessageEdit,cb:Message->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/messages/{1}",[channel_id,message_id]);
         callEndpoint("PATCH",endpoint,function(m,e){
             if(cb==null)return;
@@ -399,7 +399,7 @@ class Endpoints{
      *  @param guild_data - The data to be changed, All fields are optional.
      *  @param cb - Returns the new guild object, or an error.
      */
-    public function createGuild(guild_data:Typedefs.GuildCreate,cb:Guild->String->Void=null){
+    public function createGuild(guild_data:Typedefs.GuildCreate,cb:Guild->ErrorReport->Void=null){
         //Requires manage_guild
         var endpoint = new EndpointPath("/guilds",[]);
         callEndpoint("POST",endpoint,function(g,e){
@@ -429,7 +429,7 @@ class Endpoints{
      *  @param guild_data - The data to be changed, All fields are optional.
      *  @param cb - Returns the new guild object, or an error.
      */
-    public function modifyGuild(guild_id:String,guild_data:Typedefs.GuildUpdate,cb:Guild->String->Void=null){
+    public function modifyGuild(guild_id:String,guild_data:Typedefs.GuildUpdate,cb:Guild->ErrorReport->Void=null){
         //Requires manage_guild
         var endpoint = new EndpointPath("/guilds/{0}",[guild_id]);
         callEndpoint("PATCH",endpoint,function(g,e){
@@ -455,7 +455,7 @@ class Endpoints{
      *  @param guild_id - The guild id.
      *  @param cb - Return an array of channel objects, or an error.
      */
-    public function getChannels(guild_id:String,cb:Array<Channel>->String->Void=null){
+    public function getChannels(guild_id:String,cb:Array<Channel>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/channels",[guild_id]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.Guild.GuildChannelTypes>,e){
             if(cb==null)return;
@@ -493,7 +493,7 @@ class Endpoints{
      *  @param user_id - The member's id.
      *  @param cb - Return a member instance of the user. Or an error.
      */
-    public function getGuildMember(guild_id:String,user_id:String,cb:GuildMember->String->Void=null){
+    public function getGuildMember(guild_id:String,user_id:String,cb:GuildMember->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/members/{1}",[guild_id,user_id]);
         callEndpoint("GET",endpoint,function(gm,e){
             if(e!=null)cb(null,e);
@@ -555,7 +555,7 @@ class Endpoints{
      *  @param nickname - The nickname to change to.
      *  @param cb - Returns the nickname, or an error.
      */
-    public function changeNickname(guild_id:String,nickname:String,cb:String->String->Void=null){
+    public function changeNickname(guild_id:String,nickname:String,cb:String->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/members/@me/nick",[guild_id]);
         callEndpoint("PATCH",endpoint,cb,{nick:nickname});
     }
@@ -603,7 +603,7 @@ class Endpoints{
      *  @param guild_id - The guild id.
      *  @param cb - Returns an array of users, or an error.
      */
-    public function getGuildBans(guild_id:String,cb:Array<User>->String->Void=null){
+    public function getGuildBans(guild_id:String,cb:Array<User>->ErrorReport->Void=null){
         //requires BAN_MEMBERS
         var endpoint = new EndpointPath("/guilds/{0}/bans",[guild_id]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.User>,e){
@@ -646,7 +646,7 @@ class Endpoints{
      *  @param guild_id - The guild to fetch roles for.
      *  @param cb - Returns an array of guilds, or an error.
      */
-    public function getGuildRoles(guild_id:String,cb:Array<Role>->String->Void=null){
+    public function getGuildRoles(guild_id:String,cb:Array<Role>->ErrorReport->Void=null){
         //requires MANAGE_ROLES
         var endpoint = new EndpointPath("/guilds/{0}/roles",[guild_id]);
         callEndpoint("GET",endpoint,function(res:Array<com.raidandfade.haxicord.types.structs.Role>,e){
@@ -665,7 +665,7 @@ class Endpoints{
      *  @param role_data - The role's data.
      *  @param cb - Returns the new role, or an error.
      */
-    public function createRole(guild_id:String,role_data:Typedefs.RoleInfo,cb:Role->String->Void=null){
+    public function createRole(guild_id:String,role_data:Typedefs.RoleInfo,cb:Role->ErrorReport->Void=null){
         //bot needs MANAGE_ROLES
         var endpoint = new EndpointPath("/guilds/{0}/roles",[guild_id]);
         callEndpoint("POST",endpoint,function(r,e){
@@ -682,7 +682,7 @@ class Endpoints{
      *  @param cb - Returns an array of the roles of the server with their new positions, or an error.
      */
     //TODO this logic, in Discordclient (or maybe guild object/client object)
-    public function moveRole(guild_id:String,changes:Typedefs.PositionChange,cb:Array<Role>->String->Void=null){
+    public function moveRole(guild_id:String,changes:Typedefs.PositionChange,cb:Array<Role>->ErrorReport->Void=null){
         //Requires MANAGE_ROLES
         var endpoint = new EndpointPath("/guilds/{0}/roles",[guild_id]);
         callEndpoint("PATCH",endpoint,function(res:Array<com.raidandfade.haxicord.types.structs.Role>,e){
@@ -702,7 +702,7 @@ class Endpoints{
      *  @param role_data - The new data, All fields are optional. 
      *  @param cb - Returns the new role, or an error.
      */
-    public function editRole(guild_id:String,role_id:String,role_data:Typedefs.RoleInfo,cb:Role->String->Void=null){
+    public function editRole(guild_id:String,role_id:String,role_data:Typedefs.RoleInfo,cb:Role->ErrorReport->Void=null){
         //bot needs MANAGE_ROLES
         var endpoint = new EndpointPath("/guilds/{0}/roles/{1}",[guild_id,role_id]);
         callEndpoint("PATCH",endpoint,function(r,e){
@@ -730,7 +730,7 @@ class Endpoints{
      *  @param days - The number of days to count prune for.
      *  @param cb - Returns the number of users that would be pruned on a real request, or an error.
      */
-    public function getPruneCount(guild_id:String,days:Int=1,cb:Int->String->Void=null){
+    public function getPruneCount(guild_id:String,days:Int=1,cb:Int->ErrorReport->Void=null){
         //requires KICK_MEMBERS
         var endpoint = new EndpointPath("/guilds/{0}/prune{1}",[guild_id,queryString({days:days})]);
         callEndpoint("GET",endpoint,function(res:{pruned:Int},e){
@@ -746,7 +746,7 @@ class Endpoints{
      *  @param days - The number of days to count prune for.
      *  @param cb - Returns the number of users that were pruned, or an error.
      */
-    public function beginPrune(guild_id:String,days:Int=1,cb:Int->String->Void=null){
+    public function beginPrune(guild_id:String,days:Int=1,cb:Int->ErrorReport->Void=null){
         //requires KICK_MEMBERS
         var endpoint = new EndpointPath("/guilds/{0}/prune{1}",[guild_id,queryString({days:days})]);
         callEndpoint("POST",endpoint,function(res:{pruned:Int},e){
@@ -761,7 +761,7 @@ class Endpoints{
      *  @param guild_id - The guild to get the list for.
      *  @param cb - Returns an array of voiceregion objects, or an error.
      */
-    public function guildVoiceRegions(guild_id:String,cb:Array<VoiceRegion>->String->Void=null){
+    public function guildVoiceRegions(guild_id:String,cb:Array<VoiceRegion>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/regions",[guild_id]);
         callEndpoint("GET",endpoint,function(res:Array<VoiceRegion>,e){
             if(cb==null)return;
@@ -775,7 +775,7 @@ class Endpoints{
      *  @param guild_id - The guild to get the list for.
      *  @param cb - Returns an array of guildintegration objects, or an error.
      */
-    public function getIntegrations(guild_id:String,cb:Array<GuildIntegration>->String->Void=null){
+    public function getIntegrations(guild_id:String,cb:Array<GuildIntegration>->ErrorReport->Void=null){
         //requires MANAGE_GUILD
         var endpoint = new EndpointPath("/guilds/{0}/integrations",[guild_id]);
         callEndpoint("GET",endpoint,cb);
@@ -835,7 +835,7 @@ class Endpoints{
      *  @param guild_id - The id of the guild to fetch the widget from.
      *  @param cb - Returns the GuildEmbed object of the guild, or an error.
      */
-    public function getWidget(guild_id:String,cb:GuildEmbed->String->Void=null){
+    public function getWidget(guild_id:String,cb:GuildEmbed->ErrorReport->Void=null){
         //requires MANAGE_GUILD
         var endpoint = new EndpointPath("/guilds/{0}/embed",[guild_id]);
         callEndpoint("GET",endpoint,cb);
@@ -847,7 +847,7 @@ class Endpoints{
      *  @param edits - The changes to be made to the widget/embed. All parameters are optional.
      *  @param cb - Returns the changed GuildEmbed object, or an error.
      */
-    public function modifyWidget(guild_id:String,edits:GuildEmbed,cb:GuildEmbed->String->Void=null){
+    public function modifyWidget(guild_id:String,edits:GuildEmbed,cb:GuildEmbed->ErrorReport->Void=null){
         //requires MANAGE_GUILD
         var endpoint = new EndpointPath("/guilds/{0}/embed",[guild_id]);
         callEndpoint("PATCH",endpoint,cb,edits);
@@ -859,7 +859,7 @@ class Endpoints{
      *  @param guild_id - The id to get the list from.
      *  @param cb - Returns an array of invites, or an error.
      */
-    public function getInvites(guild_id:String,cb:Array<Invite>->String->Void=null){
+    public function getInvites(guild_id:String,cb:Array<Invite>->ErrorReport->Void=null){
         //requires MANAGE_GUILD
         var endpoint = new EndpointPath("/guilds/{0}/invites",[guild_id]);
         callEndpoint("GET",endpoint,cb);
@@ -871,7 +871,7 @@ class Endpoints{
      *  @param with_counts - Get some extra data from the invite's server
      *  @param cb - Returns an Invite object, or an error.
      */
-    public function getInvite(invite_code:String,with_counts:Bool=true,cb:Invite->String->Void=null){
+    public function getInvite(invite_code:String,with_counts:Bool=true,cb:Invite->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/invite/{0}?with_counts={1}",[invite_code,with_counts?"true":"false"]);
         callEndpoint("GET",endpoint,cb);
     }
@@ -881,7 +881,7 @@ class Endpoints{
      *  @param invite_code - The invite code of the invite to delete.
      *  @param cb - Returns the Invite that was removed, or an error.
      */
-    public function deleteInvite(invite_code:String,cb:Invite->String->Void=null){
+    public function deleteInvite(invite_code:String,cb:Invite->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/invite/{0}",[invite_code]);
         callEndpoint("DELETE",endpoint,cb);
     }
@@ -892,7 +892,7 @@ class Endpoints{
      *  @param cb - Returns the invite that was joined, or an error.
      */
     //nope.jpg for bots
-    public function acceptInvite(invite_code:String,cb:Invite->String->Void=null){
+    public function acceptInvite(invite_code:String,cb:Invite->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/invite/{0}",[invite_code]);
         callEndpoint("POST",endpoint,cb);
     }
@@ -904,7 +904,7 @@ class Endpoints{
      *  @param user_id - Get any user based on their id, or set to "@me" to return self.
      *  @param cb - Return the user object, or an error.
      */
-    public function getUser(user_id:String="@me",cb:User->String->Void=null){
+    public function getUser(user_id:String="@me",cb:User->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/{0}",[user_id]);
         callEndpoint("GET",endpoint,function(r,e){
             if(cb==null)return;
@@ -918,7 +918,7 @@ class Endpoints{
      *  @param user_data - The parameters to change, all fields are optional.
      *  @param cb - Return the changed user, or an error.
      */
-    public function editUser(user_data:{username:String,avatar:String},cb:User->String->Void=null){
+    public function editUser(user_data:{username:String,avatar:String},cb:User->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me",[]);
         callEndpoint("PATCH",endpoint,function(r,e){
             if(cb==null)return;
@@ -932,7 +932,7 @@ class Endpoints{
      *  @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
      *  @param cb - Returns the list of Guilds according to the filter specified, or an error.
      */
-    public function getGuilds(filter:Typedefs.GetGuildFilter,cb:Array<Guild>->String->Void=null){ 
+    public function getGuilds(filter:Typedefs.GetGuildFilter,cb:Array<Guild>->ErrorReport->Void=null){ 
         var endpoint = new EndpointPath("/users/@me/guilds{0}",[]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.Guild>,e){
             if(cb==null)return;
@@ -958,7 +958,7 @@ class Endpoints{
      *  Get the dm channels that the current user has open.
      *  @param cb - Returns an array of all dm channels the user currently has open, or an error.
      */
-    public function getDMChannels(cb:Array<DMChannel>->String->Void=null){
+    public function getDMChannels(cb:Array<DMChannel>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me/channels",[]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.DMChannel>,e){
             if(cb==null)return;
@@ -975,7 +975,7 @@ class Endpoints{
      *  @param data - A struct that contains the recipient's id.
      *  @param cb - Returns the dm channel requested, or an error.
      */
-    public function createDM(data:{recipient_id:String},cb:DMChannel->String->Void=null){
+    public function createDM(data:{recipient_id:String},cb:DMChannel->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me/channels",[]);
         callEndpoint("POST",endpoint,function(r:com.raidandfade.haxicord.types.structs.DMChannel,e){
             if(cb==null)return;
@@ -992,7 +992,7 @@ class Endpoints{
      *  @param data - A struct that contains the necessary arguments required to invite members.
      *  @param cb - Returns the group dm channel, or an error.
      */
-    public function createGroupDM(data:Typedefs.CreateGroupDM,cb:DMChannel->String->Void=null){
+    public function createGroupDM(data:Typedefs.CreateGroupDM,cb:DMChannel->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me/channels",[]);
         callEndpoint("POST",endpoint,function(r:com.raidandfade.haxicord.types.structs.DMChannel,e){
             if(cb==null)return;
@@ -1008,7 +1008,7 @@ class Endpoints{
      *  Get a list of connections hooked up to the current account.
      *  @param cb - Returns a list of connections, or an error.
      */
-    public function getConnections(cb:Array<Connection>->String->Void=null){
+    public function getConnections(cb:Array<Connection>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me/connections",[]);
         callEndpoint("GET",endpoint,cb);
     }
@@ -1018,7 +1018,7 @@ class Endpoints{
      *  Get a list of voice regions.
      *  @param cb - Returns a list of voice regions, or an error.
      */
-    public function listVoiceRegions(cb:Array<VoiceRegion>->String->Void=null){
+    public function listVoiceRegions(cb:Array<VoiceRegion>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/voice/regions",[]);
         callEndpoint("GET",endpoint,function(res:Array<VoiceRegion>,e){
             if(cb==null)return;
@@ -1035,7 +1035,7 @@ class Endpoints{
      *  @param data - The data to create with.
      *  @param cb - Returns the webhook object, or an error.
      */
-    public function createWebhook(channel_id:String,data:{name:String,avatar:String},cb:Webhook->String->Void=null){
+    public function createWebhook(channel_id:String,data:{name:String,avatar:String},cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/webhooks",[channel_id]);
         callEndpoint("POST",endpoint,cb,data);
     }
@@ -1045,7 +1045,7 @@ class Endpoints{
      *  @param channel_id - The channel id to get webhooks about.
      *  @param cb - Returns an array of webhooks, or an error.
      */
-    public function getChannelWebhooks(channel_id:String,cb:Array<Webhook>->String->Void=null){
+    public function getChannelWebhooks(channel_id:String,cb:Array<Webhook>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/webhooks",[channel_id]);
         callEndpoint("GET",endpoint,cb);
     }
@@ -1055,7 +1055,7 @@ class Endpoints{
      *  @param guild_id - The guild id to get webhooks about.
      *  @param cb - Returns an array of webhooks, or an error.
      */
-    public function getGuildWebhooks(guild_id:String,cb:Array<Webhook>->String->Void=null){
+    public function getGuildWebhooks(guild_id:String,cb:Array<Webhook>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/webhooks",[guild_id]);
         callEndpoint("GET",endpoint,cb);
     }
@@ -1065,7 +1065,7 @@ class Endpoints{
      *  @param webhook_id - The id of the webhook.
      *  @param cb - Returns a webhook object, or an error.
      */
-    public function getWebhook(webhook_id:String,cb:Webhook->String->Void=null){
+    public function getWebhook(webhook_id:String,cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/webhooks/{0}",[webhook_id]);
         callEndpoint("GET",endpoint,cb);
     }
@@ -1076,7 +1076,7 @@ class Endpoints{
      *  @param data - The updated data for the webhook. All parameters are optional.
      *  @param cb - Returns a webhook object, or an error.
      */
-    public function editWebhook(webhook_id:String,data:{?name:String,?avatar:String},cb:Webhook->String->Void=null){
+    public function editWebhook(webhook_id:String,data:{?name:String,?avatar:String},cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/webhooks/{0}",[webhook_id]);
         callEndpoint("PATCH",endpoint,cb,data);
     }
@@ -1097,7 +1097,7 @@ class Endpoints{
      *  @param webhook_token - The webhook's token.
      *  @param cb - Returns a webhook object, or an error.
      */
-    public function getWebhookWithToken(webhook_id:String,webhook_token:String,cb:Webhook->String->Void=null){
+    public function getWebhookWithToken(webhook_id:String,webhook_token:String,cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/webhooks/{0}/{1}",[webhook_id,webhook_token]);
         callEndpoint("GET",endpoint,cb,{},false);
     }
@@ -1109,7 +1109,7 @@ class Endpoints{
      *  @param data - The updated data for the webhook. All parameters are optional.
      *  @param cb - Returns a webhook object, or an error.
      */
-    public function editWebhookWithToken(webhook_id:String,webhook_token:String,data:{?name:String,?avatar:String},cb:Webhook->String->Void=null){
+    public function editWebhookWithToken(webhook_id:String,webhook_token:String,data:{?name:String,?avatar:String},cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/webhooks/{0}/{1}",[webhook_id,webhook_token]);
         callEndpoint("PATCH",endpoint,cb,data,false);
     }
@@ -1157,7 +1157,7 @@ class Endpoints{
     }
 
 //TODO global ratelimit
-    public function callEndpoint(method:String,endpoint:EndpointPath,callback:Null<Dynamic->String->Void>=null,data:{}=null,authorized:Bool=true){
+    public function callEndpoint(method:String,endpoint:EndpointPath,callback:Null<Dynamic->ErrorReport->Void>=null,data:{}=null,authorized:Bool=true){
         trace("Req : "+endpoint.getPath());
         var rateLimitName = endpoint.getRoute();
         trace("RLC: "+rateLimitCache.exists(rateLimitName));
@@ -1225,7 +1225,7 @@ class Endpoints{
             if(callback==null)return;
             //trace(data);
             if(data.status < 200 || data.status>=300){
-                callback(null,data.error);
+                callback(null,{error:data.error,data:data.data});
             }else{
                 callback(data.data,null);
             }
@@ -1251,19 +1251,15 @@ class Endpoints{
         if(authorized)headers.set("Authorization",token);
         headers.set("User-Agent",DiscordClient.userAgent);
         headers.set("Content-Type","application/json");
-        if(["POST","PUT","PATCH"].indexOf(method)>-1&&data==null)
+        if(["POST","PATCH"].indexOf(method)>-1&&data==null)
             headers.set("Content-Length","0");
 
-        Https.makeRequest(url,method,callback,data,headers);
-#if (js && nodejs)
-
-#elseif cs
-        
-#elseif js
-        throw "Browser JS is not supported as it's not possible to send modified User-Agents.";
-#else
-        
-#end
+        try{
+        Https.makeRequest(url,method,callback,data,headers,false);
+        }catch(e:Dynamic){
+            trace(e);
+            trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
+        }
     }
 }
 
@@ -1318,5 +1314,11 @@ class EndpointPath {
         return cur;
     }
 }
-
-typedef EmptyResponseCallback = Dynamic->String->Void;
+typedef ErrorReport = Dynamic;
+/*Null<{
+    @:optional var error:String;
+    @:optional var data:String;
+}>;
+eventually...
+*/
+typedef EmptyResponseCallback = Dynamic->ErrorReport->Void;

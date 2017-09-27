@@ -312,6 +312,7 @@ class Http {
 				r.open("GET",url,async);
 		} catch( e : Dynamic ) {
 			me.req = null;
+			trace(e);
 			onError(e.toString());
 			return;
 		}
@@ -579,6 +580,7 @@ class Http {
 			sock.close();
 		} catch( e : Dynamic ) {
 			try sock.close() catch( e : Dynamic ) { };
+            //trace(Std.string(e)+haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
 			onError(Std.string(e));
 		}
 	}
@@ -720,9 +722,10 @@ class Http {
 		}
 		if( chunked && (chunk_size != null || chunk_buf != null) )
 			throw "Invalid chunk";
-		if( status < 200 || status >= 400 )
+		if( status < 200 || status >= 400 ){
+			this.responseData = Std.string(Std.instance(api,BytesOutput).getBytes());
 			throw "Http Error #"+status;
-        if(Std.is(api,BytesOutput)){
+        }if(Std.is(api,BytesOutput)){
             onData(Std.string(Std.instance(api,BytesOutput).getBytes()));
         }
 		api.close();
