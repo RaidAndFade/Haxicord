@@ -45,9 +45,9 @@ class Endpoints{
 
 //GATEWAY START
     /**
-     *  Get the gateway that the client should connect to. 
-     *  @param bot - Will get the bot gateway along with reccomended shard info if true.
-     *  @param cb - The callback to call once gotten. Or null if result is not desired.
+        Get the gateway that the client should connect to. 
+        @param bot - Will get the bot gateway along with reccomended shard info if true.
+        @param cb - The callback to call once gotten. Or null if result is not desired.
      */
     public function getGateway(bot=false,cb:Typedefs.Gateway->ErrorReport->Void=null){ //y
         var endpoint = new EndpointPath("/gateway"+(bot?"/bot":""),[]);
@@ -56,9 +56,9 @@ class Endpoints{
 
 //CHANNEL START
     /**
-     *  Get a channel based on a given channel id.
-     *  @param channel_id - The channel id to get the channel from
-     *  @param cb - Callback to send the receivied channel object to. Or null if result is not desired.
+        Get a channel based on a given channel id.
+        @param channel_id - The channel id to get the channel from
+        @param cb - Callback to send the receivied channel object to. Or null if result is not desired.
      */
     public function getChannel(channel_id:String,cb:Channel->ErrorReport->Void=null){ //y
         var endpoint = new EndpointPath("/channels/{0}",[channel_id]);
@@ -70,10 +70,10 @@ class Endpoints{
     }
 
     /**
-     *  Create a channel in a guild
-     *  @param guild_id - The guild to create the channel in
-     *  @param channel_data - The channel's starting data 
-     *  @param cb - Callback to send the new channel object to. Or null if result is not desired.
+        Create a channel in a guild
+        @param guild_id - The guild to create the channel in
+        @param channel_data - The channel's starting data 
+        @param cb - Callback to send the new channel object to. Or null if result is not desired.
      */
     public function createChannel(guild_id:String,channel_data:Typedefs.ChannelCreate,cb:EmptyResponseCallback=null){ //y
          //Requires manage_channels
@@ -82,10 +82,10 @@ class Endpoints{
     }
 
     /**
-     *  Change a channel's parameters
-     *  @param channel_id - The id of the channel to be modified
-     *  @param channel_data - The changed channel data, all fields are optional
-     *  @param cb - Callback to send the new channel object to. Or null if result is not desired.
+        Change a channel's parameters
+        @param channel_id - The id of the channel to be modified
+        @param channel_data - The changed channel data, all fields are optional
+        @param cb - Callback to send the new channel object to. Or null if result is not desired.
      */
     public function modifyChannel(channel_id:String,channel_data:Typedefs.ChannelUpdate,cb:Channel->ErrorReport->Void=null){ //y
          //Requires manage_channels
@@ -98,9 +98,9 @@ class Endpoints{
     }
 
     /**
-     *  Delete the given channel.
-     *  @param channel_id - Channel id of channel to delete
-     *  @param cb - Callback to send old channel to. Or null if result is not desired.
+        Delete the given channel.
+        @param channel_id - Channel id of channel to delete
+        @param cb - Callback to send old channel to. Or null if result is not desired.
      */
     public function deleteChannel(channel_id:String,cb:Channel->ErrorReport->Void=null){ //y
          //Requires manage_channels
@@ -113,11 +113,11 @@ class Endpoints{
     }
 
     /**
-     *  Edit or Create a channel's overwrite permissions;
-     *  @param channel_id - The channel
-     *  @param overwrite_id - The overwrite Id, Id of user or role.
-     *  @param new_permission - The modified overwrite permission object
-     *  @param cb - Call once finished.
+        Edit or Create a channel's overwrite permissions;
+        @param channel_id - The channel
+        @param overwrite_id - The overwrite Id, Id of user or role.
+        @param new_permission - The modified overwrite permission object
+        @param cb - Call once finished.
      */
     public function editChannelPermissions(channel_id:String,overwrite_id:String,new_permission:Overwrite,cb:EmptyResponseCallback=null){ //y
         //Requires manage_roles
@@ -125,10 +125,10 @@ class Endpoints{
         callEndpoint("PUT",endpoint,cb,new_permission); //204
     }
     /**
-     *  Delete a channel override
-     *  @param channel_id - The channel
-     *  @param overwrite_id - The overwrite id to delete
-     *  @param cb - Call once finished.
+        Delete a channel override
+        @param channel_id - The channel
+        @param overwrite_id - The overwrite id to delete
+        @param cb - Call once finished.
      */
     public function deleteChannelPermission(channel_id:String,overwrite_id:String,cb:EmptyResponseCallback=null){ //y
         //Requires manage_roles
@@ -137,9 +137,9 @@ class Endpoints{
     }
 
     /**
-     *  Get the invites of a given channel
-     *  @param channel_id - The channel
-     *  @param cb - Array of Invites (or error).
+        Get the invites of a given channel
+        @param channel_id - The channel
+        @param cb - Array of Invites (or error).
      */
     public function getChannelInvites(channel_id:String,cb:Array<Invite>->ErrorReport->Void=null){ //y
         //Requires manage_channels
@@ -148,10 +148,10 @@ class Endpoints{
     }
 
     /**
-     *  Create a new invite for a given channel
-     *  @param channel_id - The channel
-     *  @param invite - The invite data.
-     *  @param cb - Return the invite or an error.
+        Create a new invite for a given channel
+        @param channel_id - The channel
+        @param invite - The invite data.
+        @param cb - Return the invite or an error.
      */
     public function createChannelInvite(channel_id:String,invite:Typedefs.InviteCreate,cb:EmptyResponseCallback=null){ //y
         //requires create_instant_invite
@@ -160,9 +160,9 @@ class Endpoints{
     }
 
     /**
-     *  Get the pins of a channel
-     *  @param channel_id - The channel
-     *  @param cb - Return an array of pins (or an error)
+        Get the pins of a channel
+        @param channel_id - The channel
+        @param cb - Return an array of pins (or an error)
      */
     public function getChannelPins(channel_id:String,cb:Array<Message>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/pins",[channel_id]);
@@ -177,10 +177,10 @@ class Endpoints{
     }
 
     /**
-     *  Add a channel pin
-     *  @param channel_id - The channel
-     *  @param message_id - The message
-     *  @param cb - Called once completed. Leave blank to ignore.
+        Add a channel pin
+        @param channel_id - The channel
+        @param message_id - The message
+        @param cb - Called once completed. Leave blank to ignore.
      */
     public function addChannelPin(channel_id:String,message_id:String,cb:EmptyResponseCallback=null){
         //requires manage_messages
@@ -189,10 +189,10 @@ class Endpoints{
     }
 
     /**
-     *  Delete a channel's pin
-     *  @param channel_id - The channel
-     *  @param message_id - The pin id
-     *  @param cb - Called once completed. Leave blank to ignore.
+        Delete a channel's pin
+        @param channel_id - The channel
+        @param message_id - The pin id
+        @param cb - Called once completed. Leave blank to ignore.
      */
     public function deleteChannelPin(channel_id:String,message_id:String,cb:EmptyResponseCallback=null){
         //requires manage_messages
@@ -203,12 +203,12 @@ class Endpoints{
 //GROUPDM START
     
     /**
-     *  Add a user to a group dm.
-     *  @param channel_id - The group dm's channel.
-     *  @param user_id - The user to be added.
-     *  @param access_token - An OAUTH2 token received from authenticating the user.
-     *  @param nick - The nickname of the user.
-     *  @param cb - Called once completed.
+        Add a user to a group dm.
+        @param channel_id - The group dm's channel.
+        @param user_id - The user to be added.
+        @param access_token - An OAUTH2 token received from authenticating the user.
+        @param nick - The nickname of the user.
+        @param cb - Called once completed.
      */
     public function groupDMAddRecipient(channel_id:String,user_id:String,access_token:String,nick:String,cb:EmptyResponseCallback=null){
         var endpoint = new EndpointPath("/channels/{0}/recipients/{1}",[channel_id,user_id]);
@@ -216,10 +216,10 @@ class Endpoints{
     }
 
     /**
-     *  Remove a user from a group dm.
-     *  @param channel_id - The group dm's channel.
-     *  @param user_id - The user to be removed
-     *  @param cb - Called once completed, or errored
+        Remove a user from a group dm.
+        @param channel_id - The group dm's channel.
+        @param user_id - The user to be removed
+        @param cb - Called once completed, or errored
      */
     public function groupDMRemoveRecipient(channel_id:String,user_id:String,cb:EmptyResponseCallback=null){
         var endpoint = new EndpointPath("/channels/{0}/recipients/{1}",[channel_id,user_id]);
@@ -229,10 +229,10 @@ class Endpoints{
 //MESSAGE START
 
     /**
-     *  Get messages from a given channel according to the given format.
-     *  @param channel_id - The channel
-     *  @param format - Before, After, or Around. 
-     *  @param cb - The array of messages, or an error.
+        Get messages from a given channel according to the given format.
+        @param channel_id - The channel
+        @param format - Before, After, or Around. 
+        @param cb - The array of messages, or an error.
      */
     public function getMessages(channel_id:String,format:Typedefs.MessagesRequest,cb:Array<Message>->ErrorReport->Void=null){
         //Requires read_messages
@@ -248,10 +248,10 @@ class Endpoints{
     }
 
     /**
-     *  Get a message in a channel
-     *  @param channel_id - The channel id
-     *  @param message_id - The message id
-     *  @param cb - Return the message, or an error.
+        Get a message in a channel
+        @param channel_id - The channel id
+        @param message_id - The message id
+        @param cb - Return the message, or an error.
      */
     public function getMessage(channel_id:String,message_id:String,cb:Message->ErrorReport->Void=null){
         //Requires read_message_history
@@ -264,10 +264,10 @@ class Endpoints{
     }
 
     /**
-     *  Send a message to a channel
-     *  @param channel_id - The channel to send to
-     *  @param message - Message data
-     *  @param cb - Return the message sent, or an error
+        Send a message to a channel
+        @param channel_id - The channel to send to
+        @param message - Message data
+        @param cb - Return the message sent, or an error
      */
     public function sendMessage(channel_id:String,message:Typedefs.MessageCreate,cb:Message->ErrorReport->Void=null){
         //Requires send_messages
@@ -280,9 +280,9 @@ class Endpoints{
     }
 
     /**
-     *  Send a typing event in the given channel. This lasts for 10 seconds or when a message is sent, whichever comes first.
-     *  @param channel_id - The channel to type in.
-     *  @param cb - Return when complete.
+        Send a typing event in the given channel. This lasts for 10 seconds or when a message is sent, whichever comes first.
+        @param channel_id - The channel to type in.
+        @param cb - Return when complete.
      */
     public function startTyping(channel_id:String,cb:EmptyResponseCallback=null){
         //Requires send_messages
@@ -291,11 +291,11 @@ class Endpoints{
     }
 
     /**
-     *  Edit a message previously sent by you.
-     *  @param channel_id - The channel the message is in.
-     *  @param message_id - The id of the message desired to be changed.
-     *  @param message - The new content of the message, all fields are optional.
-     *  @param cb - Return the new message, or an error.
+        Edit a message previously sent by you.
+        @param channel_id - The channel the message is in.
+        @param message_id - The id of the message desired to be changed.
+        @param message - The new content of the message, all fields are optional.
+        @param cb - Return the new message, or an error.
      */
     public function editMessage(channel_id:String,message_id:String,message:Typedefs.MessageEdit,cb:Message->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/messages/{1}",[channel_id,message_id]);
@@ -307,10 +307,10 @@ class Endpoints{
     }
 
     /**
-     *  Delete a given message. If the author is not the current user, the MANAGE_MESSAGES permission is required
-     *  @param channel_id - The channel the message is in.
-     *  @param message_id - The id of the message.
-     *  @param cb - Return when complete.
+        Delete a given message. If the author is not the current user, the MANAGE_MESSAGES permission is required
+        @param channel_id - The channel the message is in.
+        @param message_id - The id of the message.
+        @param cb - Return when complete.
      */
     public function deleteMessage(channel_id:String,message_id:String,cb:EmptyResponseCallback=null){
         //If !currentUser==author, requires Manage Messages
@@ -318,10 +318,10 @@ class Endpoints{
         callEndpoint("DELETE",endpoint,cb); //204
     }
     /**
-     *  Delete a given messages. MANAGE_MESSAGES is required.
-     *  @param channel_id - The channel the message is in.
-     *  @param message_ids - an array of id of the messages.
-     *  @param cb - Return when complete.
+        Delete a given messages. MANAGE_MESSAGES is required.
+        @param channel_id - The channel the message is in.
+        @param message_ids - an array of id of the messages.
+        @param cb - Return when complete.
      */
     public function deleteMessages(channel_id:String,message_ids:Typedefs.MessageBulkDelete,cb:EmptyResponseCallback=null){
         //Requires manage_messages
@@ -331,11 +331,11 @@ class Endpoints{
 
 //REACTION START
     /**
-     *  Add a reaction to a message. requires READ_MESSAGE_HISTORY and ADD_REACTIONS if the emoji is not already present.
-     *  @param channel_id - The channel that contains the message.
-     *  @param message_id - The message to react to.
-     *  @param emoji - The emote to be added, Custom emotes require their TAG.
-     *  @param cb - Called when completed, good for checking for errors.
+        Add a reaction to a message. requires READ_MESSAGE_HISTORY and ADD_REACTIONS if the emoji is not already present.
+        @param channel_id - The channel that contains the message.
+        @param message_id - The message to react to.
+        @param emoji - The emote to be added, Custom emotes require their TAG.
+        @param cb - Called when completed, good for checking for errors.
      */
     public function createReaction(channel_id:String,message_id:String,emoji:String,cb:EmptyResponseCallback=null){
         //Requires read_message_history, and add_reactions if emoji not already on message
@@ -344,11 +344,11 @@ class Endpoints{
     }
 
     /**
-     *  Delete a reaction of your own off of a message.
-     *  @param channel_id - The channel that contains the message.
-     *  @param message_id - The message to delete the reaction from.
-     *  @param emoji - The emote to be removed. Custom emotes require their TAG
-     *  @param cb - Called when completed, good for checking for errors.
+        Delete a reaction of your own off of a message.
+        @param channel_id - The channel that contains the message.
+        @param message_id - The message to delete the reaction from.
+        @param emoji - The emote to be removed. Custom emotes require their TAG
+        @param cb - Called when completed, good for checking for errors.
      */
     public function deleteOwnReaction(channel_id:String,message_id:String,emoji:String,cb:EmptyResponseCallback=null){
         var endpoint = new EndpointPath("/channels/{0}/messages/{1}/reactions/{2}/@me",[channel_id,message_id,emoji]);
@@ -356,12 +356,12 @@ class Endpoints{
     }
 
     /**
-     *  Delete another user's reaction off of a message.
-     *  @param channel_id - The channel that contains the message.
-     *  @param message_id - The message to delete the reaction from.
-     *  @param user_id - The user to delete the reaction from.
-     *  @param emoji - The emote to be removed. Custom emotes require their TAG
-     *  @param cb - Called when completed, good for checking for errors.
+        Delete another user's reaction off of a message.
+        @param channel_id - The channel that contains the message.
+        @param message_id - The message to delete the reaction from.
+        @param user_id - The user to delete the reaction from.
+        @param emoji - The emote to be removed. Custom emotes require their TAG
+        @param cb - Called when completed, good for checking for errors.
      */
     public function deleteUserReaction(channel_id:String,message_id:String,user_id:String,emoji:String,cb:EmptyResponseCallback=null){
         //Requires MANAGE_MESSAGES
@@ -370,11 +370,11 @@ class Endpoints{
     }
 
     /**
-     *  Get all reactions of emoji by user on a message.
-     *  @param channel_id - The channel that contains the message.
-     *  @param message_id - The message to get reactions from.
-     *  @param emoji - The emoji to look for.
-     *  @param cb - Returns an array of Reaction objects, or an error.
+        Get all reactions of emoji by user on a message.
+        @param channel_id - The channel that contains the message.
+        @param message_id - The message to get reactions from.
+        @param emoji - The emoji to look for.
+        @param cb - Returns an array of Reaction objects, or an error.
      */
     public function getReactions(channel_id:String,message_id:String,emoji:String,cb:Array<Reaction>->String->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/messages/{1}/reactions/{2}",[channel_id,message_id,emoji]);
@@ -382,10 +382,10 @@ class Endpoints{
     }
 
     /**
-     *  Delete all reactions from a message. Requires the MANAGE_MESSAGES permission.
-     *  @param channel_id - The channel that contains the message.
-     *  @param message_id - The message to remove reactions from.
-     *  @param cb - Called when completed, good for looking for errors.
+        Delete all reactions from a message. Requires the MANAGE_MESSAGES permission.
+        @param channel_id - The channel that contains the message.
+        @param message_id - The message to remove reactions from.
+        @param cb - Called when completed, good for looking for errors.
      */
     public function deleteAllReactions(channel_id:String,message_id:String,cb:EmptyResponseCallback=null){
         //Requires MANAGE_MESSAGES
@@ -395,9 +395,9 @@ class Endpoints{
 
 //GUILD START
     /**
-     *  Create a new guild based on the data given
-     *  @param guild_data - The data to be changed, All fields are optional.
-     *  @param cb - Returns the new guild object, or an error.
+        Create a new guild based on the data given
+        @param guild_data - The data to be changed, All fields are optional.
+        @param cb - Returns the new guild object, or an error.
      */
     public function createGuild(guild_data:Typedefs.GuildCreate,cb:Guild->ErrorReport->Void=null){
         //Requires manage_guild
@@ -410,9 +410,9 @@ class Endpoints{
     }
     
     /**
-     *  Get a guild by the id.
-     *  @param guild_id - The guild id
-     *  @param cb - Return the guild object, or an error.
+        Get a guild by the id.
+        @param guild_id - The guild id
+        @param cb - Return the guild object, or an error.
      */
     public function getGuild(guild_id:String,cb:Guild->String->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}",[guild_id]);
@@ -424,10 +424,10 @@ class Endpoints{
     }
     
     /**
-     *  Edit a guild's settings. Requires the MANAGE_GUILD permission
-     *  @param guild_id - The guild id.
-     *  @param guild_data - The data to be changed, All fields are optional.
-     *  @param cb - Returns the new guild object, or an error.
+        Edit a guild's settings. Requires the MANAGE_GUILD permission
+        @param guild_id - The guild id.
+        @param guild_data - The data to be changed, All fields are optional.
+        @param cb - Returns the new guild object, or an error.
      */
     public function modifyGuild(guild_id:String,guild_data:Typedefs.GuildUpdate,cb:Guild->ErrorReport->Void=null){
         //Requires manage_guild
@@ -440,9 +440,9 @@ class Endpoints{
     }
 
     /**
-     *  Delete a guild. The account must be the owner of the guild.
-     *  @param guild_id - The guild to delete.
-     *  @param cb - Return the old guild object, or an error.
+        Delete a guild. The account must be the owner of the guild.
+        @param guild_id - The guild to delete.
+        @param cb - Return the old guild object, or an error.
      */
     public function deleteGuild(guild_id:String,cb:EmptyResponseCallback=null){
         //Requires owner
@@ -451,9 +451,9 @@ class Endpoints{
     }
 
     /**
-     *  Get the channels in a guild
-     *  @param guild_id - The guild id.
-     *  @param cb - Return an array of channel objects, or an error.
+        Get the channels in a guild
+        @param guild_id - The guild id.
+        @param cb - Return an array of channel objects, or an error.
      */
     public function getChannels(guild_id:String,cb:Array<Channel>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/channels",[guild_id]);
@@ -468,10 +468,10 @@ class Endpoints{
     }
 
     /**
-     *  Move two or more channel's positions within a guild. Requires the MANAGE_CHANNELS permission.
-     *  @param guild_id - The id of the guild
-     *  @param changes - An array of changes to channel positions
-     *  @param cb - Return an array of the channels within the guild, or an error.
+        Move two or more channel's positions within a guild. Requires the MANAGE_CHANNELS permission.
+        @param guild_id - The id of the guild
+        @param changes - An array of changes to channel positions
+        @param cb - Return an array of the channels within the guild, or an error.
      */
     //TODO this logic, in Discordclient (or maybe guild object/client object)
     public function moveChannel(guild_id:String,changes:Typedefs.PositionChange,cb:Array<Channel>->String->Void=null){
@@ -488,10 +488,10 @@ class Endpoints{
     }
 
     /**
-     *  Get a member of the guild.
-     *  @param guild_id - The guild id.
-     *  @param user_id - The member's id.
-     *  @param cb - Return a member instance of the user. Or an error.
+        Get a member of the guild.
+        @param guild_id - The guild id.
+        @param user_id - The member's id.
+        @param cb - Return a member instance of the user. Or an error.
      */
     public function getGuildMember(guild_id:String,user_id:String,cb:GuildMember->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/members/{1}",[guild_id,user_id]);
@@ -502,10 +502,10 @@ class Endpoints{
     }
 
     /**
-     *  Get all members of a guild. 
-     *  @param guild_id - The id of the guild.
-     *  @param format - The limit, and after. both are optional. used for paginating.
-     *  @param cb - The array of guild members. or an error.
+        Get all members of a guild. 
+        @param guild_id - The id of the guild.
+        @param format - The limit, and after. both are optional. used for paginating.
+        @param cb - The array of guild members. or an error.
      */
     public function getGuildMembers(guild_id:String,format:Typedefs.ListGuildMember,cb:Array<GuildMember>->String->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/members{1}",[guild_id,queryString(format)]);
@@ -520,12 +520,12 @@ class Endpoints{
     }
 
     /**
-     *  Add a guild member using a token received through Oauth2. 
-     *  Requires the CREATE_INSTANT_INVITE permission along with various other permissions depending on `member_data` parameters
-     *  @param guild_id - The id of the guild.
-     *  @param user_id - The id of the user
-     *  @param member_data - The access token, along with other optional parameters.
-     *  @param cb - The added guildmember. or an error.
+        Add a guild member using a token received through Oauth2. 
+        Requires the CREATE_INSTANT_INVITE permission along with various other permissions depending on `member_data` parameters
+        @param guild_id - The id of the guild.
+        @param user_id - The id of the user
+        @param member_data - The access token, along with other optional parameters.
+        @param cb - The added guildmember. or an error.
      */
     public function addGuildMember(guild_id:String,user_id:String,member_data:Typedefs.AddGuildMember,cb:GuildMember->String->Void=null){
         //bot needs CREATE_INSTANT_INVITE --various other parameters also need permissions
@@ -538,11 +538,11 @@ class Endpoints{
     }
     
     /**
-     *  Edit a guild member's properties, requires various permissions depending on the data provided. 
-     *  @param guild_id - The guild the member is in.
-     *  @param user_id - The id of the member.
-     *  @param member_data - The updated data, all parameters are optional. All parameters require a different permission.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Edit a guild member's properties, requires various permissions depending on the data provided. 
+        @param guild_id - The guild the member is in.
+        @param user_id - The id of the member.
+        @param member_data - The updated data, all parameters are optional. All parameters require a different permission.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function editGuildMember(guild_id:String,user_id:String,member_data:Typedefs.EditGuildMember,cb:EmptyResponseCallback=null){
         var endpoint = new EndpointPath("/guilds/{0}/members/{1}",[guild_id,user_id]);
@@ -550,10 +550,10 @@ class Endpoints{
     }
 
     /**
-     *  Change this user's nickname.
-     *  @param guild_id - The guild to change nickname in.
-     *  @param nickname - The nickname to change to.
-     *  @param cb - Returns the nickname, or an error.
+        Change this user's nickname.
+        @param guild_id - The guild to change nickname in.
+        @param nickname - The nickname to change to.
+        @param cb - Returns the nickname, or an error.
      */
     public function changeNickname(guild_id:String,nickname:String,cb:String->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/members/@me/nick",[guild_id]);
@@ -561,11 +561,11 @@ class Endpoints{
     }
 
     /**
-     *  Give a role to a member. Requires the MANAGE_ROLES permission
-     *  @param guild_id - The guild that the user is in. 
-     *  @param user_id - The id of the user.
-     *  @param role_id - The id of the role desired to be added.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Give a role to a member. Requires the MANAGE_ROLES permission
+        @param guild_id - The guild that the user is in. 
+        @param user_id - The id of the user.
+        @param role_id - The id of the role desired to be added.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function giveMemberRole(guild_id:String,user_id:String,role_id:String,cb:EmptyResponseCallback=null){
         //requires MANAGE_ROLES
@@ -574,11 +574,11 @@ class Endpoints{
     }
 
     /**
-     *  Take a role away from a member. Requires the MANAGE_ROLES permission
-     *  @param guild_id - The guild id.
-     *  @param user_id - The id of the user.
-     *  @param role_id - The id of the role to take away.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Take a role away from a member. Requires the MANAGE_ROLES permission
+        @param guild_id - The guild id.
+        @param user_id - The id of the user.
+        @param role_id - The id of the role to take away.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function takeMemberRole(guild_id:String,user_id:String,role_id:String,cb:EmptyResponseCallback=null){
         //requires MANAGE_ROLES
@@ -587,10 +587,10 @@ class Endpoints{
     }
 
     /**
-     *  Kick a member from the guild. Requires the KICK_MEMBERS permission
-     *  @param guild_id - The guild id.
-     *  @param user_id - The user id.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Kick a member from the guild. Requires the KICK_MEMBERS permission
+        @param guild_id - The guild id.
+        @param user_id - The user id.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function kickMember(guild_id:String,user_id:String,cb:EmptyResponseCallback=null){
         //requires KICK_MEMBERS
@@ -599,9 +599,9 @@ class Endpoints{
     }
 
     /**
-     *  List all the bans in a guild. Requires the BAN_MEMBERS permission.
-     *  @param guild_id - The guild id.
-     *  @param cb - Returns an array of users, or an error.
+        List all the bans in a guild. Requires the BAN_MEMBERS permission.
+        @param guild_id - The guild id.
+        @param cb - Returns an array of users, or an error.
      */
     public function getGuildBans(guild_id:String,cb:Array<User>->ErrorReport->Void=null){
         //requires BAN_MEMBERS
@@ -617,11 +617,11 @@ class Endpoints{
     }
 
     /**
-     *  Ban a member of the guild. Requires the BAN_MEMBERS permission.
-     *  @param guild_id - The guild to ban from.
-     *  @param user_id - The user to ban.
-     *  @param days - Number of days (from 0-7) to remove the user's messages server wide.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Ban a member of the guild. Requires the BAN_MEMBERS permission.
+        @param guild_id - The guild to ban from.
+        @param user_id - The user to ban.
+        @param days - Number of days (from 0-7) to remove the user's messages server wide.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function banMember(guild_id:String,user_id:String,days:Int,cb:EmptyResponseCallback=null){
         //requires BAN_MEMBERS
@@ -630,10 +630,10 @@ class Endpoints{
     }
 
     /**
-     *  Unban a member of the guild. Requires the BAN_MEMBERS permission.
-     *  @param guild_id - The guild to unban from.
-     *  @param user_id - The user to unban.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Unban a member of the guild. Requires the BAN_MEMBERS permission.
+        @param guild_id - The guild to unban from.
+        @param user_id - The user to unban.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function unbanMember(guild_id:String,user_id:String,cb:EmptyResponseCallback=null){
         //requires BAN_MEMBERS
@@ -642,9 +642,9 @@ class Endpoints{
     }
 
     /**
-     *  Get the roles of a guild. Requires the MANAGE_ROLES permission.
-     *  @param guild_id - The guild to fetch roles for.
-     *  @param cb - Returns an array of guilds, or an error.
+        Get the roles of a guild. Requires the MANAGE_ROLES permission.
+        @param guild_id - The guild to fetch roles for.
+        @param cb - Returns an array of guilds, or an error.
      */
     public function getGuildRoles(guild_id:String,cb:Array<Role>->ErrorReport->Void=null){
         //requires MANAGE_ROLES
@@ -660,10 +660,10 @@ class Endpoints{
     }
 
     /**
-     *  Create a role. Requires the MANAGE_ROLES permission.
-     *  @param guild_id - The guild to add a role to.
-     *  @param role_data - The role's data.
-     *  @param cb - Returns the new role, or an error.
+        Create a role. Requires the MANAGE_ROLES permission.
+        @param guild_id - The guild to add a role to.
+        @param role_data - The role's data.
+        @param cb - Returns the new role, or an error.
      */
     public function createRole(guild_id:String,role_data:Typedefs.RoleInfo,cb:Role->ErrorReport->Void=null){
         //bot needs MANAGE_ROLES
@@ -676,10 +676,10 @@ class Endpoints{
     }
 
     /**
-     *  Move the position of two or more roles in the hierarchy, requiers the MANAGE_ROLES permission.
-     *  @param guild_id - The guild to make the changes in.
-     *  @param changes - An array of changes to position.
-     *  @param cb - Returns an array of the roles of the server with their new positions, or an error.
+        Move the position of two or more roles in the hierarchy, requiers the MANAGE_ROLES permission.
+        @param guild_id - The guild to make the changes in.
+        @param changes - An array of changes to position.
+        @param cb - Returns an array of the roles of the server with their new positions, or an error.
      */
     //TODO this logic, in Discordclient (or maybe guild object/client object)
     public function moveRole(guild_id:String,changes:Typedefs.PositionChange,cb:Array<Role>->ErrorReport->Void=null){
@@ -696,11 +696,11 @@ class Endpoints{
     }
 
     /**
-     *  Edit a role's data. Requires the MANAGE_ROLES permission.
-     *  @param guild_id - The guild id to make the changes in.
-     *  @param role_id - The role to change.
-     *  @param role_data - The new data, All fields are optional. 
-     *  @param cb - Returns the new role, or an error.
+        Edit a role's data. Requires the MANAGE_ROLES permission.
+        @param guild_id - The guild id to make the changes in.
+        @param role_id - The role to change.
+        @param role_data - The new data, All fields are optional. 
+        @param cb - Returns the new role, or an error.
      */
     public function editRole(guild_id:String,role_id:String,role_data:Typedefs.RoleInfo,cb:Role->ErrorReport->Void=null){
         //bot needs MANAGE_ROLES
@@ -713,10 +713,10 @@ class Endpoints{
     }
 
     /**
-     *  Delete a role from a guild. Requires the MANAGE_ROLES permission.
-     *  @param guild_id - The guild to remove from.
-     *  @param role_id - The role to remove.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Delete a role from a guild. Requires the MANAGE_ROLES permission.
+        @param guild_id - The guild to remove from.
+        @param role_id - The role to remove.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function deleteRole(guild_id:String,role_id:String,cb:EmptyResponseCallback=null){
         //requires MANAGE_ROLES
@@ -725,10 +725,10 @@ class Endpoints{
     }
 
     /**
-     *  Get the number of users that will be pruned if a prune was run. Requires the KICK_MEMBERS permission.
-     *  @param guild_id - The guild to prune in.
-     *  @param days - The number of days to count prune for.
-     *  @param cb - Returns the number of users that would be pruned on a real request, or an error.
+        Get the number of users that will be pruned if a prune was run. Requires the KICK_MEMBERS permission.
+        @param guild_id - The guild to prune in.
+        @param days - The number of days to count prune for.
+        @param cb - Returns the number of users that would be pruned on a real request, or an error.
      */
     public function getPruneCount(guild_id:String,days:Int=1,cb:Int->ErrorReport->Void=null){
         //requires KICK_MEMBERS
@@ -741,10 +741,10 @@ class Endpoints{
     }
 
     /**
-     *  Prune the members of a server. Requires the KICK_MEMBERS permission
-     *  @param guild_id - The guild to prune in.
-     *  @param days - The number of days to count prune for.
-     *  @param cb - Returns the number of users that were pruned, or an error.
+        Prune the members of a server. Requires the KICK_MEMBERS permission
+        @param guild_id - The guild to prune in.
+        @param days - The number of days to count prune for.
+        @param cb - Returns the number of users that were pruned, or an error.
      */
     public function beginPrune(guild_id:String,days:Int=1,cb:Int->ErrorReport->Void=null){
         //requires KICK_MEMBERS
@@ -757,9 +757,9 @@ class Endpoints{
     }
 
     /**
-     *  Get a list of voice regions for the guild. Including VIP servers if the server is a VIP-Enabled server.
-     *  @param guild_id - The guild to get the list for.
-     *  @param cb - Returns an array of voiceregion objects, or an error.
+        Get a list of voice regions for the guild. Including VIP servers if the server is a VIP-Enabled server.
+        @param guild_id - The guild to get the list for.
+        @param cb - Returns an array of voiceregion objects, or an error.
      */
     public function guildVoiceRegions(guild_id:String,cb:Array<VoiceRegion>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/regions",[guild_id]);
@@ -771,9 +771,9 @@ class Endpoints{
     }
     
     /**
-     *  Get a list of integrations for a given guild. Requires the MANAGE_GUILD permission.
-     *  @param guild_id - The guild to get the list for.
-     *  @param cb - Returns an array of guildintegration objects, or an error.
+        Get a list of integrations for a given guild. Requires the MANAGE_GUILD permission.
+        @param guild_id - The guild to get the list for.
+        @param cb - Returns an array of guildintegration objects, or an error.
      */
     public function getIntegrations(guild_id:String,cb:Array<GuildIntegration>->ErrorReport->Void=null){
         //requires MANAGE_GUILD
@@ -782,10 +782,10 @@ class Endpoints{
     }
 
     /**
-     *  Add a new integration from the user onto the guild. Requires the MANAGE_GUILD permission.
-     *  @param guild_id - The id to add the integration to.
-     *  @param int_data - The data of the new integration. 
-     *  @param cb - Called on completion, useful for checking for errors.
+        Add a new integration from the user onto the guild. Requires the MANAGE_GUILD permission.
+        @param guild_id - The id to add the integration to.
+        @param int_data - The data of the new integration. 
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function addIntegration(guild_id:String,int_data:Typedefs.IntegrationCreate,cb:EmptyResponseCallback=null){
         //requires MANAGE_GUILD
@@ -794,11 +794,11 @@ class Endpoints{
     }
 
     /**
-     *  Edit an integration in a guild. Requires the MANAGE_GUILD permission.
-     *  @param guild_id - The guild that contains the integration.
-     *  @param int_id - The id of the integration to change.
-     *  @param int_data - The new data for the integration. All parameters are optional.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Edit an integration in a guild. Requires the MANAGE_GUILD permission.
+        @param guild_id - The guild that contains the integration.
+        @param int_id - The id of the integration to change.
+        @param int_data - The new data for the integration. All parameters are optional.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function editIntegration(guild_id:String,int_id:String,int_data:Typedefs.IntegrationModify,cb:EmptyResponseCallback=null){
         //requires MANAGE_GUILD
@@ -807,10 +807,10 @@ class Endpoints{
     }
 
     /**
-     *  Remove an integration from a guild. Requires the MANAGE_GUILD permission.
-     *  @param guild_id - The guild that contains the integration.
-     *  @param int_id - The id of the integration to remove.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Remove an integration from a guild. Requires the MANAGE_GUILD permission.
+        @param guild_id - The guild that contains the integration.
+        @param int_id - The id of the integration to remove.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function deleteIntegration(guild_id:String,int_id:String,cb:EmptyResponseCallback=null){
         //requires MANAGE_GUILD
@@ -819,10 +819,10 @@ class Endpoints{
     }
 
     /**
-     *  Sync a given integration in a guild. Requires the MANAGE_GUILD permission.
-     *  @param guild_id - The id of the guild that contains the integration.
-     *  @param int_id - The id of the integration to sync.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Sync a given integration in a guild. Requires the MANAGE_GUILD permission.
+        @param guild_id - The id of the guild that contains the integration.
+        @param int_id - The id of the integration to sync.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function syncIntegration(guild_id:String,int_id:String,cb:EmptyResponseCallback=null){
         //requires MANAGE_GUILD
@@ -831,9 +831,9 @@ class Endpoints{
     }
 
     /**
-     *  Get the widget/embed for a guild. Requires the MANAGE_GUILD permission.
-     *  @param guild_id - The id of the guild to fetch the widget from.
-     *  @param cb - Returns the GuildEmbed object of the guild, or an error.
+        Get the widget/embed for a guild. Requires the MANAGE_GUILD permission.
+        @param guild_id - The id of the guild to fetch the widget from.
+        @param cb - Returns the GuildEmbed object of the guild, or an error.
      */
     public function getWidget(guild_id:String,cb:GuildEmbed->ErrorReport->Void=null){
         //requires MANAGE_GUILD
@@ -842,10 +842,10 @@ class Endpoints{
     }
 
     /**
-     *  Change the properties of a guild's embed or widget. Requires the MANAGE_GUILD permission.
-     *  @param guild_id - The guild that contains the widget/embed.
-     *  @param edits - The changes to be made to the widget/embed. All parameters are optional.
-     *  @param cb - Returns the changed GuildEmbed object, or an error.
+        Change the properties of a guild's embed or widget. Requires the MANAGE_GUILD permission.
+        @param guild_id - The guild that contains the widget/embed.
+        @param edits - The changes to be made to the widget/embed. All parameters are optional.
+        @param cb - Returns the changed GuildEmbed object, or an error.
      */
     public function modifyWidget(guild_id:String,edits:GuildEmbed,cb:GuildEmbed->ErrorReport->Void=null){
         //requires MANAGE_GUILD
@@ -855,9 +855,9 @@ class Endpoints{
 
 //INVITE START
     /**
-     *  Get a list of all invites in a guild. requires the MANAGE_GUILD permission.
-     *  @param guild_id - The id to get the list from.
-     *  @param cb - Returns an array of invites, or an error.
+        Get a list of all invites in a guild. requires the MANAGE_GUILD permission.
+        @param guild_id - The id to get the list from.
+        @param cb - Returns an array of invites, or an error.
      */
     public function getInvites(guild_id:String,cb:Array<Invite>->ErrorReport->Void=null){
         //requires MANAGE_GUILD
@@ -866,10 +866,10 @@ class Endpoints{
     }
 
     /**
-     *  Get information about an invite code.
-     *  @param invite_code - The invite code.
-     *  @param with_counts - Get some extra data from the invite's server
-     *  @param cb - Returns an Invite object, or an error.
+        Get information about an invite code.
+        @param invite_code - The invite code.
+        @param with_counts - Get some extra data from the invite's server
+        @param cb - Returns an Invite object, or an error.
      */
     public function getInvite(invite_code:String,with_counts:Bool=true,cb:Invite->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/invite/{0}?with_counts={1}",[invite_code,with_counts?"true":"false"]);
@@ -877,9 +877,9 @@ class Endpoints{
     }
 
     /**
-     *  Delete an invite based on it's invite code. Requires the MANAGE_CHANNELS permission in the guild the invite is from.
-     *  @param invite_code - The invite code of the invite to delete.
-     *  @param cb - Returns the Invite that was removed, or an error.
+        Delete an invite based on it's invite code. Requires the MANAGE_CHANNELS permission in the guild the invite is from.
+        @param invite_code - The invite code of the invite to delete.
+        @param cb - Returns the Invite that was removed, or an error.
      */
     public function deleteInvite(invite_code:String,cb:Invite->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/invite/{0}",[invite_code]);
@@ -887,9 +887,9 @@ class Endpoints{
     }
 
     /**
-     *  (NOT AVAILABLE FOR BOTS) Accept an invite code and join the server.
-     *  @param invite_code - The invite code to join.
-     *  @param cb - Returns the invite that was joined, or an error.
+        (NOT AVAILABLE FOR BOTS) Accept an invite code and join the server.
+        @param invite_code - The invite code to join.
+        @param cb - Returns the invite that was joined, or an error.
      */
     //nope.jpg for bots
     public function acceptInvite(invite_code:String,cb:Invite->ErrorReport->Void=null){
@@ -900,9 +900,9 @@ class Endpoints{
 //USER START
 
     /**
-     *  Get a user based on their Id. 
-     *  @param user_id - Get any user based on their id, or set to "@me" to return self.
-     *  @param cb - Return the user object, or an error.
+        Get a user based on their Id. 
+        @param user_id - Get any user based on their id, or set to "@me" to return self.
+        @param cb - Return the user object, or an error.
      */
     public function getUser(user_id:String="@me",cb:User->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/{0}",[user_id]);
@@ -914,9 +914,9 @@ class Endpoints{
     }
 
     /**
-     *  Edit the current user's settings.
-     *  @param user_data - The parameters to change, all fields are optional.
-     *  @param cb - Return the changed user, or an error.
+        Edit the current user's settings.
+        @param user_data - The parameters to change, all fields are optional.
+        @param cb - Return the changed user, or an error.
      */
     public function editUser(user_data:{username:String,avatar:String},cb:User->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me",[]);
@@ -928,9 +928,9 @@ class Endpoints{
     }
 
     /**
-     *  Get a list of all guilds that the current user is in. Normal users do not need to use the filter and can leave it blank `{}`
-     *  @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
-     *  @param cb - Returns the list of Guilds according to the filter specified, or an error.
+        Get a list of all guilds that the current user is in. Normal users do not need to use the filter and can leave it blank `{}`
+        @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
+        @param cb - Returns the list of Guilds according to the filter specified, or an error.
      */
     public function getGuilds(filter:Typedefs.GetGuildFilter,cb:Array<Guild>->ErrorReport->Void=null){ 
         var endpoint = new EndpointPath("/users/@me/guilds{0}",[]);
@@ -945,9 +945,9 @@ class Endpoints{
     }
 
     /**
-     *  Make the current user leave the specified guild.
-     *  @param guild_id - The guild to leave.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Make the current user leave the specified guild.
+        @param guild_id - The guild to leave.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function leaveGuild(guild_id:String,cb:EmptyResponseCallback=null){
         var endpoint = new EndpointPath("/users/@me/guilds/{0}",[guild_id]);
@@ -955,8 +955,8 @@ class Endpoints{
     }
 
     /**
-     *  Get the dm channels that the current user has open.
-     *  @param cb - Returns an array of all dm channels the user currently has open, or an error.
+        Get the dm channels that the current user has open.
+        @param cb - Returns an array of all dm channels the user currently has open, or an error.
      */
     public function getDMChannels(cb:Array<DMChannel>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me/channels",[]);
@@ -971,9 +971,9 @@ class Endpoints{
     }
 
     /**
-     *  Create a dm with another individual
-     *  @param data - A struct that contains the recipient's id.
-     *  @param cb - Returns the dm channel requested, or an error.
+        Create a dm with another individual
+        @param data - A struct that contains the recipient's id.
+        @param cb - Returns the dm channel requested, or an error.
      */
     public function createDM(data:{recipient_id:String},cb:DMChannel->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me/channels",[]);
@@ -988,9 +988,9 @@ class Endpoints{
     }
 
     /**
-     *  Create a DM group. 
-     *  @param data - A struct that contains the necessary arguments required to invite members.
-     *  @param cb - Returns the group dm channel, or an error.
+        Create a DM group. 
+        @param data - A struct that contains the necessary arguments required to invite members.
+        @param cb - Returns the group dm channel, or an error.
      */
     public function createGroupDM(data:Typedefs.CreateGroupDM,cb:DMChannel->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me/channels",[]);
@@ -1005,8 +1005,8 @@ class Endpoints{
     }
 
     /**
-     *  Get a list of connections hooked up to the current account.
-     *  @param cb - Returns a list of connections, or an error.
+        Get a list of connections hooked up to the current account.
+        @param cb - Returns a list of connections, or an error.
      */
     public function getConnections(cb:Array<Connection>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/users/@me/connections",[]);
@@ -1015,8 +1015,8 @@ class Endpoints{
 
 //VOICE START
     /**
-     *  Get a list of voice regions.
-     *  @param cb - Returns a list of voice regions, or an error.
+        Get a list of voice regions.
+        @param cb - Returns a list of voice regions, or an error.
      */
     public function listVoiceRegions(cb:Array<VoiceRegion>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/voice/regions",[]);
@@ -1030,10 +1030,10 @@ class Endpoints{
 //WEBHOOK START ~ consider caching these
 
     /**
-     *  Create a webhook for a given channel based on the given data.
-     *  @param channel_id - The channel to create for.
-     *  @param data - The data to create with.
-     *  @param cb - Returns the webhook object, or an error.
+        Create a webhook for a given channel based on the given data.
+        @param channel_id - The channel to create for.
+        @param data - The data to create with.
+        @param cb - Returns the webhook object, or an error.
      */
     public function createWebhook(channel_id:String,data:{name:String,avatar:String},cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/webhooks",[channel_id]);
@@ -1041,9 +1041,9 @@ class Endpoints{
     }
 
     /**
-     *  Get all webhooks for a given channel. Requires the MANAGE_WEBHOOKS permission.
-     *  @param channel_id - The channel id to get webhooks about.
-     *  @param cb - Returns an array of webhooks, or an error.
+        Get all webhooks for a given channel. Requires the MANAGE_WEBHOOKS permission.
+        @param channel_id - The channel id to get webhooks about.
+        @param cb - Returns an array of webhooks, or an error.
      */
     public function getChannelWebhooks(channel_id:String,cb:Array<Webhook>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/channels/{0}/webhooks",[channel_id]);
@@ -1051,9 +1051,9 @@ class Endpoints{
     }
 
     /**
-     *  Get all webhooks for a given guild. Requires the MANAGE_WEBHOOKS permission.
-     *  @param guild_id - The guild id to get webhooks about.
-     *  @param cb - Returns an array of webhooks, or an error.
+        Get all webhooks for a given guild. Requires the MANAGE_WEBHOOKS permission.
+        @param guild_id - The guild id to get webhooks about.
+        @param cb - Returns an array of webhooks, or an error.
      */
     public function getGuildWebhooks(guild_id:String,cb:Array<Webhook>->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/guilds/{0}/webhooks",[guild_id]);
@@ -1061,9 +1061,9 @@ class Endpoints{
     }
 
     /**
-     *  Get a webhook based on it's id. Requires the MANAGE_WEBHOOKS permission in the guild/channel that the webhook is part of.
-     *  @param webhook_id - The id of the webhook.
-     *  @param cb - Returns a webhook object, or an error.
+        Get a webhook based on it's id. Requires the MANAGE_WEBHOOKS permission in the guild/channel that the webhook is part of.
+        @param webhook_id - The id of the webhook.
+        @param cb - Returns a webhook object, or an error.
      */
     public function getWebhook(webhook_id:String,cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/webhooks/{0}",[webhook_id]);
@@ -1071,10 +1071,10 @@ class Endpoints{
     }
 
     /**
-     *  Edit a webhook based on it's id. Requires the MANAGE_WEBHOOKS permission in the guild/channel that the webhook is part of.
-     *  @param webhook_id - The id of the webhook to change.
-     *  @param data - The updated data for the webhook. All parameters are optional.
-     *  @param cb - Returns a webhook object, or an error.
+        Edit a webhook based on it's id. Requires the MANAGE_WEBHOOKS permission in the guild/channel that the webhook is part of.
+        @param webhook_id - The id of the webhook to change.
+        @param data - The updated data for the webhook. All parameters are optional.
+        @param cb - Returns a webhook object, or an error.
      */
     public function editWebhook(webhook_id:String,data:{?name:String,?avatar:String},cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/webhooks/{0}",[webhook_id]);
@@ -1082,9 +1082,9 @@ class Endpoints{
     }
 
     /**
-     *  Delete a webhook based on it's id. Requires the MANAGE_WEBHOOKS permission in the guild/channel that the webhook is part of.
-     *  @param webhook_id - The id of the webhook to delete.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Delete a webhook based on it's id. Requires the MANAGE_WEBHOOKS permission in the guild/channel that the webhook is part of.
+        @param webhook_id - The id of the webhook to delete.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function deleteWebhook(webhook_id:String,cb:EmptyResponseCallback=null){
         var endpoint = new EndpointPath("/webhooks/{0}",[webhook_id]);
@@ -1092,10 +1092,10 @@ class Endpoints{
     }
 
     /**
-     *  Get a webhook using it's id and token. 
-     *  @param webhook_id - The webhook's id.
-     *  @param webhook_token - The webhook's token.
-     *  @param cb - Returns a webhook object, or an error.
+        Get a webhook using it's id and token. 
+        @param webhook_id - The webhook's id.
+        @param webhook_token - The webhook's token.
+        @param cb - Returns a webhook object, or an error.
      */
     public function getWebhookWithToken(webhook_id:String,webhook_token:String,cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/webhooks/{0}/{1}",[webhook_id,webhook_token]);
@@ -1103,11 +1103,11 @@ class Endpoints{
     }
 
     /**
-     *  Edit a webhook using it's id and token
-     *  @param webhook_id - The webhook's id.
-     *  @param webhook_token - The webhook's token.
-     *  @param data - The updated data for the webhook. All parameters are optional.
-     *  @param cb - Returns a webhook object, or an error.
+        Edit a webhook using it's id and token
+        @param webhook_id - The webhook's id.
+        @param webhook_token - The webhook's token.
+        @param data - The updated data for the webhook. All parameters are optional.
+        @param cb - Returns a webhook object, or an error.
      */
     public function editWebhookWithToken(webhook_id:String,webhook_token:String,data:{?name:String,?avatar:String},cb:Webhook->ErrorReport->Void=null){
         var endpoint = new EndpointPath("/webhooks/{0}/{1}",[webhook_id,webhook_token]);
@@ -1115,10 +1115,10 @@ class Endpoints{
     }
 
     /**
-     *  Delete a webhook based on it's id and token.
-     *  @param webhook_id - The id of the webhook to delete.
-     *  @param webhook_token - The webhook's token.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Delete a webhook based on it's id and token.
+        @param webhook_id - The id of the webhook to delete.
+        @param webhook_token - The webhook's token.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function deleteWebhookWithToken(webhook_id:String,webhook_token:String,cb:EmptyResponseCallback=null){
         var endpoint = new EndpointPath("/webhooks/{0}/{1}",[webhook_id,webhook_token]);
@@ -1126,12 +1126,12 @@ class Endpoints{
     }
     
     /**
-     *  Execute a given webhook and send a message.
-     *  @param webhook_id - The id of the webhook.
-     *  @param webhook_token - The token of the webhook.
-     *  @param data - The message data to send.
-     *  @param wait - Whether or not the request should wait until the message is successfully sent.
-     *  @param cb - Called on completion, useful for checking for errors.
+        Execute a given webhook and send a message.
+        @param webhook_id - The id of the webhook.
+        @param webhook_token - The token of the webhook.
+        @param data - The message data to send.
+        @param wait - Whether or not the request should wait until the message is successfully sent.
+        @param cb - Called on completion, useful for checking for errors.
      */
     public function executeWebhook(webhook_id:String,webhook_token:String,data:Typedefs.WebhookMessage,wait=false,cb:EmptyResponseCallback=null){
         var endpoint = new EndpointPath("/webhooks/{0}/{1}?wait={2}",[webhook_id,webhook_token,wait?"true":"false"]);

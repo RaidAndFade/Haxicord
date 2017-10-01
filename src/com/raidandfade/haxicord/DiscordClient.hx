@@ -105,7 +105,7 @@ class DiscordClient {
         onRawEvent(m.t,d);
         switch(m.t){
             case "READY":
-            //save the session, for resumes.
+                //TODO save the session, for resumes.
                 var re:WSReady = d;
                 for(g in re.guilds){
                     _newGuild(g);
@@ -226,13 +226,13 @@ class DiscordClient {
             case "VOICE_STATE_UPDATE": // ...
             case "VOICE_SERVER_UPDATE": // ...
             default:
-                //trace("Unhandled event "+m.t);
+                trace("Unhandled event "+m.t);
         }
     }
 //Misc funcs that cant fit anywhere else
     /**
-     *  Get the invite link of the bot.
-     *  @param perms=0 - The permissions to put on the link.
+        Get the invite link of the bot.
+        @param perms=0 - The permissions to put on the link.
      */
     public function getInviteLink(perms=0){
         var clid = this.user.id.id;
@@ -243,27 +243,27 @@ class DiscordClient {
         return "https://discordapp.com/api/oauth2/authorize?client_id="+clid+"&scope=bot"+permstr;
     }
     /**
-     *  Get a list of voice regions.
-     *  @param cb - Returns a list of voice regions, or an error.
+        Get a list of voice regions.
+        @param cb - Returns a list of voice regions, or an error.
      */
     public function listVoiceRegions(cb){
         endpoints.listVoiceRegions(cb);
     }
 
     /**
-     *  Create a new guild based on the data given
-     *  @param guild_data - The data to be changed, All fields are optional.
-     *  @param cb - Returns the new guild object, or an error.
+        Create a new guild based on the data given
+        @param guild_data - The data to be changed, All fields are optional.
+        @param cb - Returns the new guild object, or an error.
      */
     public function createGuild(guild_data,cb){
         endpoints.createGuild(guild_data,cb);
     }
 
     /**
-     *  Send a message to a channel
-     *  @param channel_id - The channel to send to
-     *  @param message - Message data
-     *  @param cb - Return the message sent, or an error
+        Send a message to a channel
+        @param channel_id - The channel to send to
+        @param message - Message data
+        @param cb - Return the message sent, or an error
      */
     public function sendMessage(channel_id,message,cb=null){
         if(userDMChannels.exists(channel_id))
@@ -277,36 +277,36 @@ class DiscordClient {
     }
 
      /**
-     *  Get information about an invite code.
-     *  @param invite_code - The invite code.
-     *  @param cb - Returns an Invite object, or an error.
+        Get information about an invite code.
+        @param invite_code - The invite code.
+        @param cb - Returns an Invite object, or an error.
      */
     public function getInvite(invite_code,cb=null){
         endpoints.getInvite(invite_code,cb);
     }
 
     /**
-     *  (NOT AVAILABLE FOR BOTS) Accept an invite code and join the server.
-     *  @param invite_code - The invite code to join.
-     *  @param cb - Returns the invite that was joined, or an error.
+        (NOT AVAILABLE FOR BOTS) Accept an invite code and join the server.
+        @param invite_code - The invite code to join.
+        @param cb - Returns the invite that was joined, or an error.
      */
     public function joinInvite(invite_code,cb=null){
         endpoints.acceptInvite(invite_code,cb);
     }
 
     /**
-     *  Delete an invite based on it's invite code. Requires the MANAGE_CHANNELS permission in the guild the invite is from.
-     *  @param invite_code - The invite code of the invite to delete.
-     *  @param cb - Returns the Invite that was removed, or an error.
+        Delete an invite based on it's invite code. Requires the MANAGE_CHANNELS permission in the guild the invite is from.
+        @param invite_code - The invite code of the invite to delete.
+        @param cb - Returns the Invite that was removed, or an error.
      */
     public function deleteInvite(invite_code,cb=null){
         endpoints.deleteInvite(invite_code,cb);
     }
 
     /**
-     *  Create a DM group. 
-     *  @param data - A struct that contains the necessary arguments required to invite members.
-     *  @param cb - Returns the group dm channel, or an error.
+        Create a DM group. 
+        @param data - A struct that contains the necessary arguments required to invite members.
+        @param cb - Returns the group dm channel, or an error.
      */
     public function createDMGroup(data,cb=null){
         endpoints.createGroupDM(data,cb);
@@ -315,26 +315,26 @@ class DiscordClient {
 //User @me Endpoints
 
     /**
-     *  Edit the current user's settings.
-     *  @param user_data - The parameters to change, all fields are optional.
-     *  @param cb - Return the changed user, or an error.
+        Edit the current user's settings.
+        @param user_data - The parameters to change, all fields are optional.
+        @param cb - Return the changed user, or an error.
      */
     public function editUser(user_data,cb=null){
         endpoints.editUser(user_data,cb);
     }
 
     /**
-     *  Get a list of all guilds that the current user is in. Normal users do not need to use the filter and can leave it blank `{}`
-     *  @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
-     *  @param cb - Returns the list of Guilds according to the filter specified, or an error.
+        Get a list of all guilds that the current user is in. Normal users do not need to use the filter and can leave it blank `{}`
+        @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
+        @param cb - Returns the list of Guilds according to the filter specified, or an error.
      */
     public function getGuilds(filter,cb=null){
         endpoints.getGuilds(filter,cb);
     }
 
     /**
-     *  Get a list of connections hooked up to the current account.
-     *  @param cb - Returns a list of connections, or an error.
+        Get a list of connections hooked up to the current account.
+        @param cb - Returns a list of connections, or an error.
      */
     public function getConnections(cb=null){
         endpoints.getConnections(cb);
@@ -370,9 +370,9 @@ class DiscordClient {
 
 //get
     /**
-     *  Get a guild from cache if it's there otherwise load from API.
-     *  @param id - The id of the desired guild.
-     *  @param cb - The Callback to return the guild to.
+        Get a guild from cache if it's there otherwise load from API.
+        @param id - The id of the desired guild.
+        @param cb - The Callback to return the guild to.
      */
     public function getGuild(id,cb:Guild->Void){
         if(guildCache.exists(id)){
@@ -386,9 +386,9 @@ class DiscordClient {
     }
 
     /**
-     *  Unsafely get a guild from cache based on it's id.
-     *  Throws an error if the guild is not cached.
-     *  @param id - The id of the desired guild
+        Unsafely get a guild from cache based on it's id.
+        Throws an error if the guild is not cached.
+        @param id - The id of the desired guild
      */
     public function getGuildUnsafe(id){
         if(guildCache.exists(id)){
@@ -399,8 +399,8 @@ class DiscordClient {
     }
 
     /**
-     *  Get a list of all dm channels the bot is in.
-     *  @param cb - Callback to return the channels to.
+        Get a list of all dm channels the bot is in.
+        @param cb - Callback to return the channels to.
      */
     public function getDMChannels(cb:Array<DMChannel>->Void){
         endpoints.getDMChannels(function(r,e){
@@ -410,16 +410,16 @@ class DiscordClient {
     }
     
     /**
-     *  Get a list of all DMChannels currently in cache
+        Get a list of all DMChannels currently in cache
      */
     public function getDMChannelsUnsafe(){
         return [for(dm in dmChannelCache.iterator()) dm];
     }
 
     /**
-     *  Get a channel from cache if it's there otherwise get from the API.
-     *  @param id - The id of the desired channel.
-     *  @param cb - The callback to return the channel to.
+        Get a channel from cache if it's there otherwise get from the API.
+        @param id - The id of the desired channel.
+        @param cb - The callback to return the channel to.
      */
     public function getChannel(id,cb:Channel->Void){
         if(channelCache.exists(id)){
@@ -433,9 +433,9 @@ class DiscordClient {
     }
 
     /**
-     *  Unsafely get a channel from cache based on it's id.
-     *  Throws an error if the channel could not be loaded.
-     *  @param id - The id of the desired channel.
+        Unsafely get a channel from cache based on it's id.
+        Throws an error if the channel could not be loaded.
+        @param id - The id of the desired channel.
      */
     public function getChannelUnsafe(id){
         if(channelCache.exists(id)){
@@ -446,9 +446,9 @@ class DiscordClient {
     }
 
     /**
-     *  Get a user from cache if it's there otherwise get from API.
-     *  @param id - The id of the desired user.
-     *  @param cb - The callback to return the user to.
+        Get a user from cache if it's there otherwise get from API.
+        @param id - The id of the desired user.
+        @param cb - The callback to return the user to.
      */
     public function getUser(id,cb:User->Void){
         if(userCache.exists(id)){
@@ -462,9 +462,9 @@ class DiscordClient {
     }
 
     /**
-     *  Unsafely get a user based on it's id from cache.
-     *  Throws an error if the user could not be loaded.
-     *  @param id - The id of the desired user.
+        Unsafely get a user based on it's id from cache.
+        Throws an error if the user could not be loaded.
+        @param id - The id of the desired user.
      */
     public function getUserUnsafe(id){
         if(userCache.exists(id)){
@@ -475,10 +475,10 @@ class DiscordClient {
     }
 
     /**
-     *  Get a message from cache if it is there otherwise load from api.
-     *  @param id - The id of the message.
-     *  @param channel_id - The id of the channel the message is from.
-     *  @param cb - The callback to return the message to.
+        Get a message from cache if it is there otherwise load from api.
+        @param id - The id of the message.
+        @param channel_id - The id of the channel the message is from.
+        @param cb - The callback to return the message to.
      */
     public function getMessage(id,channel_id,cb:Message->Void){
         if(messageCache.exists(id)){
@@ -492,9 +492,9 @@ class DiscordClient {
     }
 
     /**
-     *  Unsafely get a message based on it's id from cache.
-     *  Throws an error if the message could not be loaded.
-     *  @param id - The id of the desired message.
+        Unsafely get a message based on it's id from cache.
+        Throws an error if the message could not be loaded.
+        @param id - The id of the desired message.
      */
     public function getMessageUnsafe(id){
         if(messageCache.exists(id)){
@@ -592,138 +592,138 @@ class DiscordClient {
 
 //Events 
     /**
-     *  Event hook for when the bot has connected, loaded cache, and is ready to go.
+        Event hook for when the bot has connected, loaded cache, and is ready to go.
      */
     public dynamic function onReady(){}
 
     /**
-     *  Event hook for when a new channel is created.
-     *  @param c - The channel object. 
+        Event hook for when a new channel is created.
+        @param c - The channel object. 
      */
     public dynamic function onChannelCreate(c:Channel){}
     /**
-     *  Event hook for when a channel is changed/updated.
-     *  @param c - The new channel object.
+        Event hook for when a channel is changed/updated.
+        @param c - The new channel object.
      */
     public dynamic function onChannelUpdate(c:Channel){}
     /**
-     *  Event hook for when a channel is deleted.
-     *  @param channel_id - The id of the deleted channel.
+        Event hook for when a channel is deleted.
+        @param channel_id - The id of the deleted channel.
      */
     public dynamic function onChannelDelete(channel_id:String){}
 
     /**
-     *  Event hook for when a guild is created or joined by you.
-     *  @param g - The guild object.
+        Event hook for when a guild is created or joined by you.
+        @param g - The guild object.
      */
     public dynamic function onGuildCreate(g:Guild){}
     /**
-     *  Event hook for when a guild is updated or changed.
-     *  @param g - The new guild object.
+        Event hook for when a guild is updated or changed.
+        @param g - The new guild object.
      */
     public dynamic function onGuildUpdate(g:Guild){}
     /**
-     *  Event hook for when a guild is deleted
-     *  @param guild_id - The id of the guild that was deleted.
+        Event hook for when a guild is deleted
+        @param guild_id - The id of the guild that was deleted.
      */
     public dynamic function onGuildDelete(guild_id:String){}
     /**
-     *  Event hook for when a guild updates it's emojis. 
-     *  @param g - The guild the emojis were updated for.
-     *  @param emojis - The new list of emojis
+        Event hook for when a guild updates it's emojis. 
+        @param g - The guild the emojis were updated for.
+        @param emojis - The new list of emojis
      */
     public dynamic function onGuildEmojisUpdate(g:Guild,emojis:Array<Emoji>){}
 
     /**
-     *  Event hook for when a new user joins a guild.
-     *  @param g - The guild the user has joined.
-     *  @param m - The instanced member object of the user.
+        Event hook for when a new user joins a guild.
+        @param g - The guild the user has joined.
+        @param m - The instanced member object of the user.
      */
     public dynamic function onMemberJoin(g:Guild,m:GuildMember){}
     /**
-     *  Event hook for when a user is updated or changed. 
-     *  @param g - The guild the user is in.
-     *  @param m - The instanced member object of the user.
+        Event hook for when a user is updated or changed. 
+        @param g - The guild the user is in.
+        @param m - The instanced member object of the user.
      */
     public dynamic function onMemberUpdate(g:Guild,m:GuildMember){}
     /**
-     *  Event hook for when a user is banned from a guild.
-     *  @param g - The guild the ban was from.
-     *  @param u - The user that was banned (May be null).
+        Event hook for when a user is banned from a guild.
+        @param g - The guild the ban was from.
+        @param u - The user that was banned (May be null).
      */
     public dynamic function onMemberBan(g:Guild,u:Null<User>){}
     /**
-     *  Event hook for when a user is unbanned from a guild.
-     *  @param g - The guild the ban was from.
-     *  @param u - The user that was unbanned (May be null).
+        Event hook for when a user is unbanned from a guild.
+        @param g - The guild the ban was from.
+        @param u - The user that was unbanned (May be null).
      */
     public dynamic function onMemberUnban(g:Guild,u:Null<User>){}
     /**
-     *  Event hook for when a member leaves a guild.
-     *  @param g - The guild the member belonged to.
-     *  @param u - The user of the member (May be null).
+        Event hook for when a member leaves a guild.
+        @param g - The guild the member belonged to.
+        @param u - The user of the member (May be null).
      */
     public dynamic function onMemberLeave(g:Guild,u:Null<User>){}
 
     /**
-     *  Event hook for when a role is created.
-     *  @param g - The guild it was created in.
-     *  @param r - The role.
+        Event hook for when a role is created.
+        @param g - The guild it was created in.
+        @param r - The role.
      */
     public dynamic function onRoleCreate(g:Guild,r:Role){}
     /**
-     *  Event hook for when a role is changed/updated
-     *  @param g - The guild it was updated in.
-     *  @param r - The new role.
+        Event hook for when a role is changed/updated
+        @param g - The guild it was updated in.
+        @param r - The new role.
      */
     public dynamic function onRoleUpdate(g:Guild,r:Role){}
     /**
-     *  Event hook for when a role is deleted
-     *  @param g - The guild it was deleted from.
-     *  @param role_id - The id of the role that was deleted.
+        Event hook for when a role is deleted
+        @param g - The guild it was deleted from.
+        @param role_id - The id of the role that was deleted.
      */
     public dynamic function onRoleDelete(g:Guild,role_id:String){}
 
     /**
-     *  Event hook for when a message is sent.
-     *  @param m - The message.
+        Event hook for when a message is sent.
+        @param m - The message.
      */
     public dynamic function onMessage(m:Message){}
     /**
-     *  Event hook for when a message is edited.
-     *  @param m - The new message.
+        Event hook for when a message is edited.
+        @param m - The new message.
      */
     public dynamic function onMessageEdit(m:Message){}
     /**
-     *  Event hook for when a message is deleted.
-     *  @param message_id - The id of the deleted message.
+        Event hook for when a message is deleted.
+        @param message_id - The id of the deleted message.
      */
     public dynamic function onMessageDelete(message_id:String){}
 
     /**
-     *  Event hook for when a reaction is added.
-     *  @param m - The message the reaction is added to.
-     *  @param u - The user that added the reaction.
-     *  @param e - The emoji of the reaction.
+        Event hook for when a reaction is added.
+        @param m - The message the reaction is added to.
+        @param u - The user that added the reaction.
+        @param e - The emoji of the reaction.
      */
     public dynamic function onReactionAdd(m:Message,u:User,e:com.raidandfade.haxicord.types.structs.Emoji){}
     /**
-     *  Event hook for when reactions are removed.
-     *  @param m - The message the reaction was removed from.
-     *  @param u - The user that removed the reaction. (THIS IS ONLY NULL IF MESSAGE WAS PURGED AND REACTION WAS NOT CACHED)
-     *  @param e - The emoji of the reaction.
+        Event hook for when reactions are removed.
+        @param m - The message the reaction was removed from.
+        @param u - The user that removed the reaction. (THIS IS ONLY NULL IF MESSAGE WAS PURGED AND REACTION WAS NOT CACHED)
+        @param e - The emoji of the reaction.
      */
     public dynamic function onReactionRemove(m:Message,u:Null<User>,e:com.raidandfade.haxicord.types.structs.Emoji){}
     /**
-     *  Event hook for when reactions are purged from a message.
-     *  @param m - The message that was purged.
+        Event hook for when reactions are purged from a message.
+        @param m - The message that was purged.
      */
     public dynamic function onReactionPurge(m:Message){}
 
     /**
-     *  A raw event hook, for things that require a little more flexibility.
-     *  @param e - The event name as defined by API Docs.
-     *  @param d - The event data.
+        A raw event hook, for things that require a little more flexibility.
+        @param e - The event name as defined by API Docs.
+        @param d - The event data.
      */
     public dynamic function onRawEvent(e:String,d:Dynamic){}
 
