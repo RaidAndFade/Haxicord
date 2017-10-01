@@ -1,21 +1,32 @@
-### COMPILE LIBRARIES
--cp src
--lib hxnodejs
-com.raidandfade.haxicord.DiscordClient
-com.raidandfade.haxicord.endpoints.Endpoints
--js bin/Haxicord-js/Haxicord.js
---next 
--cp src
--net-lib libs/websocket-sharp.dll
-com.raidandfade.haxicord.DiscordClient
-com.raidandfade.haxicord.endpoints.Endpoints
--cs bin/Haxicord-cs
--D net-ver=40
---next 
--cp src
-com.raidandfade.haxicord.DiscordClient
-com.raidandfade.haxicord.endpoints.Endpoints
--neko bin/Haxicord-neko/Haxicord.n
+
+### GEN DOCS XML :
+#-cp src
+#-xml docs/doc.xml
+#com.raidandfade.haxicord.DiscordClient
+#com.raidandfade.haxicord.endpoints.Endpoints
+#-D doc-gen
+### COMPILE LIBRARIES :
+# --next
+# -cp src
+# -debug
+# -lib hxnodejs
+# com.raidandfade.haxicord.DiscordClient
+# com.raidandfade.haxicord.endpoints.Endpoints
+# -js bin/Haxicord-js/Haxicord.js
+# --next 
+# -cp src
+# -debug
+# -net-lib libs/websocket-sharp.dll
+# com.raidandfade.haxicord.DiscordClient
+# com.raidandfade.haxicord.endpoints.Endpoints
+# -cs bin/Haxicord-cs
+# -D net-ver=40
+# --next 
+# -cp src
+# -debug
+# com.raidandfade.haxicord.DiscordClient
+# com.raidandfade.haxicord.endpoints.Endpoints
+# -neko bin/Haxicord-neko/Haxicord.n
 
 ### TEST BUILDS : 
 # ###NOT IMPLEMENTED gotta make some sort of http proxy for this, it wont send user-agent.
