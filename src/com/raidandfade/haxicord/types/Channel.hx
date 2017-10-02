@@ -19,9 +19,4 @@ class Channel{
     public function getMention(){
         return "<#"+id.id+">";
     }
-
-    //Live struct ~ move these to somewhere text channel only pls
-
 }
-
-typedef PossibleChannelTypes = EitherType < com.raidandfade.haxicord.types.structs.DMChannel , com.raidandfade.haxicord.types.structs.GuildChannel > ;
