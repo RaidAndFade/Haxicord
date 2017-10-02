@@ -93,6 +93,13 @@ class Message {
         return getChannel().inGuild();
     }
 
+    public function getMember():Null<GuildMember>{
+        if(inGuild())
+            return this.getGuild().getMemberUnsafe(author.id.id);
+        else
+            return null;
+    }
+
     public function getGuild():Null<Guild>{
         if(inGuild())
             return cast(getChannel(),TextChannel).getGuild();
