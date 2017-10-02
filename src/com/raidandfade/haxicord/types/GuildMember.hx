@@ -19,7 +19,7 @@ class GuildMember {
         
         user = client._newUser(_mem.user);
         nick = _mem.nick;
-        roles = _mem.roles;
+        roles = _mem.roles; //TODO Make this role objects.
         joined_at = DateUtils.fromISO8601(_mem.joined_at);
         deaf = _mem.deaf;
         mute = _mem.mute;
@@ -38,12 +38,20 @@ class GuildMember {
     }
 
     //Live funcs
-    public function addRole(r:Role,cb=null){
-        client.endpoints.giveMemberRole(guild.id.id,user.id.id,r.id.id,cb);
+    public function addRole(rid:String,cb=null){
+        client.endpoints.giveMemberRole(guild.id.id,user.id.id,rid,cb);
     }
 
-    public function removeRole(r:Role,cb=null){
-        client.endpoints.takeMemberRole(guild.id.id,user.id.id,r.id.id,cb);
+    public function removeRole(rid:String,cb=null){
+        client.endpoints.takeMemberRole(guild.id.id,user.id.id,rid,cb);
+    }
+
+    public function hasRole(rid:String){
+        for(r in roles){
+            if(r == rid)
+                return true;
+        }
+        return false;
     }
 
     public function edit(data,cb=null){
