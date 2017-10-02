@@ -59,7 +59,7 @@ class GuildChannel extends Channel {
         @param cb - Callback to send old channel to. Or null if result is not desired.
      */
     public function deleteChannel(cb){
-        cb=null;
+        client.endpoints.deleteChannel(id.id,cb=null);
     }
     /**
         Edit or Create a channel's overwrite permissions;
