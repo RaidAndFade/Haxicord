@@ -47,6 +47,8 @@ class DiscordClient {
 
     public var endpoints:Endpoints;
 
+    public var reconnectTimeout:Int = 1;
+
     var hbThread:HeartbeatThread;
     var ws:WebSocketConnection;
 
@@ -57,9 +59,13 @@ class DiscordClient {
         endpoints = new Endpoints(this);
 
         //trace("Getting gotten");
-        endpoints.getGateway(false,connect);
+        endpoints.getGateway(isBot,connect);
     }
     
+    /**
+        This is basically just a while true loop to keep the main thread alive while the other threads work.
+        @param blocking=true - If you dont want to have the while loop activate, set this to false and make your own loop.
+     */
     public function start(blocking=true){
 #if sys
         while(blocking){
@@ -75,9 +81,27 @@ class DiscordClient {
         ws.onMessage = webSocketMessage;
         ws.onClose = function(){
             if(hbThread!=null)hbThread.pause();
+            trace("Socket Closed, Re-Opening in "+reconnectTimeout+"s.");
+            Timer.delay(endpoints.getGateway.bind(isBot,connect),reconnectTimeout*1000);
+            reconnectTimeout *= 2;
         }
         ws.onError = function(e){
+            trace("Websocket errored!");
+            trace(e);
+        }
+    }
+
+    function reconnect(gateway,error){
+        if(error!=null)throw error;
+        //trace("Gottening");
+        ws = new WebSocketConnection(gateway.url+"/?v="+gatewayVersion+"&encoding=json");
+        ws.onMessage = webSocketMessage;
+        ws.onClose = function(){
             if(hbThread!=null)hbThread.pause();
+        }
+        ws.onError = function(e){
+            trace("Websocket errored!");
+            trace(e);
         }
     }
 
