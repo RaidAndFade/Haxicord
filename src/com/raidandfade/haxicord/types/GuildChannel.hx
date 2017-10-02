@@ -38,7 +38,7 @@ class GuildChannel extends Channel {
     public function getInvites(cb=null){
         client.endpoints.getChannelInvites(id.id,cb);
     }
-/**
+    /**
         Create a new invite for a given channel
         @param invite_data - The invite data.
         @param cb - Return the invite or an error.
@@ -46,7 +46,7 @@ class GuildChannel extends Channel {
     public function createInvite(invite_data,cb=null){
         client.endpoints.createChannelInvite(id.id,invite_data,cb);
     }
-/**
+    /**
         Change a channel's parameters
         @param cd - The changed channel data, all fields are optional
         @param cb - Callback to send the new channel object to. Or null if result is not desired.
@@ -54,14 +54,14 @@ class GuildChannel extends Channel {
     public function editChannel(cd,cb=null){
         client.endpoints.modifyChannel(id.id,cd,cb);
     }
-/**
+    /**
         Delete the given channel.
         @param cb - Callback to send old channel to. Or null if result is not desired.
      */
     public function deleteChannel(cb){
-        client.endpoints.deleteChannel(id.id,cb);
+        cb=null;
     }
-/**
+    /**
         Edit or Create a channel's overwrite permissions;
         @param perm - The modified overwrite permission object
         @param pid - The overwrite Id, Id of user or role.
@@ -70,7 +70,7 @@ class GuildChannel extends Channel {
     public function editPermission(perm,pid,cb=null){
         client.endpoints.editChannelPermissions(id.id,pid,perm,cb);
     }
-/**
+    /**
         Delete a channel override
         @param pid - The overwrite id to delete
         @param cb - Call once finished.
