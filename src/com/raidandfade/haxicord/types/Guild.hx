@@ -228,6 +228,13 @@ class Guild{
         }
     }
 
+    /**
+        To be finished. Will return all members in one callback.
+     */
+    public function getAllMembers(cb:List<GuildMember>){
+        
+    }
+
     public function getMembers(format,cb=null){
         client.endpoints.getGuildMembers(id.id,format,cb);
     }
