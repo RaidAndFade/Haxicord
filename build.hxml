@@ -1,10 +1,10 @@
-
 ### GEN DOCS XML :
 #-cp src
 #-xml docs/doc.xml
 #com.raidandfade.haxicord.DiscordClient
 #com.raidandfade.haxicord.endpoints.Endpoints
 #-D doc-gen
+
 ### COMPILE LIBRARIES :
 # --next
 # -cp src
@@ -83,11 +83,11 @@
 # -main com/raidandfade/haxicord/test/Test.hx
 # -lua test/bin/Haxicord-lua/Haxicord.lua
 
-# --next
-# -cp src
-# -main com/raidandfade/haxicord/test/Test.hx
-# -neko test/bin/Haxicord-neko/Haxicord.n
-# -debug
+--next
+-cp src
+-main com/raidandfade/haxicord/test/Test.hx
+-neko test/bin/Haxicord-neko/Haxicord.n
+-debug
 
 # # --next
 # # -cp src
