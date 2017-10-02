@@ -49,6 +49,12 @@ class WebSocketConnection {
         ws.add_OnMessage(new cs.system.EventHandler_1<websocketsharp.MessageEventArgs>(function(f:Dynamic,m:websocketsharp.MessageEventArgs){
             this.onMessage(m.Data);
         }));
+        ws.add_OnError(new cs.system.EventHandler_1<websocketsharp.MessageEventArgs>(function(f:Dynamic,m:websocketsharp.ErrorEventArgs){
+            this.onError(m.Message);
+        }));
+        ws.add_OnClose(new cs.system.EventHandler_1<websocketsharp.MessageEventArgs>(function(f:Dynamic,m:websocketsharp.ErrorEventArgs){
+            this._onClose();
+        }));
         ws.Connect();
 #else 
         trace("ws");
@@ -63,7 +69,7 @@ class WebSocketConnection {
         ws.onmessageString = function(m){this.onMessage(m);}
         ws.onmessageBytes = function(m){}
         ws.onerror = onError;
-        ws.onclose = onClose;
+        ws.onclose = _onClose;
         trace("nows");
 #if sys
         while (true) {
@@ -88,6 +94,11 @@ class WebSocketConnection {
 #else
             ws.sendString(m);
 #end
+    }
+
+    private function _onClose(){
+        ready = false;
+        onClose();
     }
 
     dynamic public function onClose(){
