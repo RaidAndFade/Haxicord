@@ -193,6 +193,7 @@ class Guild{
             }
         });
     }
+
     /**
         Get a channel based on a given channel id.
         @param channel_id - The channel id to get the channel from
@@ -258,6 +259,13 @@ class Guild{
     }
 
     /**
+        To be finished. Will return all members in one callback.
+     */
+     public function getAllMembers(cb:List<GuildMember>){
+     
+     }
+
+     /**
         Get all members of a guild. 
         @param format - The limit, and after. both are optional. used for paginating.
         @param cb - The array of guild members. or an error.
@@ -265,7 +273,6 @@ class Guild{
     public function getMembers(format,cb=null){
         client.endpoints.getGuildMembers(id.id,format,cb);
     }
-//8===============================================================================================================================================================================D
     /**
         Add a guild member using a token received through Oauth2. 
         Requires the CREATE_INSTANT_INVITE permission along with various other permissions depending on `member_data` parameters
