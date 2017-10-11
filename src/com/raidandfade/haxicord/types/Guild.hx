@@ -172,10 +172,19 @@ class Guild{
         }
     }
     //Live structs
+    /**
+        Get the channels in a guild
+        @param cb - Return an array of channel objects, or an error.
+     */
     public function getChannels(cb=null){
         client.endpoints.getChannels(id.id,cb); 
     }
-
+    
+    /**
+        Create a channel in a guild
+        @param cs - The channel's starting data 
+        @param cb - Callback to send the new channel object to. Or null if result is not desired.
+     */
     public function createChannel(cs,cb:GuildChannel->String->Void=null){
         client.endpoints.createChannel(id.id,cs,function(c,e){
             if(e!=null)cb(null,e);
@@ -185,6 +194,11 @@ class Guild{
         });
     }
 
+    /**
+        Get a channel based on a given channel id.
+        @param channel_id - The channel id to get the channel from
+        @param cb - Callback to send the receivied channel object to. Or null if result is not desired.
+     */
     public function getChannel(cid,cb:Channel->Void=null){
         client.getChannel(cid,cb);
     }
@@ -192,15 +206,26 @@ class Guild{
     public function moveChannels(){
         //TODO this...
     }
-    
+     /**
+        Get a list of all invites in a guild. requires the MANAGE_GUILD permission.
+        @param cb - Returns an array of invites, or an error.
+     */
     public function getInvites(cb=null){
         client.endpoints.getInvites(id.id,cb);
     }
-
+    /**
+        Get the roles of a guild. Requires the MANAGE_ROLES permission.
+        @param cb - Returns an array of guilds, or an error.
+     */
     public function getRoles(cb=null){
         client.endpoints.getGuildRoles(id.id,cb); 
     }
 
+    /**
+        Create a role. Requires the MANAGE_ROLES permission.
+        @param rs - The role's data.
+        @param cb - Returns the new role, or an error.
+     */
     public function createRole(rs,cb=null){
         client.endpoints.createRole(id.id,rs,cb); 
     }
@@ -209,6 +234,11 @@ class Guild{
         //TODO this
     }
 
+    /**
+        Get a member of the guild.
+        @param mid - The member's id.
+        @param cb - Return a member instance of the user. Or an error.
+     */
     public function getMember(mid,cb:GuildMember->Void){
         if(members.exists(mid)){
             cb(members.get(mid));
@@ -231,18 +261,34 @@ class Guild{
     /**
         To be finished. Will return all members in one callback.
      */
-    public function getAllMembers(cb:List<GuildMember>){
-        
-    }
+     public function getAllMembers(cb:List<GuildMember>){
+     
+     }
 
+     /**
+        Get all members of a guild. 
+        @param format - The limit, and after. both are optional. used for paginating.
+        @param cb - The array of guild members. or an error.
+     */
     public function getMembers(format,cb=null){
         client.endpoints.getGuildMembers(id.id,format,cb);
     }
-
+    /**
+        Add a guild member using a token received through Oauth2. 
+        Requires the CREATE_INSTANT_INVITE permission along with various other permissions depending on `member_data` parameters
+        @param uid - The id of the user
+        @param mdata - The access token, along with other optional parameters.
+        @param cb - The added guildmember. or an error.
+     */
     public function addMember(uid,mdata,cb=null){
         client.endpoints.addGuildMember(id.id,uid,mdata,cb);
     }
 
+    /**
+        Change this user's nickname.
+        @param s - The nickname to change to.
+        @param cb - Returns the nickname, or an error.
+     */
     public function changeNickname(s:String,m:GuildMember=null,cb=null){
         if(m==null||m.user.id.id==client.user.id.id)
             client.endpoints.changeNickname(id.id,s,cb);
@@ -250,58 +296,123 @@ class Guild{
             client.endpoints.editGuildMember(id.id,m.user.id.id,{nick:s},cb);
     }
 
+    /**
+        List all the bans in a guild. Requires the BAN_MEMBERS permission.
+        @param cb - Returns an array of users, or an error.
+     */
     public function getBans(cb=null){
         client.endpoints.getGuildBans(id.id,cb);
     }
 
+    /**
+        Get the number of users that will be pruned if a prune was run. Requires the KICK_MEMBERS permission.
+        @param days - The number of days to count prune for.
+        @param cb - Returns the number of users that would be pruned on a real request, or an error.
+     */
     public function getPruneCount(days,cb=null){
         client.endpoints.getPruneCount(id.id,days,cb);
     }
 
+    /**
+        Prune the members of a server. Requires the KICK_MEMBERS permission
+        @param days - The number of days to count prune for.
+        @param cb - Returns the number of users that were pruned, or an error.
+     */
     public function beginPrune(days,cb=null){
         client.endpoints.beginPrune(id.id,days,cb);
     }
 
+    /**
+        Get a list of voice regions for the guild. Including VIP servers if the server is a VIP-Enabled server.
+        @param cb - Returns an array of voiceregion objects, or an error.
+     */
     public function getVoiceRegions(cb=null){
         client.endpoints.guildVoiceRegions(id.id,cb);
     }
-
+    
+    /**
+        Get a list of integrations for a given guild. Requires the MANAGE_GUILD permission.
+        @param cb - Returns an array of guildintegration objects, or an error.
+     */
     public function getIntegrations(cb=null){
         client.endpoints.getIntegrations(id.id,cb);
     }
 
+    /**
+        Add a new integration from the user onto the guild. Requires the MANAGE_GUILD permission.
+        @param intd - The data of the new integration. 
+        @param cb - Called on completion, useful for checking for errors.
+     */
     public function addIntegration(intd,cb=null){
         client.endpoints.addIntegration(id.id,intd,cb);
     }
 
+    /**
+        Edit an integration in a guild. Requires the MANAGE_GUILD permission.
+        @param intid - The id of the integration to change.
+        @param intd - The new data for the integration. All parameters are optional.
+        @param cb - Called on completion, useful for checking for errors.
+     */
     public function editIntegration(intid,intd,cb=null){
         client.endpoints.editIntegration(id.id,intid,intd,cb);
     }
 
+    /**
+        Sync a given integration in a guild. Requires the MANAGE_GUILD permission.
+        @param intid - The id of the integration to sync.
+        @param cb - Called on completion, useful for checking for errors.
+     */
     public function syncIntegration(intid,cb=null){
         client.endpoints.syncIntegration(id.id,intid,cb);
     }
 
+    /**
+        Remove an integration from a guild. Requires the MANAGE_GUILD permission.
+        @param intid - The id of the integration to remove.
+        @param cb - Called on completion, useful for checking for errors.
+     */
     public function deleteIntegration(intid,cb=null){
         client.endpoints.deleteIntegration(id.id,intid,cb);
     }
 
+    /**
+        Get the widget/embed for a guild. Requires the MANAGE_GUILD permission.
+        @param cb - Returns the GuildEmbed object of the guild, or an error.
+     */
     public function getWidget(cb=null){
         client.endpoints.getWidget(id.id,cb);
     }
 
+    /**
+        Change the properties of a guild's embed or widget. Requires the MANAGE_GUILD permission.
+        @param wd - The changes to be made to the widget/embed. All parameters are optional.
+        @param cb - Returns the changed GuildEmbed object, or an error.
+     */
     public function editWidget(wd,cb=null){
         client.endpoints.modifyWidget(id.id,wd,cb);
     }
-
+    
+    /**
+        Edit a guild's settings. Requires the MANAGE_GUILD permission
+        @param gd - The data to be changed, All fields are optional.
+        @param cb - Returns the new guild object, or an error.
+     */
     public function edit(gd,cb=null){
         client.endpoints.modifyGuild(id.id,gd,cb);
     }
 
+    /**
+        Delete a guild. The account must be the owner of the guild.
+        @param cb - Return the old guild object, or an error.
+     */
     public function delete(cb=null){
         client.endpoints.deleteGuild(id.id,cb);
     }
 
+    /**
+        Make the current user leave the specified guild.
+        @param cb - Called on completion, useful for checking for errors.
+     */
     public function leave(cb=null){
         client.endpoints.leaveGuild(id.id,cb);
     }
