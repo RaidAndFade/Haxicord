@@ -206,7 +206,7 @@ class Guild{
     public function moveChannels(){
         //TODO this...
     }
-        /**
+     /**
         Get a list of all invites in a guild. requires the MANAGE_GUILD permission.
         @param cb - Returns an array of invites, or an error.
      */
