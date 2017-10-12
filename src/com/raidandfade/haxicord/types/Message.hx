@@ -106,7 +106,6 @@ class Message {
         else
             return null;
     }
-    //----------------=================== Deleted @param message_id in all comments cause it seemed redundant ===================----------------
 
     /**
         Send a message to a channel
