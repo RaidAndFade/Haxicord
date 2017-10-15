@@ -6,7 +6,7 @@ class GuildMember {
     var client:DiscordClient;
 
     public var user:User;
-    public var nick:Null<String>;
+    public var displayName:Null<String>;
     public var roles:Array<String>;
     public var joined_at:Date;
     public var deaf:Bool;
@@ -18,7 +18,7 @@ class GuildMember {
         guild = _guild;
         
         user = client._newUser(_mem.user);
-        nick = _mem.nick;
+        displayName = _mem.nick==null?_mem.user.username:_mem.nick;
         roles = _mem.roles; //TODO Make this role objects.
         joined_at = DateUtils.fromISO8601(_mem.joined_at);
         deaf = _mem.deaf;
@@ -27,7 +27,7 @@ class GuildMember {
 
     public function _update(_mem:com.raidandfade.haxicord.types.structs.GuildMember){
         if(_mem.user!=null) user = client._newUser(_mem.user);
-        if(_mem.nick!=null) nick = _mem.nick;
+        if(_mem.nick!=null) nick = _mem.nick==null?_mem.user.username:_mem.nick;
         if(_mem.roles!=null) roles = _mem.roles;
     }
 
