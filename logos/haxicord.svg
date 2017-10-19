@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Name:			Haxicord Logo
+	Author:			Emzi0767
+	Timestamp:		2017-08-24 01:11 +02:00
+	License:		MIT
+	
+	------------------------------------------------------------------------------
+	
+	MIT License
+
+	Copyright (c) 2017 Emzi0767
+
+	Permission is hereby granted, free of charge, to any person obtaining a copy
+	of this software and associated documentation files (the "Software"), to deal
+	in the Software without restriction, including without limitation the rights
+	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	copies of the Software, and to permit persons to whom the Software is
+	furnished to do so, subject to the following conditions:
+
+	The above copyright notice and this permission notice shall be included in all
+	copies or substantial portions of the Software.
+
+	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+	SOFTWARE.
+-->
+<svg version="1.1" viewBox="0 0 245 240" xmlns="http://www.w3.org/2000/svg">
+ <style>.st0{fill:#7289DA;}</style>
+ <path d="m55.5 20c-11.3 0-20.5 9.1996-20.5 20.6v135.2c0 11.4 9.2 20.6 20.5 20.6h113.4l-5.3008-18.5 12.801 11.9 12.1 11.199 21.5 19v-179.4c0-11.4-9.2-20.6-20.5-20.6h-134z" fill="#fff" stroke="#7289da"/>
+ <g transform="matrix(1.0307 0 0 1.0307 -3.7576 -3.2974)" stroke-width=".16186">
+  <path id="path24_1_" d="m122.5 63.982-32.502-2.9702-25.513-11.534h29.007l29.009 14.49" fill="#a2b1e6"/>
+  <path id="path26_1_" d="m122.5 63.982 34.447-3.9901 23.572-10.514h-29.011l-29.008 14.49" fill="#a2b1e6"/>
+  <path id="path28_1_" d="m122.5 151.01 29.008 3.4531 29.011 11.05h-29.011l-29.008-14.52" fill="#7289da"/>
+  <path id="path30_1_" d="m122.5 151.01-29.009 3.118-29.007 11.385h29.007l29.009-14.52" fill="#526ed2"/>
+  <path id="path32_1_" d="m78.986 107.5-4.2813 34.059-10.222 23.957v-29.007l14.503-29.026" fill="#b1beeb"/>
+  <path id="path34_1_" d="m78.986 107.5-3.2615-31.192-11.242-26.826v29.008l14.503 28.993" fill="#b1beeb"/>
+  <path id="path36_1_" d="m166.01 107.5 4.1858-31.532 10.318-26.486v29.008l-14.504 28.993" fill="#3455c8"/>
+  <path id="path38_1_" d="m166.01 107.5 2.8296 32.02 11.674 25.997v-29.007l-14.504-29.026" fill="#3455c8"/>
+  <path id="path16_1_" d="m64.483 49.478 58.016 14.504v43.489h-43.512l-14.503-57.964" fill="#92a4e2"/>
+  <path id="path22_1_" d="m64.483 165.51 14.503-58.017 43.512-0.0244v43.505l-58.016 14.477" fill="#92a4e2"/>
+  <path id="path18_1_" d="m180.52 49.478-14.506 58.016-43.512-0.0224v-43.491l58.019-14.472" fill="#526ed2"/>
+  <path id="path20_1_" d="m180.52 165.51-58.019-14.503v-43.538l43.512 0.0244 14.506 57.958" fill="#526ed2"/>
+  <path id="path14_1_" d="m122.5 63.982-43.512 43.513 43.512 43.514 43.512-43.516-43.512-43.526" fill="#7289da"/>
+ </g>
+ <path class="st0" d="m104.4 96.395c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1 0.1-6.1-4.5-11.1-10.2-11.1zm36.5 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1s-4.5-11.1-10.2-11.1z" fill="#fff"/>
+</svg>
