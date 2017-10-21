@@ -7,6 +7,7 @@ import com.raidandfade.haxicord.types.structs.MessageStruct;
 
 import com.raidandfade.haxicord.types.Message;
 import com.raidandfade.haxicord.types.User;
+import com.raidandfade.haxicord.logger.Logger;
 import com.raidandfade.haxicord.types.Channel;
 import com.raidandfade.haxicord.types.DMChannel;
 import com.raidandfade.haxicord.types.GuildChannel;
@@ -53,10 +54,13 @@ class DiscordClient {
     var ws:WebSocketConnection;
 
     public function new(_tkn:String){ //Sharding? lol good joke.
+        Logger.registerLogger();
+
         token = _tkn; //ASSUME BOT FOR NOW. Deal with users later maybe.
         isBot = true;
         
         endpoints = new Endpoints(this);
+
 
         //trace("Getting gotten");
         endpoints.getGateway(isBot,connect);
