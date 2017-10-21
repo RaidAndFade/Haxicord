@@ -5,6 +5,7 @@ class User {
     var client:DiscordClient;
 
     public var id:Snowflake; 
+    public var tag:String;
     public var username:String;
     public var discriminator:String;
     public var avatar:String;
@@ -22,6 +23,7 @@ class User {
         client = _client;
 
         id = new Snowflake(_user.id);
+        tag = "<@"+id.id+">";
         username = _user.username;
         discriminator = _user.discriminator;
         avatar = _user.avatar;
