@@ -15,6 +15,7 @@ typedef Guild = {
     var embed_channel_id:String; //What channel is widgetted?
     var verification_level:Int;
     var default_message_notifications:Int;
+    var explicit_content_filter:Int;
     var roles:Array<Role>;
     var emojis:Array<Emoji>;
     var features:Array<String>;// wth is a guild feature?

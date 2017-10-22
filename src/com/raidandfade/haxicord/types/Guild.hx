@@ -8,41 +8,129 @@ import haxe.DateUtils;
 class Guild{
     var client:DiscordClient;
 
+    /**
+       The guild Id
+     */
     public var id:Snowflake;
-    public var name:String; //2-100chars
-    public var icon:String; //Image hash
-    public var splash:String; //splash hash
+    /**
+       The guild Name (2-100 characters)
+     */
+    public var name:String; 
+    /**
+       The guild Icon hash
+     */
+    public var icon:String; 
+    /**
+       The guild Splash hash
+     */
+    public var splash:String; 
+    /**
+       The guild owner's id
+     */
     public var owner_id:Snowflake;
-    public var region:String; // voice_region.id
+    /**
+       The guild voice region id
+     */
+    public var region:String; 
+    /**
+       The guild's afk channel's id 
+     */
     public var afk_channel_id:Snowflake;
+    /**
+       The guild's afk timeout in seconds
+     */
     public var afk_timeout:Int;
-    public var embed_enabled:Bool; //Widgetable?
-    public var embed_channel_id:Snowflake; //What channel is widgetted?
+    /**
+       Does the guild have widgets enabled?
+     */
+    public var embed_enabled:Bool;
+    /**
+       The channel that is featured in the widget.
+     */
+    public var embed_channel_id:Snowflake; 
+    /**
+       The level of verification required for the guild
+     */
     public var verification_level:Int;
+    /**
+       The guild's default message notifications level
+     */
     public var default_message_notifications:Int;
+    /**
+       The guild's default explicit content filter
+     */
+    public var explicit_content_filter:Int;
+    /**
+       A dictionary of roles in the guild by Id
+     */
     public var roles:Map<String,Role> = new Map<String,Role>();
+    /**
+       A list of emojis in the guild
+     */
     public var emojis:Array<Emoji> = new Array<Emoji>();
+    /**
+       A list of enabled guild features
+     */
     public var features:Array<String> = new Array<String>();// wth is a guild feature?
+    /**
+       The guild's required MFA level.
+     */
     public var mfa_level:Int;
 
     //SENT ON GUILD_CREATE : 
 
+    /**
+       When the current user joined the guild.
+     */
     public var joined_at:Date;
+
+    /**
+       Is the guild classified by discord as "Large"?
+     */
     public var large:Bool;
+    /**
+       Is this guild unavailable? If so things are going wrong :(
+     */
     public var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
+    /**
+       The guild's member count
+     */
     public var member_count:Int;
+    /**
+       A dictionary of members in the guild by Id
+     */
     public var members:Map<String,GuildMember> = new Map<String,GuildMember>(); 
+    /**
+       A dictionary of textChannels in the guild by Id
+     */
     public var textChannels:Map<String,TextChannel> = new Map<String,TextChannel>();
+    /**
+       A dictionary of voiceChannels in the guild by Id
+     */
     public var voiceChannels:Map<String,VoiceChannel> = new Map<String,VoiceChannel>();
+    /**
+       A dictionary of categoryChannels in the guild by Id
+     */
     public var categoryChannels:Map<String,CategoryChannel> = new Map<String,CategoryChannel>();
+    /**
+       An array of partial presence updates of users in the guild.
+     */
     public var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
 
+    @:dox(hide)
     public var nextChancb:Array<GuildChannel->Void> = new Array<GuildChannel->Void>();
 
     //live variables
+    /**
+        A list of banned users.
+     */
     public var bans:Array<User> = new Array<User>();
+    /**
+       The owner of the guild
+     */
     public var owner:GuildMember;
 
+    @:dox(hide)
     public function new(_guild:com.raidandfade.haxicord.types.structs.Guild,_client:DiscordClient){
         client = _client;
 
@@ -60,6 +148,7 @@ class Guild{
             embed_channel_id = new Snowflake(_guild.embed_channel_id);
             verification_level = _guild.verification_level;
             default_message_notifications = _guild.default_message_notifications;
+            explicit_content_filter = _guild.explicit_content_filter;
             for(r in _guild.roles){
                 _newRole(r);
             }
@@ -87,6 +176,7 @@ class Guild{
         }
     }
 
+    @:dox(hide)
     public function _update(_guild:com.raidandfade.haxicord.types.structs.Guild.Update){
         if(_guild.unavailable!=null) unavailable = _guild.unavailable;
         if(!unavailable){
@@ -128,10 +218,12 @@ class Guild{
         }
     }
 
+    @:dox(hide)
     public function _updateEmojis(e:Array<com.raidandfade.haxicord.types.structs.Emoji>){
         emojis=e;
     }
 
+    @:dox(hide)
     public function _addChannel(c){
         if(nextChancb.length>0){nextChancb.splice(0,1)[0](c);}
         if(c.type==0)
@@ -142,14 +234,17 @@ class Guild{
             categoryChannels.set(c.id.id,cast(c,CategoryChannel));
     }
 
+    @:dox(hide)
     public function _addBan(user){
         bans.push(user);
     }
 
+    @:dox(hide)
     public function _removeBan(user){
         bans.remove(user);
     }
 
+    @:dox(hide)
     public function _newMember(memberStruct:com.raidandfade.haxicord.types.structs.GuildMember){
         if(members.exists(memberStruct.user.id)){
             members.get(memberStruct.user.id)._update(memberStruct);
@@ -161,6 +256,7 @@ class Guild{
         }
     }
 
+    @:dox(hide)
     public function _newRole(roleStruct:com.raidandfade.haxicord.types.structs.Role){
         if(roles.exists(roleStruct.id)){
             roles.get(roleStruct.id)._update(roleStruct);
