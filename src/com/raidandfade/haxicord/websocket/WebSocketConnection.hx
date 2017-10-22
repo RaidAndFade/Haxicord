@@ -10,11 +10,15 @@ import websocketsharp.WebSocket;
 
 class WebSocketConnection { 
 
-    public static var ws:WebSocket;
+    private static var ws:WebSocket;
     var queue:Array<String> = new Array<String>();
     var ready=false;
-    public static var host:String;
-
+    private static var host:String;
+    
+    /**
+        Connect to the given host (works for wss and ws)
+        @param _host - The url of the host
+     */
     public function new(_host){ 
         host = _host;
 
@@ -34,12 +38,11 @@ class WebSocketConnection {
 #end
     }
 
+    @:dox(hide)
     function create(){
-        trace("Opening Connection to "+host);
 #if cs
         ws = new WebSocket(host,new cs.NativeArray<String>(0));
         ws.add_OnOpen(new cs.system.EventHandler(function(f:Dynamic,e:cs.system.EventArgs){
-            trace("Connection done");
             ready=true;
             for(m in queue){
                 send(m);
@@ -57,7 +60,6 @@ class WebSocketConnection {
         }));
         ws.Connect();
 #else 
-        trace("ws");
         ws = WebSocket.create(host, [], null, false);
         ws.onopen = function(){
             ready=true;
@@ -70,7 +72,6 @@ class WebSocketConnection {
         ws.onmessageBytes = function(m){}
         ws.onerror = onError;
         ws.onclose = _onClose;
-        trace("nows");
 #if sys
         while (true) {
             ws.process();
@@ -80,10 +81,18 @@ class WebSocketConnection {
 #end
     }
     
+    /**
+        Send any object as json.
+        @param d - The object to send.
+     */
     public function sendJson(d:Dynamic){
         this.send(Json.stringify(d));
     }
     
+    /**
+        Send a raw string as a message.
+        @param m - The string to send.
+     */
     public function send(m:String){
         //trace(m);
         if(!ready)
@@ -96,23 +105,32 @@ class WebSocketConnection {
 #end
     }
 
+
     private function _onClose(){
         ready = false;
         onClose();
     }
 
-    dynamic public function onClose(){
-    }
+    /**
+        Event listener for when the socket is closed
+     */
+    dynamic public function onClose(){ }
 
-    dynamic public function onReady(){
-    }
+    /**
+        Event listener for when the socket is open and connected
+     */
+    dynamic public function onReady(){ }
 
-    dynamic public function onError(s){
-        //trace(s);
-    }
+    /**
+        Event listener for when the socket errors
+        @param s - The error.
+     */
+    dynamic public function onError(s){ }
 
-    dynamic public function onMessage(m){
-        //trace("Receiving "+m);
-    }
+    /**
+        Event listener for when a message is received
+        @param m - The message recieved;
+     */
+    dynamic public function onMessage(m){ }
 
 }
