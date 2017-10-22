@@ -37,10 +37,20 @@ class Role {
     }
 
     //Live funcs
+    
+    /**
+        Edit a role's data. Requires the MANAGE_ROLES permission.
+        @param rd - The new data, All fields are optional. 
+        @param cb - Returns the new role, or an error.
+     */
     public function edit(rd,cb=null){
         client.endpoints.editRole(guild.id.id,id.id,rd,cb);
     }
 
+    /**
+        Delete a role from a guild. Requires the MANAGE_ROLES permission.
+        @param cb - Called on completion, useful for checking for errors.
+     */
     public function delete(cb=null){
         client.endpoints.deleteRole(guild.id.id,id.id,cb);
     }
