@@ -52,6 +52,21 @@ class Https{
         return Json.stringify(d);
     }
 
+    public static function queryString(datar:{},startMark:Bool=true):String{
+        try{            var data:Map<String,Dynamic> = cast(datar,Map<String,Dynamic>);
+            var s = startMark?"?":"";
+            var c = 0;
+            for(k in data.keys()){
+                var v = data.get(k);
+                if(c++!=0)s+="&";
+                s+=k+"="+Std.string(v);
+            }
+            return s;
+        }catch(e:Dynamic){
+            return "";
+        }
+    }
+
     public static function makeRequest(url,method="GET",_callback:Null<Dynamic->Map<String,String>->Void>=null,_d:Dynamic=null,_headers:Map<String,String>=null,async=true){
         if(async)
             Timer.delay(_makeRequest.bind(url,method,_callback,_d,_headers),0);
@@ -190,8 +205,8 @@ class Https{
             //trace("Status!");
         }
         call.onError = function(no){
-            trace("Error! "+no);
-            trace(call.responseData);
+            //trace("Error! "+no);
+            //trace(call.responseData);
             var m = new Map<String,String>();
             for(k in call.responseHeaders.keys()){
                 var v = call.responseHeaders[k];
@@ -209,7 +224,7 @@ class Https{
             call.setPostData(sd);
         }
         call.onData = function(data){
-            trace("Data!");
+            //trace("Data!");
             var m = new Map<String,String>();
             for(k in call.responseHeaders.keys()){
                 var v = call.responseHeaders[k];

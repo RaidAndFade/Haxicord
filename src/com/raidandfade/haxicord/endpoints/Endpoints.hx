@@ -246,7 +246,7 @@ class Endpoints{
      */
     public function getMessages(channel_id:String,format:Typedefs.MessagesRequest,cb:Array<Message>->ErrorReport->Void=null){
         //Requires read_messages
-        var endpoint = new EndpointPath("/channels/{0}/messages{1}",[channel_id,queryString(format)]);
+        var endpoint = new EndpointPath("/channels/{0}/messages{1}",[channel_id,Https.queryString(format)]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.MessageStruct>,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
@@ -444,7 +444,7 @@ class Endpoints{
         if(filter==null){
             filter={};
         }
-        var endpoint = new EndpointPath("/guilds/{0}/audit-logs{1}",[guild_id,queryString(filter)]);
+        var endpoint = new EndpointPath("/guilds/{0}/audit-logs{1}",[guild_id,Https.queryString(filter)]);
         callEndpoint("GET",endpoint,function(al,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
@@ -536,7 +536,7 @@ class Endpoints{
         @param cb - The array of guild members. or an error.
      */
     public function getGuildMembers(guild_id:String,format:Typedefs.ListGuildMember,cb:Array<GuildMember>->String->Void=null){
-        var endpoint = new EndpointPath("/guilds/{0}/members{1}",[guild_id,queryString(format)]);
+        var endpoint = new EndpointPath("/guilds/{0}/members{1}",[guild_id,Https.queryString(format)]);
         callEndpoint("GET",endpoint,function(r:Array<com.raidandfade.haxicord.types.structs.GuildMember>,e){
             if(cb==null)return;
             if(e!=null)cb(null,e);
@@ -760,7 +760,7 @@ class Endpoints{
      */
     public function getPruneCount(guild_id:String,days:Int=1,cb:Int->ErrorReport->Void=null){
         //requires KICK_MEMBERS
-        var endpoint = new EndpointPath("/guilds/{0}/prune{1}",[guild_id,queryString({days:days})]);
+        var endpoint = new EndpointPath("/guilds/{0}/prune{1}",[guild_id,Https.queryString({days:days})]);
         callEndpoint("GET",endpoint,function(res:{pruned:Int},e){
             if(cb==null)return;
             if(e!=null)cb(-1,e);
@@ -776,7 +776,7 @@ class Endpoints{
      */
     public function beginPrune(guild_id:String,days:Int=1,cb:Int->ErrorReport->Void=null){
         //requires KICK_MEMBERS
-        var endpoint = new EndpointPath("/guilds/{0}/prune{1}",[guild_id,queryString({days:days})]);
+        var endpoint = new EndpointPath("/guilds/{0}/prune{1}",[guild_id,Https.queryString({days:days})]);
         callEndpoint("POST",endpoint,function(res:{pruned:Int},e){
             if(cb==null)return;
             if(e!=null)cb(-1,e);
@@ -1168,22 +1168,6 @@ class Endpoints{
 
 
 //BACKEND
-    //later on if it matters see if there's a better way to do this
-    @:dox(hide)
-    public static function queryString(datar:{}):String{
-        if(Std.is(datar,new Map<String,Dynamic>())){
-            var data:Map<String,Dynamic> = cast(datar,Map<String,Dynamic>);
-            var s = "?";
-            var c = 0;
-            for(k in data.keys()){
-                var v = data.get(k);
-                if(c++!=0)s+="&";
-                s+=k+"="+Std.string(v);
-            }
-            return s;
-        }
-        return "";
-    }
 
     @:dox(hide)
     var globalQueue:Array<EndpointCall> = new Array<EndpointCall>();
@@ -1217,13 +1201,13 @@ class Endpoints{
         }
         globalReqsLeft--;
         //Per ep ratelimit
-        trace("Req : "+endpoint.getPath());
+        //trace("Req : "+endpoint.getPath());
         var rateLimitName = endpoint.getRoute();
-        trace("RLC: "+rateLimitCache.exists(rateLimitName));
+        //trace("RLC: "+rateLimitCache.exists(rateLimitName));
         if(rateLimitCache.exists(rateLimitName)){
-            trace("RLL: "+rateLimitCache.get(rateLimitName).remaining);
+            //trace("RLL: "+rateLimitCache.get(rateLimitName).remaining);
             if(rateLimitCache.get(rateLimitName).remaining <= 0){
-                trace("LQ: "+limitedQueue.exists(rateLimitName));
+                //trace("LQ: "+limitedQueue.exists(rateLimitName));
                 if(limitedQueue.exists(rateLimitName)){
                     limitedQueue.get(rateLimitName).push(new EndpointCall(method,endpoint,callback,data,authorized));
                 }else{
@@ -1239,8 +1223,8 @@ class Endpoints{
         }
         var popQueue = function(rateLimitName){
             if(limitedQueue.exists(rateLimitName)&&limitedQueue.get(rateLimitName)!=null){
-                trace(limitedQueue.get(rateLimitName));
-                trace(limitedQueue.get(rateLimitName).length);
+                //trace(limitedQueue.get(rateLimitName));
+                //trace(limitedQueue.get(rateLimitName).length);
                 if(limitedQueue.get(rateLimitName).length>0){
                     var arrCopy = limitedQueue.get(rateLimitName).map(function(l){return l;});
                     limitedQueue.set(rateLimitName,new Array<EndpointCall>());
@@ -1252,7 +1236,7 @@ class Endpoints{
             }
         }
         var _callback = function(data,headers:Map<String,String>){
-            trace("?: ",rateLimitName,rateLimitCache.get(rateLimitName));
+            //trace("?: ",rateLimitName,rateLimitCache.get(rateLimitName));
             if(headers.exists("x-ratelimit-reset")){
                 var limit = Std.parseInt(headers.get("x-ratelimit-limit"));
                 var remaining = Std.parseInt(headers.get("x-ratelimit-remaining"));
@@ -1261,12 +1245,12 @@ class Endpoints{
                 if(remaining==0){
                     var delay = (Std.int(reset-(Date.now().getTime()/1000))*1000)+500;
                     var waitForLimit = function(rateLimitName,rateLimit){
-                        trace("Ratelimit reset reached.");
+                        //trace("Ratelimit reset reached for "+endpoint.getRoute());
                         rateLimitCache.set(rateLimitName,new RateLimit(limit,limit,-1));
                         popQueue(rateLimitName);
                     }
 
-                    trace("Must wait for "+delay+"ms.");
+                    //trace("Ratelimit reached for "+endpoint.getRoute()+" Must wait for "+delay+"ms.");
                     var f = waitForLimit.bind(rateLimitName,rateLimitCache.get(rateLimitName));
                     Timer.delay(f,delay);
                 }
@@ -1276,7 +1260,7 @@ class Endpoints{
                     }
                 }
             }else{
-                trace("No ratelimits on this endpoint.");
+                //trace("No ratelimits on this endpoint.");
                 rateLimitCache.set(rateLimitName,new RateLimit(50,50,-1));
                 popQueue(rateLimitName);
             }
