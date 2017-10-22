@@ -3,7 +3,7 @@ package com.raidandfade.haxicord.logger;
 
 class Logger{
 
-    static var outPrefix = "[%c{Green}%t%c{Reset}] %c{lightblue}%cn%c{Reset}->%c{lightblue}%fn()%c{Reset}:%c{Red}%l%c{Reset}: ";
+    static var outPrefix = "[%c{Green}%t%c{Reset}] %c{lightblue}%cn%c{Reset}->%c{LightBlue}%fn()%c{Reset}:%c{LightRed}%l%c{Reset}: ";
 
     static var origTrace : Dynamic;
 
@@ -21,6 +21,7 @@ class Logger{
         #end
         return switch(col.toLowerCase()){
             case "red": "\033[0;31m";
+            case "lightred": "\033[0;91m";
             case "green": "\033[0;32m";
             case "lightblue": "\033[0;94m";
             case "blue": "\033[0;34m";
