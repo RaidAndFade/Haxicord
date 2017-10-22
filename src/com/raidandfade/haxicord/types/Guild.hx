@@ -314,6 +314,14 @@ class Guild{
     }
 
     /**
+        Get a guild's audit logs
+        @param filter - Filter audit logs by these parameters.
+        @param cb - Returns the AuditLog object, or an error.
+     */
+    public function getAuditLog(filter=null,cb=null){
+        client.endpoints.getAuditLogs(id.id,filter,cb);
+    }
+    /**
         Prune the members of a server. Requires the KICK_MEMBERS permission
         @param days - The number of days to count prune for.
         @param cb - Returns the number of users that were pruned, or an error.

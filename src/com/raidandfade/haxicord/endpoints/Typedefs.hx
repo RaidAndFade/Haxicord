@@ -3,6 +3,7 @@ package com.raidandfade.haxicord.endpoints;
 import com.raidandfade.haxicord.types.Snowflake;
 import com.raidandfade.haxicord.types.structs.Embed;
 import com.raidandfade.haxicord.types.structs.Role;
+import com.raidandfade.haxicord.types.structs.AuditLog.AuditLogEvent;
 
 typedef Gateway = {
     var url:String;
@@ -57,6 +58,13 @@ typedef GuildCreate = {
     var default_message_notifications:Int;
     var roles:Array<Role>;
     var channels:Array<ChannelCreate>;
+}
+
+typedef AuditLogFilter = {
+    @:optional var user_id:String;
+    @:optional var action_type:AuditLogEvent;
+    @:optional var before:String;
+    @:optional var limit:Int;
 }
 
 typedef GuildUpdate = {

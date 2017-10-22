@@ -23,6 +23,7 @@ import com.raidandfade.haxicord.types.Role;
 import com.raidandfade.haxicord.types.structs.MessageStruct.Reaction;
 import com.raidandfade.haxicord.types.structs.GuildChannel.Overwrite;
 import com.raidandfade.haxicord.types.structs.Invite;
+import com.raidandfade.haxicord.types.structs.AuditLog.AuditLog;
 import com.raidandfade.haxicord.types.structs.Voice.VoiceRegion;
 import com.raidandfade.haxicord.types.structs.GuildIntegration;
 import com.raidandfade.haxicord.types.structs.GuildEmbed;
@@ -426,6 +427,24 @@ class Endpoints{
         });
     }
     
+    /**
+        Get a guild's audit logs
+        @param guild_id - The guild id to get 
+        @param filter - Filter audit logs by these parameters.
+        @param cb - Returns the AuditLog object, or an error.
+     */
+    public function getAuditLogs(guild_id:String,filter:Typedefs.AuditLogFilter=null,cb:AuditLog->ErrorReport->Void=null){
+        //Requires view_audit_log
+        if(filter==null){
+            filter={};
+        }
+        var endpoint = new EndpointPath("/guilds/{0}/audit-logs{1}",[guild_id,queryString(filter)]);
+        callEndpoint("GET",endpoint,function(al,e){
+            if(cb==null)return;
+            if(e!=null)cb(null,e);
+            else cb(al,null);
+        });
+    }
     /**
         Edit a guild's settings. Requires the MANAGE_GUILD permission
         @param guild_id - The guild id.
