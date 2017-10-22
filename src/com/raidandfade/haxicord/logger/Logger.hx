@@ -3,7 +3,7 @@ package com.raidandfade.haxicord.logger;
 
 class Logger{
 
-    static var outPrefix = "[%c{Green}%t%c{Reset}]%c{lightblue}%cn%c{Reset}->%c{lightblue}%fn()%c{Reset}:%c{Red}%l%c{Reset}: ";
+    static var outPrefix = "[%c{Green}%t%c{Reset}] %c{lightblue}%cn%c{Reset}->%c{lightblue}%fn()%c{Reset}:%c{Red}%l%c{Reset}: ";
 
     static var origTrace : Dynamic;
 
