@@ -38,6 +38,9 @@ class Endpoints{
         client=_c;
     }
 
+    var lastGlobalCheck:Int = -1;
+    var globalReqsLeft:Int = 50;
+
     var rateLimitCache:Map<String,RateLimit> = new Map<String,RateLimit>();
     var limitedQueue:Map<String,Array<EndpointCall>> = new Map<String,Array<EndpointCall>>();
 
@@ -1156,8 +1159,29 @@ class Endpoints{
         return "";
     }
 
+    var globalQueue:Array<EndpointCall> = new Array<EndpointCall>();
+    var globalTimer:Bool;
 //TODO global ratelimit
     public function callEndpoint(method:String,endpoint:EndpointPath,callback:Null<Dynamic->ErrorReport->Void>=null,data:{}=null,authorized:Bool=true){
+        if(globalReqsLeft==0){
+            globalQueue.push(new EndpointCall(method,endpoint,callback,data,authorized));
+            if(!globalTimer){
+                globalTimer = true;
+                trace("You hit global limit. Waiting for the next second.");
+                Timer.delay(function(){
+                    globalReqsLeft = 50;
+                    globalTimer=false;
+                    trace("Global limit passed. Calling endpoints now");
+                    var call:EndpointCall;
+                    while((call = globalQueue.pop())!=null){
+                        callEndpoint(call.method,call.endpoint,call.callback,call.data,call.authorized);
+                    }
+                },1000);
+            }
+            return;
+        }
+        globalReqsLeft--;
+        //Per ep ratelimit
         trace("Req : "+endpoint.getPath());
         var rateLimitName = endpoint.getRoute();
         trace("RLC: "+rateLimitCache.exists(rateLimitName));
