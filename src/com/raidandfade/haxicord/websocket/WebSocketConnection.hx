@@ -21,17 +21,14 @@ class WebSocketConnection {
      */
     public function new(_host){ 
         host = _host;
-
-        //Thread this.
-        var th:Dynamic;
 #if cpp
-        th = cpp.vm.Thread.create(create);
+        var th = cpp.vm.Thread.create(create);
 #elseif java
-        th = java.vm.Thread.create(create);
+        var th = java.vm.Thread.create(create);
 #elseif neko
-        th = neko.vm.Thread.create(create);
+        var th = neko.vm.Thread.create(create);
 #elseif cs
-        th = new cs.system.threading.Thread(new cs.system.threading.ThreadStart(create));
+        var th = new cs.system.threading.Thread(new cs.system.threading.ThreadStart(create));
         th.Start();
 #else
         create();
