@@ -6,7 +6,7 @@ interface MessageChannel{
     public var last_message_id:Snowflake;
     public var type:Int;
 
-    public function getMention():String;
+    public function getTag():String;
 
     public function sendMessage(
         mesg:com.raidandfade.haxicord.endpoints.Typedefs.MessageCreate,
