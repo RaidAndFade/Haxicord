@@ -4,6 +4,7 @@ class VoiceChannel extends GuildChannel {
     public var bitrate:Int;
     public var user_limit:Int;
 
+    @:dox(hide)
     public function new(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.VoiceChannel,_client:DiscordClient){
         client = _client;
 
@@ -19,6 +20,7 @@ class VoiceChannel extends GuildChannel {
         user_limit = _chan.user_limit;
     }
 
+    @:dox(hide)
     public function _update(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.VoiceChannel){
         if(_chan.name!=null) name = _chan.name;
         if(_chan.position!=null) position = _chan.position;
@@ -28,6 +30,7 @@ class VoiceChannel extends GuildChannel {
         if(_chan.nsfw!=null) nsfw = _chan.nsfw;
     }
 
+    @:dox(hide)
     public static function fromStruct(_chan,_client){
         return new VoiceChannel(_chan,_client);
     }

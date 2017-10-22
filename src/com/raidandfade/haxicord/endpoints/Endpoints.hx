@@ -33,16 +33,22 @@ import com.raidandfade.haxicord.types.structs.Webhook;
 
 class Endpoints{
 
+    @:dox(hide)
     var client:DiscordClient;
 
+    @:dox(hide)
     public function new(_c:DiscordClient){
         client=_c;
     }
 
+    @:dox(hide)
     var lastGlobalCheck:Int = -1;
+    @:dox(hide)
     var globalReqsLeft:Int = 50;
 
+    @:dox(hide)
     var rateLimitCache:Map<String,RateLimit> = new Map<String,RateLimit>();
+    @:dox(hide)
     var limitedQueue:Map<String,Array<EndpointCall>> = new Map<String,Array<EndpointCall>>();
 
 //ACTUAL ENDPOINTS : 
@@ -1163,6 +1169,7 @@ class Endpoints{
 
 //BACKEND
     //later on if it matters see if there's a better way to do this
+    @:dox(hide)
     public static function queryString(datar:{}):String{
         if(Std.is(datar,new Map<String,Dynamic>())){
             var data:Map<String,Dynamic> = cast(datar,Map<String,Dynamic>);
@@ -1178,9 +1185,18 @@ class Endpoints{
         return "";
     }
 
+    @:dox(hide)
     var globalQueue:Array<EndpointCall> = new Array<EndpointCall>();
+    @:dox(hide)
     var globalTimer:Bool;
-//TODO global ratelimit
+    /**
+        Call an endpoint while respecting ratelimits and such. Only use this if the endpoint call is not a function of its own (and make an issue on the github if that is the case)
+        @param method - The HTTP method to use.
+        @param endpoint - The method url (not including the discord api part).
+        @param callback - The function to callback to.
+        @param data - Any extra data to send along (as POST body).
+        @param authorized - Whether the endpoint requires a token or not.
+     */
     public function callEndpoint(method:String,endpoint:EndpointPath,callback:Null<Dynamic->ErrorReport->Void>=null,data:{}=null,authorized:Bool=true){
         if(globalReqsLeft==0){
             globalQueue.push(new EndpointCall(method,endpoint,callback,data,authorized));
@@ -1278,7 +1294,14 @@ class Endpoints{
         return;
     }
 
-    //TODO doc
+    /**
+        Call an endpoint directly, no ratelimits no nothin.
+        @param method - The HTTP method to use.
+        @param endpoint - The method url (not including the discord api part).
+        @param callback - The function to callback to.
+        @param data - Any extra data to send along (as POST body).
+        @param authorized - Whether the endpoint requires a token or not.
+     */
     public function rawCallEndpoint(method:String,endpoint:String,callback:Null<Dynamic->Map<String,String>->Void>=null,data:{}=null,authorized:Bool=true){
         if(callback == null){
             callback = function(f,a){}
@@ -1307,6 +1330,7 @@ class Endpoints{
 }
 
 // Love you b1nzy
+@:dox(hide)
 class RateLimit { 
     public var limit:Int;
     public var remaining:Int;
@@ -1322,6 +1346,7 @@ class RateLimit {
     }
 }
 
+@:dox(hide)
 class EndpointCall {
     public var method:String;
     public var endpoint:EndpointPath;
@@ -1333,6 +1358,7 @@ class EndpointCall {
     }
 }
 
+@:dox(hide)
 class EndpointPath { 
     public var endpoint:String;
     public var data:Array<String>;
@@ -1357,6 +1383,7 @@ class EndpointPath {
         return cur;
     }
 }
+@:dox(hide)
 typedef ErrorReport = Dynamic;
 /*Null<{
     @:optional var error:String;
@@ -1364,4 +1391,5 @@ typedef ErrorReport = Dynamic;
 }>;
 eventually...
 */
+@:dox(hide)
 typedef EmptyResponseCallback = Dynamic->ErrorReport->Void;

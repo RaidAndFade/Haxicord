@@ -16,6 +16,7 @@ class GuildChannel extends Channel {
         return client.getGuildUnsafe(guild_id.id);
     }
 
+    @:dox(hide)
     public static function fromStruct(_chan):Dynamic->DiscordClient->GuildChannel{
         if(_chan.type==0){
             return TextChannel.fromStruct;

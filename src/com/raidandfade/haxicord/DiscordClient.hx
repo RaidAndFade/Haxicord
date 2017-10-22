@@ -27,32 +27,62 @@ import haxe.Timer;
 @:keep
 @:expose
 class DiscordClient { 
+     /**
+      The name of the library
+     */
     public static var libName:String = "Haxicord";
+    /**
+      The library's useragent
+     */
     public static var userAgent:String = "DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.0.2)";
+    /**
+      The gateway version being used.
+     */
     public static var gatewayVersion:Int = 7;
     
     //cache arrays (id,object)
+    @:dox(hide)
     public var messageCache:Map<String,Message> = new Map<String,Message>();
+    @:dox(hide)
     public var userCache:Map<String,User> = new Map<String,User>();
+    @:dox(hide)
     public var channelCache:Map<String,Channel> = new Map<String,Channel>();
+    @:dox(hide)
     public var dmChannelCache:Map<String,DMChannel> = new Map<String,DMChannel>();
+    @:dox(hide)
     public var guildCache:Map<String,Guild> = new Map<String,Guild>();
 
+    @:dox(hide)
     public var userDMChannels:Map<String,String> = new Map<String,String>();//put this in somewhere.
+    @:dox(hide)
     public var ready = false;
-
+    /**
+        The bot user, this is you.
+     */
     public var user:User; //me
 
+    @:dox(hide)
     public var token:String;
+    /**
+        Is the bot a bot account? <Always true>
+     */
     public var isBot:Bool;
 
+    @:dox(hide)
     public var endpoints:Endpoints;
 
+    @:dox(hide)
     public var reconnectTimeout:Int = 1;
 
+    @:dox(hide)
     var hbThread:HeartbeatThread;
+    @:dox(hide)
     var ws:WebSocketConnection;
 
+    /**
+        Initialize the bot with your token. This should be the first thing you run in your program.
+        @param _tkn - Your BOT token. User tokens do not work!
+     */
     public function new(_tkn:String){ //Sharding? lol good joke.
         Logger.registerLogger();
 
@@ -78,6 +108,7 @@ class DiscordClient {
 #end
     }
 //Flowchart
+    @:dox(hide)
     function connect(gateway,error){
         if(error!=null)throw error;
         //trace("Gottening");
@@ -95,6 +126,7 @@ class DiscordClient {
         }
     }
 
+    @:dox(hide)
     function reconnect(gateway,error){
         if(error!=null)throw error;
         //trace("Gottening");
@@ -109,6 +141,7 @@ class DiscordClient {
         }
     }
 
+    @:dox(hide)
     function webSocketMessage(msg){
         //trace(msg);
         var m:WSMessage = Json.parse(msg);
@@ -124,6 +157,7 @@ class DiscordClient {
         }
     }
 
+    @:dox(hide)
     function receiveEvent(msg){
         var m:WSMessage = msg;
         var d:Dynamic;
@@ -369,6 +403,7 @@ class DiscordClient {
     }
 
 //remove
+    @:dox(hide)
     public function removeChannel(id){
         //remove from guild too.
         var c = channelCache.get(id);
@@ -384,14 +419,17 @@ class DiscordClient {
         channelCache.remove(id);
     }
 
+    @:dox(hide)
     public function removeMessage(id){
         messageCache.remove(id);
     }
 
+    @:dox(hide)
     public function removeGuild(id){
         guildCache.remove(id);
     }
 
+    @:dox(hide)
     public function removeUser(id){
         userCache.remove(id);
     }
@@ -534,6 +572,7 @@ class DiscordClient {
 //"constructors"
 //Channels in client cache should be updated in guild cache.
 
+    @:dox(hide)
     public function _newMessage(message_struct:com.raidandfade.haxicord.types.structs.MessageStruct){
         var id = message_struct.id;
         //trace("NEW MESSAGE: "+id);
@@ -547,6 +586,7 @@ class DiscordClient {
         }
     }
 
+    @:dox(hide)
     public function _newUser(user_struct:com.raidandfade.haxicord.types.structs.User){
         var id = user_struct.id;
         //trace("NEW USER: "+id);
@@ -560,10 +600,12 @@ class DiscordClient {
         }
     }
 
+    @:dox(hide)
     public function _newChannel(channel_struct){
         return __newChannel(channel_struct)(channel_struct);
     }
 
+    @:dox(hide)
     public function __newChannel(channel_struct:Dynamic):Dynamic->Channel{
         if(channel_struct.type == "text" || channel_struct.type == "voice"){
             channel_struct.type = channel_struct.type=="text"?0:2;
@@ -591,6 +633,7 @@ class DiscordClient {
         }
     }
 
+    @:dox(hide)
     public function _newDMChannel(channel_struct:com.raidandfade.haxicord.types.structs.DMChannel){
         var id = channel_struct.id; 
         if(dmChannelCache.exists(id)){
@@ -605,6 +648,7 @@ class DiscordClient {
         }
     }
 
+    @:dox(hide)
     public function _newGuild(guild_struct:com.raidandfade.haxicord.types.structs.Guild){
         var id = guild_struct.id;
         //race("NEW GUILD: "+id);
@@ -738,7 +782,7 @@ class DiscordClient {
     /**
         Event hook for when reactions are removed.
         @param m - The message the reaction was removed from.
-        @param u - The user that removed the reaction. (THIS IS ONLY NULL IF MESSAGE WAS PURGED AND REACTION WAS NOT CACHED)
+        @param u - The user that removed the reaction. (Do not rely on this for purges, may be null)
         @param e - The emoji of the reaction.
      */
     public dynamic function onReactionRemove(m:Message,u:Null<User>,e:com.raidandfade.haxicord.types.structs.Emoji){}
@@ -757,14 +801,14 @@ class DiscordClient {
 
 }
 
-typedef WSMessage = {
+private typedef WSMessage = {
     var op:Int;
     var d:Dynamic;
     var s:Int;
     var t:String;
 }
 
-class WSPrepareData {
+private class WSPrepareData {
     public static function Identify(t:String, p:WSIdentify_Properties=null, c:Bool=false, l:Int=59, s:WSShard=null){
         if(p==null) p = {"$os":"","$browser":DiscordClient.libName,"$device":DiscordClient.libName,"$referrer":"","$referring_domain":""};
         if(s==null) s = [0,1];
@@ -776,9 +820,9 @@ class WSPrepareData {
     }
 }
 
-typedef WSShard = Array<Int>;
+private typedef WSShard = Array<Int>;
 
-typedef WSIdentify_Properties = {
+private typedef WSIdentify_Properties = {
     @:optional var os:String;
     @:optional var browser:String;
     @:optional var device:String;
@@ -786,7 +830,7 @@ typedef WSIdentify_Properties = {
     @:optional var referring_domain:String;
 }
 
-typedef WSReady = {
+private typedef WSReady = {
     @:optional var v:Int;
     @:optional var user_settings:Dynamic;
     @:optional var user:com.raidandfade.haxicord.types.structs.User;
@@ -799,7 +843,7 @@ typedef WSReady = {
     @:optional var _trace:Dynamic;
 }
 
-class HeartbeatThread { 
+private class HeartbeatThread { 
     public var delay:Int;
 
     var seq:Null<Int>;

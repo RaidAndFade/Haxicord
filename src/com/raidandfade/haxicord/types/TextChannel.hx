@@ -4,6 +4,7 @@ class TextChannel extends GuildChannel implements MessageChannel {
     public var topic:String;
     public var last_message_id:Snowflake;
 
+    @:dox(hide)
     public function new(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.TextChannel,_client:DiscordClient){
         client = _client;
 
@@ -19,6 +20,7 @@ class TextChannel extends GuildChannel implements MessageChannel {
         last_message_id = new Snowflake(_chan.last_message_id);
     }
 
+    @:dox(hide)
     public function _update(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.TextChannel){
         if(_chan.name!=null) name = _chan.name;
         if(_chan.position!=null) position = _chan.position;
@@ -27,11 +29,15 @@ class TextChannel extends GuildChannel implements MessageChannel {
         if(_chan.nsfw!=null) nsfw = _chan.nsfw;
     }
 
+    @:dox(hide)
     public static function fromStruct(_chan,_client){
         return new TextChannel(_chan,_client);
     }
 
     //livestruct
+    /**
+       Returns whether the channel is part of a guild or not. Always true for TextChannels
+     */
     public function inGuild(){
         return true;
     }

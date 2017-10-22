@@ -5,6 +5,10 @@ class Tag{
     var type:TagType;
     var value:Snowflake;
 
+    /**
+     *  Generate a tag object with tag type based on a given discord tag.
+     *  @param _tag - The tag string Ex "<@120308435639074816>"
+     */
     public function new(_tag:String){
         tag = _tag;
 
@@ -25,6 +29,9 @@ class Tag{
     }
 }
 
+/**
+    Possible TagTypes
+ */
 enum TagType{
     User;
     Nick;

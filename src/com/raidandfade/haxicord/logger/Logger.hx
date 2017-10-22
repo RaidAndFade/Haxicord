@@ -1,18 +1,31 @@
 package com.raidandfade.haxicord.logger;
 
 
+/**
+    A logger that actually looks good. Use this please. The `no_colors` compile flag will remove colors from the prefix format.
+ */
 class Logger{
 
     static var outPrefix = "[%c{Green}%t%c{Reset}] %c{lightblue}%cn%c{Reset}->%c{LightBlue}%fn()%c{Reset}:%c{LightRed}%l%c{Reset}: ";
 
     static var origTrace : Dynamic;
 
+    /**
+       Register the logger as your official logger.
+     */
     public static function registerLogger(){
         origTrace = haxe.Log.trace;
         haxe.Log.trace = hxTrace;
         #if (!no_colors&&sys)
             Sys.command("echo \033[0m"); //because windows is very special.
         #end
+    }
+
+    /**
+       Use this when you regret having a good logger you filthy black and white terminal person.
+     */
+    public static function unregisterLogger(){
+        haxe.Log.trace = origTrace;
     }
 
     public static function getReplaceColor(col:String):String{

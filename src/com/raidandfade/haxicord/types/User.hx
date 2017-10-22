@@ -19,6 +19,7 @@ class User {
     public var email:String;
 
 
+    @:dox(hide)
     public function new(_user:com.raidandfade.haxicord.types.structs.User,_client:DiscordClient){
         client = _client;
 
@@ -34,6 +35,7 @@ class User {
         if(_user.email!=null)       email = _user.email;
     }
 
+    @:dox(hide)
     public function _update(_user:com.raidandfade.haxicord.types.structs.User){
         if(_user.username!=null) username = _user.username;
         if(_user.discriminator!=null) discriminator = _user.discriminator;

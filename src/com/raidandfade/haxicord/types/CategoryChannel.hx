@@ -1,6 +1,7 @@
 package com.raidandfade.haxicord.types;
 
 class CategoryChannel extends GuildChannel{
+    @:dox(hide)
     public function new(_chan:com.raidandfade.haxicord.types.structs.GuildChannel,_client){
         client = _client;
 
@@ -14,6 +15,7 @@ class CategoryChannel extends GuildChannel{
         permission_overwrites = _chan.permission_overwrites;
     }
     
+    @:dox(hide)
     public function _update(_chan:com.raidandfade.haxicord.types.structs.GuildChannel){
         if(_chan.name!=null) name = _chan.name;
         if(_chan.position!=null) position = _chan.position;
@@ -21,6 +23,7 @@ class CategoryChannel extends GuildChannel{
         if(_chan.nsfw!=null) nsfw = _chan.nsfw;
     }
 
+    @:dox(hide)
     public static function fromStruct(_chan:com.raidandfade.haxicord.types.structs.GuildChannel,_client){
         return new CategoryChannel(_chan,_client);
     }

@@ -5,9 +5,21 @@ import haxe.extern.EitherType;
 class Channel{
     public var client:DiscordClient;
 
+    /**
+        The type of the channel
+        0 = Guild Text Channel
+        1 = DM Channel
+        2 = Guild Voice Channel
+        3 = Group DM
+        4 = Category Channel
+    */
     public var type:Int;
+    /**
+       The ID of the channel.
+     */
     public var id:Snowflake;
 
+    @:dox(hide)
     public static function fromStruct(_chan:com.raidandfade.haxicord.types.structs.Channel):Dynamic->DiscordClient->Channel{
         if(_chan.type==1){
             return DMChannel.fromStruct;
@@ -16,7 +28,10 @@ class Channel{
         }
     }
 
-    public function getMention(){
+    /**
+        Get the tag for the channel as a string.
+     */
+    public function getTag(){
         return "<#"+id.id+">";
     }
 }

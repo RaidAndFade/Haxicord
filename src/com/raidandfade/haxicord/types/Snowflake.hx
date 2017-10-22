@@ -3,6 +3,9 @@ package com.raidandfade.haxicord.types;
 class Snowflake {
     public var id:String;
     public var timestamp:Float;
+    /**
+        Create a snowflake object given a snowflake string.
+     */
     public function new(flake:String=null){
         if(flake!=null){
             id = flake;
@@ -15,6 +18,9 @@ class Snowflake {
 
     }
 
+    /**
+        Generate a snowflake with the current time.
+     */
     public static function generate(){
         var flake = new Snowflake();
         flake.timestamp = (Date.now().getTime()/1000);
@@ -23,9 +29,16 @@ class Snowflake {
         return flake;
     }
 
+    /**
+       Return the snowflake in the form of a string.
+     */
     public function toString(){
         return id;
     }
+    /**
+       Check if the snowflake is equal to another snowflake
+       @param b - The other snowflake
+     */
     public function equals(b:Snowflake){
         return eq(this,b);
     }

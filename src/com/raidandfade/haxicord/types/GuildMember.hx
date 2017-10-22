@@ -13,6 +13,7 @@ class GuildMember {
     public var mute:Bool;
     public var guild:Guild;
 
+    @:dox(hide)
     public function new(_mem:com.raidandfade.haxicord.types.structs.GuildMember,_guild:Guild,_client:DiscordClient){
         client = _client;
         guild = _guild;
@@ -25,12 +26,14 @@ class GuildMember {
         mute = _mem.mute;
     }
 
+    @:dox(hide)
     public function _update(_mem:com.raidandfade.haxicord.types.structs.GuildMember){
         if(_mem.user!=null) user = client._newUser(_mem.user);
         displayName = _mem.nick==null?_mem.user.username:_mem.nick;
         if(_mem.roles!=null) roles = _mem.roles;
     }
 
+    @:dox(hide)
     public function _updatePresence(_pre:com.raidandfade.haxicord.types.structs.Presence){
         displayName = _pre.nick==null?this.user.username:_pre.nick;
         if(_pre.roles!=null) roles = _pre.roles;

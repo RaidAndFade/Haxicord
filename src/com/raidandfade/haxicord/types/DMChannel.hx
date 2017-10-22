@@ -2,10 +2,21 @@ package com.raidandfade.haxicord.types;
 
 
 class DMChannel extends Channel implements MessageChannel{
+
+    /**
+       The other person in the DM chat. Will be null for Group DMs
+     */
     public var recipient:User;
+    /**
+       A list of all others in the dm channel.
+     */
     public var recipients:Array<User>;
+    /**
+       The id of the last Message that was sent in the chat.
+     */
     public var last_message_id:Snowflake;
 
+    @:dox(hide)
     public function new(_chan:com.raidandfade.haxicord.types.structs.DMChannel,_client:DiscordClient){
         client = _client;
 
@@ -27,6 +38,7 @@ class DMChannel extends Channel implements MessageChannel{
         last_message_id = new Snowflake(_chan.last_message_id);
     }
 
+    @:dox(hide)
     public function _update(_chan:com.raidandfade.haxicord.types.structs.DMChannel){
         
         if(_chan.recipient!=null) 
@@ -44,11 +56,15 @@ class DMChannel extends Channel implements MessageChannel{
         if(_chan.last_message_id!=null)last_message_id = new Snowflake(_chan.last_message_id);
     }
 
+    @:dox(hide)
     public static function fromStruct(_chan,_client){
         return new DMChannel(_chan,_client);
     }
 
 //Live endpoints
+    /**
+        Returns whether the channel is in a guild or not (Always false for DM channels)
+     */
     public function inGuild(){
         return false;
     }

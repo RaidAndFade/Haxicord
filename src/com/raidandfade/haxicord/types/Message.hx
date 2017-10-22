@@ -29,6 +29,7 @@ class Message {
 
     var client:DiscordClient;
 
+    @:dox(hide)
     public function new(_msg:com.raidandfade.haxicord.types.structs.MessageStruct,_client:DiscordClient){
         client = _client;
 
@@ -50,6 +51,7 @@ class Message {
         webhook_id = _msg.webhook_id;
     }
 
+    @:dox(hide)
     public function _update(_msg:com.raidandfade.haxicord.types.structs.MessageStruct){
         if(_msg.edited_timestamp!=null)edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
         if(_msg.tts!=null)tts = _msg.tts;
@@ -64,14 +66,17 @@ class Message {
         if(_msg.webhook_id!=null)webhook_id = _msg.webhook_id;
     }
 
+    @:dox(hide)
     public function _addReaction(_u:User,_e){
         reactions.push({who:_u.id.id,emoji:_e});
     }
 
+    @:dox(hide)
     public function _delReaction(_u:User,_e){
         reactions = [for (r in reactions) if(!(r.who == _u.id.id && r.emoji == _e)) r];
     }
 
+    @:dox(hide)
     public function _purgeReactions(){
         reactions = new Array<Reaction>();
     }

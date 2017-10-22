@@ -14,6 +14,7 @@ class Role {
 
     public var guild:Guild;
 
+    @:dox(hide)
     public function new(_role:com.raidandfade.haxicord.types.structs.Role,_guild,_client:DiscordClient){
         client = _client;
         id = new Snowflake(_role.id);
@@ -27,6 +28,7 @@ class Role {
         guild = _guild;
     }
 
+    @:dox(hide)
     public function _update(_role:com.raidandfade.haxicord.types.structs.Role){
         if(_role.color!=null) color = _role.color;
         if(_role.hoist!=null) hoist = _role.hoist;
