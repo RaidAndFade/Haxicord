@@ -5,13 +5,34 @@ import com.raidandfade.haxicord.types.structs.GuildChannel.Overwrite;
 import haxe.extern.EitherType;
 
 class GuildChannel extends Channel {
+    /**
+        The ID of the guild this is part of.
+     */
     public var guild_id:Snowflake;
+    /**
+        The name of this channel
+     */
     public var name:String;
+    /**
+        The ID of the category this is under (Or null)
+     */
     public var parent_id:Snowflake;
+    /**
+        Is this channel nsfw?
+     */
     public var nsfw:Bool;
+    /**
+        The position of this channel.
+     */
     public var position:Int;
+    /**
+        A list of this channel's permission overwrites
+     */
     public var permission_overwrites:Array<Overwrite>;
 
+    /**
+       Get the guild object that this channel is a part of. If this returns null or throws an error something has seriously gone wrong.
+     */
     public function getGuild(){
         return client.getGuildUnsafe(guild_id.id);
     }

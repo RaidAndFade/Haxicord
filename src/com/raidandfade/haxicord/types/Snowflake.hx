@@ -1,7 +1,13 @@
 package com.raidandfade.haxicord.types;
 
 class Snowflake {
+    /**
+       The id string of the snowflake
+     */
     public var id:String;
+    /**
+       The timestamp representation of the snowflake
+     */
     public var timestamp:Float;
     /**
         Create a snowflake object given a snowflake string.

@@ -3,6 +3,7 @@ package com.raidandfade.haxicord.types;
 import haxe.extern.EitherType;
 
 class Channel{
+    @:dox(hide)
     public var client:DiscordClient;
 
     /**

@@ -1,13 +1,22 @@
 package com.raidandfade.haxicord.types.structs;
 
 class Tag{
+    /**
+       The string representation of the tag
+     */
     var tag:String;
+    /**
+       The tag type
+     */
     var type:TagType;
+    /**
+       The tag's snowflake contents
+     */
     var value:Snowflake;
 
     /**
-     *  Generate a tag object with tag type based on a given discord tag.
-     *  @param _tag - The tag string Ex "<@120308435639074816>"
+        Generate a tag object with tag type based on a given discord tag.
+        @param _tag - The tag string Ex "<@120308435639074816>"
      */
     public function new(_tag:String){
         tag = _tag;

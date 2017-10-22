@@ -5,12 +5,33 @@ import haxe.DateUtils;
 class GuildMember {
     var client:DiscordClient;
 
+    /**
+       The user object of this member
+     */
     public var user:User;
-    public var displayName:Null<String>;
+    /**
+       This member's displayname (Their nickname if they have one, otherwise their username)
+     */
+    public var displayName:String;
+    /**
+       The ids of roles this member has
+     */
     public var roles:Array<String>;
+    /**
+       The date this member joined
+     */
     public var joined_at:Date;
+    /**
+       Is this member deafened?
+     */
     public var deaf:Bool;
+    /**
+       Is this member muted?
+     */
     public var mute:Bool;
+    /**
+       The guild object that this member is a part of.
+     */
     public var guild:Guild;
 
     @:dox(hide)
@@ -60,6 +81,10 @@ class GuildMember {
         client.endpoints.takeMemberRole(guild.id.id,user.id.id,rid,cb);
     }
 
+    /**
+        Check if this user has a role by id
+        @param rid - The id of the role to check for.
+     */
     public function hasRole(rid:String){
         for(r in roles){
             if(r == rid)

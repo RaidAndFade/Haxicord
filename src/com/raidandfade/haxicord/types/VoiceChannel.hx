@@ -1,7 +1,14 @@
 package com.raidandfade.haxicord.types;
 
 class VoiceChannel extends GuildChannel {
+    
+    /**
+       The bitrate of the channel
+     */
     public var bitrate:Int;
+    /**
+       The user limit of the channel (or 0 if unlimited)
+     */
     public var user_limit:Int;
 
     @:dox(hide)

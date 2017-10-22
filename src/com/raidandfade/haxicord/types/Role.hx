@@ -3,15 +3,43 @@ package com.raidandfade.haxicord.types;
 class Role { 
     var client:DiscordClient;
 
+    /**
+        The ID of the role
+     */
     public var id:Snowflake;
+    /**
+        The name of the role
+     */
     public var name:String;
+    /**
+        The RGB integer of the color of the role
+     */
     public var color:Int; 
-    public var hoist:Bool; //pinned in user listing?
+    /**
+        Is the role listed separately?
+    */
+    public var hoist:Bool;
+    /**
+        The position of the role
+     */
     public var position:Int;   
+    /**
+        The bitwise integer of permissions the role has
+     */
     public var permissions:Int;
+    /**
+        Is this role managed by an integration?
+     */
     public var managed:Bool; //Is this an integrated role?
+    /**
+        Is this role mentionable?
+     */
     public var mentionable:Bool;
 
+
+    /**
+        The Guild this role is a part of
+     */
     public var guild:Guild;
 
     @:dox(hide)

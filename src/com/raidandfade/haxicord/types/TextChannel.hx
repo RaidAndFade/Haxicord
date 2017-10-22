@@ -1,7 +1,13 @@
 package com.raidandfade.haxicord.types;
 
 class TextChannel extends GuildChannel implements MessageChannel {
+    /**
+        The topic of the channel.
+     */
     public var topic:String;
+    /**
+       The id of the last Message that was sent in the chat.
+     */
     public var last_message_id:Snowflake;
 
     @:dox(hide)

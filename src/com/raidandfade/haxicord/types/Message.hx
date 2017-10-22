@@ -10,21 +10,69 @@ import haxe.DateUtils;
 
 class Message {
 
+    /**
+        The id of this message
+     */
     public var id:Snowflake;
+    /**
+        The id of the channel this message is in
+     */
     public var channel_id:Snowflake;
+    /**
+        The user object of this message's author.
+     */
     public var author:User;
+    /**
+        The message content.
+     */
     public var content:String;
+    /**
+        When the message was sent.
+     */
     public var timestamp:Date;
+    /**
+        Last time the message was edited (or null)
+     */
     public var edited_timestamp:Date;
+    /**
+        Was the message TTS?
+     */
     public var tts:Bool;
+    /**
+        Did the message mention everyone?
+     */
     public var mention_everyone:Bool;
+    /**
+        A list of users that were mentioned in the message.
+     */
     public var mentions:Array<User> = new Array<User>();
+    /**
+        A list of roles that were mentioned in the message.
+     */
     public var mention_roles:Array<Role> = new Array<Role>();
+    /**
+        A list of attachments on this message.
+     */
     public var attachments:Array<Attachment> = new Array<Attachment>();
+    /**
+        A list of embeds on this message.
+     */
     public var embeds:Array<Dynamic> = new Array<Dynamic>();
+    /**
+        A list of reactions on this message.
+     */
     public var reactions:Array<Reaction> = new Array<Reaction>();
+    /**
+        A nonce, only seen when you are the author and have sent a nonce. otherwise Null.
+     */
     public var nonce:Snowflake;
+    /**
+        Is this message pinned?
+     */
     public var pinned:Bool;
+    /**
+        If the message was created by a webhook, this will be the webhook's id
+     */
     public var webhook_id:String;
 
     var client:DiscordClient;
@@ -81,23 +129,40 @@ class Message {
         reactions = new Array<Reaction>();
     }
 
-    //TODO Live struct shit
-    public function pin(cb=null){//?
+    /**
+        Pin this message
+        @param cb - Called once completed. Leave blank to ignore.
+     */
+    public function pin(cb=null){
        cast(client.getChannelUnsafe(channel_id.id),MessageChannel).pinMessage(id.id,cb);
     }
 
-    public function unpin(cb=null){//?
+    /**
+        Unpin this message
+        @param cb - Called once completed. Leave blank to ignore.
+     */
+    public function unpin(cb=null){
         cast(client.getChannelUnsafe(channel_id.id),MessageChannel).unpinMessage(id.id,cb);
     }
 
+    /**
+       Return the channel this message is part of
+       @return MessageChannel : The channel this message is part of, either a TextChannel or a DMChannel
+     */
     public function getChannel():MessageChannel{
         return cast(client.getChannelUnsafe(channel_id.id),MessageChannel);
     }
 
+    /**
+        Return whether this message is in a guild or not.
+     */
     public function inGuild():Bool{
         return getChannel().inGuild();
     }
 
+    /**
+        If this message was in a guild, get the guildmember object of the member who sent it, otherwise return null.
+     */
     public function getMember():Null<GuildMember>{
         if(inGuild())
             return this.getGuild().getMemberUnsafe(author.id.id);
@@ -105,6 +170,9 @@ class Message {
             return null;
     }
 
+    /**
+        If this message was in a guild, get the guild object this was sent in, otherwise return null.
+     */
     public function getGuild():Null<Guild>{
         if(inGuild())
             return cast(getChannel(),TextChannel).getGuild();

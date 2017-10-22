@@ -4,18 +4,54 @@ class User {
 
     var client:DiscordClient;
 
+    /**
+       The id of the user
+     */
     public var id:Snowflake; 
+    /**
+       The mention string (tag) of the user
+     */
     public var tag:String;
+    /**
+       The username of the user
+     */
     public var username:String;
+    /**
+       The discriminator of the user
+     */
     public var discriminator:String;
+    /**
+       The avatar hash of the user
+     */
     public var avatar:String;
+    /**
+       The avatar url of the user
+     */
     public var avatarUrl:String;
+    /**
+       Is the user a bot?
+     */
     public var bot:Bool;
+    /**
+        Does the user have MFA enabled?
+        Only set for the bot user.
+     */
     public var mfa_enabled:Bool; //only me :(
+    /**
+       The game that the current user is playing.
+     */
     public var game:com.raidandfade.haxicord.types.structs.Presence.PresenceGame;
 
     //The next two can only be gained from the OAUTH2 Endpoint.
+    /**
+        Has the user verified their email?
+        PLACEHOLDER. WILL NEVER CONTAIN ANYTHING
+     */
     public var verified:Bool;
+    /**
+        The user's email
+        PLACEHOLDER. WILL NEVER CONTAIN ANYTHING
+     */
     public var email:String;
 
 
@@ -46,7 +82,5 @@ class User {
         if(_user.verified!=null)    verified = _user.verified;
         if(_user.email!=null)       email = _user.email;
     }
-    //TODO live endpoints
-
 
 }
