@@ -118,7 +118,7 @@ class DiscordClient {
             if(hbThread!=null)hbThread.pause();
             trace("Socket Closed, Re-Opening in "+reconnectTimeout+"s.");
             Timer.delay(endpoints.getGateway.bind(isBot,connect),reconnectTimeout*1000);
-            reconnectTimeout *= 2;
+            reconnectTimeout *= 2; //double every time it dies.
         }
         ws.onError = function(e){
             trace("Websocket errored!");
@@ -148,7 +148,7 @@ class DiscordClient {
         switch(m.op){
             case 10: 
                 ws.sendJson(WSPrepareData.Identify(token));
-                hbThread = new HeartbeatThread(m.d.heartbeat_interval,ws,null);
+                hbThread = new HeartbeatThread(m.d.heartbeat_interval,ws,null,this);
             case 9:
                 //trace("oh god...");
             case 0:
@@ -849,6 +849,7 @@ private class HeartbeatThread {
     var seq:Null<Int>;
     var ws:WebSocketConnection;
     var timer:Timer;
+    var cl:DiscordClient;
 
     var paused:Bool;
 
@@ -856,16 +857,18 @@ private class HeartbeatThread {
         seq = _s;
     }
 
-    public function new(_d,_w,_s){
+    public function new(_d,_w,_s,_b){
         delay = _d;
         ws=_w;
         seq=_s;
+        cl=_b;
         timer = new Timer(delay);
         timer.run = beat;
     }
 
     public function beat(){
         ws.sendJson(WSPrepareData.Heartbeat(seq));
+        cl.reconnectTimeout=1;//reset after 1 heartbeat cus that seems like a good time
     }
 
     public function pause(){
