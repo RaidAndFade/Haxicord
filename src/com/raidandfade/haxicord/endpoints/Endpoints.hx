@@ -5,7 +5,7 @@ import haxe.Timer;
 import haxe.Utf8;
 import haxe.Https;
 
-//TODO 
+//TODO https://discordapp.com/developers/docs/resources/emoji maybe add these lol
 
 //TODO audit logs :
 // put for BAN,  : ?reason sets audit log reason and ban reason
