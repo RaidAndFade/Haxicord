@@ -1,5 +1,6 @@
 package haxe;
 
+import com.raidandfade.haxicord.DiscordClient;
 #if (js&&nodejs)
 import haxe.extern.EitherType;
 import js.node.Url;
@@ -102,6 +103,9 @@ class Https{
         }
         method = method.toUpperCase();
 
+        if(!_headers.exists("User-Agent"))
+            _headers.set("User-Agent",DiscordClient.userAgent);
+
         var _data = Std.is(_d,String)?_d:stringify(_d);
 
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&_data==null)
@@ -165,7 +169,7 @@ class Https{
             if(h=="Content-Type")
                 untyped __cs__('httpWebRequest.ContentType = {0};',_headers.get(h));
             else if(h=="User-Agent")
-                untyped __cs__('httpWebRequest.ContentType = {0};',_headers.get(h));
+                untyped __cs__('httpWebRequest.UserAgent = {0};',_headers.get(h));
             else
                 untyped __cs__('httpWebRequest.Headers.Add({0},{1})',h,_headers.get(h));
         }
