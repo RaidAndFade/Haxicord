@@ -12,4 +12,4 @@ To install the library in your project, use the haxelib package manager:
 **TODO:** Quickstart example
 
 ## Documentation
-**TODO:** Documentation
+You can find the documentation [here](https://raidandfade.github.io/Haxicord/)
