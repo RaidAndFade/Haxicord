@@ -14,7 +14,7 @@ To install the library in your project, use the haxelib package manager:
 Those of a lower level of dedication can use the example below: (Takes advantage of the new command api)
 
 ```hx
-class Main extends CommandBot{
+class Main extends CommandBot {
 
     static function main() {
         new Main("<token>",Main,"-"); //Create an instance of Commandbot with the prefix `-`
