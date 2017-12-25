@@ -1,4 +1,4 @@
-<p align="center"><img src="logos/haxicord.png" alt="Haxicord" width="300"></p>
+<p align="center"><img src="https://raw.githubusercontent.com/RaidAndFade/Haxicord/master/logos/haxicord.png" alt="Haxicord" width="300"></p>
 <h1 align="center">Haxicord</h1>
 
 Haxicord is a Discord API wrapper for Haxe.
