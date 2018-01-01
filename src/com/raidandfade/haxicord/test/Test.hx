@@ -95,7 +95,7 @@ try{
 			
 			if(r.id.equals(g.id))r = ri.next();
 			trace("adding "+r.name);
-			m.addRole(r,function(r,e){trace(r,e);});
+			m.addRole(r.id.id,function(r,e){trace(r,e);});
 		}
 		g.changeNickname("GuyJoined",m);
 		discordBot.sendMessage(g.id.id,{content:"Welcome "+m.user.username});
