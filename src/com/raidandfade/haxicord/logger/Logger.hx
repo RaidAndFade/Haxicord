@@ -2,7 +2,7 @@ package com.raidandfade.haxicord.logger;
 
 
 /**
-    A logger that actually looks good. Use this please. The `no_colors` compile flag will remove colors from the prefix format.
+    A logger that actually looks good. Use this please. The `colors` compile flag will add colors to the prefix format.
  */
 class Logger{
 
@@ -16,7 +16,7 @@ class Logger{
     public static function registerLogger(){
         origTrace = haxe.Log.trace;
         haxe.Log.trace = hxTrace;
-        #if (!no_colors&&sys)
+        #if (colors&&sys)
             Sys.command("echo \033[0m"); //because windows is very special.
         #end
     }
@@ -29,7 +29,7 @@ class Logger{
     }
 
     public static function getReplaceColor(col:String):String{
-        #if (!sys||no_colors)
+        #if (!sys||!colors)
             return "";
         #end
         return switch(col.toLowerCase()){
