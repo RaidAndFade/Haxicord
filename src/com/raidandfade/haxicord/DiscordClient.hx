@@ -100,7 +100,7 @@ class DiscordClient {
         Initialize the bot with your token. This should be the first thing you run in your program.
         @param _tkn - Your BOT token. User tokens do not work!
      */
-    public function new(_tkn:String){ //Sharding? lol good joke.
+    public function new(_tkn:String) { //Sharding? lol good joke.
         Logger.registerLogger();
 
         token = _tkn; //ASSUME BOT FOR NOW. Deal with users later maybe.
@@ -116,57 +116,56 @@ class DiscordClient {
         This is basically just a while true loop to keep the main thread alive while the other threads work.
         @param blocking=true - If you dont want to have the while loop activate, set this to false and make your own loop.
      */
-    public function start(blocking=true){
+    public function start(blocking=true) {
 #if sys
-        while(blocking){
+        while(blocking) {
             Sys.sleep(1);
         }
 #end
     }
 //Flowchart
     @:dox(hide)
-    function connect(gateway,error){
-        if(error!=null)throw error;
+    function connect(gateway,error) {
+        if(error != null) throw error;
         //trace("Gottening");
         ws = new WebSocketConnection(gateway.url + "/?v=" + gatewayVersion + "&encoding=json");
         ws.onMessage = webSocketMessage;
-        ws.onClose = function(){
+        ws.onClose = function() {
             if(hbThread != null) hbThread.pause();
             trace("Socket Closed, Re-Opening in " + reconnectTimeout + "s.");
             Timer.delay(endpoints.getGateway.bind(isBot, connect), reconnectTimeout * 1000);
             reconnectTimeout *= 2; //double every time it dies.
         }
-        ws.onError = function(e){
+        ws.onError = function(e) {
             trace("Websocket errored!");
             trace(e);
         }
     }
 
     @:dox(hide)
-    function reconnect(gateway,error){
-        if(error!=null)throw error;
+    function reconnect(gateway,error) {
+        if(error != null) throw error;
         //trace("Gottening");
         ws = new WebSocketConnection(gateway.url + "/?v=" + gatewayVersion+"&encoding=json");
         ws.onMessage = webSocketMessage;
-        ws.onClose = function(){
-            if(hbThread!=null)hbThread.pause();
+        ws.onClose = function() {
+            if(hbThread != null) hbThread.pause();
         }
-        ws.onError = function(e){
+        ws.onError = function(e) {
             trace("Websocket errored!");
             trace(e);
         }
     }
 
     @:dox(hide)
-    function webSocketMessage(msg){
+    function webSocketMessage(msg) {
         //trace(msg);
         var m:WSMessage = Json.parse(msg);
-        switch(m.op){
+        switch(m.op) {
             case 10: 
                 ws.sendJson(WSPrepareData.Identify(token));
                 hbThread = new HeartbeatThread(m.d.heartbeat_interval, ws, null, this);
-            case 9: //INVALIDATE_SESSION (if d == true resume if d == false reconnect)
-                //trace("oh god...");
+            //case 9: //INVALIDATE_SESSION (if d == true resume if d == false reconnect)
             case 0:
                 receiveEvent(m);
             default:
@@ -174,23 +173,23 @@ class DiscordClient {
     }
 
     @:dox(hide)
-    function receiveEvent(msg){
+    function receiveEvent(msg) {
         var m:WSMessage = msg;
         var d:Dynamic;
         d = m.d;
         //trace(m.t);
         hbThread.setSeq(m.s);
         onRawEvent(m.t,d);
-        switch(m.t){
+        switch(m.t) {
             case "READY":
                 //TODO save the session, for resumes.
                 var re:WSReady = d;
-                for(g in re.guilds){
+                for(g in re.guilds) {
                     _newGuild(g);
                 }
                 user=_newUser(re.user);
 
-                if(re.guilds.length==0){
+                if(re.guilds.length == 0) {
                     ready=true;
                     onReady();
                 }
@@ -205,14 +204,14 @@ class DiscordClient {
                 onGuildCreate(_newGuild(d));
                 //Wait for all guilds to be loaded before readying. Might cause problems if guilds are genuinely unavailable so maybe check if name is set too
                 var done = true;
-                for(g in guildCache){
-                    if(g.unavailable){
-                        done=false;
+                for(g in guildCache) {
+                    if(g.unavailable) {
+                        done = false;
                         break;
                     }
                 }
-                if(done&&!ready){
-                    ready=true;
+                if( done && !ready ) {
+                    ready = true;
                     onReady();
                 }
             case "GUILD_UPDATE":
@@ -249,7 +248,7 @@ class DiscordClient {
             case "GUILD_MEMBERS_CHUNK": 
                 var members:Array<com.raidandfade.haxicord.types.structs.GuildMember> = d.members;
                 var g = getGuildUnsafe(d.guild_id);
-                for(m in members){
+                for(m in members) {
                     onMemberJoin(g, g._newMember(m));
                 }
             case "GUILD_ROLE_CREATE":
@@ -271,23 +270,23 @@ class DiscordClient {
                 onMessageDelete(d);
             case "MESSAGE_DELETE_BULK":
                 var msgs:Array<String> = d.ids;
-                for(m in msgs){
+                for(m in msgs) {
                     removeMessage(m);
                     onMessageDelete(m);
                 }
             case "MESSAGE_REACTION_ADD": 
-                getMessage(d.message_id, d.channel_id, function(m){
+                getMessage(d.message_id, d.channel_id, function(m) {
                     m._addReaction(getUserUnsafe(d.user_id), d.emoji);
                     onReactionAdd(m, getUserUnsafe(d.user_id), d.emoji);
                 });
             case "MESSAGE_REACTION_REMOVE": 
-                getMessage(d.message_id, d.channel_id, function(m){
+                getMessage(d.message_id, d.channel_id, function(m) {
                     m._delReaction(getUserUnsafe(d.user_id), d.emoji);
                     onReactionRemove(m, getUserUnsafe(d.user_id), d.emoji);
                 });
             case "MESSAGE_REACTION_REMOVE_ALL": 
-                getMessage(d.message_id, d.channel_id, function(m){
-                    for(r in m.reactions){
+                getMessage(d.message_id, d.channel_id, function(m) {
+                    for(r in m.reactions) {
                         trace(d.who + "-" + d.emoji);
                         if(d.who != null)
                             onReactionRemove(m, getUserUnsafe(d.who), d.emoji);
@@ -315,7 +314,7 @@ class DiscordClient {
         Get the invite link of the bot.
         @param perms=0 - The permissions to put on the link.
      */
-    public function getInviteLink(perms=0){
+    public function getInviteLink(perms = 0) {
         var clid = this.user.id.id;
         
         var permstr = "";
@@ -328,7 +327,7 @@ class DiscordClient {
         Get a list of voice regions.
         @param cb - Returns a list of voice regions, or an error.
      */
-    public function listVoiceRegions(cb){
+    public function listVoiceRegions(cb) {
         endpoints.listVoiceRegions(cb);
     }
 
@@ -337,7 +336,7 @@ class DiscordClient {
         @param guild_data - The data to be changed, All fields are optional.
         @param cb - Returns the new guild object, or an error.
      */
-    public function createGuild(guild_data, cb){
+    public function createGuild(guild_data, cb) {
         endpoints.createGuild(guild_data, cb);
     }
 
@@ -347,11 +346,11 @@ class DiscordClient {
         @param message - Message data
         @param cb - Return the message sent, or an error
      */
-    public function sendMessage(channel_id, message, cb = null){
+    public function sendMessage(channel_id, message, cb = null) {
         if(userDMChannels.exists(channel_id))
             endpoints.sendMessage(userDMChannels.get(channel_id), message,cb);
         else if(userCache.exists(channel_id))
-            endpoints.createDM({recipient_id: channel_id},function(ch, e){
+            endpoints.createDM({recipient_id: channel_id},function(ch, e) {
                 ch.sendMessage(message, cb);
             });
         else 
@@ -363,7 +362,7 @@ class DiscordClient {
         @param invite_code - The invite code.
         @param cb - Returns an Invite object, or an error.
      */
-    public function getInvite(invite_code, cb = null){
+    public function getInvite(invite_code, cb = null) {
         endpoints.getInvite(invite_code, cb);
     }
 
@@ -372,7 +371,7 @@ class DiscordClient {
         @param invite_code - The invite code to join.
         @param cb - Returns the invite that was joined, or an error.
      */
-    public function joinInvite(invite_code, cb = null){
+    public function joinInvite(invite_code, cb = null) {
         if(isBot) return;
 
         endpoints.acceptInvite(invite_code, cb);
@@ -383,7 +382,7 @@ class DiscordClient {
         @param invite_code - The invite code of the invite to delete.
         @param cb - Returns the Invite that was removed, or an error.
      */
-    public function deleteInvite(invite_code, cb = null){
+    public function deleteInvite(invite_code, cb = null) {
         endpoints.deleteInvite(invite_code, cb);
     }
 
@@ -392,7 +391,7 @@ class DiscordClient {
         @param data - A struct that contains the necessary arguments required to invite members.
         @param cb - Returns the group dm channel, or an error.
      */
-    public function createDMGroup(data, cb = null){
+    public function createDMGroup(data, cb = null) {
         endpoints.createGroupDM(data, cb);
     }
 
@@ -403,7 +402,7 @@ class DiscordClient {
         @param user_data - The parameters to change, all fields are optional.
         @param cb - Return the changed user, or an error.
      */
-    public function editUser(user_data, cb = null){
+    public function editUser(user_data, cb = null) {
         endpoints.editUser(user_data, cb);
     }
 
@@ -412,7 +411,7 @@ class DiscordClient {
         @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
         @param cb - Returns the list of Guilds according to the filter specified, or an error.
      */
-    public function getGuilds(filter, cb = null){
+    public function getGuilds(filter, cb = null) {
         endpoints.getGuilds(filter, cb);
     }
 
@@ -420,18 +419,18 @@ class DiscordClient {
         Get a list of connections hooked up to the current account.
         @param cb - Returns a list of connections, or an error.
      */
-    public function getConnections(cb = null){
+    public function getConnections(cb = null) {
         endpoints.getConnections(cb);
     }
 
     @:dox(hide)
-    public function removeChannel(id){
+    public function removeChannel(id) {
         //remove from guild too.
         var c = channelCache.get(id);
-        if(c != null && c.type != 1){
+        if(c != null && c.type != 1) {
             var gc = cast(c, GuildChannel);
             var g = gc.getGuild();
-            if(gc.type == 0){
+            if(gc.type == 0) {
                 g.textChannels.remove(c.id.id);
             }else{
                 g.voiceChannels.remove(c.id.id);
@@ -441,17 +440,17 @@ class DiscordClient {
     }
 
     @:dox(hide)
-    public function removeMessage(id){
+    public function removeMessage(id) {
         messageCache.remove(id);
     }
 
     @:dox(hide)
-    public function removeGuild(id){
+    public function removeGuild(id) {
         guildCache.remove(id);
     }
 
     @:dox(hide)
-    public function removeUser(id){
+    public function removeUser(id) {
         userCache.remove(id);
     }
 
@@ -460,11 +459,11 @@ class DiscordClient {
         @param id - The id of the desired guild.
         @param cb - The Callback to return the guild to.
      */
-    public function getGuild(id, cb: Guild->Void){
-        if(guildCache.exists(id)){
+    public function getGuild(id, cb: Guild->Void) {
+        if(guildCache.exists(id)) {
             cb(guildCache.get(id));
         }else{
-            endpoints.getGuild(id, function(r, e){
+            endpoints.getGuild(id, function(r, e) {
                 if(e != null) throw(e);
                 cb(r);
             });
@@ -476,8 +475,8 @@ class DiscordClient {
         Throws an error if the guild is not cached.
         @param id - The id of the desired guild
      */
-    public function getGuildUnsafe(id){
-        if(guildCache.exists(id)){
+    public function getGuildUnsafe(id) {
+        if(guildCache.exists(id)) {
             return guildCache.get(id);
         }else{
             throw "Guild not in cache. try loading it safely first!";
@@ -488,8 +487,8 @@ class DiscordClient {
         Get a list of all dm channels the bot is in.
         @param cb - Callback to return the channels to.
      */
-    public function getDMChannels(cb:Array<DMChannel>->Void){
-        endpoints.getDMChannels(function(r, e){
+    public function getDMChannels(cb:Array<DMChannel>->Void) {
+        endpoints.getDMChannels(function(r, e) {
             if(e != null) throw(e);
             cb(r);
         });
@@ -498,7 +497,7 @@ class DiscordClient {
     /**
         Get a list of all DMChannels currently in cache
      */
-    public function getDMChannelsUnsafe(){
+    public function getDMChannelsUnsafe() {
         return [for(dm in dmChannelCache.iterator()) dm];
     }
 
@@ -507,11 +506,11 @@ class DiscordClient {
         @param id - The id of the desired channel.
         @param cb - The callback to return the channel to.
      */
-    public function getChannel(id, cb:Channel->Void){
-        if(channelCache.exists(id)){
+    public function getChannel(id, cb:Channel->Void) {
+        if(channelCache.exists(id)) {
             cb(channelCache.get(id));
         }else{
-            endpoints.getChannel(id, function(r, e){
+            endpoints.getChannel(id, function(r, e) {
                 if(e != null) throw(e);
                 cb(r);
             });
@@ -523,8 +522,8 @@ class DiscordClient {
         Throws an error if the channel could not be loaded.
         @param id - The id of the desired channel.
      */
-    public function getChannelUnsafe(id){
-        if(channelCache.exists(id)){
+    public function getChannelUnsafe(id) {
+        if(channelCache.exists(id)) {
             return channelCache.get(id);
         }else{
             throw "Channel not in cache. try loading it safely first!";
@@ -536,11 +535,11 @@ class DiscordClient {
         @param id - The id of the desired user.
         @param cb - The callback to return the user to.
      */
-    public function getUser(id,cb:User->Void){
-        if(userCache.exists(id)){
+    public function getUser(id,cb:User->Void) {
+        if(userCache.exists(id)) {
             cb(userCache.get(id));
         }else{
-            endpoints.getUser(id, function(r, e){
+            endpoints.getUser(id, function(r, e) {
                 if(e != null) throw(e);
                 cb(r);
             });
@@ -552,8 +551,8 @@ class DiscordClient {
         Throws an error if the user could not be loaded.
         @param id - The id of the desired user.
      */
-    public function getUserUnsafe(id){
-        if(userCache.exists(id)){
+    public function getUserUnsafe(id) {
+        if(userCache.exists(id)) {
             return userCache.get(id);
         }else{
             throw "User not in cache. try loading it safely first!";
@@ -566,11 +565,11 @@ class DiscordClient {
         @param channel_id - The id of the channel the message is from.
         @param cb - The callback to return the message to.
      */
-    public function getMessage(id, channel_id, cb: Message->Void){
-        if(messageCache.exists(id)){
+    public function getMessage(id, channel_id, cb: Message->Void) {
+        if(messageCache.exists(id)) {
             cb(messageCache.get(id));
         }else{
-            endpoints.getMessage(channel_id, id, function(r, e){
+            endpoints.getMessage(channel_id, id, function(r, e) {
                 if(e != null) throw(e);
                 cb(r);
             });
@@ -582,8 +581,8 @@ class DiscordClient {
         Throws an error if the message could not be loaded.
         @param id - The id of the desired message.
      */
-    public function getMessageUnsafe(id){
-        if(messageCache.exists(id)){
+    public function getMessageUnsafe(id) {
+        if(messageCache.exists(id)) {
             return messageCache.get(id);
         }else{
             throw "Message not in cache. try loading it safely first!";
@@ -594,10 +593,10 @@ class DiscordClient {
     //Channels in client cache should be updated in guild cache.
 
     @:dox(hide)
-    public function _newMessage(message_struct: com.raidandfade.haxicord.types.structs.MessageStruct){
+    public function _newMessage(message_struct: com.raidandfade.haxicord.types.structs.MessageStruct) {
         var id = message_struct.id;
         //trace("NEW MESSAGE: "+id);
-        if(messageCache.exists(id)){
+        if(messageCache.exists(id)) {
             messageCache.get(id)._update(message_struct);
             return messageCache.get(id);
         }else{
@@ -608,10 +607,10 @@ class DiscordClient {
     }
 
     @:dox(hide)
-    public function _newUser(user_struct: com.raidandfade.haxicord.types.structs.User){
+    public function _newUser(user_struct: com.raidandfade.haxicord.types.structs.User) {
         var id = user_struct.id;
         //trace("NEW USER: "+id);
-        if(userCache.exists(id)){
+        if(userCache.exists(id)) {
             userCache.get(id)._update(user_struct);
             return userCache.get(id);
         }else{
@@ -622,24 +621,24 @@ class DiscordClient {
     }
 
     @:dox(hide)
-    public function _newChannel(channel_struct){
+    public function _newChannel(channel_struct) {
         return __newChannel(channel_struct)(channel_struct);
     }
 
     @:dox(hide)
     public function __newChannel(channel_struct: Dynamic): Dynamic->Channel{
-        if(channel_struct.type == "text" || channel_struct.type == "voice"){
-            channel_struct.type = channel_struct.type=="text" ? 0 : 2 ;
+        if(channel_struct.type == "text" || channel_struct.type == "voice") {
+            channel_struct.type = channel_struct.type == "text" ? 0 : 2 ;
         }
         var id = channel_struct.id;
         if(channel_struct.type == 1) return _newDMChannel;
-        if(channelCache.exists(id)){
+        if(channelCache.exists(id)) {
             var c = cast(channelCache.get(id),GuildChannel);
-            if(c.type==0)
+            if(c.type == 0) //Is it a text?
                 cast(channelCache.get(id), TextChannel)._update(channel_struct);
-            else if(c.type==2)
+            else if(c.type == 2) //Is it voice?
                 cast(channelCache.get(id), VoiceChannel)._update(channel_struct);
-            else 
+            else //It must be category
                 cast(channelCache.get(id), CategoryChannel)._update(channel_struct);
             return function(c, _) {
                 return c;
@@ -650,9 +649,9 @@ class DiscordClient {
             var c = cast(channelCache.get(id), GuildChannel);
             try {
                 getGuildUnsafe(c.guild_id.id)._addChannel(c);
-            } catch(e: Dynamic){} //Not important if guild is part of unsafe get channel
+            } catch(e: Dynamic) {} //Not important if guild is part of unsafe get channel
             
-            return function(_){
+            return function(_) {
                 return channelCache.get(id);
             };
         }
@@ -661,7 +660,7 @@ class DiscordClient {
     @:dox(hide)
     public function _newDMChannel(channel_struct: com.raidandfade.haxicord.types.structs.DMChannel) {
         var id = channel_struct.id; 
-        if(dmChannelCache.exists(id)){
+        if(dmChannelCache.exists(id)) {
             dmChannelCache.get(id)._update(channel_struct);
 
             return dmChannelCache.get(id);
@@ -681,7 +680,7 @@ class DiscordClient {
     public function _newGuild(guild_struct: com.raidandfade.haxicord.types.structs.Guild) {
         var id = guild_struct.id;
 
-        if(guildCache.exists(id)){
+        if(guildCache.exists(id)) {
             guildCache.get(id)._update(guild_struct);
             return guildCache.get(id);
         }else{
@@ -839,8 +838,8 @@ private typedef WSMessage = {
 }
 
 private class WSPrepareData {
-    public static function Identify(t: String, p: WSIdentify_Properties = null, c: Bool = false, l: Int = 59, s: WSShard = null){
-        if(p==null) 
+    public static function Identify(t: String, p: WSIdentify_Properties = null, c: Bool = false, l: Int = 59, s: WSShard = null) {
+        if(p == null) 
             p = {
                 "$os": "", 
                 "$browser": DiscordClient.libName,
@@ -848,7 +847,7 @@ private class WSPrepareData {
                 "$referrer": "",
                 "$referring_domain": ""
                 };
-        if(s==null) 
+        if(s == null) 
             s = [0, 1];
         return {
                 "op": 2,
@@ -862,7 +861,7 @@ private class WSPrepareData {
                 };
     }
 
-    public static function Heartbeat(seq=null){
+    public static function Heartbeat(seq = null) {
         return {"op": 1, "d": seq};
     }
 }
@@ -900,11 +899,11 @@ private class HeartbeatThread {
 
     var paused: Bool;
 
-    public function setSeq(_s){
+    public function setSeq(_s) {
         seq = _s;
     }
 
-    public function new(_d, _w, _s, _b){
+    public function new(_d, _w, _s, _b) {
         delay = _d;
         ws = _w;
         seq = _s;
@@ -913,17 +912,17 @@ private class HeartbeatThread {
         timer.run = beat;
     }
 
-    public function beat(){
+    public function beat() {
         ws.sendJson(WSPrepareData.Heartbeat(seq));
         cl.reconnectTimeout = 1;
     }
 
-    public function pause(){
+    public function pause() {
         paused = true;
         timer.stop();
     }
 
-    public function resume(){
+    public function resume() {
         beat();
         timer = new Timer(delay);
         timer.run = beat;
