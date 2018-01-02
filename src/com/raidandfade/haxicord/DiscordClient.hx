@@ -31,7 +31,11 @@ GLOBAL RATELIMIT shouldn't be hardcoded
 Add some spaces
 */
 
-//TODO connect to gw first
+/*
+TODO long term
+- uploading files raw to messages
+- connect to GW first and then do the rest
+*/
 
 @:keep
 @:expose
