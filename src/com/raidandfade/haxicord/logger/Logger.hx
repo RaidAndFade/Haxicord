@@ -45,35 +45,39 @@ class Logger{
 
     public static function hxTrace(v:Dynamic, ?infos:haxe.PosInfos) { 
         var infostr = outPrefix.split("").join("");
-        infostr = StringTools.replace(infostr,"%t",DateTools.format(Date.now(),"%H:%M:%S"));
+        infostr = StringTools.replace(infostr, "%t", DateTools.format(Date.now(), "%H:%M:%S"));
+
         var infostrt = infostr.split("").join("");
-        for(i in 0...infostr.length-2 ){
-            if(infostr.substr(i,2)=="%c"){
-                var ic = infostr.indexOf("}",i);
-                var c = infostr.substr(i+3,ic-i-3); 
-                infostrt = StringTools.replace(infostrt,infostr.substring(i,ic+1),getReplaceColor(c));
+
+        for(i in 0 ... infostr.length-2 ) {
+            if(infostr.substr(i, 2) == "%c") {
+                var ic = infostr.indexOf("}", i);
+                var c = infostr.substr(i + 3, ic - i - 3); 
+                infostrt = StringTools.replace(infostrt, infostr.substring(i, ic + 1), getReplaceColor(c));
             }
         }
         infostr = infostrt;
-        if(infos!=null){
-            infostr = StringTools.replace(infostr,"%fn",infos.methodName);
-            infostr = StringTools.replace(infostr,"%l",Std.string(infos.lineNumber));
-            infostr = StringTools.replace(infostr,"%f",infos.fileName);
-            infostr = StringTools.replace(infostr,"%cn",infos.className.substr(infos.className.lastIndexOf(".")+1)); //className
-            infostr = StringTools.replace(infostr,"%cp",infos.className); //classPath
+        if(infos != null){
+            infostr = StringTools.replace(infostr, "%fn", infos.methodName);
+            infostr = StringTools.replace(infostr, "%l", Std.string(infos.lineNumber));
+            infostr = StringTools.replace(infostr, "%f", infos.fileName);
+            infostr = StringTools.replace(infostr, "%cn", infos.className.substr(infos.className.lastIndexOf(".")+1)); //className
+            infostr = StringTools.replace(infostr, "%cp", infos.className); //classPath
         }else{
-            infostr = StringTools.replace(infostr,"<%fn","");
-            infostr = StringTools.replace(infostr,":%l>","");
-            infostr = StringTools.replace(infostr,"%f->","");
+            infostr = StringTools.replace(infostr, "<%fn", "");
+            infostr = StringTools.replace(infostr, ":%l>", "");
+            infostr = StringTools.replace(infostr, "%f->", "");
         }
 
+
+        //The rest is the normal haxe trace function.
 		#if flash
 			#if (fdb || native_trace)
 				var str = flash.Boot.__string_rec(v, "");
 				if( infos != null && infos.customParams != null ) for( v in infos.customParams ) str += "," + flash.Boot.__string_rec(v, "");
 				untyped __global__["trace"](infostr+""+str);
 			#else
-				untyped flash.Boot.__trace(v,infos);
+				untyped flash.Boot.__trace(v, infos);
 			#end
 		#elseif neko
 			untyped {
@@ -82,7 +86,7 @@ class Logger{
 				$print("\n");
 			}
 		#elseif js
-			untyped js.Boot.__trace(v,infos); //TODO this
+			untyped js.Boot.__trace(v, infos); //TODO this
 		#elseif (php && php7)
 			php.Boot.trace(v, infos); //TODO this
 		#elseif php
@@ -99,10 +103,10 @@ class Logger{
 				var extra:String = "";
 				for( v in infos.customParams )
 					extra += "," + v;
-				untyped __trace(v + extra,infos); //TODO this
+				untyped __trace(v + extra, infos); //TODO this
 			}
 			else
-				untyped __trace(v,infos); //TODO this
+				untyped __trace(v, infos); //TODO this
 		#elseif (cs || java || lua)
 			var str:String = null;
 			str = infostr + v;
@@ -116,7 +120,7 @@ class Logger{
 			untyped __java__("java.lang.System.out.println(str)");
 			#elseif lua
 			if (str == null) str = "null";
-			untyped __define_feature__("use._hx_print",_hx_print(str));
+			untyped __define_feature__("use._hx_print", _hx_print(str));
 			#end
 		#elseif (python)
 			var str:String = null;
@@ -132,7 +136,7 @@ class Logger{
 		#end
     }
 
-    public static function out(s:String){
+    public static function out(s:String) {
         #if sys
             Sys.stdout().writeString(s+"\n");
             Sys.stdout().flush();
@@ -142,7 +146,7 @@ class Logger{
             trace("OUT-"+s);
         #end
     }
-    public static function err(s:String){
+    public static function err(s:String) {
         #if sys
             Sys.stderr().writeString(s+"\n");
             Sys.stderr().flush();

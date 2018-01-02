@@ -29,7 +29,7 @@ class Features {
     var ws_user:Map<String,Bool> = new Map<String,Bool>();
     var ws_voice:Map<String,Bool> = new Map<String,Bool>(); 
 
-    public function new(){
+    public function new() {
         //REST
         channel_management.set("create",true);
         channel_management.set("delete",true);
@@ -99,10 +99,10 @@ class Features {
         ws_voice.set("state update",false);
     }
 
-    public function calculatePercentage(debug = false){
+    public function calculatePercentage(debug = false) {
         var total = 0;
         var completed = 0;
-        for (map in [channel_management,misc,invites,messages,roles,servers,ws_channel,ws_message,ws_role,ws_presence,ws_misc,ws_user,ws_voice,ws_reaction]){
+        for (map in [channel_management, misc, invites, messages, roles, servers, ws_channel, ws_message, ws_role, ws_presence, ws_misc, ws_user, ws_voice, ws_reaction]){
             for (feat in map.keys()) {
                 if(debug) trace("DEBUG : '" + feat + "' IS "+(map.get(feat)?"":"NOT ")+"DONE!");
                 total++;
