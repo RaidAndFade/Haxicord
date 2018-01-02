@@ -22,6 +22,15 @@ import com.raidandfade.haxicord.types.structs.Emoji;
 import haxe.Json;
 import haxe.Timer;
 
+/*TODO to get into dapi
+
+Gateway version != 7
+Don't support < gateway 6
+RESUMEs
+GLOBAL RATELIMIT shouldn't be hardcoded
+Add some spaces
+*/
+
 //TODO connect to gw first
 
 @:keep
@@ -34,28 +43,34 @@ class DiscordClient {
     /**
       The library's useragent
      */
-    public static var userAgent:String = "DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.1.0)";
+    public static var userAgent:String = "DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.1.1)";
     /**
       The gateway version being used.
      */
-    public static var gatewayVersion:Int = 7;
+    public static var gatewayVersion:Int = 6;
     
     //cache arrays (id,object)
     @:dox(hide)
     public var messageCache:Map<String,Message> = new Map<String,Message>();
+
     @:dox(hide)
     public var userCache:Map<String,User> = new Map<String,User>();
+
     @:dox(hide)
     public var channelCache:Map<String,Channel> = new Map<String,Channel>();
+
     @:dox(hide)
     public var dmChannelCache:Map<String,DMChannel> = new Map<String,DMChannel>();
+
     @:dox(hide)
     public var guildCache:Map<String,Guild> = new Map<String,Guild>();
 
     @:dox(hide)
     public var userDMChannels:Map<String,String> = new Map<String,String>();//put this in somewhere.
+    
     @:dox(hide)
     public var ready = false;
+
     /**
         The bot user, this is you.
      */
@@ -63,6 +78,7 @@ class DiscordClient {
 
     @:dox(hide)
     public var token:String;
+    
     /**
         Is the bot a bot account? <Always true>
      */
@@ -76,6 +92,7 @@ class DiscordClient {
 
     @:dox(hide)
     var hbThread:HeartbeatThread;
+
     @:dox(hide)
     var ws:WebSocketConnection;
 
@@ -91,9 +108,8 @@ class DiscordClient {
         
         endpoints = new Endpoints(this);
 
-
         //trace("Getting gotten");
-        endpoints.getGateway(isBot,connect);
+        endpoints.getGateway(isBot, connect);
     }
     
     /**
@@ -112,12 +128,12 @@ class DiscordClient {
     function connect(gateway,error){
         if(error!=null)throw error;
         //trace("Gottening");
-        ws = new WebSocketConnection(gateway.url+"/?v="+gatewayVersion+"&encoding=json");
+        ws = new WebSocketConnection(gateway.url + "/?v=" + gatewayVersion + "&encoding=json");
         ws.onMessage = webSocketMessage;
         ws.onClose = function(){
-            if(hbThread!=null)hbThread.pause();
-            trace("Socket Closed, Re-Opening in "+reconnectTimeout+"s.");
-            Timer.delay(endpoints.getGateway.bind(isBot,connect),reconnectTimeout*1000);
+            if(hbThread != null) hbThread.pause();
+            trace("Socket Closed, Re-Opening in " + reconnectTimeout + "s.");
+            Timer.delay(endpoints.getGateway.bind(isBot, connect), reconnectTimeout * 1000);
             reconnectTimeout *= 2; //double every time it dies.
         }
         ws.onError = function(e){
@@ -130,7 +146,7 @@ class DiscordClient {
     function reconnect(gateway,error){
         if(error!=null)throw error;
         //trace("Gottening");
-        ws = new WebSocketConnection(gateway.url+"/?v="+gatewayVersion+"&encoding=json");
+        ws = new WebSocketConnection(gateway.url + "/?v=" + gatewayVersion+"&encoding=json");
         ws.onMessage = webSocketMessage;
         ws.onClose = function(){
             if(hbThread!=null)hbThread.pause();
@@ -148,8 +164,8 @@ class DiscordClient {
         switch(m.op){
             case 10: 
                 ws.sendJson(WSPrepareData.Identify(token));
-                hbThread = new HeartbeatThread(m.d.heartbeat_interval,ws,null,this);
-            case 9:
+                hbThread = new HeartbeatThread(m.d.heartbeat_interval, ws, null, this);
+            case 9: //INVALIDATE_SESSION (if d == true resume if d == false reconnect)
                 //trace("oh god...");
             case 0:
                 receiveEvent(m);
@@ -173,8 +189,8 @@ class DiscordClient {
                     _newGuild(g);
                 }
                 user=_newUser(re.user);
-                //trace(re.guilds.length+" guilds to wait for.");
-                if(re.guilds.length==0){ // no guilds to wait for, all's good
+
+                if(re.guilds.length==0){
                     ready=true;
                     onReady();
                 }
@@ -187,10 +203,10 @@ class DiscordClient {
                 onChannelDelete(d);
             case "GUILD_CREATE":
                 onGuildCreate(_newGuild(d));
+                //Wait for all guilds to be loaded before readying. Might cause problems if guilds are genuinely unavailable so maybe check if name is set too
                 var done = true;
                 for(g in guildCache){
                     if(g.unavailable){
-                        //trace(g.id + " is not done.");
                         done=false;
                         break;
                     }
@@ -208,7 +224,7 @@ class DiscordClient {
                 var u = getUserUnsafe(d);
                 var g = getGuildUnsafe(d.guild_id);
                 g._addBan(u);
-                onMemberBan(g,u);
+                onMemberBan(g, u);
             case "GUILD_BAN_REMOVE":
                 var u = getUserUnsafe(d);
                 var g = getGuildUnsafe(d.guild_id);
@@ -218,33 +234,34 @@ class DiscordClient {
                 var g = getGuildUnsafe(d.guild_id);
                 g._updateEmojis(d.emojis);
                 onGuildEmojisUpdate(g,d.emojis);
-            case "GUILD_INTEGRATIONS_UPDATE": //lol ok ~ just set a flag somewhere
+            case "GUILD_INTEGRATIONS_UPDATE": 
+                //TODO this
             case "GUILD_MEMBER_ADD":
                 var g = getGuildUnsafe(d.guild_id);
-                onMemberJoin(g,g._newMember(d));
+                onMemberJoin(g, g._newMember(d));
             case "GUILD_MEMBER_REMOVE":
                 var g = getGuildUnsafe(d.guild_id);
                 g.members.remove(d.user.id);
-                onMemberLeave(g,getUserUnsafe(d.user.id)); //should be fine since we see the user-maybe..?
+                onMemberLeave(g, getUserUnsafe(d.user.id)); 
             case "GUILD_MEMBER_UPDATE":
                 var g = getGuildUnsafe(d.guild_id);
-                onMemberUpdate(g,g._newMember(d));
+                onMemberUpdate(g, g._newMember(d));
             case "GUILD_MEMBERS_CHUNK": 
                 var members:Array<com.raidandfade.haxicord.types.structs.GuildMember> = d.members;
                 var g = getGuildUnsafe(d.guild_id);
                 for(m in members){
-                    onMemberJoin(g,g._newMember(m));
+                    onMemberJoin(g, g._newMember(m));
                 }
             case "GUILD_ROLE_CREATE":
                 var g = getGuildUnsafe(d.guild_id);
-                onRoleCreate(g,g._newRole(d.role));
+                onRoleCreate(g, g._newRole(d.role));
             case "GUILD_ROLE_UPDATE":
                 var g = getGuildUnsafe(d.guild_id);
-                onRoleUpdate(g,g._newRole(d.role));
+                onRoleUpdate(g, g._newRole(d.role));
             case "GUILD_ROLE_DELETE":
                 var g = getGuildUnsafe(d.guild_id);
                 g.roles.remove(d.role_id);
-                onRoleDelete(g,d.role_id);
+                onRoleDelete(g, d.role_id);
             case "MESSAGE_CREATE":
                 onMessage(_newMessage(d));
             case "MESSAGE_UPDATE":
@@ -258,51 +275,54 @@ class DiscordClient {
                     removeMessage(m);
                     onMessageDelete(m);
                 }
-            case "MESSAGE_REACTION_ADD": //not too sure what to do about this except for fire an event.
-                getMessage(d.message_id,d.channel_id,function(m){
-                    m._addReaction(getUserUnsafe(d.user_id),d.emoji);
-                    onReactionAdd(m,getUserUnsafe(d.user_id),d.emoji);
+            case "MESSAGE_REACTION_ADD": 
+                getMessage(d.message_id, d.channel_id, function(m){
+                    m._addReaction(getUserUnsafe(d.user_id), d.emoji);
+                    onReactionAdd(m, getUserUnsafe(d.user_id), d.emoji);
                 });
-            case "MESSAGE_REACTION_REMOVE": //same as above
-                getMessage(d.message_id,d.channel_id,function(m){
-                    m._delReaction(getUserUnsafe(d.user_id),d.emoji);
-                    onReactionRemove(m,getUserUnsafe(d.user_id),d.emoji);
+            case "MESSAGE_REACTION_REMOVE": 
+                getMessage(d.message_id, d.channel_id, function(m){
+                    m._delReaction(getUserUnsafe(d.user_id), d.emoji);
+                    onReactionRemove(m, getUserUnsafe(d.user_id), d.emoji);
                 });
-            case "MESSAGE_REACTION_REMOVE_ALL": //same as above
-                getMessage(d.message_id,d.channel_id,function(m){
-                    trace("Hello");
+            case "MESSAGE_REACTION_REMOVE_ALL": 
+                getMessage(d.message_id, d.channel_id, function(m){
                     for(r in m.reactions){
-                        trace(d.who+"-"+d.emoji);
-                        if(d.who!=null)
-                            onReactionRemove(m,getUserUnsafe(d.who),d.emoji);
+                        trace(d.who + "-" + d.emoji);
+                        if(d.who != null)
+                            onReactionRemove(m, getUserUnsafe(d.who), d.emoji);
                         else
-                            onReactionRemove(m,null,d.emoji);
+                            onReactionRemove(m, null, d.emoji);
                     }
                     m._purgeReactions();
                 });
             case "PRESENCE_UPDATE": // user
                 var m = getGuildUnsafe(d.guild_id).getMemberUnsafe(d.user.id);
-                if(m!=null)m._updatePresence(d);
+                if(m != null)
+                    m._updatePresence(d);
             case "TYPING_START": // event
             case "USER_UPDATE": // user
             case "VOICE_STATE_UPDATE": // ...
             case "VOICE_SERVER_UPDATE": // ...
             default:
-                trace("Unhandled event "+m.t);
+                trace("Unhandled event " + m.t);
         }
     }
-//Misc funcs that cant fit anywhere else
+
+    //Misc funcs that cant fit anywhere else
+
     /**
         Get the invite link of the bot.
         @param perms=0 - The permissions to put on the link.
      */
     public function getInviteLink(perms=0){
         var clid = this.user.id.id;
+        
         var permstr = "";
-        if(perms!=0){
-            permstr = "&perms="+perms;
-        }
-        return "https://discordapp.com/api/oauth2/authorize?client_id="+clid+"&scope=bot"+permstr;
+        if(perms != 0)
+            permstr = "&perms=" + perms;
+
+        return "https://discordapp.com/api/oauth2/authorize?client_id=" + clid + "&scope=bot" + permstr;
     }
     /**
         Get a list of voice regions.
@@ -317,8 +337,8 @@ class DiscordClient {
         @param guild_data - The data to be changed, All fields are optional.
         @param cb - Returns the new guild object, or an error.
      */
-    public function createGuild(guild_data,cb){
-        endpoints.createGuild(guild_data,cb);
+    public function createGuild(guild_data, cb){
+        endpoints.createGuild(guild_data, cb);
     }
 
     /**
@@ -327,15 +347,15 @@ class DiscordClient {
         @param message - Message data
         @param cb - Return the message sent, or an error
      */
-    public function sendMessage(channel_id,message,cb=null){
+    public function sendMessage(channel_id, message, cb = null){
         if(userDMChannels.exists(channel_id))
-            endpoints.sendMessage(userDMChannels.get(channel_id),message,cb);
+            endpoints.sendMessage(userDMChannels.get(channel_id), message,cb);
         else if(userCache.exists(channel_id))
-            endpoints.createDM({recipient_id:channel_id},function(ch,e){
-                ch.sendMessage(message,cb);
+            endpoints.createDM({recipient_id: channel_id},function(ch, e){
+                ch.sendMessage(message, cb);
             });
         else 
-            endpoints.sendMessage(channel_id,message,cb);
+            endpoints.sendMessage(channel_id, message, cb);
     }
 
      /**
@@ -343,8 +363,8 @@ class DiscordClient {
         @param invite_code - The invite code.
         @param cb - Returns an Invite object, or an error.
      */
-    public function getInvite(invite_code,cb=null){
-        endpoints.getInvite(invite_code,cb);
+    public function getInvite(invite_code, cb = null){
+        endpoints.getInvite(invite_code, cb);
     }
 
     /**
@@ -352,8 +372,10 @@ class DiscordClient {
         @param invite_code - The invite code to join.
         @param cb - Returns the invite that was joined, or an error.
      */
-    public function joinInvite(invite_code,cb=null){
-        endpoints.acceptInvite(invite_code,cb);
+    public function joinInvite(invite_code, cb = null){
+        if(isBot) return;
+
+        endpoints.acceptInvite(invite_code, cb);
     }
 
     /**
@@ -361,8 +383,8 @@ class DiscordClient {
         @param invite_code - The invite code of the invite to delete.
         @param cb - Returns the Invite that was removed, or an error.
      */
-    public function deleteInvite(invite_code,cb=null){
-        endpoints.deleteInvite(invite_code,cb);
+    public function deleteInvite(invite_code, cb = null){
+        endpoints.deleteInvite(invite_code, cb);
     }
 
     /**
@@ -370,19 +392,19 @@ class DiscordClient {
         @param data - A struct that contains the necessary arguments required to invite members.
         @param cb - Returns the group dm channel, or an error.
      */
-    public function createDMGroup(data,cb=null){
-        endpoints.createGroupDM(data,cb);
+    public function createDMGroup(data, cb = null){
+        endpoints.createGroupDM(data, cb);
     }
 
-//User @me Endpoints
+    //User @me Endpoints
 
     /**
         Edit the current user's settings.
         @param user_data - The parameters to change, all fields are optional.
         @param cb - Return the changed user, or an error.
      */
-    public function editUser(user_data,cb=null){
-        endpoints.editUser(user_data,cb);
+    public function editUser(user_data, cb = null){
+        endpoints.editUser(user_data, cb);
     }
 
     /**
@@ -390,27 +412,26 @@ class DiscordClient {
         @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
         @param cb - Returns the list of Guilds according to the filter specified, or an error.
      */
-    public function getGuilds(filter,cb=null){
-        endpoints.getGuilds(filter,cb);
+    public function getGuilds(filter, cb = null){
+        endpoints.getGuilds(filter, cb);
     }
 
     /**
         Get a list of connections hooked up to the current account.
         @param cb - Returns a list of connections, or an error.
      */
-    public function getConnections(cb=null){
+    public function getConnections(cb = null){
         endpoints.getConnections(cb);
     }
 
-//remove
     @:dox(hide)
     public function removeChannel(id){
         //remove from guild too.
         var c = channelCache.get(id);
-        if(c!=null&&c.type!=1){
-            var gc = cast(c,GuildChannel);
+        if(c != null && c.type != 1){
+            var gc = cast(c, GuildChannel);
             var g = gc.getGuild();
-            if(gc.type==0){
+            if(gc.type == 0){
                 g.textChannels.remove(c.id.id);
             }else{
                 g.voiceChannels.remove(c.id.id);
@@ -434,18 +455,17 @@ class DiscordClient {
         userCache.remove(id);
     }
 
-//get
     /**
         Get a guild from cache if it's there otherwise load from API.
         @param id - The id of the desired guild.
         @param cb - The Callback to return the guild to.
      */
-    public function getGuild(id,cb:Guild->Void){
+    public function getGuild(id, cb: Guild->Void){
         if(guildCache.exists(id)){
             cb(guildCache.get(id));
         }else{
-            endpoints.getGuild(id,function(r,e){
-                if(e!=null)throw(e);
+            endpoints.getGuild(id, function(r, e){
+                if(e != null) throw(e);
                 cb(r);
             });
         }
@@ -469,8 +489,8 @@ class DiscordClient {
         @param cb - Callback to return the channels to.
      */
     public function getDMChannels(cb:Array<DMChannel>->Void){
-        endpoints.getDMChannels(function(r,e){
-            if(e!=null)throw(e);
+        endpoints.getDMChannels(function(r, e){
+            if(e != null) throw(e);
             cb(r);
         });
     }
@@ -487,12 +507,12 @@ class DiscordClient {
         @param id - The id of the desired channel.
         @param cb - The callback to return the channel to.
      */
-    public function getChannel(id,cb:Channel->Void){
+    public function getChannel(id, cb:Channel->Void){
         if(channelCache.exists(id)){
             cb(channelCache.get(id));
         }else{
-            endpoints.getChannel(id,function(r,e){
-                if(e!=null)throw(e);
+            endpoints.getChannel(id, function(r, e){
+                if(e != null) throw(e);
                 cb(r);
             });
         }
@@ -520,8 +540,8 @@ class DiscordClient {
         if(userCache.exists(id)){
             cb(userCache.get(id));
         }else{
-            endpoints.getUser(id,function(r,e){
-                if(e!=null)throw(e);
+            endpoints.getUser(id, function(r, e){
+                if(e != null) throw(e);
                 cb(r);
             });
         }
@@ -546,12 +566,12 @@ class DiscordClient {
         @param channel_id - The id of the channel the message is from.
         @param cb - The callback to return the message to.
      */
-    public function getMessage(id,channel_id,cb:Message->Void){
+    public function getMessage(id, channel_id, cb: Message->Void){
         if(messageCache.exists(id)){
             cb(messageCache.get(id));
         }else{
-            endpoints.getMessage(channel_id,id,function(r,e){
-                if(e!=null)throw(e);
+            endpoints.getMessage(channel_id, id, function(r, e){
+                if(e != null) throw(e);
                 cb(r);
             });
         }
@@ -569,33 +589,34 @@ class DiscordClient {
             throw "Message not in cache. try loading it safely first!";
         }
     }
-//"constructors"
-//Channels in client cache should be updated in guild cache.
+
+    //"constructors"
+    //Channels in client cache should be updated in guild cache.
 
     @:dox(hide)
-    public function _newMessage(message_struct:com.raidandfade.haxicord.types.structs.MessageStruct){
+    public function _newMessage(message_struct: com.raidandfade.haxicord.types.structs.MessageStruct){
         var id = message_struct.id;
         //trace("NEW MESSAGE: "+id);
         if(messageCache.exists(id)){
             messageCache.get(id)._update(message_struct);
             return messageCache.get(id);
         }else{
-            var msg = new Message(message_struct,this);
-            messageCache.set(id,msg);
+            var msg = new Message(message_struct, this);
+            messageCache.set(id, msg);
             return messageCache.get(id);
         }
     }
 
     @:dox(hide)
-    public function _newUser(user_struct:com.raidandfade.haxicord.types.structs.User){
+    public function _newUser(user_struct: com.raidandfade.haxicord.types.structs.User){
         var id = user_struct.id;
         //trace("NEW USER: "+id);
         if(userCache.exists(id)){
             userCache.get(id)._update(user_struct);
             return userCache.get(id);
         }else{
-            var user = new User(user_struct,this);
-            userCache.set(id,user);
+            var user = new User(user_struct, this);
+            userCache.set(id, user);
             return userCache.get(id);
         }
     }
@@ -606,171 +627,180 @@ class DiscordClient {
     }
 
     @:dox(hide)
-    public function __newChannel(channel_struct:Dynamic):Dynamic->Channel{
+    public function __newChannel(channel_struct: Dynamic): Dynamic->Channel{
         if(channel_struct.type == "text" || channel_struct.type == "voice"){
-            channel_struct.type = channel_struct.type=="text"?0:2;
+            channel_struct.type = channel_struct.type=="text" ? 0 : 2 ;
         }
         var id = channel_struct.id;
-        //trace("NEW CHANNEL: "+id+"("+channel_struct.type+")");
-        if(channel_struct.type==1)return _newDMChannel;
+        if(channel_struct.type == 1) return _newDMChannel;
         if(channelCache.exists(id)){
             var c = cast(channelCache.get(id),GuildChannel);
             if(c.type==0)
-                cast(channelCache.get(id),TextChannel)._update(channel_struct);
+                cast(channelCache.get(id), TextChannel)._update(channel_struct);
             else if(c.type==2)
-                cast(channelCache.get(id),VoiceChannel)._update(channel_struct);
+                cast(channelCache.get(id), VoiceChannel)._update(channel_struct);
             else 
-                cast(channelCache.get(id),CategoryChannel)._update(channel_struct);
-            return function(c,_){
+                cast(channelCache.get(id), CategoryChannel)._update(channel_struct);
+            return function(c, _) {
                 return c;
-            }.bind(c,_);
+            }.bind(c, _);
         }else{
-            var channel = Channel.fromStruct(channel_struct)(channel_struct,this);
-            channelCache.set(id,channel);
-            var c = cast(channelCache.get(id),GuildChannel);
-            try{getGuildUnsafe(c.guild_id.id)._addChannel(c);}catch(e:Dynamic){} //Try. but if it doesn't... meh
-            return function(_){return channelCache.get(id);};
+            var channel = Channel.fromStruct(channel_struct)(channel_struct, this);
+            channelCache.set(id, channel);
+            var c = cast(channelCache.get(id), GuildChannel);
+            try {
+                getGuildUnsafe(c.guild_id.id)._addChannel(c);
+            } catch(e: Dynamic){} //Not important if guild is part of unsafe get channel
+            
+            return function(_){
+                return channelCache.get(id);
+            };
         }
     }
 
     @:dox(hide)
-    public function _newDMChannel(channel_struct:com.raidandfade.haxicord.types.structs.DMChannel){
+    public function _newDMChannel(channel_struct: com.raidandfade.haxicord.types.structs.DMChannel) {
         var id = channel_struct.id; 
         if(dmChannelCache.exists(id)){
             dmChannelCache.get(id)._update(channel_struct);
+
             return dmChannelCache.get(id);
         }else{
-            var channel = DMChannel.fromStruct(channel_struct,this);
-            dmChannelCache.set(id,channel);
-            if(channel.recipient!=null) userDMChannels.set(channel.recipient.id.id,id);
-            else if(channel.recipients!=null && channel.recipients.length==1) userDMChannels.set(channel.recipients[0].id.id,id);
+            var channel = DMChannel.fromStruct(channel_struct, this);
+            dmChannelCache.set(id, channel);
+            if(channel.recipient != null) 
+                userDMChannels.set(channel.recipient.id.id, id);
+            else if(channel.recipients != null && channel.recipients.length == 1)
+                userDMChannels.set(channel.recipients[0].id.id, id);
+
             return dmChannelCache.get(id);
         }
     }
 
     @:dox(hide)
-    public function _newGuild(guild_struct:com.raidandfade.haxicord.types.structs.Guild){
+    public function _newGuild(guild_struct: com.raidandfade.haxicord.types.structs.Guild) {
         var id = guild_struct.id;
-        //race("NEW GUILD: "+id);
+
         if(guildCache.exists(id)){
             guildCache.get(id)._update(guild_struct);
             return guildCache.get(id);
         }else{
-            var guild = new Guild(guild_struct,this);
-            guildCache.set(id,guild);
+            var guild = new Guild(guild_struct, this);
+            guildCache.set(id, guild);
             return guildCache.get(id);
         }
     }
 
-//Events 
+    //Events 
+
     /**
         Event hook for when the bot has connected, loaded cache, and is ready to go.
      */
-    public dynamic function onReady(){}
+    public dynamic function onReady() {}
 
     /**
         Event hook for when a new channel is created.
         @param c - The channel object. 
      */
-    public dynamic function onChannelCreate(c:Channel){}
+    public dynamic function onChannelCreate(c: Channel) {}
     /**
         Event hook for when a channel is changed/updated.
         @param c - The new channel object.
      */
-    public dynamic function onChannelUpdate(c:Channel){}
+    public dynamic function onChannelUpdate(c: Channel) {}
     /**
         Event hook for when a channel is deleted.
         @param channel_id - The id of the deleted channel.
      */
-    public dynamic function onChannelDelete(channel_id:String){}
+    public dynamic function onChannelDelete(channel_id: String) {}
 
     /**
         Event hook for when a guild is created or joined by you.
         @param g - The guild object.
      */
-    public dynamic function onGuildCreate(g:Guild){}
+    public dynamic function onGuildCreate(g: Guild) {}
     /**
         Event hook for when a guild is updated or changed.
         @param g - The new guild object.
      */
-    public dynamic function onGuildUpdate(g:Guild){}
+    public dynamic function onGuildUpdate(g: Guild) {}
     /**
         Event hook for when a guild is deleted
         @param guild_id - The id of the guild that was deleted.
      */
-    public dynamic function onGuildDelete(guild_id:String){}
+    public dynamic function onGuildDelete(guild_id: String) {}
     /**
         Event hook for when a guild updates it's emojis. 
         @param g - The guild the emojis were updated for.
         @param emojis - The new list of emojis
      */
-    public dynamic function onGuildEmojisUpdate(g:Guild,emojis:Array<Emoji>){}
+    public dynamic function onGuildEmojisUpdate(g: Guild, emojis: Array<Emoji>) {}
 
     /**
         Event hook for when a new user joins a guild.
         @param g - The guild the user has joined.
         @param m - The instanced member object of the user.
      */
-    public dynamic function onMemberJoin(g:Guild,m:GuildMember){}
+    public dynamic function onMemberJoin(g: Guild, m: GuildMember) {}
     /**
         Event hook for when a user is updated or changed. 
         @param g - The guild the user is in.
         @param m - The instanced member object of the user.
      */
-    public dynamic function onMemberUpdate(g:Guild,m:GuildMember){}
+    public dynamic function onMemberUpdate(g: Guild, m: GuildMember) {}
     /**
         Event hook for when a user is banned from a guild.
         @param g - The guild the ban was from.
         @param u - The user that was banned (May be null).
      */
-    public dynamic function onMemberBan(g:Guild,u:Null<User>){}
+    public dynamic function onMemberBan(g: Guild, u: Null<User>) {}
     /**
         Event hook for when a user is unbanned from a guild.
         @param g - The guild the ban was from.
         @param u - The user that was unbanned (May be null).
      */
-    public dynamic function onMemberUnban(g:Guild,u:Null<User>){}
+    public dynamic function onMemberUnban(g: Guild, u: Null<User>) {}
     /**
         Event hook for when a member leaves a guild.
         @param g - The guild the member belonged to.
         @param u - The user of the member (May be null).
      */
-    public dynamic function onMemberLeave(g:Guild,u:Null<User>){}
+    public dynamic function onMemberLeave(g: Guild, u: Null<User>) {}
 
     /**
         Event hook for when a role is created.
         @param g - The guild it was created in.
         @param r - The role.
      */
-    public dynamic function onRoleCreate(g:Guild,r:Role){}
+    public dynamic function onRoleCreate(g: Guild, r: Role) {}
     /**
         Event hook for when a role is changed/updated
         @param g - The guild it was updated in.
         @param r - The new role.
      */
-    public dynamic function onRoleUpdate(g:Guild,r:Role){}
+    public dynamic function onRoleUpdate(g: Guild, r: Role) {}
     /**
         Event hook for when a role is deleted
         @param g - The guild it was deleted from.
         @param role_id - The id of the role that was deleted.
      */
-    public dynamic function onRoleDelete(g:Guild,role_id:String){}
+    public dynamic function onRoleDelete(g: Guild, role_id: String) {}
 
     /**
         Event hook for when a message is sent.
         @param m - The message.
      */
-    public dynamic function onMessage(m:Message){}
+    public dynamic function onMessage(m: Message) {}
     /**
         Event hook for when a message is edited.
         @param m - The new message.
      */
-    public dynamic function onMessageEdit(m:Message){}
+    public dynamic function onMessageEdit(m: Message) {}
     /**
         Event hook for when a message is deleted.
         @param message_id - The id of the deleted message.
      */
-    public dynamic function onMessageDelete(message_id:String){}
+    public dynamic function onMessageDelete(message_id: String) {}
 
     /**
         Event hook for when a reaction is added.
@@ -778,26 +808,26 @@ class DiscordClient {
         @param u - The user that added the reaction.
         @param e - The emoji of the reaction.
      */
-    public dynamic function onReactionAdd(m:Message,u:User,e:com.raidandfade.haxicord.types.structs.Emoji){}
+    public dynamic function onReactionAdd(m: Message, u: User, e: com.raidandfade.haxicord.types.structs.Emoji) {}
     /**
         Event hook for when reactions are removed.
         @param m - The message the reaction was removed from.
         @param u - The user that removed the reaction. (Do not rely on this for purges, may be null)
         @param e - The emoji of the reaction.
      */
-    public dynamic function onReactionRemove(m:Message,u:Null<User>,e:com.raidandfade.haxicord.types.structs.Emoji){}
+    public dynamic function onReactionRemove(m: Message, u: Null<User>, e: com.raidandfade.haxicord.types.structs.Emoji) {}
     /**
         Event hook for when reactions are purged from a message.
         @param m - The message that was purged.
      */
-    public dynamic function onReactionPurge(m:Message){}
+    public dynamic function onReactionPurge(m: Message) {}
 
     /**
         A raw event hook, for things that require a little more flexibility.
         @param e - The event name as defined by API Docs.
         @param d - The event data.
      */
-    public dynamic function onRawEvent(e:String,d:Dynamic){}
+    public dynamic function onRawEvent(e: String, d: Dynamic) {}
 
 }
 
@@ -809,70 +839,87 @@ private typedef WSMessage = {
 }
 
 private class WSPrepareData {
-    public static function Identify(t:String, p:WSIdentify_Properties=null, c:Bool=false, l:Int=59, s:WSShard=null){
-        if(p==null) p = {"$os":"","$browser":DiscordClient.libName,"$device":DiscordClient.libName,"$referrer":"","$referring_domain":""};
-        if(s==null) s = [0,1];
-        return {"op":2,"d":{"token":t,"properties":p,"compress":c,"large_threshhold":l,"shard":s}};
+    public static function Identify(t: String, p: WSIdentify_Properties = null, c: Bool = false, l: Int = 59, s: WSShard = null){
+        if(p==null) 
+            p = {
+                "$os": "", 
+                "$browser": DiscordClient.libName,
+                "$device": DiscordClient.libName,
+                "$referrer": "",
+                "$referring_domain": ""
+                };
+        if(s==null) 
+            s = [0, 1];
+        return {
+                "op": 2,
+                "d": {
+                    "token": t,
+                    "properties": p,
+                    "compress": c,
+                    "large_threshhold": l,
+                    "shard":s 
+                    }
+                };
     }
 
     public static function Heartbeat(seq=null){
-        return {"op":1,"d":seq};
+        return {"op": 1, "d": seq};
     }
 }
 
 private typedef WSShard = Array<Int>;
 
 private typedef WSIdentify_Properties = {
-    @:optional var os:String;
-    @:optional var browser:String;
-    @:optional var device:String;
-    @:optional var referrer:String;
-    @:optional var referring_domain:String;
+    @:optional var os: String;
+    @:optional var browser: String;
+    @:optional var device: String;
+    @:optional var referrer: String;
+    @:optional var referring_domain: String;
 }
 
 private typedef WSReady = {
-    @:optional var v:Int;
-    @:optional var user_settings:Dynamic;
-    @:optional var user:com.raidandfade.haxicord.types.structs.User;
-    @:optional var shard:Array<Int>;
-    @:optional var session_id:String;
-    @:optional var relationships:Dynamic;
-    @:optional var private_channels:Array<com.raidandfade.haxicord.types.structs.DMChannel>;
-    @:optional var presences:Array<com.raidandfade.haxicord.types.structs.Presence>;
-    @:optional var guilds:Array<com.raidandfade.haxicord.types.structs.Guild>;
-    @:optional var _trace:Dynamic;
+    @:optional var v: Int;
+    @:optional var user_settings: Dynamic;
+    @:optional var user: com.raidandfade.haxicord.types.structs.User;
+    @:optional var shard: Array<Int>;
+    @:optional var session_id: String;
+    @:optional var relationships: Dynamic;
+    @:optional var private_channels: Array<com.raidandfade.haxicord.types.structs.DMChannel>;
+    @:optional var presences: Array<com.raidandfade.haxicord.types.structs.Presence>;
+    @:optional var guilds: Array<com.raidandfade.haxicord.types.structs.Guild>;
+    @:optional var _trace: Dynamic;
 }
 
 private class HeartbeatThread { 
-    public var delay:Int;
+    public var delay: Int;
 
-    var seq:Null<Int>;
-    var ws:WebSocketConnection;
-    var timer:Timer;
-    var cl:DiscordClient;
+    var seq: Null<Int>;
+    var ws: WebSocketConnection;
+    var timer: Timer;
+    var cl: DiscordClient;
 
-    var paused:Bool;
+    var paused: Bool;
 
     public function setSeq(_s){
         seq = _s;
     }
 
-    public function new(_d,_w,_s,_b){
+    public function new(_d, _w, _s, _b){
         delay = _d;
-        ws=_w;
-        seq=_s;
-        cl=_b;
+        ws = _w;
+        seq = _s;
+        cl = _b;
         timer = new Timer(delay);
         timer.run = beat;
     }
 
     public function beat(){
         ws.sendJson(WSPrepareData.Heartbeat(seq));
-        cl.reconnectTimeout=1;//reset after 1 heartbeat cus that seems like a good time
+        cl.reconnectTimeout = 1;
     }
 
     public function pause(){
-        paused=true;
+        paused = true;
         timer.stop();
     }
 
