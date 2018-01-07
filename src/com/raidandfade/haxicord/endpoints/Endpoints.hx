@@ -1297,7 +1297,6 @@ class Endpoints{
             throw "Invalid Method Request";
 
         var url = BASEURL + "v" + DiscordClient.gatewayVersion + endpoint; //TODO force version
-        trace(url);
         var token = "Bot " + client.token;
 
         var headers:Map<String, String> = new Map<String, String>();

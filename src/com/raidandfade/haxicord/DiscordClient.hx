@@ -145,8 +145,10 @@ class DiscordClient {
         ws.onMessage = webSocketMessage;
 
         ws.onClose = function(m) {
-            trace(m);
             if(hbThread != null) hbThread.pause();
+
+            if(m == 4006) //The session is invalid. stop it
+                session = "";
 
             if(session == "") 
                 resumeable = false; //can't be resumed if i don't have a session
@@ -178,10 +180,10 @@ class DiscordClient {
                     seq = hbThread.getSeq();
 
                 if(resumeable) {
-                    trace("Resuming");
+                    //trace("Resuming");
                     ws.sendJson(WSPrepareData.Resume(token, session, seq));
                 }else{
-                    trace("Identifying");
+                    //trace("Identifying");
                     ws.sendJson(WSPrepareData.Identify(token));
                 }
 
@@ -317,7 +319,7 @@ class DiscordClient {
             case "MESSAGE_REACTION_REMOVE_ALL": 
                 getMessage(d.message_id, d.channel_id, function(m) {
                     for(r in m.reactions) {
-                        trace(d.who + "-" + d.emoji);
+                        //trace(d.who + "-" + d.emoji);
                         if(d.who != null)
                             onReactionRemove(m, getUserUnsafe(d.who), d.emoji);
                         else
