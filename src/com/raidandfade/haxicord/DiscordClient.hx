@@ -26,8 +26,8 @@ import haxe.Timer;
 
 Gateway version != 7 -done
 Don't support < gateway 6 -done
-RESUMEs
-GLOBAL RATELIMIT shouldn't be hardcoded
+RESUMEs - done
+GLOBAL RATELIMIT shouldn't be hardcoded - done
 Add some spaces -done (not structs)
 */
 
@@ -75,6 +75,15 @@ class DiscordClient {
     @:dox(hide)
     public var ready = false;
 
+    @:dox(hide)
+    public var session = "kek";
+
+    @:dox(hide)
+    public var canResume:Bool;
+
+    @:dox(hide)
+    public var resumeable = false;
+
     /**
         The bot user, this is you.
      */
@@ -98,7 +107,7 @@ class DiscordClient {
     var hbThread:HeartbeatThread;
 
     @:dox(hide)
-    var ws:WebSocketConnection;
+    public var ws:WebSocketConnection;
 
     /**
         Initialize the bot with your token. This should be the first thing you run in your program.
@@ -129,33 +138,29 @@ class DiscordClient {
     }
 //Flowchart
     @:dox(hide)
-    function connect(gateway,error) {
-        if(error != null) throw error;
+    function connect(gateway, error) {
+        if(error != null) throw error; 
         //trace("Gottening");
         ws = new WebSocketConnection(gateway.url + "/?v=" + gatewayVersion + "&encoding=json");
         ws.onMessage = webSocketMessage;
-        ws.onClose = function() {
+
+        ws.onClose = function(m) {
+            trace(m);
             if(hbThread != null) hbThread.pause();
-            trace("Socket Closed, Re-Opening in " + reconnectTimeout + "s.");
-            Timer.delay(endpoints.getGateway.bind(isBot, connect), reconnectTimeout * 1000);
+
+            if(session == "") 
+                resumeable = false; //can't be resumed if i don't have a session
+
+            trace("Socket Closed, Re-Opening in " + reconnectTimeout + "s. " + (resumeable?"Resuming":""));
+
+            Timer.delay(endpoints.getGateway.bind(isBot, connect), reconnectTimeout * 2000);
+            
             reconnectTimeout *= 2; //double every time it dies.
         }
-        ws.onError = function(e) {
-            trace("Websocket errored!");
-            trace(e);
-        }
-    }
 
-    @:dox(hide)
-    function reconnect(gateway,error) {
-        if(error != null) throw error;
-        //trace("Gottening");
-        ws = new WebSocketConnection(gateway.url + "/?v=" + gatewayVersion+"&encoding=json");
-        ws.onMessage = webSocketMessage;
-        ws.onClose = function() {
-            if(hbThread != null) hbThread.pause();
-        }
         ws.onError = function(e) {
+            resumeable = false;
+
             trace("Websocket errored!");
             trace(e);
         }
@@ -167,9 +172,23 @@ class DiscordClient {
         var m:WSMessage = Json.parse(msg);
         switch(m.op) {
             case 10: 
-                ws.sendJson(WSPrepareData.Identify(token));
-                hbThread = new HeartbeatThread(m.d.heartbeat_interval, ws, null, this);
-            //case 9: //INVALIDATE_SESSION (if d == true resume if d == false reconnect)
+                var seq = 0;
+
+                if(hbThread!=null)
+                    seq = hbThread.getSeq();
+
+                if(resumeable) {
+                    trace("Resuming");
+                    ws.sendJson(WSPrepareData.Resume(token, session, seq));
+                }else{
+                    trace("Identifying");
+                    ws.sendJson(WSPrepareData.Identify(token));
+                }
+
+                hbThread = new HeartbeatThread(m.d.heartbeat_interval, ws, seq, this);
+            case 9:
+                resumeable = !m.d;
+                ws.close();
             case 0:
                 receiveEvent(m);
             default:
@@ -183,7 +202,9 @@ class DiscordClient {
         d = m.d;
         //trace(m.t);
         hbThread.setSeq(m.s);
-        onRawEvent(m.t,d);
+
+        onRawEvent(m.t, d);
+
         switch(m.t) {
             case "READY":
                 //TODO save the session, for resumes.
@@ -193,10 +214,15 @@ class DiscordClient {
                 }
                 user=_newUser(re.user);
 
+                session = re.session_id;
+                resumeable = true;
+
                 if(re.guilds.length == 0) {
                     ready=true;
                     onReady();
                 }
+            case "RESUMED": 
+                ready = true;
             case "CHANNEL_CREATE":
                 onChannelCreate(_newChannel(d));
             case "CHANNEL_UPDATE":
@@ -304,6 +330,7 @@ class DiscordClient {
                 if(m != null)
                     m._updatePresence(d);
             case "TYPING_START": // event
+                
             case "USER_UPDATE": // user
             case "VOICE_STATE_UPDATE": // ...
             case "VOICE_SERVER_UPDATE": // ...
@@ -851,8 +878,10 @@ private class WSPrepareData {
                 "$referrer": "",
                 "$referring_domain": ""
                 };
+
         if(s == null) 
             s = [0, 1];
+
         return {
                 "op": 2,
                 "d": {
@@ -864,6 +893,19 @@ private class WSPrepareData {
                     }
                 };
     }
+
+    public static function Resume(token: String, session_id: String, sequence: Int){
+        return {
+            "op": 6,
+            "d" : {
+                "token": token,
+                "session_id": session_id,
+                "seq": sequence
+            }
+        };
+    }
+
+
 
     public static function Heartbeat(seq = null) {
         return {"op": 1, "d": seq};
@@ -906,6 +948,10 @@ private class HeartbeatThread {
     public function setSeq(_s) {
         seq = _s;
     }
+
+    public function getSeq() {
+        return seq;
+    } 
 
     public function new(_d, _w, _s, _b) {
         delay = _d;
