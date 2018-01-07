@@ -18,6 +18,8 @@ import com.raidandfade.haxicord.types.VoiceChannel;
 import com.raidandfade.haxicord.types.Guild;
 import com.raidandfade.haxicord.types.Role;
 import com.raidandfade.haxicord.types.structs.Emoji;
+import com.raidandfade.haxicord.types.structs.Status;
+import com.raidandfade.haxicord.types.structs.Status.Activity;
 
 import haxe.Json;
 import haxe.Timer;
@@ -153,9 +155,9 @@ class DiscordClient {
             if(session == "") 
                 resumeable = false; //can't be resumed if i don't have a session
 
-            trace("Socket Closed, Re-Opening in " + reconnectTimeout + "s. " + (resumeable?"Resuming":""));
+            trace("Socket Closed with code " + m  +", Re-Opening in " + reconnectTimeout + "s. " + (resumeable?"Resuming":""));
 
-            Timer.delay(endpoints.getGateway.bind(isBot, connect), reconnectTimeout * 2000);
+            Timer.delay(endpoints.getGateway.bind(isBot, connect), reconnectTimeout * 1000);
             
             reconnectTimeout *= 2; //double every time it dies.
         }
@@ -332,8 +334,10 @@ class DiscordClient {
                 if(m != null)
                     m._updatePresence(d);
             case "TYPING_START": // event
-                
+                onTypingStart(getUserUnsafe(d.user_id), getChannelUnsafe(d.channel_id), d.timestamp);
             case "USER_UPDATE": // user
+                trace("User Changed");
+                trace(d);
             case "VOICE_STATE_UPDATE": // ...
             case "VOICE_SERVER_UPDATE": // ...
             default:
@@ -343,6 +347,23 @@ class DiscordClient {
 
     //Misc funcs that cant fit anywhere else
 
+
+    public function setStatus(status:Status) {
+        var msg = {
+            "op": 3,
+            "d": status
+        }
+
+        if(msg.d.since == null ) msg.d.since = null;
+        if(msg.d.game == null ) msg.d.game = null;
+
+        trace(msg);
+        ws.sendJson(msg);
+    }
+
+    //public function setActivity(activity:Activity) {
+
+    //}
     /**
         Get the invite link of the bot.
         @param perms=0 - The permissions to put on the link.
@@ -853,6 +874,15 @@ class DiscordClient {
         @param m - The message that was purged.
      */
     public dynamic function onReactionPurge(m: Message) {}
+
+
+    /**
+        Event hook for when someone starts typing
+        @param u - The user who started typing
+        @param c - The channel they are typing in
+        @param t - Timestamp of when they started typing (in seconds)
+     */
+    public dynamic function onTypingStart(u: User, c: Channel, t: Int) {}
 
     /**
         A raw event hook, for things that require a little more flexibility.
