@@ -2,7 +2,7 @@ package com.raidandfade.haxicord.types.structs;
 
 typedef User = {
     var id:String; 
-    var username:String;
+    @:optional var username:String;
     @:optional var discriminator:String;
     @:optional var avatar:String;
     @:optional var bot:Bool;

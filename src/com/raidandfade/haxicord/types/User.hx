@@ -38,9 +38,9 @@ class User {
      */
     public var mfa_enabled:Bool; //only me :(
     /**
-       The game that the current user is playing.
+       The user's current status
      */
-    public var game:com.raidandfade.haxicord.types.structs.Presence.PresenceGame;
+    public var presence:com.raidandfade.haxicord.types.structs.Presence;
 
     //The next two can only be gained from the OAUTH2 Endpoint.
     /**
@@ -66,6 +66,9 @@ class User {
         avatar = _user.avatar;
         avatarUrl = "https://cdn.discordapp.com/avatars/" + _user.id + "/" + _user.avatar + ".png"; //TODO gifs? other filetypes? 
         bot = _user.bot;
+
+        //init presence with the default jazz
+        presence = {status:"online"};
 
         if(_user.mfa_enabled != null) 
             mfa_enabled = _user.mfa_enabled;

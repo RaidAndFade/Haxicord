@@ -5,12 +5,12 @@ typedef Status = {
        The status of the user.
        One of: online, dnd, idle, invisible, offline
      */
-    var status:String; 
+    @:optional var status:String; 
     
     /**
        Is the user afk?
      */
-    var afk:Bool;
+    @:optional var afk:Null<Bool>;
 
     /**
        An activity
@@ -39,10 +39,34 @@ typedef Activity = {
        The url to point to
      */
     @:optional var url:String;
-    //@:optional var timestamps:Dynamic; //TODO impl this when it's actually documented
-    //@:optional var application_id:String;
-    //@:optional var details:String;
-    //@:optional var state:String;
-    //@:optional var party:Dynamic; //TODO impl this when it's actually documented
-    //@:optional var assets:Dynamic; //TODO impl this when it's actually documented
+
+    /**
+       Not implemented properly. Use at own risk
+     */
+    @:optional var timestamps:Dynamic; //TODO impl this when it's actually documented
+
+    /**
+       Not implemented properly. Use at own risk
+     */
+    @:optional var application_id:String;
+
+    /**
+       Not implemented properly. Use at own risk
+     */
+    @:optional var details:String;
+
+    /**
+       Not implemented properly. Use at own risk
+     */
+    @:optional var state:String;
+
+    /**
+       Not implemented properly. Use at own risk
+     */
+    @:optional var party:Dynamic; //TODO impl this when it's actually documented
+
+    /**
+       Not implemented properly. Use at own risk
+     */
+    @:optional var assets:Dynamic; //TODO impl this when it's actually documented
 }

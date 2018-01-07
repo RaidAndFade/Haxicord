@@ -216,7 +216,7 @@ class DiscordClient {
                 for(g in re.guilds) {
                     _newGuild(g);
                 }
-                user=_newUser(re.user);
+                user = _newUser(re.user);
 
                 session = re.session_id;
                 resumeable = true;
@@ -347,23 +347,38 @@ class DiscordClient {
 
     //Misc funcs that cant fit anywhere else
 
-
+    /**
+        Set the status of the bot
+        @param status - The status object to set, All fields are optional
+     */
     public function setStatus(status:Status) {
         var msg = {
             "op": 3,
             "d": status
         }
 
-        if(msg.d.since == null ) msg.d.since = null;
-        if(msg.d.game == null ) msg.d.game = null;
+        if(msg.d.status == null) 
+            msg.d.status = user.presence.status;
 
-        trace(msg);
+        if(msg.d.afk == null) 
+            msg.d.afk = false;
+        
+        if(msg.d.since == null )
+            msg.d.since = null;
+
+        if(msg.d.game == null ) 
+            msg.d.game = null;
+
         ws.sendJson(msg);
     }
 
-    //public function setActivity(activity:Activity) {
-
-    //}
+    /**
+        Set the activity of the bot
+        @param activity - The activity object to set
+     */
+    public function setActivity(activity:Activity) {
+        setStatus({"game":activity});
+    }
     /**
         Get the invite link of the bot.
         @param perms=0 - The permissions to put on the link.

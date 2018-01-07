@@ -50,15 +50,21 @@ class GuildMember {
     @:dox(hide)
     public function _update(_mem:com.raidandfade.haxicord.types.structs.GuildMember) {
         if(_mem.user != null) user = client._newUser(_mem.user);
-        displayName = _mem.nick == null?_mem.user.username:_mem.nick;
+        displayName = _mem.nick == null ? _mem.user.username : _mem.nick;
         if(_mem.roles != null) roles = _mem.roles;
     }
 
     @:dox(hide)
     public function _updatePresence(_pre:com.raidandfade.haxicord.types.structs.Presence) {
-        displayName = _pre.nick == null?this.user.username:_pre.nick;
+        displayName = _pre.nick == null ? this.user.username : _pre.nick;
         if(_pre.roles != null) roles = _pre.roles;
-        if(_pre.game != null) user.game = _pre.game;
+
+        //Get rid of per-guild shit before setting the user presence
+        _pre.guild_id = null;
+        _pre.nick = null;
+        _pre.roles = null;
+
+        user.presence = _pre;
     }
 
     //Live funcs
