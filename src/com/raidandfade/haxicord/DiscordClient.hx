@@ -24,11 +24,11 @@ import haxe.Timer;
 
 /*TODO to get into dapi
 
-Gateway version != 7
-Don't support < gateway 6
+Gateway version != 7 -done
+Don't support < gateway 6 -done
 RESUMEs
 GLOBAL RATELIMIT shouldn't be hardcoded
-Add some spaces
+Add some spaces -done (not structs)
 */
 
 /*

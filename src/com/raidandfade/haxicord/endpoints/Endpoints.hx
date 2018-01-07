@@ -45,9 +45,7 @@ class Endpoints{
     }
 
     @:dox(hide)
-    var lastGlobalCheck: Int = -1;
-    @:dox(hide)
-    var globalReqsLeft: Int = 50;
+    var globalLocked:Bool = false;
 
     @:dox(hide)
     var rateLimitCache:Map<String, RateLimit> = new Map<String, RateLimit>();
@@ -1177,7 +1175,14 @@ class Endpoints{
     @:dox(hide)
     var globalQueue:Array<EndpointCall> = new Array<EndpointCall>();
     @:dox(hide)
-    var globalTimer:Bool;
+    var globalTimer:Timer;
+    function unQueueGlobally(){
+        globalLocked = false;
+        for(call in globalQueue){
+            callEndpoint(call.method, call.endpoint, call.callback, call.data, call.authorized);
+        }
+    }
+
     /**
         Call an endpoint while respecting ratelimits and such. Only use this if the endpoint call is not a function of its own (and make an issue on the github if that is the case)
         @param method - The HTTP method to use.
@@ -1187,24 +1192,11 @@ class Endpoints{
         @param authorized - Whether the endpoint requires a token or not.
      */
     public function callEndpoint(method:String, endpoint:EndpointPath, callback:Null<Dynamic->ErrorReport->Void> = null, data:{} = null, authorized:Bool = true) {
-        if(globalReqsLeft == 0) {
-            globalQueue.push(new EndpointCall(method, endpoint, callback, data, authorized) );
-            if(!globalTimer) {
-                globalTimer = true;
-                trace("You hit global limit. Waiting for the next second.");
-                Timer.delay(function() {
-                    globalReqsLeft = 50;
-                    globalTimer = false;
-                    trace("Global limit passed. Calling endpoints now");
-                    var call:EndpointCall;
-                    while((call = globalQueue.pop() ) != null) {
-                        callEndpoint(call.method, call.endpoint, call.callback, call.data, call.authorized);
-                    }
-                }, 1000);
-            }
+        var origCall = new EndpointCall(method, endpoint, callback, data, authorized);
+        if(globalLocked){
+            globalQueue.push(origCall);
             return;
         }
-        globalReqsLeft--;
         //Per ep ratelimit
         //trace("Req : "+endpoint.getPath() );
         var rateLimitName = endpoint.getRoute();
@@ -1214,10 +1206,10 @@ class Endpoints{
             if(rateLimitCache.get(rateLimitName).remaining <= 0) {
                 //trace("LQ: "+limitedQueue.exists(rateLimitName));
                 if(limitedQueue.exists(rateLimitName) ) {
-                    limitedQueue.get(rateLimitName).push(new EndpointCall(method, endpoint, callback, data, authorized) );
+                    limitedQueue.get(rateLimitName).push(origCall);
                 } else {
                     limitedQueue.set(rateLimitName, new Array<EndpointCall>() );
-                    limitedQueue.get(rateLimitName).push(new EndpointCall(method, endpoint, callback, data, authorized) );
+                    limitedQueue.get(rateLimitName).push(origCall);
                 }
                 return;
             } else {
@@ -1238,8 +1230,18 @@ class Endpoints{
                 }
             }
         }
-        var _callback = function(data, headers:Map<String, String>) {
-            if(headers.exists("x-ratelimit-reset") ) {
+
+        var _callback = function(origCall, data, headers:Map<String, String>) {
+            if(headers.exists("x-ratelimit-global")) {
+                if(headers.get("x-ratelimit-global")=="true"){
+                    globalLocked = true;
+                    globalQueue.push(origCall);
+                    globalTimer = Timer.delay(unQueueGlobally, Std.parseInt(headers.get("retry-after")));
+                    return;
+                }
+            }
+            
+            if(headers.exists("x-ratelimit-reset") ) { //Endpoint ratelimit
                 var limit = Std.parseInt(headers.get("x-ratelimit-limit") );
                 var remaining = Std.parseInt(headers.get("x-ratelimit-remaining") );
                 var reset = Std.parseFloat(headers.get("x-ratelimit-reset") );
@@ -1252,6 +1254,7 @@ class Endpoints{
                     }
                     var f = waitForLimit.bind(rateLimitName, rateLimitCache.get(rateLimitName) );
                     Timer.delay(f, delay);
+                    return;
                 }
                 if(remaining != 0) {
                     if(limitedQueue.exists(rateLimitName) ) {
@@ -1272,7 +1275,7 @@ class Endpoints{
             }
         }
         var path = endpoint.getPath();
-        rawCallEndpoint(method, path, _callback, data, authorized);
+        rawCallEndpoint(method, path, _callback.bind(origCall), data, authorized);
         return;
     }
 
@@ -1293,7 +1296,8 @@ class Endpoints{
         if(["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"].indexOf(method) == -1) 
             throw "Invalid Method Request";
 
-        var url = BASEURL + DiscordClient.gatewayVersion + endpoint; //TODO force version
+        var url = BASEURL + "v" + DiscordClient.gatewayVersion + endpoint; //TODO force version
+        trace(url);
         var token = "Bot " + client.token;
 
         var headers:Map<String, String> = new Map<String, String>();
