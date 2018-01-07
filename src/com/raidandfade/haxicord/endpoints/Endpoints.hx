@@ -34,6 +34,9 @@ import com.raidandfade.haxicord.types.structs.Webhook;
 class Endpoints{
 
     @:dox(hide)
+    var BASEURL:String = "https://discordapp.com/api/";
+
+    @:dox(hide)
     var client:DiscordClient;
 
     @:dox(hide)
@@ -1290,7 +1293,7 @@ class Endpoints{
         if(["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"].indexOf(method) == -1) 
             throw "Invalid Method Request";
 
-        var url = "https://discordapp.com/api" + endpoint; //TODO force version
+        var url = BASEURL + DiscordClient.gatewayVersion + endpoint; //TODO force version
         var token = "Bot " + client.token;
 
         var headers:Map<String, String> = new Map<String, String>();
