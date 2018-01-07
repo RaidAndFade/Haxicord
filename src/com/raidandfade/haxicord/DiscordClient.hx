@@ -363,10 +363,10 @@ class DiscordClient {
         if(msg.d.afk == null) 
             msg.d.afk = false;
         
-        if(msg.d.since == null )
+        if(msg.d.since == null)
             msg.d.since = null;
 
-        if(msg.d.game == null ) 
+        if(msg.d.game == null) 
             msg.d.game = null;
 
         ws.sendJson(msg);
