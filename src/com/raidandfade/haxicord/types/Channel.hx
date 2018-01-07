@@ -2,7 +2,7 @@ package com.raidandfade.haxicord.types;
 
 import haxe.extern.EitherType;
 
-class Channel{
+class Channel {
     @:dox(hide)
     public var client:DiscordClient;
 
@@ -21,10 +21,10 @@ class Channel{
     public var id:Snowflake;
 
     @:dox(hide)
-    public static function fromStruct(_chan:com.raidandfade.haxicord.types.structs.Channel):Dynamic->DiscordClient->Channel{
-        if(_chan.type==1){
+    public static function fromStruct(_chan:com.raidandfade.haxicord.types.structs.Channel): Dynamic->DiscordClient->Channel {
+        if(_chan.type == 1) {
             return DMChannel.fromStruct;
-        }else{
+        } else {
             return GuildChannel.fromStruct(_chan);
         }
     }
@@ -32,7 +32,7 @@ class Channel{
     /**
         Get the tag for the channel as a string.
      */
-    public function getTag(){
-        return "<#"+id.id+">";
+    public function getTag() {
+        return "<#" + id.id + ">";
     }
 }

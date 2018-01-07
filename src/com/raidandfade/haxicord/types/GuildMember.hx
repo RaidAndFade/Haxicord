@@ -35,12 +35,12 @@ class GuildMember {
     public var guild:Guild;
 
     @:dox(hide)
-    public function new(_mem:com.raidandfade.haxicord.types.structs.GuildMember,_guild:Guild,_client:DiscordClient){
+    public function new(_mem:com.raidandfade.haxicord.types.structs.GuildMember, _guild:Guild, _client:DiscordClient) {
         client = _client;
         guild = _guild;
         
         user = client._newUser(_mem.user);
-        displayName = _mem.nick==null?_mem.user.username:_mem.nick;
+        displayName = _mem.nick == null?_mem.user.username:_mem.nick;
         roles = _mem.roles; //TODO Make this role objects.
         joined_at = DateUtils.fromISO8601(_mem.joined_at);
         deaf = _mem.deaf;
@@ -48,17 +48,17 @@ class GuildMember {
     }
 
     @:dox(hide)
-    public function _update(_mem:com.raidandfade.haxicord.types.structs.GuildMember){
-        if(_mem.user!=null) user = client._newUser(_mem.user);
-        displayName = _mem.nick==null?_mem.user.username:_mem.nick;
-        if(_mem.roles!=null) roles = _mem.roles;
+    public function _update(_mem:com.raidandfade.haxicord.types.structs.GuildMember) {
+        if(_mem.user != null) user = client._newUser(_mem.user);
+        displayName = _mem.nick == null?_mem.user.username:_mem.nick;
+        if(_mem.roles != null) roles = _mem.roles;
     }
 
     @:dox(hide)
-    public function _updatePresence(_pre:com.raidandfade.haxicord.types.structs.Presence){
-        displayName = _pre.nick==null?this.user.username:_pre.nick;
-        if(_pre.roles!=null) roles = _pre.roles;
-        if(_pre.game!=null) user.game = _pre.game;
+    public function _updatePresence(_pre:com.raidandfade.haxicord.types.structs.Presence) {
+        displayName = _pre.nick == null?this.user.username:_pre.nick;
+        if(_pre.roles != null) roles = _pre.roles;
+        if(_pre.game != null) user.game = _pre.game;
     }
 
     //Live funcs
@@ -68,8 +68,8 @@ class GuildMember {
         @param rid - The id of the role desired to be added.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function addRole(rid:String,cb=null){
-        client.endpoints.giveMemberRole(guild.id.id,user.id.id,rid,cb);
+    public function addRole(rid:String, cb = null) {
+        client.endpoints.giveMemberRole(guild.id.id, user.id.id, rid, cb);
     }
 
     /**
@@ -77,16 +77,16 @@ class GuildMember {
         @param rid - The id of the role to take away.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function removeRole(rid:String,cb=null){
-        client.endpoints.takeMemberRole(guild.id.id,user.id.id,rid,cb);
+    public function removeRole(rid:String, cb = null) {
+        client.endpoints.takeMemberRole(guild.id.id, user.id.id, rid, cb);
     }
 
     /**
         Check if this user has a role by id
         @param rid - The id of the role to check for.
      */
-    public function hasRole(rid:String){
-        for(r in roles){
+    public function hasRole(rid:String) {
+        for(r in roles) {
             if(r == rid)
                 return true;
         }
@@ -98,8 +98,8 @@ class GuildMember {
         @param data - The updated data, all parameters are optional. All parameters require a different permission.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function edit(data,cb=null){
-        client.endpoints.editGuildMember(guild.id.id,user.id.id,data,cb);
+    public function edit(data, cb = null) {
+        client.endpoints.editGuildMember(guild.id.id, user.id.id, data, cb);
     }
 
     /**
@@ -107,16 +107,16 @@ class GuildMember {
         @param s - The nickname to change to.
         @param cb - Returns the nickname, or an error.
      */
-    public function changeNickname(s,cb=null){
-        guild.changeNickname(s,this,cb);
+    public function changeNickname(s, cb = null) {
+        guild.changeNickname(s, this, cb);
     }
 
     /**
         Kick a member from the guild. Requires the KICK_MEMBERS permission
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function kick(cb=null){
-        client.endpoints.kickMember(guild.id.id,user.id.id,cb);
+    public function kick(cb = null) {
+        client.endpoints.kickMember(guild.id.id, user.id.id, cb);
     }
 
     /**
@@ -124,7 +124,7 @@ class GuildMember {
         @param days - Number of days (from 0-7) to remove the user's messages server wide.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function ban(days=0,cb=null){
-        client.endpoints.banMember(guild.id.id,user.id.id,days,cb);
+    public function ban(days = 0, cb = null) {
+        client.endpoints.banMember(guild.id.id, user.id.id, days, cb);
     }
 }

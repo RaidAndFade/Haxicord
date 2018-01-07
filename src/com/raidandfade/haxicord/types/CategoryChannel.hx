@@ -1,8 +1,8 @@
 package com.raidandfade.haxicord.types;
 
-class CategoryChannel extends GuildChannel{
+class CategoryChannel extends GuildChannel {
     @:dox(hide)
-    public function new(_chan:com.raidandfade.haxicord.types.structs.GuildChannel,_client){
+    public function new(_chan:com.raidandfade.haxicord.types.structs.GuildChannel, _client) {
         client = _client;
 
         id = new Snowflake(_chan.id);
@@ -16,11 +16,15 @@ class CategoryChannel extends GuildChannel{
     }
     
     @:dox(hide)
-    public function _update(_chan:com.raidandfade.haxicord.types.structs.GuildChannel){
-        if(_chan.name!=null) name = _chan.name;
-        if(_chan.position!=null) position = _chan.position;
-        if(_chan.permission_overwrites!=null) permission_overwrites = _chan.permission_overwrites;
-        if(_chan.nsfw!=null) nsfw = _chan.nsfw;
+    public function _update(_chan:com.raidandfade.haxicord.types.structs.GuildChannel) {
+        if(_chan.name != null)
+            name = _chan.name;
+        if(_chan.position != null)
+            position = _chan.position;
+        if(_chan.permission_overwrites != null)
+            permission_overwrites = _chan.permission_overwrites;
+        if(_chan.nsfw != null)
+            nsfw = _chan.nsfw;
     }
 
     @:dox(hide)

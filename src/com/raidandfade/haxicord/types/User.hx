@@ -56,7 +56,7 @@ class User {
 
 
     @:dox(hide)
-    public function new(_user:com.raidandfade.haxicord.types.structs.User,_client:DiscordClient){
+    public function new(_user:com.raidandfade.haxicord.types.structs.User, _client:DiscordClient) {
         client = _client;
 
         id = new Snowflake(_user.id);
@@ -64,23 +64,44 @@ class User {
         username = _user.username;
         discriminator = _user.discriminator;
         avatar = _user.avatar;
-        avatarUrl = "https://cdn.discordapp.com/avatars/"+_user.id+"/"+_user.avatar+".png"; //TODO gifs? other filetypes? 
+        avatarUrl = "https://cdn.discordapp.com/avatars/" + _user.id + "/" + _user.avatar + ".png"; //TODO gifs? other filetypes? 
         bot = _user.bot;
-        if(_user.mfa_enabled!=null) mfa_enabled = _user.mfa_enabled;
-        if(_user.verified!=null)    verified = _user.verified;
-        if(_user.email!=null)       email = _user.email;
+
+        if(_user.mfa_enabled != null) 
+            mfa_enabled = _user.mfa_enabled;
+
+        if(_user.verified != null)    
+            verified = _user.verified;
+
+        if(_user.email != null)
+            email = _user.email;
     }
 
     @:dox(hide)
-    public function _update(_user:com.raidandfade.haxicord.types.structs.User){
-        if(_user.username!=null) username = _user.username;
-        if(_user.discriminator!=null) discriminator = _user.discriminator;
-        if(_user.avatar!=null) avatar = _user.avatar;
-        if(_user.avatar!=null) avatarUrl = "https://cdn.discordapp.com/avatars/"+_user.id+"/"+_user.avatar+".png"; //TODO gifs? other filetypes? \
-        if(_user.bot!=null) bot = _user.bot;
-        if(_user.mfa_enabled!=null) mfa_enabled = _user.mfa_enabled;
-        if(_user.verified!=null)    verified = _user.verified;
-        if(_user.email!=null)       email = _user.email;
+    public function _update(_user:com.raidandfade.haxicord.types.structs.User) {
+        if(_user.username != null) 
+            username = _user.username;
+
+        if(_user.discriminator != null) 
+            discriminator = _user.discriminator;
+        
+        if(_user.avatar != null) 
+            avatar = _user.avatar;
+        
+        if(_user.avatar != null) 
+            avatarUrl = "https://cdn.discordapp.com/avatars/" + _user.id + "/" + _user.avatar + ".png"; //TODO gifs? other filetypes? \
+        
+        if(_user.bot != null) 
+            bot = _user.bot;
+        
+        if(_user.mfa_enabled != null) 
+            mfa_enabled = _user.mfa_enabled;
+        
+        if(_user.verified != null)    
+            verified = _user.verified;
+        
+        if(_user.email != null)       
+            email = _user.email;
     }
 
 }
