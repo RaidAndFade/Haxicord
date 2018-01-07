@@ -57,7 +57,7 @@ class WebSocketGeneric extends WebSocket {
         socketData = new BytesRW();
         socket.onclose = function() {
             _debug('socket closed');
-            setClosed();
+            setClosed(1001);
         };
         socket.onerror = function() {
             _debug('ioerror: ');
@@ -207,8 +207,11 @@ class WebSocketGeneric extends WebSocket {
                             //onPong.dispatch(null);
                             lastPong = Date.now();
                         case Opcode.Close:
+                            var b1 = payload.readByte();
+                            var b2 = payload.readByte();
+                            var code = (b1<<8) + (b2);
                             _debug("Socket Closed");
-                            setClosed();
+                            setClosed(code);
                             try {
                                 socket.close();
                             } catch(_:Dynamic) {}
@@ -223,10 +226,10 @@ class WebSocketGeneric extends WebSocket {
         //trace(socket.readUTFBytes(socket.bytesAvailable));
     }
     
-    private function setClosed() {
+    private function setClosed(code) {
         if (state != State.Closed) {
             state = State.Closed;
-            onclose();
+            onclose(code);
         }
     }
 
@@ -334,7 +337,7 @@ class WebSocketGeneric extends WebSocket {
 		if(state != State.Closed) {
 			sendFrame(Bytes.alloc(0), Opcode.Close);
 			socket.close();
-			setClosed();
+			setClosed(1000);
 		}
     }
 

@@ -18,7 +18,7 @@ class WebSocketNodejs extends WebSocket {
         });
 
         impl.on("close",function(c,r){
-            this.onclose();
+            this.onclose(c);
         });
 
         impl.on("error",function(e){

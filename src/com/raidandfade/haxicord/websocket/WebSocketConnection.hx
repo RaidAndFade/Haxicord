@@ -87,6 +87,14 @@ class WebSocketConnection {
 #end
 #end
     }
+
+    public function close(){
+#if cs
+    ws.close();
+#else
+    ws.close();
+#end
+    }
     
     /**
         Send any object as json.
@@ -113,15 +121,15 @@ class WebSocketConnection {
     }
 
 
-    private function _onClose() {
+    private function _onClose(m) {
         ready = false;
-        onClose();
+        onClose(m);
     }
 
     /**
         Event listener for when the socket is closed
      */
-    dynamic public function onClose() { }
+    dynamic public function onClose(m) { }
 
     /**
         Event listener for when the socket is open and connected

@@ -80,6 +80,6 @@ class WebSocket {
     public dynamic function onmessageBytes(message:Bytes):Void {
     }
 
-    public dynamic function onclose():Void {
+    public dynamic function onclose(code:Int):Void {
     }
 }
