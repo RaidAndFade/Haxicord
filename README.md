@@ -3,6 +3,8 @@
 
 Haxicord is a Discord API wrapper for Haxe.
 
+[![Haxelib](https://img.shields.io/badge/dynamic/json.svg?label=Haxelib%20Version&colorB=00bb00&prefix=&suffix=&query=version&uri=https%3A%2F%2Fraw.githubusercontent.com%2FRaidAndFade%2FHaxicord%2Fmaster%2Fhaxelib.json)](https://lib.haxe.org/p/Haxicord) 
+
 ## Installation
 To install the library in your project, use the haxelib package manager:
 
