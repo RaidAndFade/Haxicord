@@ -49,7 +49,7 @@ class DiscordClient {
     /**
       The library's useragent
      */
-    public static var userAgent:String = "DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.1.1)";
+    public static var userAgent:String = "DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.2.0)";
     /**
       The gateway version being used.
      */
