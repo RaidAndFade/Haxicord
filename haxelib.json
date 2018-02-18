@@ -4,9 +4,9 @@
     "license": "MIT",
     "tags": ["Discord"],
     "description": "Interface with Discord using Haxe",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "classPath": "src",
-    "releasenote": "First official release, Things work. if you find bugs report them",
+    "releasenote": "All features are finished and tested lightly.",
     "contributors": ["RaidAndFade"],
     "dependencies": {}
 }

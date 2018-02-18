@@ -13,6 +13,11 @@ import haxe.Https;
 // Header : X-Audit-Log-Reason = reason
 // get logs - https://discordapp.com/api/v6/guilds/{guild_id}/bans/{user_id}?delete-message-days = 1&reason = asd
 
+//TODO (not documented but cool and user only)
+// https://discordapp.com/api/v6/users/{uid}/profile
+// https://discordapp.com/api/v6/users/{uid}/relationships
+// https://discordapp.com/api/v6/users/{uid}/profile
+
 import com.raidandfade.haxicord.types.Message;
 import com.raidandfade.haxicord.types.DMChannel;
 import com.raidandfade.haxicord.types.Channel;
