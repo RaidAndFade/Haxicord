@@ -17,6 +17,7 @@ import com.raidandfade.haxicord.types.CategoryChannel;
 import com.raidandfade.haxicord.types.VoiceChannel;
 import com.raidandfade.haxicord.types.Guild;
 import com.raidandfade.haxicord.types.Role;
+import com.raidandfade.haxicord.types.Snowflake;
 import com.raidandfade.haxicord.types.structs.Emoji;
 import com.raidandfade.haxicord.types.structs.Status;
 import com.raidandfade.haxicord.types.structs.Status.Activity;
@@ -172,8 +173,9 @@ class DiscordClient {
 
     @:dox(hide)
     function webSocketMessage(msg) {
-        //trace(msg);
         var m:WSMessage = Json.parse(msg);
+        try{
+        //trace(msg);
         switch(m.op) {
             case 10: 
                 var seq = 0;
@@ -196,6 +198,10 @@ class DiscordClient {
             case 0:
                 receiveEvent(m);
             default:
+        }
+        }catch(er:Dynamic){
+            trace("UNCAUGHT ERROR IN EVENT CALLBACK.");
+            trace(Std.string(er)+haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
         }
     }
 
@@ -223,7 +229,7 @@ class DiscordClient {
 
                 if(re.guilds.length == 0) {
                     ready=true;
-                    onReady();
+                    _onReady();
                 }
             case "RESUMED": 
                 ready = true;
@@ -246,7 +252,7 @@ class DiscordClient {
                 }
                 if( done && !ready ) {
                     ready = true;
-                    onReady();
+                    _onReady();
                 }
             case "GUILD_UPDATE":
                 onGuildUpdate(_newGuild(d));
@@ -271,6 +277,7 @@ class DiscordClient {
                 //TODO this
             case "GUILD_MEMBER_ADD":
                 var g = getGuildUnsafe(d.guild_id);
+                _newUser(d.user);
                 onMemberJoin(g, g._newMember(d));
             case "GUILD_MEMBER_REMOVE":
                 var g = getGuildUnsafe(d.guild_id);
@@ -610,6 +617,7 @@ class DiscordClient {
         }else{
             endpoints.getUser(id, function(r, e) {
                 if(e != null) throw(e);
+                userCache.set(id,r);
                 cb(r);
             });
         }
@@ -620,11 +628,17 @@ class DiscordClient {
         Throws an error if the user could not be loaded.
         @param id - The id of the desired user.
      */
-    public function getUserUnsafe(id) {
+    public function getUserUnsafe(id,partial=true) {
         if(userCache.exists(id)) {
             return userCache.get(id);
         }else{
-            throw "User not in cache. try loading it safely first!";
+            if(partial){
+                var u = new User(null,this);
+                u.id = new Snowflake(id);
+                return u;
+            }else{
+                throw "User not in cache. try loading it safely first!";
+            }
         }
     }
 
@@ -761,6 +775,7 @@ class DiscordClient {
 
     //Events 
 
+    public dynamic function _onReady() {onReady();}
     /**
         Event hook for when the bot has connected, loaded cache, and is ready to go.
      */

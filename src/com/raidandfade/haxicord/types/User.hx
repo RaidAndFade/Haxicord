@@ -54,10 +54,18 @@ class User {
      */
     public var email:String;
 
+    /**
+     *  Is the user loaded? If this is false you should consider doing user.load()
+     */
+     public var isLoaded:Bool;
+
 
     @:dox(hide)
     public function new(_user:com.raidandfade.haxicord.types.structs.User, _client:DiscordClient) {
         client = _client;
+
+        isLoaded = _user != null;
+        if(_user == null) return;
 
         id = new Snowflake(_user.id);
         tag = "<@"+id.id+">";
@@ -105,6 +113,10 @@ class User {
         
         if(_user.email != null)       
             email = _user.email;
+    }
+
+    public function load(){
+        client.getUser(this.id.id,function(_){});
     }
 
 }
