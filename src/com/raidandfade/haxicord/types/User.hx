@@ -55,7 +55,7 @@ class User {
     public var email:String;
 
     /**
-     *  Is the user loaded? If this is false you should consider doing user.load()
+        Is the user loaded? If this is false you should consider doing user.load()
      */
      public var isLoaded:Bool;
 
@@ -115,7 +115,11 @@ class User {
             email = _user.email;
     }
 
+    /**
+       Load this user if it's not loaded (if isLoaded == false)
+     */
     public function load(){
+        if(isLoaded) return;
         client.getUser(this.id.id,function(_){});
     }
 
