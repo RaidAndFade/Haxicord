@@ -119,18 +119,20 @@ class GuildMember {
 
     /**
         Kick a member from the guild. Requires the KICK_MEMBERS permission
+        @param reason - The reason for this kick, for audit log.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function kick(cb = null) {
-        client.endpoints.kickMember(guild.id.id, user.id.id, cb);
+    public function kick(reason = "", cb = null) {
+        client.endpoints.kickMember(guild.id.id, user.id.id, reason, cb);
     }
 
     /**
         Ban a member of the guild. Requires the BAN_MEMBERS permission.
         @param days - Number of days (from 0-7) to remove the user's messages server wide.
+        @param reason - The reason for this ban, for audit log.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function ban(days = 0, cb = null) {
-        client.endpoints.banMember(guild.id.id, user.id.id, days, cb);
+    public function ban(days = 0, reason = "", cb = null) {
+        client.endpoints.banMember(guild.id.id, user.id.id, days, reason, cb);
     }
 }
