@@ -400,6 +400,64 @@ class Endpoints{
     }
 
     /**
+        Get all emojis on a guild by guild_id.
+        @param guild_id - The guild to list emojis from.
+        @param cb - Returns an array of emoji objects, or an error.
+     */
+    public function listEmojis(guild_id:String,cb:Array<Emoji>->String->Void = null) {
+        var endpoint = new EndpointPath("/guilds/{0}/emojis", [guild_id]);
+        callEndpoint("GET", endpoint, cb);
+    }
+
+    /**
+        Get an emojis from a guild by id of guild and emoji.
+        @param guild_id - The guild to get the emoji from
+        @param emoji_id - The emoji to get
+        @param cb - Returns an emoji object, or an error.
+     */
+    public function getEmoji(guild_id:String, emoji_id:String, cb:Emoji->String->Void = null) {
+        var endpoint = new EndpointPath("/guilds/{0}/emojis/{1}", [guild_id, emoji_id]);
+        callEndpoint("GET", endpoint, cb);
+    }
+
+    /**
+        Create an emoji in a guild.
+        @param guild_id - The guild to add the emoji to.
+        @param emoji - The emoji to create.
+        @param cb - The created emoji, or an error
+     */
+    public function createEmoji(guild_id:String, emoji:Typedefs.EmojiCreate, cb:Emoji->String->Void = null) {
+        //REQUIRES MANAGE_EMOJIS
+        var endpoint = new EndpointPath("/guilds/{0}/emojis", [guild_id]);
+        callEndpoint("PUT", endpoint, cb, emoji);
+    }
+
+    /**
+        Modify an emoji in a guild.
+        @param guild_id - The guild that contains the emoji.
+        @param emoji_id - The emoji to edit.
+        @param emoji - The new emoji data.
+        @param cb - The edited emoji, or an error
+     */
+    public function modifyEmoji(guild_id:String, emoji_id:String, emoji:Emoji, cb:Emoji->String->Void = null) {
+        //REQUIRES MANAGE_EMOJIS
+        var endpoint = new EndpointPath("/guilds/{0}/emojis/{1}", [guild_id, emoji_id]);
+        callEndpoint("PATCH", endpoint, cb, emoji);
+    }
+
+    /**
+     *  Remove an emoji by ID in a guild
+     *  @param guild_id - The guild to remove the emoji from.
+     *  @param emoji_id - The emoji to remove.
+     *  @param cb - Called when completed, good for looking for errors
+     */
+    public function removeEmoji(guild_id:String, emoji_id:String, cb:EmptyResponseCallback = null) {
+        //REQUIRES MANAGE_EMOJIS
+        var endpoint = new EndpointPath("/guilds/{0}/emojis/{1}", [guild_id, emoji_id]);
+        callEndpoint("DELETE", endpoint, cb);
+    }
+
+    /**
         Delete all reactions from a message. Requires the MANAGE_MESSAGES permission.
         @param channel_id - The channel that contains the message.
         @param message_id - The message to remove reactions from.
@@ -628,10 +686,10 @@ class Endpoints{
         @param user_id - The user id.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function kickMember(guild_id:String, user_id:String, cb:EmptyResponseCallback = null) {
+    public function kickMember(guild_id:String, user_id:String, reason:String = "", cb:EmptyResponseCallback = null) {
         //requires KICK_MEMBERS
-        var endpoint = new EndpointPath("/guilds/{0}/members/{1}", [guild_id, user_id]);
-        callEndpoint("DELETE", endpoint, cb); //TODO AUDIT LOG
+        var endpoint = new EndpointPath("/guilds/{0}/members/{1}?reason={2}", [guild_id, user_id, reason]);
+        callEndpoint("DELETE", endpoint, cb);
     }
 
     /**
@@ -659,10 +717,10 @@ class Endpoints{
         @param days - Number of days (from 0-7) to remove the user's messages server wide.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function banMember(guild_id:String, user_id:String, days:Int, cb:EmptyResponseCallback = null) {
+    public function banMember(guild_id:String, user_id:String, days:Int=7, reason:String="", cb:EmptyResponseCallback = null) {
         //requires BAN_MEMBERS
-        var endpoint = new EndpointPath("/guilds/{0}/bans/{1}", [guild_id, user_id]);
-        callEndpoint("PUT", endpoint, cb, {}); //TODO AUDIT LOG
+        var endpoint = new EndpointPath("/guilds/{0}/bans/{1}?delete-message-days={2}&reason={3}", [guild_id, user_id,days,reason]);
+        callEndpoint("PUT", endpoint, cb, {});
     }
 
     /**
@@ -671,7 +729,7 @@ class Endpoints{
         @param user_id - The user to unban.
         @param cb - Called on completion, useful for checking for errors.
      */
-    public function unbanMember(guild_id:String, user_id:String, cb:EmptyResponseCallback = null) {
+    public function unbanMember(guild_id:String, user_id:String, reason:String="", cb:EmptyResponseCallback = null) {
         //requires BAN_MEMBERS
         var endpoint = new EndpointPath("/guilds/{0}/bans/{1}", [guild_id, user_id]);
         callEndpoint("DELETE", endpoint, cb); //TODO AUDIT LOG

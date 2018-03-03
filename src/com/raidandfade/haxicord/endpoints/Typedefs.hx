@@ -356,6 +356,37 @@ typedef EditGuildMember = {
     @:optional var channel_id:String;
 }
 
+typedef EmojiCreate = {
+    
+    /**
+        The name of the emoji.
+    */
+    var name:String;
+
+    /**
+        The base64 128x128 image of the emoji. (MAX 256KB)
+    */
+    var image:String;
+    
+    /**
+        An array of role ids that this emoji is whitelisted for.
+    */
+    var roles:Array<String>;
+}
+
+typedef EmojiModify = {
+
+    /**
+        The name of the emoji.
+    */
+    @:optional var name:String;
+
+    /**
+        An array of role ids that this emoji is whitelisted for.
+    */
+    @:optional var roles:Array<String>;
+}
+
 typedef RoleInfo = {
 
     /**
