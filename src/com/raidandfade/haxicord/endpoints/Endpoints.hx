@@ -439,17 +439,17 @@ class Endpoints{
         @param emoji - The new emoji data.
         @param cb - The edited emoji, or an error
      */
-    public function modifyEmoji(guild_id:String, emoji_id:String, emoji:Emoji, cb:Emoji->String->Void = null) {
+    public function modifyEmoji(guild_id:String, emoji_id:String, emoji:Typedefs.EmojiModify, cb:Emoji->String->Void = null) {
         //REQUIRES MANAGE_EMOJIS
         var endpoint = new EndpointPath("/guilds/{0}/emojis/{1}", [guild_id, emoji_id]);
         callEndpoint("PATCH", endpoint, cb, emoji);
     }
 
     /**
-     *  Remove an emoji by ID in a guild
-     *  @param guild_id - The guild to remove the emoji from.
-     *  @param emoji_id - The emoji to remove.
-     *  @param cb - Called when completed, good for looking for errors
+        Remove an emoji by ID in a guild
+        @param guild_id - The guild to remove the emoji from.
+        @param emoji_id - The emoji to remove.
+        @param cb - Called when completed, good for looking for errors
      */
     public function removeEmoji(guild_id:String, emoji_id:String, cb:EmptyResponseCallback = null) {
         //REQUIRES MANAGE_EMOJIS
