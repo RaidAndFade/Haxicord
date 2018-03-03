@@ -596,7 +596,7 @@ class Guild{
         Get all emojis on the guild by guild_id.
         @param cb - Returns an array of emoji objects, or an error.
      */
-    public function listEmojis(cb:Array<Emoji>->String->Void = null) {
+    public function listEmojis(cb = null) {
         client.endpoints.listEmojis(id.id, cb);
     }
 
@@ -605,7 +605,7 @@ class Guild{
         @param emoji_id - The emoji to get
         @param cb - Returns an emoji object, or an error.
      */
-    public function getEmoji(emoji_id:String, cb:Emoji->String->Void = null) {
+    public function getEmoji(emoji_id, cb = null) {
         client.endpoints.getEmoji(id.id, emoji_id, cb);
     }
 
@@ -614,7 +614,7 @@ class Guild{
         @param emoji - The emoji to create.
         @param cb - The created emoji, or an error
      */
-    public function createEmoji(emoji:Typedefs.EmojiCreate, cb:Emoji->String->Void = null) {
+    public function createEmoji(emoji, cb = null) {
         //REQUIRES MANAGE_EMOJIS
         client.endpoints.createEmoji(id.id, emoji, cb);
     }
@@ -625,7 +625,7 @@ class Guild{
         @param emoji - The new emoji data.
         @param cb - The edited emoji, or an error
      */
-    public function modifyEmoji(emoji_id:String, emoji:Emoji, cb:Emoji->String->Void = null) {
+    public function modifyEmoji(emoji_id, emoji, cb = null) {
         //REQUIRES MANAGE_EMOJIS
         client.endpoints.modifyEmoji(id.id, emoji_id, emoji, cb);
     }
@@ -634,7 +634,7 @@ class Guild{
         Remove an emoji by ID in the guild
         @param cb - Called when completed, good for looking for errors
      */
-    public function removeEmoji(emoji_id:String, cb:EmptyResponseCallback = null) {
+    public function removeEmoji(emoji_id, cb = null) {
         //REQUIRES MANAGE_EMOJIS
         client.endpoints.removeEmoji(id.id, emoji_id, cb);
     }

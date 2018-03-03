@@ -18,6 +18,7 @@ import haxe.Https;
 // https://discordapp.com/api/v6/users/{uid}/relationships
 // https://discordapp.com/api/v6/users/{uid}/profile
 
+import com.raidandfade.haxicord.logger.Logger;
 import com.raidandfade.haxicord.types.Message;
 import com.raidandfade.haxicord.types.DMChannel;
 import com.raidandfade.haxicord.types.Channel;
@@ -34,6 +35,7 @@ import com.raidandfade.haxicord.types.structs.GuildIntegration;
 import com.raidandfade.haxicord.types.structs.GuildEmbed;
 import com.raidandfade.haxicord.types.structs.Connection;
 import com.raidandfade.haxicord.types.structs.Webhook;
+import com.raidandfade.haxicord.types.structs.Emoji;
 
 
 class Endpoints{
@@ -721,7 +723,7 @@ class Endpoints{
      */
     public function banMember(guild_id:String, user_id:String, days:Int=7, reason:String="", cb:EmptyResponseCallback = null) {
         //requires BAN_MEMBERS
-        var endpoint = new EndpointPath("/guilds/{0}/bans/{1}?delete-message-days={2}&reason={3}", [guild_id, user_id,days,reason]);
+        var endpoint = new EndpointPath("/guilds/{0}/bans/{1}?delete-message-days={2}&reason={3}", [guild_id, user_id, Std.string(days), reason]);
         callEndpoint("PUT", endpoint, cb, {});
     }
 
@@ -989,6 +991,7 @@ class Endpoints{
      */
     //nope.jpg for bots
     public function acceptInvite(invite_code:String, cb:Invite->ErrorReport->Void = null) {
+        Logger.err("DEPRECATION WARNING: AcceptInvite is being removed march 23rd. Please use AddGuildMember instead.");
         var endpoint = new EndpointPath("/invite/{0}", [invite_code]);
         callEndpoint("POST", endpoint, cb);
     }
