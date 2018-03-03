@@ -684,6 +684,7 @@ class Endpoints{
         Kick a member from the guild. Requires the KICK_MEMBERS permission
         @param guild_id - The guild id.
         @param user_id - The user id.
+        @param reason - The reason for this kick, for audit log.
         @param cb - Called on completion, useful for checking for errors.
      */
     public function kickMember(guild_id:String, user_id:String, reason:String = "", cb:EmptyResponseCallback = null) {
@@ -715,6 +716,7 @@ class Endpoints{
         @param guild_id - The guild to ban from.
         @param user_id - The user to ban.
         @param days - Number of days (from 0-7) to remove the user's messages server wide.
+        @param reason - The reason for this ban, for audit log.
         @param cb - Called on completion, useful for checking for errors.
      */
     public function banMember(guild_id:String, user_id:String, days:Int=7, reason:String="", cb:EmptyResponseCallback = null) {
