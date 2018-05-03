@@ -1,6 +1,5 @@
 package haxe;
 
-import com.raidandfade.haxicord.DiscordClient;
 #if (js&&nodejs)
 import haxe.extern.EitherType;
 import js.node.Url;
@@ -102,9 +101,6 @@ class Https{
             _headers = new Map<String,String>();
         }
         method = method.toUpperCase();
-
-        if(!_headers.exists("User-Agent"))
-            _headers.set("User-Agent",DiscordClient.userAgent);
 
         var _data = Std.is(_d,String)?_d:stringify(_d);
 
