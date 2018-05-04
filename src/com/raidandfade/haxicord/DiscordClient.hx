@@ -22,22 +22,16 @@ import com.raidandfade.haxicord.types.structs.Emoji;
 import com.raidandfade.haxicord.types.structs.Status;
 import com.raidandfade.haxicord.types.structs.Status.Activity;
 
+import com.raidandfade.haxicord.cachehandler.DataCache;
+import com.raidandfade.haxicord.cachehandler.MemoryCache;
+
 import haxe.Json;
 import haxe.Timer;
-
-/*TODO to get into dapi
-
-Gateway version != 7 -done
-Don't support < gateway 6 -done
-RESUMEs - done
-GLOBAL RATELIMIT shouldn't be hardcoded - done
-Add some spaces -done (not structs)
-*/
 
 /*
 TODO long term
 - uploading files raw to messages
-- connect to GW first and then do the rest
+- Shardmaster
 */
 
 @:keep
@@ -58,28 +52,10 @@ class DiscordClient {
     
     //cache arrays (id,object)
     @:dox(hide)
-    public var messageCache:Map<String,Message> = new Map<String,Message>();
-
-    @:dox(hide)
-    public var userCache:Map<String,User> = new Map<String,User>();
-
-    @:dox(hide)
-    public var channelCache:Map<String,Channel> = new Map<String,Channel>();
-
-    @:dox(hide)
-    public var dmChannelCache:Map<String,DMChannel> = new Map<String,DMChannel>();
-
-    @:dox(hide)
-    public var guildCache:Map<String,Guild> = new Map<String,Guild>();
-
-    @:dox(hide)
-    public var userDMChannels:Map<String,String> = new Map<String,String>();//put this in somewhere.
-    
-    @:dox(hide)
     public var ready = false;
 
     @:dox(hide)
-    public var session = "kek";
+    public var session:String; 
 
     @:dox(hide)
     public var canResume:Bool;
@@ -87,6 +63,8 @@ class DiscordClient {
     @:dox(hide)
     public var resumeable = false;
 
+    @:dox(hide)
+    public var dataCache:DataCache;
     /**
         The bot user, this is you.
      */
@@ -112,17 +90,28 @@ class DiscordClient {
     @:dox(hide)
     public var ws:WebSocketConnection;
 
+    @:dox(hide)
+    private var shardInfo:WSShard;
+
     /**
         Initialize the bot with your token. This should be the first thing you run in your program.
         @param _tkn - Your BOT token. User tokens do not work!
      */
-    public function new(_tkn:String) { //Sharding? lol good joke.
+    public function new(_tkn:String,_storage:DataCache=null,_shardInfo:WSShard=null) {
         Logger.registerLogger();
 
         token = _tkn; //ASSUME BOT FOR NOW. Deal with users later maybe.
         isBot = true;
         
         endpoints = new Endpoints(this);
+
+        shardInfo = _shardInfo;
+
+        if(_storage==null){
+            this.dataCache = new MemoryCache();
+        }else{
+            this.dataCache = _storage;
+        }
 
         //trace("Getting gotten");
         endpoints.getGateway(isBot, connect);
@@ -143,6 +132,7 @@ class DiscordClient {
     @:dox(hide)
     function connect(gateway, error) {
         if(error != null) throw error; 
+
         //trace("Gottening");
         ws = new WebSocketConnection(gateway.url + "/?v=" + gatewayVersion + "&encoding=json");
         ws.onMessage = webSocketMessage;
@@ -188,7 +178,7 @@ class DiscordClient {
                     ws.sendJson(WSPrepareData.Resume(token, session, seq));
                 }else{
                     //trace("Identifying");
-                    ws.sendJson(WSPrepareData.Identify(token));
+                    ws.sendJson(WSPrepareData.Identify(token,shardInfo));
                 }
 
                 hbThread = new HeartbeatThread(m.d.heartbeat_interval, ws, seq, this);
@@ -244,7 +234,7 @@ class DiscordClient {
                 onGuildCreate(_newGuild(d));
                 //Wait for all guilds to be loaded before readying. Might cause problems if guilds are genuinely unavailable so maybe check if name is set too
                 var done = true;
-                for(g in guildCache) {
+                for(g in dataCache.getAllGuilds()) {
                     if(g.unavailable) {
                         done = false;
                         break;
@@ -423,14 +413,18 @@ class DiscordClient {
         @param cb - Return the message sent, or an error
      */
     public function sendMessage(channel_id, message, cb = null) {
-        if(userDMChannels.exists(channel_id))
-            endpoints.sendMessage(userDMChannels.get(channel_id), message,cb);
-        else if(userCache.exists(channel_id))
-            endpoints.createDM({recipient_id: channel_id},function(ch, e) {
-                ch.sendMessage(message, cb);
-            });
-        else 
-            endpoints.sendMessage(channel_id, message, cb);
+        var udmch = dataCache.getUserDMChannel(channel_id);
+        if(udmch != null)
+            endpoints.sendMessage(udmch, message,cb);
+        else{
+            var u = dataCache.getUser(channel_id);
+            if(u != null)
+                endpoints.createDM({recipient_id: channel_id},function(ch, e) {
+                    ch.sendMessage(message, cb);
+                });
+            else 
+                endpoints.sendMessage(channel_id, message, cb);
+        }
     }
 
      /**
@@ -502,7 +496,7 @@ class DiscordClient {
     @:dox(hide)
     public function removeChannel(id) {
         //remove from guild too.
-        var c = channelCache.get(id);
+        var c = dataCache.getChannel(id);
         if(c != null && c.type != 1) {
             var gc = cast(c, GuildChannel);
             var g = gc.getGuild();
@@ -512,22 +506,22 @@ class DiscordClient {
                 g.voiceChannels.remove(c.id.id);
             }
         }
-        channelCache.remove(id);
+        dataCache.delChannel(id);
     }
 
     @:dox(hide)
     public function removeMessage(id) {
-        messageCache.remove(id);
+        dataCache.delMessage(id);
     }
 
     @:dox(hide)
     public function removeGuild(id) {
-        guildCache.remove(id);
+        dataCache.delGuild(id);
     }
 
     @:dox(hide)
     public function removeUser(id) {
-        userCache.remove(id);
+        dataCache.delUser(id);
     }
 
     /**
@@ -536,8 +530,9 @@ class DiscordClient {
         @param cb - The Callback to return the guild to.
      */
     public function getGuild(id, cb: Guild->Void) {
-        if(guildCache.exists(id)) {
-            cb(guildCache.get(id));
+        var g = dataCache.getGuild(id);
+        if(g != null) {
+            cb(g);
         }else{
             endpoints.getGuild(id, function(r, e) {
                 if(e != null) throw(e);
@@ -552,8 +547,9 @@ class DiscordClient {
         @param id - The id of the desired guild
      */
     public function getGuildUnsafe(id) {
-        if(guildCache.exists(id)) {
-            return guildCache.get(id);
+        var g = dataCache.getGuild(id);
+        if(g != null) {
+            return g;
         }else{
             throw "Guild not in cache. try loading it safely first!";
         }
@@ -574,7 +570,7 @@ class DiscordClient {
         Get a list of all DMChannels currently in cache
      */
     public function getDMChannelsUnsafe() {
-        return [for(dm in dmChannelCache.iterator()) dm];
+        return dataCache.getAllDMChannels();
     }
 
     /**
@@ -583,8 +579,9 @@ class DiscordClient {
         @param cb - The callback to return the channel to.
      */
     public function getChannel(id, cb:Channel->Void) {
-        if(channelCache.exists(id)) {
-            cb(channelCache.get(id));
+        var c = dataCache.getChannel(id);
+        if(c != null) {
+            cb(c);
         }else{
             endpoints.getChannel(id, function(r, e) {
                 if(e != null) throw(e);
@@ -599,8 +596,9 @@ class DiscordClient {
         @param id - The id of the desired channel.
      */
     public function getChannelUnsafe(id) {
-        if(channelCache.exists(id)) {
-            return channelCache.get(id);
+        var c = dataCache.getChannel(id);
+        if(c != null) {
+            return c;
         }else{
             throw "Channel not in cache. try loading it safely first!";
         }
@@ -612,12 +610,13 @@ class DiscordClient {
         @param cb - The callback to return the user to.
      */
     public function getUser(id,cb:User->Void) {
-        if(userCache.exists(id)) {
-            cb(userCache.get(id));
+        var u = dataCache.getUser(id);
+        if(u != null) {
+            cb(u);
         }else{
             endpoints.getUser(id, function(r, e) {
                 if(e != null) throw(e);
-                userCache.set(id,r);
+                dataCache.setUser(id,r);
                 cb(r);
             });
         }
@@ -629,8 +628,9 @@ class DiscordClient {
         @param id - The id of the desired user.
      */
     public function getUserUnsafe(id,partial=true) {
-        if(userCache.exists(id)) {
-            return userCache.get(id);
+        var u = dataCache.getUser(id);
+        if(u != null) {
+            return u;
         }else{
             if(partial){
                 var u = new User(null,this);
@@ -649,8 +649,9 @@ class DiscordClient {
         @param cb - The callback to return the message to.
      */
     public function getMessage(id, channel_id, cb: Message->Void) {
-        if(messageCache.exists(id)) {
-            cb(messageCache.get(id));
+        var m = dataCache.getMessage(id);
+        if(m != null) {
+            cb(m);
         }else{
             endpoints.getMessage(channel_id, id, function(r, e) {
                 if(e != null) throw(e);
@@ -665,8 +666,9 @@ class DiscordClient {
         @param id - The id of the desired message.
      */
     public function getMessageUnsafe(id) {
-        if(messageCache.exists(id)) {
-            return messageCache.get(id);
+        var m = dataCache.getMessage(id);
+        if(m != null) {
+            return m;
         }else{
             throw "Message not in cache. try loading it safely first!";
         }
@@ -679,13 +681,14 @@ class DiscordClient {
     public function _newMessage(message_struct: com.raidandfade.haxicord.types.structs.MessageStruct) {
         var id = message_struct.id;
         //trace("NEW MESSAGE: "+id);
-        if(messageCache.exists(id)) {
-            messageCache.get(id)._update(message_struct);
-            return messageCache.get(id);
+        var m = dataCache.getMessage(id);
+        if(m != null) {
+            m._update(message_struct);
+            return m;
         }else{
             var msg = new Message(message_struct, this);
-            messageCache.set(id, msg);
-            return messageCache.get(id);
+            dataCache.setMessage(id, msg);
+            return dataCache.getMessage(id);
         }
     }
 
@@ -693,13 +696,14 @@ class DiscordClient {
     public function _newUser(user_struct: com.raidandfade.haxicord.types.structs.User) {
         var id = user_struct.id;
         //trace("NEW USER: "+id);
-        if(userCache.exists(id)) {
-            userCache.get(id)._update(user_struct);
-            return userCache.get(id);
+        var u = dataCache.getUser(id);
+        if(u != null) {
+            u._update(user_struct);
+            return u;
         }else{
             var user = new User(user_struct, this);
-            userCache.set(id, user);
-            return userCache.get(id);
+            dataCache.setUser(id, user);
+            return dataCache.getUser(id);
         }
     }
 
@@ -715,27 +719,28 @@ class DiscordClient {
         }
         var id = channel_struct.id;
         if(channel_struct.type == 1) return _newDMChannel;
-        if(channelCache.exists(id)) {
-            var c = cast(channelCache.get(id),GuildChannel);
+        var chan = dataCache.getChannel(id);
+        if(chan!=null) {
+            var c = cast(chan,GuildChannel);
             if(c.type == 0) //Is it a text?
-                cast(channelCache.get(id), TextChannel)._update(channel_struct);
+                cast(chan, TextChannel)._update(channel_struct);
             else if(c.type == 2) //Is it voice?
-                cast(channelCache.get(id), VoiceChannel)._update(channel_struct);
+                cast(chan, VoiceChannel)._update(channel_struct);
             else //It must be category
-                cast(channelCache.get(id), CategoryChannel)._update(channel_struct);
+                cast(chan, CategoryChannel)._update(channel_struct);
             return function(c, _) {
                 return c;
             }.bind(c, _);
         }else{
             var channel = Channel.fromStruct(channel_struct)(channel_struct, this);
-            channelCache.set(id, channel);
-            var c = cast(channelCache.get(id), GuildChannel);
+            dataCache.setChannel(id, channel);
+            var c = cast(dataCache.getChannel(id), GuildChannel);
             try {
                 getGuildUnsafe(c.guild_id.id)._addChannel(c);
             } catch(e: Dynamic) {} //Not important if guild is part of unsafe get channel
             
             return function(_) {
-                return channelCache.get(id);
+                return dataCache.getChannel(id);
             };
         }
     }
@@ -743,33 +748,33 @@ class DiscordClient {
     @:dox(hide)
     public function _newDMChannel(channel_struct: com.raidandfade.haxicord.types.structs.DMChannel) {
         var id = channel_struct.id; 
-        if(dmChannelCache.exists(id)) {
-            dmChannelCache.get(id)._update(channel_struct);
-
-            return dmChannelCache.get(id);
+        var dmch = dataCache.getDMChannel(id);
+        if(dmch != null) {
+            dmch._update(channel_struct);
+            return dmch;
         }else{
             var channel = DMChannel.fromStruct(channel_struct, this);
-            dmChannelCache.set(id, channel);
+            dataCache.setDMChannel(id, channel);
             if(channel.recipient != null) 
-                userDMChannels.set(channel.recipient.id.id, id);
+                dataCache.setUserDMChannel(channel.recipient.id.id, id);
             else if(channel.recipients != null && channel.recipients.length == 1)
-                userDMChannels.set(channel.recipients[0].id.id, id);
+                dataCache.setUserDMChannel(channel.recipients[0].id.id, id);
 
-            return dmChannelCache.get(id);
+            return dataCache.getDMChannel(id);
         }
     }
 
     @:dox(hide)
     public function _newGuild(guild_struct: com.raidandfade.haxicord.types.structs.Guild) {
         var id = guild_struct.id;
-
-        if(guildCache.exists(id)) {
-            guildCache.get(id)._update(guild_struct);
-            return guildCache.get(id);
+        var g = dataCache.getGuild(id);
+        if(g!=null) {
+            g._update(guild_struct);
+            return g;
         }else{
             var guild = new Guild(guild_struct, this);
-            guildCache.set(id, guild);
-            return guildCache.get(id);
+            dataCache.setGuild(id, guild);
+            return dataCache.getGuild(id);
         }
     }
 
@@ -931,7 +936,7 @@ private typedef WSMessage = {
 }
 
 private class WSPrepareData {
-    public static function Identify(t: String, p: WSIdentify_Properties = null, c: Bool = false, l: Int = 59, s: WSShard = null) {
+    public static function Identify(t: String, s: WSShard = null, p: WSIdentify_Properties = null, c: Bool = false, l: Int = 59) {
         if(p == null) 
             p = {
                 "$os": "", 
