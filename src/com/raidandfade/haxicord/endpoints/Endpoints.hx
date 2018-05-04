@@ -41,7 +41,7 @@ import com.raidandfade.haxicord.types.structs.Emoji;
 class Endpoints{
 
     @:dox(hide)
-    var BASEURL:String = "https://discordapp.com/api/";
+    public static var BASEURL:String = "https://discordapp.com/api/";
 
     @:dox(hide)
     var client:DiscordClient;
