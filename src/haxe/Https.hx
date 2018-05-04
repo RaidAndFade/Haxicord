@@ -124,15 +124,16 @@ class Https{
             "headers": headers
         };
 
-        var req = js.node.Https.request(options,function(res:IncomingMessage){
+        var req:Dynamic;
+        req = js.node.Https.request(options,function(res:IncomingMessage){
             //trace(res.headers);
             var datas = "";
+            var m:Map<String,String> = new Map<String,String>();
             res.on('data', function (all) {
                 datas += all;
                 //trace(datas);
             });
             res.on('end', function(){
-                var m:Map<String,String> = new Map<String,String>();
                 for(k in res.headers.keys()){
                     var v = res.headers[k];
                     m.set(k.toLowerCase(),v);
