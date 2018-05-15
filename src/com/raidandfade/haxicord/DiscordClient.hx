@@ -122,6 +122,10 @@ class DiscordClient {
         zlibCompress = _zlib;
         etfFormat = _etf;
 
+        if(etfFormat){
+            throw "ETF is not yet supported. set _etf to false";
+        }
+
         if(_shardInfo!=null){
             shardInfo = _shardInfo;
         }
