@@ -1,6 +1,12 @@
 package com.raidandfade.haxicord.websocket;
 
 import haxe.Json;
+import haxe.io.Bytes;
+import haxe.io.BytesBuffer;
+import haxe.io.BytesInput;
+import haxe.io.BufferInput;
+import haxe.Utf8;
+import haxe.zip.Uncompress;
 
 #if !cs
 import haxe.net.WebSocket;
@@ -9,8 +15,11 @@ import websocketsharp.WebSocket;
 #end
 
 class WebSocketConnection { 
+    private static var ZLIB_SUFFIX = "0000ffff";
+    private static var BUFFER_SIZE = 1024*1024; //1kb
 
     private static var ws:WebSocket;
+    
     var queue:Array<String> = new Array<String>();
     var ready = false;
     private static var host:String;
@@ -65,6 +74,7 @@ class WebSocketConnection {
         );
         ws.Connect();
 #else 
+        trace("starting");
         ws = WebSocket.create(host, [], null, false);
         ws.onopen = function() {
             ready = true;
@@ -76,7 +86,43 @@ class WebSocketConnection {
         ws.onmessageString = function(m) { 
             this.onMessage(m);
         }
-        ws.onmessageBytes = function(m) {}
+
+        var buf = new BytesBuffer();
+        var z = new Uncompress();
+        z.setFlushMode(haxe.zip.FlushMode.SYNC);
+        ws.onmessageBytes = function(m) {
+            buf.addBytes(m,0,m.length);
+            try{
+                var bytes = buf.getBytes();
+                if( bytes.toHex().length < 8 || bytes.toHex().substr(-8) != ZLIB_SUFFIX ){
+                    buf = new BytesBuffer();
+                    buf.addBytes(bytes,0,bytes.length);
+                    return;
+                }
+
+                var res = new BytesBuffer();
+
+                var chnk = {done:false,write:0,read:0};
+                var p = 0;
+                var len = bytes.length;
+                
+                var chbuf:Bytes;
+                while(p<len){
+                    chbuf = Bytes.alloc(BUFFER_SIZE);
+                    chnk = z.execute(bytes,p,chbuf,0);
+                    p+=chnk.read;
+                    res.addBytes(chbuf,0,chnk.write);
+                }
+
+                buf = new BytesBuffer();
+                onMessage(res.getBytes().toString());
+            }catch(e:Dynamic){
+                trace(e);
+                trace(haxe.CallStack.exceptionStack());
+                trace(haxe.CallStack.callStack());
+
+            }
+        }
         ws.onerror = onError;
         ws.onclose = _onClose;
 #if sys
@@ -84,6 +130,7 @@ class WebSocketConnection {
             ws.process();
             Sys.sleep(0.1);
         }
+        trace("Escaped while, somehow.");
 #end
 #end
     }
@@ -123,6 +170,7 @@ class WebSocketConnection {
 
     private function _onClose(m) {
         ready = false;
+        trace("died");
         onClose(m);
     }
 

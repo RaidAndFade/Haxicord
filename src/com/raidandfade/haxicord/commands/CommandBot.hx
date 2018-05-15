@@ -9,14 +9,35 @@ import Type;
 class CommandBot {
     private var client:DiscordClient;
     private var commands:Map<String, Command> = new Map();
-    private var prefix:String;
+    private var prefixes:Array<String> = [];
 
-    private function new(token:String, commandBot:Class<CommandBot>, _prefix = "!") {
-        prefix = _prefix;
-        client = new DiscordClient(token);
+    /**
+       Create the bot or something
+       @param token - 
+       @param commandBot - 
+       @param _prefix = "!" - 
+       @param tagPrefix = true - 
+       @param etf = false - 
+       @param zlib = true - 
+       @param block = true - 
+       @param shardInfo = null - 
+     */
+    private function new(token:String, commandBot:Class<CommandBot>, _prefix = "!", tagPrefix=true, etf=false, zlib=true, block=true, shardInfo=null) {
+        try{
+        client = new DiscordClient(token,shardInfo,etf,zlib);
+        if(_prefix!=null&&_prefix!=""){
+            prefixes.push(_prefix);
+        }
         client.onMessage = onMessage;
-        client.onReady = function(){
+        client._onReady = function(){
+            if(tagPrefix){
+                prefixes.push(client.user.tag+" ");
+                prefixes.push("<@!"+client.user.id.id+"> "); //nickname
+                prefixes.push(client.user.tag); //for the crazies who dont put spaces
+                prefixes.push("<@!"+client.user.id.id+">"); //for the crazies who have nicknames and dont put spaces
+            }
             trace("My invite link is: " + client.getInviteLink());
+            client.onReady();
         }
 
         var annr = Meta.getFields(commandBot);
@@ -42,16 +63,21 @@ class CommandBot {
                 registerCommand(comName, params, func);
             }
         }
-        client.start();
+        if(block)client.start();
+        }catch(e:Dynamic){trace(e);}
     }
 
     private function onMessage(m:Message) {
         var cnt = m.content;
-        if(cnt.substr(0, prefix.length) == prefix) {
-            cnt = cnt.substr(prefix.length);
-            var cmd = cnt.split(" ")[0];
-            if(commands.exists(cmd)) {
-                callCommand(cmd, m);
+
+        for(pre in prefixes){
+            if(cnt.substr(0, pre.length) == pre) {
+                cnt = cnt.substr(pre.length);
+                var cmd = cnt.split(" ")[0];
+                if(commands.exists(cmd)) {
+                    callCommand(cmd, m);
+                }
+                return;
             }
         }
     }

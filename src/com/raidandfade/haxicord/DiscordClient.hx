@@ -29,6 +29,12 @@ import haxe.Json;
 import haxe.Timer;
 
 /*
+TODO rn
+- ZLIB optional
+
+*/
+
+/*
 TODO long term
 - uploading files raw to messages
 - Shardmaster
@@ -93,11 +99,19 @@ class DiscordClient {
     @:dox(hide)
     private var shardInfo:WSShard;
 
+    @:dox(hide)
+    private var unavailableGuilds:Int;
+
+    private var zlibCompress:Bool = false;
+    private var etfFormat:Bool = false;
+
+
+//TODO update comment
     /**
         Initialize the bot with your token. This should be the first thing you run in your program.
-        @param _tkn - Your BOT token. User tokens do not work!
+        @param _tkn - Your BOT token. User tokens do not work! 
      */
-    public function new(_tkn:String,_storage:DataCache=null,_shardInfo:WSShard=null) {
+    public function new(_tkn:String,_shardInfo:Null<WSShard>=null,_etf=false,_zlib=false,_storage:DataCache=null) {
         Logger.registerLogger();
 
         token = _tkn; //ASSUME BOT FOR NOW. Deal with users later maybe.
@@ -105,7 +119,12 @@ class DiscordClient {
         
         endpoints = new Endpoints(this);
 
-        shardInfo = _shardInfo;
+        zlibCompress = _zlib;
+        etfFormat = _etf;
+
+        if(_shardInfo!=null){
+            shardInfo = _shardInfo;
+        }
 
         if(_storage==null){
             this.dataCache = new MemoryCache();
@@ -114,6 +133,7 @@ class DiscordClient {
         }
 
         //trace("Getting gotten");
+        trace("Starting Client");
         endpoints.getGateway(isBot, connect);
     }
     
@@ -131,32 +151,49 @@ class DiscordClient {
 //Flowchart
     @:dox(hide)
     function connect(gateway, error) {
-        if(error != null) throw error; 
+        try{
+            trace("Connecting");
+            if(error != null) throw error; 
 
-        //trace("Gottening");
-        ws = new WebSocketConnection(gateway.url + "/?v=" + gatewayVersion + "&encoding=json");
-        ws.onMessage = webSocketMessage;
+            //trace("Gottening");
+            var url = gateway.url + "/?v=" + gatewayVersion;
 
-        ws.onClose = function(m) {
-            if(hbThread != null) hbThread.pause();
+            if(etfFormat){
+                url += "&encoding=etf";
+            }else{
+                url += "&encoding=json";
+            }
 
-            if(m == 4006) //The session is invalid. stop it
-                session = "";
+            if(zlibCompress){
+                url += "&compress=zlib-stream";
+            }
 
-            if(session == "") 
-                resumeable = false; //can't be resumed if i don't have a session
+            ws = new WebSocketConnection(url);
+            ws.onMessage = webSocketMessage;
 
-            trace("Socket Closed with code " + m  +", Re-Opening in " + reconnectTimeout + "s. " + (resumeable?"Resuming":""));
+            ws.onClose = function(m) {
+                if(hbThread != null) hbThread.pause();
 
-            Timer.delay(endpoints.getGateway.bind(isBot, connect), reconnectTimeout * 1000);
-            
-            reconnectTimeout *= 2; //double every time it dies.
-        }
+                if(m == 4006) //The session is invalid. stop it
+                    session = "";
 
-        ws.onError = function(e) {
-            resumeable = false;
+                if(session == "") 
+                    resumeable = false; //can't be resumed if i don't have a session
 
-            trace("Websocket errored!");
+                trace("Socket Closed with code " + m  +", Re-Opening in " + reconnectTimeout + "s. " + (resumeable?"Resuming":""));
+
+                    Timer.delay(connect.bind(gateway,error), reconnectTimeout * 1000);
+                
+                reconnectTimeout *= 2; //double every time it dies.
+            }
+
+            ws.onError = function(e) {
+                resumeable = false;
+
+                trace("Websocket errored!");
+                trace(e);
+            }
+        }catch(e:Dynamic){
             trace(e);
         }
     }
@@ -220,6 +257,9 @@ class DiscordClient {
                 if(re.guilds.length == 0) {
                     ready=true;
                     _onReady();
+                }else{
+                    trace(re.guilds);
+                    unavailableGuilds = re.guilds.filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
                 }
             case "RESUMED": 
                 ready = true;
@@ -233,13 +273,8 @@ class DiscordClient {
             case "GUILD_CREATE":
                 onGuildCreate(_newGuild(d));
                 //Wait for all guilds to be loaded before readying. Might cause problems if guilds are genuinely unavailable so maybe check if name is set too
-                var done = true;
-                for(g in dataCache.getAllGuilds()) {
-                    if(g.unavailable) {
-                        done = false;
-                        break;
-                    }
-                }
+                unavailableGuilds = [for(g in dataCache.getAllGuilds().iterator()) g].filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
+                var done = unavailableGuilds==0;
                 if( done && !ready ) {
                     ready = true;
                     _onReady();
