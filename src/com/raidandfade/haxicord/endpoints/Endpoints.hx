@@ -1322,7 +1322,6 @@ class Endpoints{
                     }
                     var f = waitForLimit.bind(rateLimitName, rateLimitCache.get(rateLimitName) );
                     Timer.delay(f, delay);
-                    return;
                 }
                 if(remaining != 0) {
                     if(limitedQueue.exists(rateLimitName) ) {
@@ -1333,7 +1332,7 @@ class Endpoints{
                 rateLimitCache.set(rateLimitName, new RateLimit(50, 50, -1) );
                 popQueue(rateLimitName);
             }
-            
+
             if(callback == null) return;
 
             if(data.status < 200 || data.status >= 300) {
