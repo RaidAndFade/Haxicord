@@ -111,7 +111,7 @@ class DiscordClient {
         Initialize the bot with your token. This should be the first thing you run in your program.
         @param _tkn - Your BOT token. User tokens do not work! 
      */
-    public function new(_tkn:String,_shardInfo:Null<WSShard>=null,_etf=false,_zlib=false,_storage:DataCache=null) {
+    public function new(_tkn:String,_shardInfo:Null<WSShard>=null,_etf=false,_zlib=true,_storage:DataCache=null) {
         Logger.registerLogger();
 
         token = _tkn; //ASSUME BOT FOR NOW. Deal with users later maybe.
@@ -376,6 +376,9 @@ class DiscordClient {
                 trace(d);
             case "VOICE_STATE_UPDATE": // ...
             case "VOICE_SERVER_UPDATE": // ...
+            case "WEBHOOKS_UPDATE": //eventually...
+
+            case "PRESENCES_REPLACE", "CHANNEL_PINS_ACK": // User only.
             default:
                 trace("Unhandled event " + m.t);
         }
