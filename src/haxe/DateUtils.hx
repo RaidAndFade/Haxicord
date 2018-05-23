@@ -30,4 +30,24 @@ class DateUtils {
         return properd;
     }
 
+    public static function utcNow() : Date {
+        var now = Date.now();
+
+        var h  = "" + now.getHours();
+        var m  = "" + now.getMinutes();
+        var s  = "" + now.getSeconds();
+        var mo = "" + now.getMonth();
+        var da = "" + now.getDate();
+                
+        if(h.length == 1) h = "0"+h;
+        if(m.length == 1) m = "0"+m;
+        if(s.length == 1) s = "0"+s;
+        if(da.length == 1) da = "0"+da;
+        if(mo.length == 1) mo = "0"+mo;
+
+        var utcTime = Date.fromString(h + ":" + m + ":" + s).getTime();
+        var dateMs = Date.fromString(now.getFullYear() + "-" + mo + "-" + da).getTime();
+        var utcDate = Date.fromTime(utcTime + dateMs);
+        return utcDate;  
+    }
 }
