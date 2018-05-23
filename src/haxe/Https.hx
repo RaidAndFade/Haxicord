@@ -1,5 +1,6 @@
 package haxe;
 
+import com.raidandfade.haxicord.DiscordClient;
 #if (js&&nodejs)
 import haxe.extern.EitherType;
 import js.node.Url;
@@ -67,11 +68,11 @@ class Https{
         }
     }
 
-    public static function makeRequest(url,method="GET",_callback:Null<Dynamic->Map<String,String>->Void>=null,_d:Dynamic=null,_headers:Map<String,String>=null,async=true){
+    public static function makeRequest(url,method="GET",_callback:Null<Dynamic->Map<String,String>->Void>=null,_d:Dynamic=null,_headers:Map<String,String>=null,async=true,isJson=true){
         if(async)
-            Timer.delay(_makeRequest.bind(url,method,_callback,_d,_headers),0);
+            Timer.delay(_makeRequest.bind(url,method,_callback,_d,_headers,isJson),0);
         else
-            _makeRequest(url,method,_callback,_d,_headers);
+            _makeRequest(url,method,_callback,_d,_headers,isJson);
     }
 
 
@@ -86,7 +87,7 @@ class Https{
         }
     }
         
-    static function _makeRequest(url,method="GET",_callback:Null<Dynamic->Map<String,String>->Void>=null,_d:Dynamic=null,_headers:Map<String,String>=null){
+    static function _makeRequest(url,method="GET",_callback:Null<Dynamic->Map<String,String>->Void>=null,_d:Dynamic=null,_headers:Map<String,String>=null,isJson=true){
         try{
         var _cb:Null<Dynamic->Map<String,String>->Void> = function(d,e){ //because otherwise the http handler throws the error and shit hits the fan.
             try{
@@ -101,6 +102,9 @@ class Https{
             _headers = new Map<String,String>();
         }
         method = method.toUpperCase();
+
+        if(!_headers.exists("User-Agent"))
+            _headers.set("User-Agent",DiscordClient.userAgent);
 
         var _data = Std.is(_d,String)?_d:stringify(_d);
 
@@ -124,27 +128,26 @@ class Https{
             "headers": headers
         };
 
-        var req:Dynamic;
-        req = js.node.Https.request(options,function(res:IncomingMessage){
+        var req = js.node.Https.request(options,function(res:IncomingMessage){
             //trace(res.headers);
             var datas = "";
-            var m:Map<String,String> = new Map<String,String>();
             res.on('data', function (all) {
                 datas += all;
                 //trace(datas);
             });
             res.on('end', function(){
+                var m:Map<String,String> = new Map<String,String>();
                 for(k in res.headers.keys()){
                     var v = res.headers[k];
                     m.set(k.toLowerCase(),v);
                 }
                 if(res.statusCode<200||res.statusCode>=300)
-                    _cb(parseJson(res.statusCode,datas,true),m);
+                    _cb(isJson?parseJson(res.statusCode,datas,true):{status:res.statusCode,data:datas},m);
                 else
-                    _cb(parseJson(res.statusCode,datas),m);
+                    _cb(isJson?parseJson(res.statusCode,datas):{status:res.statusCode,data:datas},m);
             });
             req.on('error',function(e){
-                _cb({status:res.statusCode,error:e,data:parseJson(res.statusCode,datas,true).error},m);
+                _cb({status:res.statusCode,error:e,data:isJson?parseJson(res.statusCode,datas,true):datas},m);
             }); 
         });
 
@@ -153,7 +156,7 @@ class Https{
         req.end();
 #elseif cs
         var cscb = function(status,response,headers){
-            var data = parseJson(response);
+            var data = isJson?parseJson(response):response;
             _cb({status:status,data:data},headers);
         }
         untyped __cs__('
@@ -215,9 +218,9 @@ class Https{
             }
             var errReg = ~/Http Error #([0-9]{0,5})/;
             if(errReg.match(no)){
-                _cb({"status":status,"error":"HTTP error "+status,"data":parseJson(status,call.responseData,true).error},m);
+                _cb({"status":status,"error":"HTTP error "+status,"data":isJson?parseJson(status,call.responseData,true):call.responseData},m);
             }else{
-                _cb({"status":status,"error":no,"data":parseJson(status,call.responseData,true).error},m);
+                _cb({"status":status,"error":no,"data":isJson?parseJson(status,call.responseData,true):call.responseData},m);
             }
         }
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&_data!=null){
@@ -231,7 +234,7 @@ class Https{
                 var v = call.responseHeaders[k];
                 m.set(k.toLowerCase(),v);
             }
-            _cb(parseJson(status,data),m);
+            _cb((isJson?parseJson(status,data):{status:status,data:data}),m);
         }
         call.customRequest(false,result,method);
 #end
