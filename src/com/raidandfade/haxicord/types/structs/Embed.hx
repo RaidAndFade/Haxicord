@@ -8,7 +8,7 @@ typedef Embed = {
     @:optional @serverSide var type:String; // should be "rich"
     @:optional var description:String;
     @:optional var url:String;
-    @:optional @serverSide var timestamp:Date;
+    @:optional var timestamp:Date;
     @:optional var color:Int;
     @:optional var footer:EmbedFooter;
     @:optional var image:EmbedImage;
