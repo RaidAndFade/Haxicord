@@ -4,9 +4,9 @@
     "license": "MIT",
     "tags": ["Discord"],
     "description": "Interface with Discord using Haxe",
-    "version": "0.2.1",
+    "version": "0.4.0",
     "classPath": "src",
-    "releasenote": "All features are finished and tested lightly.",
+    "releasenote": "All features are finished and tested lightly, Working on lib-sharding begins.",
     "contributors": ["RaidAndFade"],
     "dependencies": {}
 }

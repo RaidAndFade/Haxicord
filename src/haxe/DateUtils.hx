@@ -1,5 +1,9 @@
 package haxe;
 
+#if neko
+import neko.Lib;
+#end
+
 class DateUtils {
 
     
@@ -30,24 +34,59 @@ class DateUtils {
         return properd;
     }
 
-    public static function utcNow() : Date {
-        var now = Date.now();
+    /**
+       Get the ISO8601 of the date provided. ASSUMES UTC.
+       @param d - the date to get iso for
+       @return String - the iso string
+     */
+    public static function toISO8601(d:Date):String{
+        var y = ""+d.getFullYear();
+        var mo = ""+(d.getMonth()+1);
+        var da = ""+d.getDate();
+        var h = ""+d.getHours();
+        var m = ""+d.getMinutes();
+        var s = ""+d.getSeconds();
+        var ms = ""+(d.getTime()%1000);
 
-        var h  = "" + now.getHours();
-        var m  = "" + now.getMinutes();
-        var s  = "" + now.getSeconds();
-        var mo = "" + now.getMonth();
-        var da = "" + now.getDate();
-                
+        if(mo.length == 1) mo = "0"+mo;
+        if(da.length == 1) da = "0"+da;
         if(h.length == 1) h = "0"+h;
         if(m.length == 1) m = "0"+m;
         if(s.length == 1) s = "0"+s;
-        if(da.length == 1) da = "0"+da;
-        if(mo.length == 1) mo = "0"+mo;
+        if(ms.length == 1) ms = "00"+ms;
+        if(ms.length == 2) ms = "0"+ms;
+        
+        var str = y+"-"+mo+"-"+da+"T"+h+":"+m+":"+s+"."+ms+"Z";
 
-        var utcTime = Date.fromString(h + ":" + m + ":" + s).getTime();
-        var dateMs = Date.fromString(now.getFullYear() + "-" + mo + "-" + da).getTime();
-        var utcDate = Date.fromTime(utcTime + dateMs);
-        return utcDate;  
+        return str;
+    }
+
+#if neko
+    static var date_get_tz = Lib.load("std","date_get_tz",0);
+#end
+    /**
+       Number of seconds from the current time zone to UTC.
+       @return Int the num of seconds
+     */
+    public static function getTimezoneOffset():Int{
+    #if js
+        return untyped new Date().getTimezoneOffset()*60;
+    #elseif neko
+        return untyped -date_get_tz();
+    #else
+        throw "Not supported!";
+    #end
+    }
+
+    public static function utcNow():Date{
+        var d = Date.now();
+        var time = d.getTime()+(getTimezoneOffset()*1000);
+        var utcDate = Date.fromTime(time);
+        return utcDate;
+    }
+
+    public static function main(){
+        trace(utcNow());
+        trace(toISO8601(Date.now()));
     }
 }
