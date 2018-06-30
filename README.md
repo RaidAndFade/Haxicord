@@ -13,7 +13,7 @@ To install the library in your project, use the haxelib package manager:
 ## Usage
 [Normal humans can click here for a proper example of some base features](https://github.com/RaidAndFade/Haxicord/blob/master/src/com/raidandfade/haxicord/test/Test.hx)
 
-Those of a lower level of dedication can use the example below: (Takes advantage of the new command api)
+Those of a lower level of dedication can use the example below: (Takes advantage of the command api)
 
 ```hx
 class Main extends CommandBot {
