@@ -1,36 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-	Name:			Haxicord Logo
-	Author:			Emzi0767
-	Timestamp:		2017-08-24 01:11 +02:00
-	License:		MIT
-	
-	------------------------------------------------------------------------------
-	
-	MIT License
+	Logo authored by Emzi0767, as part of Haxicord project.
 
-	Copyright (c) 2017 Emzi0767
+	Copyright (C) 2018 RaidAndFade
 
-	Permission is hereby granted, free of charge, to any person obtaining a copy
-	of this software and associated documentation files (the "Software"), to deal
-	in the Software without restriction, including without limitation the rights
-	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-	copies of the Software, and to permit persons to whom the Software is
-	furnished to do so, subject to the following conditions:
+	This program is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
 
-	The above copyright notice and this permission notice shall be included in all
-	copies or substantial portions of the Software.
-
-	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-	SOFTWARE.
+	This program is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
 -->
 <svg version="1.1" viewBox="0 0 245 240" xmlns="http://www.w3.org/2000/svg">
- <style>.st0{fill:#7289DA;}</style>
  <path d="m55.5 20c-11.3 0-20.5 9.1996-20.5 20.6v135.2c0 11.4 9.2 20.6 20.5 20.6h113.4l-5.3008-18.5 12.801 11.9 12.1 11.199 21.5 19v-179.4c0-11.4-9.2-20.6-20.5-20.6h-134z" fill="#fff" stroke="#7289da"/>
  <g transform="matrix(1.0307 0 0 1.0307 -3.7576 -3.2974)" stroke-width=".16186">
   <path id="path24_1_" d="m122.5 63.982-32.502-2.9702-25.513-11.534h29.007l29.009 14.49" fill="#a2b1e6"/>
@@ -47,5 +31,5 @@
   <path id="path20_1_" d="m180.52 165.51-58.019-14.503v-43.538l43.512 0.0244 14.506 57.958" fill="#526ed2"/>
   <path id="path14_1_" d="m122.5 63.982-43.512 43.513 43.512 43.514 43.512-43.516-43.512-43.526" fill="#7289da"/>
  </g>
- <path class="st0" d="m104.4 96.395c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1 0.1-6.1-4.5-11.1-10.2-11.1zm36.5 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1s-4.5-11.1-10.2-11.1z" fill="#fff"/>
+ <path d="m104.4 96.395c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1 0.1-6.1-4.5-11.1-10.2-11.1zm36.5 0c-5.7 0-10.2 5-10.2 11.1s4.6 11.1 10.2 11.1c5.7 0 10.2-5 10.2-11.1s-4.5-11.1-10.2-11.1z" fill="#fff"/>
 </svg>
