@@ -36,3 +36,5 @@ You can find the documentation [here](https://raidandfade.github.io/Haxicord/)
 ## Community
 Join the Haxicord Discord for more help & to meet others using the library (as well as the dev)
 [![Discord](https://discordapp.com/api/guilds/419929794957017108/embed.png?style=banner2)](https://discord.gg/E338QZH)
+
+^raids ^peeper ^is ^small
