@@ -10,7 +10,7 @@ typedef MessageStruct = {
     @:optional var tts:Bool;
     @:optional var mention_everyone:Bool;
     @:optional var mentions:Array<User>;
-    @:optional var mention_roles:Array<Role>;
+    @:optional var mention_roles:Array<String>;
     @:optional var attachments:Array<Attachment>;
     @:optional var embeds:Array<Embed>;
     @:optional var reactions:Array<Reaction>;
