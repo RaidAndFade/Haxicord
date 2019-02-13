@@ -31,7 +31,7 @@ import haxe.Timer;
 /*
 TODO rn
 - ZLIB optional
-
+- ISO8601 parser takes way too long 
 */
 
 /*
@@ -101,6 +101,8 @@ class DiscordClient {
 
     @:dox(hide)
     private var unavailableGuilds:Int;
+
+    //private var dontwaitforguilds:Bool = true;
 
     private var zlibCompress:Bool = false;
     private var etfFormat:Bool = false;
@@ -258,12 +260,12 @@ class DiscordClient {
                 session = re.session_id;
                 resumeable = true;
 
+                trace(re.guilds);
+                unavailableGuilds = re.guilds.filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
+                
                 if(re.guilds.length == 0) {
                     ready=true;
                     _onReady();
-                }else{
-                    trace(re.guilds);
-                    unavailableGuilds = re.guilds.filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
                 }
             case "RESUMED": 
                 ready = true;
@@ -277,7 +279,9 @@ class DiscordClient {
             case "GUILD_CREATE":
                 onGuildCreate(_newGuild(d));
                 //Wait for all guilds to be loaded before readying. Might cause problems if guilds are genuinely unavailable so maybe check if name is set too
-                unavailableGuilds = [for(g in dataCache.getAllGuilds().iterator()) g].filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
+                
+                //TODO this more efficiently
+                unavailableGuilds = dataCache.getAllGuilds().filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
                 var done = unavailableGuilds==0;
                 if( done && !ready ) {
                     ready = true;
@@ -334,7 +338,8 @@ class DiscordClient {
             case "MESSAGE_CREATE":
                 onMessage(_newMessage(d));
             case "MESSAGE_UPDATE":
-                onMessageEdit(_newMessage(d));
+                if(dataCache.getMessage(d.id) != null)
+                    onMessageEdit(_newMessage(d));
             case "MESSAGE_DELETE":
                 removeMessage(d);
                 onMessageDelete(d);
@@ -370,12 +375,17 @@ class DiscordClient {
                 if(m != null)
                     m._updatePresence(d);
             case "TYPING_START": // event
-                onTypingStart(getUserUnsafe(d.user_id), getChannelUnsafe(d.channel_id), d.timestamp);
-            case "USER_UPDATE": // user
+                try{
+                    onTypingStart(getUserUnsafe(d.user_id), getChannelUnsafe(d.channel_id), d.timestamp);
+                }catch(e:Dynamic){
+                    //this is a problem with shardid != 0 getting DM CHANNEL typing_starts.
+                    // idk what to do about this.
+                }
+            case "USER_UPDATE": // never seen this so idk how to handle it.
                 trace("User Changed");
                 trace(d);
-            case "VOICE_STATE_UPDATE": // ...
-            case "VOICE_SERVER_UPDATE": // ...
+            case "VOICE_STATE_UPDATE": // ... yeah i'll definitely do voice for sure
+            case "VOICE_SERVER_UPDATE": // ... yeah i'll definitely do voice for sure
             case "WEBHOOKS_UPDATE": //eventually...
 
             case "PRESENCES_REPLACE", "CHANNEL_PINS_ACK": // User only.
@@ -730,7 +740,7 @@ class DiscordClient {
         }else{
             var msg = new Message(message_struct, this);
             dataCache.setMessage(id, msg);
-            return dataCache.getMessage(id);
+            return msg;
         }
     }
 
@@ -745,7 +755,7 @@ class DiscordClient {
         }else{
             var user = new User(user_struct, this);
             dataCache.setUser(id, user);
-            return dataCache.getUser(id);
+            return user;
         }
     }
 
@@ -776,13 +786,13 @@ class DiscordClient {
         }else{
             var channel = Channel.fromStruct(channel_struct)(channel_struct, this);
             dataCache.setChannel(id, channel);
-            var c = cast(dataCache.getChannel(id), GuildChannel);
+            var c = cast(channel, GuildChannel);
             try {
                 getGuildUnsafe(c.guild_id.id)._addChannel(c);
             } catch(e: Dynamic) {} //Not important if guild is part of unsafe get channel
             
             return function(_) {
-                return dataCache.getChannel(id);
+                return channel;
             };
         }
     }
@@ -802,7 +812,7 @@ class DiscordClient {
             else if(channel.recipients != null && channel.recipients.length == 1)
                 dataCache.setUserDMChannel(channel.recipients[0].id.id, id);
 
-            return dataCache.getDMChannel(id);
+            return channel;
         }
     }
 
@@ -816,7 +826,7 @@ class DiscordClient {
         }else{
             var guild = new Guild(guild_struct, this);
             dataCache.setGuild(id, guild);
-            return dataCache.getGuild(id);
+            return guild;
         }
     }
 
@@ -1072,8 +1082,8 @@ private class HeartbeatThread {
     }
 
     public function beat() {
-        ws.sendJson(WSPrepareData.Heartbeat(seq));
         cl.reconnectTimeout = 1;
+        ws.sendJson(WSPrepareData.Heartbeat(seq));
     }
 
     public function pause() {
