@@ -39,9 +39,9 @@ class GuildMember {
         client = _client;
         guild = _guild;
         
-        user = client._newUser(_mem.user);
+        user = client._newUser(_mem.user); 
         displayName = _mem.nick == null?_mem.user.username:_mem.nick;
-        roles = _mem.roles; //TODO Make this role objects.
+        roles = _mem.roles; 
         joined_at = DateUtils.fromISO8601(_mem.joined_at);
         deaf = _mem.deaf;
         mute = _mem.mute;
