@@ -37,5 +37,5 @@ interface DataCache{
     public function getUserDMChannel(id:String):Null<String>;
 
     public function getAllDMChannels():Array<DMChannel>;
-    public function getAllGuilds():Map<String,Guild>;
+    public function getAllGuilds():Array<Guild>;
 }

@@ -2,36 +2,28 @@ package com.raidandfade.haxicord.cachehandler;
 
 import com.raidandfade.haxicord.types.Message;
 import com.raidandfade.haxicord.types.User;
-import com.raidandfade.haxicord.logger.Logger;
 import com.raidandfade.haxicord.types.Channel;
 import com.raidandfade.haxicord.types.DMChannel;
-import com.raidandfade.haxicord.types.GuildChannel;
-import com.raidandfade.haxicord.types.GuildMember;
-import com.raidandfade.haxicord.types.TextChannel;
-import com.raidandfade.haxicord.types.CategoryChannel;
-import com.raidandfade.haxicord.types.VoiceChannel;
 import com.raidandfade.haxicord.types.Guild;
-import com.raidandfade.haxicord.types.Role;
-import com.raidandfade.haxicord.types.Snowflake;
 
 class MemoryCache implements DataCache{
 
     public function new(){}
 
     @:dox(hide)
-    public var messageCache:Map<String,Message> = new Map<String,Message>();
+    public var messageCache:CacheMap<Message> = new CacheMap<Message>(50000); // should be enough honestly..
 
     @:dox(hide)
-    public var userCache:Map<String,User> = new Map<String,User>();
+    public var userCache:CacheMap<User> = new CacheMap<User>(null); 
 
     @:dox(hide)
-    public var channelCache:Map<String,Channel> = new Map<String,Channel>();
+    public var channelCache:CacheMap<Channel> = new CacheMap<Channel>(null);
 
     @:dox(hide)
-    public var dmChannelCache:Map<String,DMChannel> = new Map<String,DMChannel>();
+    public var dmChannelCache:CacheMap<DMChannel> = new CacheMap<DMChannel>(null); 
 
     @:dox(hide)
-    public var guildCache:Map<String,Guild> = new Map<String,Guild>();
+    public var guildCache:CacheMap<Guild> = new CacheMap<Guild>(2500); // shard-max, literally cannot have more than this
 
     @:dox(hide)
     public var userDMChannels:Map<String,String> = new Map<String,String>(); //put this in somewhere.
@@ -97,7 +89,7 @@ class MemoryCache implements DataCache{
     public function getAllDMChannels():Array<DMChannel>{
         return [for(dm in dmChannelCache.iterator()) dm];
     }
-    public function getAllGuilds():Map<String,Guild>{
-        return guildCache;
+    public function getAllGuilds():Array<Guild>{
+        return [for(g in guildCache.iterator()) g];
     }
 }
