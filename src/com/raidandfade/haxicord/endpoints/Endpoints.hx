@@ -3,7 +3,7 @@ package com.raidandfade.haxicord.endpoints;
 import haxe.Json;
 import haxe.Timer;
 import haxe.Utf8;
-import haxe.Https;
+import com.raidandfade.haxicord.utils.Https;
 
 //TODO https://discordapp.com/developers/docs/resources/emoji maybe add these lol
 
@@ -1032,7 +1032,7 @@ class Endpoints{
         @param cb - Returns the list of Guilds according to the filter specified, or an error.
      */
     public function getGuilds(filter:Typedefs.GetGuildFilter, cb:Array<Guild>->ErrorReport->Void = null) { 
-        var endpoint = new EndpointPath("/users/@me/guilds{0}", []);
+        var endpoint = new EndpointPath("/users/@me/guilds", []); //TODO implement filters properly
         callEndpoint("GET", endpoint, function(r:Array<com.raidandfade.haxicord.types.structs.Guild>, e) {
             if(cb == null) return;
             if(e != null) cb(null, e);
@@ -1050,7 +1050,7 @@ class Endpoints{
      */
     public function leaveGuild(guild_id:String, cb:EmptyResponseCallback = null) {
         var endpoint = new EndpointPath("/users/@me/guilds/{0}", [guild_id]);
-        callEndpoint("POST", endpoint, cb);
+        callEndpoint("DELETE", endpoint, cb);
     }
 
     /**
