@@ -99,7 +99,7 @@ class Message {
 
         mention_roles = [
                 for(r in _msg.mention_roles) {
-                    cast(client.getChannelUnsafe(_msg.channel_id), GuildChannel).getGuild()._newRole(r);
+                    cast(client.getChannelUnsafe(_msg.channel_id), GuildChannel).getGuild().roles.get(r);
                 }
             ];
         
@@ -111,7 +111,13 @@ class Message {
         if(_msg.reactions != null)
             reactions = _msg.reactions; // same as attachments
 
-        nonce = new Snowflake(_msg.nonce);
+        if(_msg.nonce != null){
+            try{ // scientific notation nonces causes this, why do people send scientific notation snowflakes... because doing something properly is too hard...?
+                nonce = new Snowflake(_msg.nonce);
+            }catch(e:Dynamic){
+                nonce = null;
+            }
+        }
         pinned = _msg.pinned;
         webhook_id = _msg.webhook_id;
     }
@@ -120,6 +126,9 @@ class Message {
     public function _update(_msg:com.raidandfade.haxicord.types.structs.MessageStruct) {
         if(_msg.edited_timestamp != null)
             edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
+        
+        if(_msg.content != null)
+            content = _msg.content;
 
         if(_msg.tts != null)
             tts = _msg.tts;
@@ -133,7 +142,7 @@ class Message {
         if(_msg.mention_roles != null)
             mention_roles = [
                     for(r in _msg.mention_roles) {
-                        cast(client.getChannelUnsafe(_msg.channel_id), GuildChannel).getGuild()._newRole(r);
+                        cast(client.getChannelUnsafe(_msg.channel_id), GuildChannel).getGuild().roles.get(r);
                     }
                 ];
         if(_msg.attachments != null)
