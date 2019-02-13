@@ -5,6 +5,7 @@ import com.raidandfade.haxicord.types.MessageChannel;
 import haxe.rtti.Meta;
 import Reflect;
 import Type;
+import haxe.Timer;
 
 class CommandBot {
     private var client:DiscordClient;
@@ -12,15 +13,20 @@ class CommandBot {
     private var prefixes:Array<String> = [];
 
     /**
+     * Want to respond to bots? false by default.
+     */
+    public var respondToBots = false;
+
+    /**
        Create the bot or something
-       @param token - 
-       @param commandBot - 
-       @param _prefix = "!" - 
-       @param tagPrefix = true - 
-       @param etf = false - 
-       @param zlib = true - 
-       @param block = true - 
-       @param shardInfo = null - 
+       @param token - the token of the bot
+       @param commandBot - instance of class that extends commandbot
+       @param _prefix = "!" - prefix for commands in bot
+       @param tagPrefix = true - should the tag of bot be prefix?
+       @param etf = false - use etf instead of json? 
+       @param zlib = true - zlib compress?
+       @param block = true - should we block the main thread or not
+       @param shardInfo = null - what shard is this, and what shards are there
      */
     private function new(token:String, commandBot:Class<CommandBot>, _prefix = "!", tagPrefix=true, etf=false, zlib=true, block=true, shardInfo=null) {
         try{
@@ -69,13 +75,14 @@ class CommandBot {
 
     private function onMessage(m:Message) {
         var cnt = m.content;
+        if(m.author.bot && !respondToBots) return; // no bots.
 
         for(pre in prefixes){
             if(cnt.substr(0, pre.length) == pre) {
                 cnt = cnt.substr(pre.length);
                 var cmd = cnt.split(" ")[0];
-                if(commands.exists(cmd)) {
-                    callCommand(cmd, m);
+                if(commands.exists(cmd)) { //thread the command handler so that an error/failure doesnt affect the whole bot
+                    Timer.delay(callCommand.bind(cmd, m),0);
                 }
                 return;
             }
