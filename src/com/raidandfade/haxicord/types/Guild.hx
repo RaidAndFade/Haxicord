@@ -301,21 +301,23 @@ class Guild{
 
     @:dox(hide)
     public function _newMember(memberStruct:com.raidandfade.haxicord.types.structs.GuildMember) {
-        if(members.exists(memberStruct.user.id) ) {
-            members.get(memberStruct.user.id)._update(memberStruct);
-            return members.get(memberStruct.user.id);
+        if( members.exists(memberStruct.user.id) ) {
+            var m = members.get(memberStruct.user.id);
+            m._update(memberStruct);
+            return m;
         } else {
             var member = new GuildMember(memberStruct, this, client);
             members.set(memberStruct.user.id, member);
-            return members.get(memberStruct.user.id);
+            return member;
         }
     }
 
     @:dox(hide)
     public function _newRole(roleStruct:com.raidandfade.haxicord.types.structs.Role) {
         if(roles.exists(roleStruct.id) ) {
-            roles.get(roleStruct.id)._update(roleStruct);
-            return roles.get(roleStruct.id);
+            var r = roles.get(roleStruct.id);
+            r._update(roleStruct);
+            return r;
         } else {
             var role = new Role(roleStruct, this, client);
             roles.set(roleStruct.id, role);
