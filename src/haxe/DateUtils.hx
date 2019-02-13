@@ -4,8 +4,12 @@ package haxe;
 import neko.Lib;
 #end
 
+
 class DateUtils {
 
+    public static function fromISO8601_n(iso:String):Date{
+        return null;
+    }
     
     public static function fromISO8601(iso:String):Date{
         //oof
