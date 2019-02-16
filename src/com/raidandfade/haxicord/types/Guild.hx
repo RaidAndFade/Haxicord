@@ -204,8 +204,10 @@ class Guild{
             if(_guild.splash != null)
                 splash = _guild.splash;
 
-            if(_guild.owner_id != null)
+            if(_guild.owner_id != null){
                 owner_id = new Snowflake(_guild.owner_id);
+                owner = members[owner_id.id];
+            }
 
             if(_guild.region != null)
                 region = _guild.region;
