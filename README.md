@@ -16,6 +16,11 @@ To install the library in your project, use the haxelib package manager:
 Those of a lower level of dedication can use the example below: (Takes advantage of the command api)
 
 ```hx
+package;
+
+import com.raidandfade.haxicord.commands.CommandBot;
+import com.raidandfade.haxicord.types.Message;
+
 class Main extends CommandBot {
 
     static function main() {
