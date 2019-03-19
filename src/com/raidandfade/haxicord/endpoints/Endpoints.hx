@@ -37,7 +37,6 @@ import com.raidandfade.haxicord.types.structs.Connection;
 import com.raidandfade.haxicord.types.structs.Webhook;
 import com.raidandfade.haxicord.types.structs.Emoji;
 
-
 class Endpoints{
 
     @:dox(hide)
@@ -431,7 +430,7 @@ class Endpoints{
     public function createEmoji(guild_id:String, emoji:Typedefs.EmojiCreate, cb:Emoji->String->Void = null) {
         //REQUIRES MANAGE_EMOJIS
         var endpoint = new EndpointPath("/guilds/{0}/emojis", [guild_id]);
-        callEndpoint("PUT", endpoint, cb, emoji);
+        callEndpoint("POST", endpoint, cb, emoji);
     }
 
     /**
