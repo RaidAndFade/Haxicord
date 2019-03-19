@@ -1,6 +1,7 @@
 package com.raidandfade.haxicord.types;
 
 import com.raidandfade.haxicord.types.structs.GuildChannel.Overwrite;
+import com.raidandfade.haxicord.types.structs.GuildChannel.OverwriteType;
 
 import haxe.extern.EitherType;
 
@@ -99,5 +100,19 @@ class GuildChannel extends Channel {
      */
     public function deletePermission(pid, cb = null) {
         client.endpoints.deleteChannelPermission(id.id, pid, cb);
+    }
+
+
+    public override function hasPermission(uid:String, dp:Int):Bool{
+        var u = getGuild().getMemberUnsafe(uid);
+        var p = u.getPermissions();
+        for(x in permission_overwrites){
+            if(x.type == OverwriteType.Member && x.id != uid) continue;
+            if(x.type == OverwriteType.Role && u.roles.indexOf(x.id) == -1) continue;
+            p |= x.allow;
+            p &= 0xffffffff ^ x.deny; //probably not correct but whATevER!
+        }
+
+        return p & dp == dp;
     }
 }

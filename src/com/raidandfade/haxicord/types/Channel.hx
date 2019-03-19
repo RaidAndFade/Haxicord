@@ -35,4 +35,9 @@ class Channel {
     public function getTag() {
         return "<#" + id.id + ">";
     }
+
+
+    public function hasPermission(uid:String, p:Int):Bool{
+        return true;
+    }
 }

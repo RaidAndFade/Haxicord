@@ -25,7 +25,7 @@ enum OverwriteType{
 }
 
 typedef Overwrite = {
-    var id:Int; //flake
+    var id:String; //flake
     var type:OverwriteType;
     var allow:Int;
     var deny:Int;

@@ -116,4 +116,6 @@ interface MessageChannel{
        Returns whether the channel is part of a guild or not. Always true for TextChannels. Always false for DMChannels
      */
     public function inGuild():Bool;
+
+    public function hasPermission(uid:String, p:Int):Bool;
 }

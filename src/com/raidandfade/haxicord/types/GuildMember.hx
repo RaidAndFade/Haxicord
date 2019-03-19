@@ -2,6 +2,8 @@ package com.raidandfade.haxicord.types;
 
 import haxe.DateUtils;
 
+import com.raidandfade.haxicord.utils.DPERMS;
+
 class GuildMember {
     var client:DiscordClient;
 
@@ -135,4 +137,25 @@ class GuildMember {
     public function ban(days = 0, reason = "", cb = null) {
         client.endpoints.banMember(guild.id.id, user.id.id, days, reason, cb);
     }
+
+    public function hasPermissions(channel:Channel, p:Int):Bool{
+        return (getPermissions() & p) == p;
+    }
+
+    public function getPermissions():Int{
+        var p = 0;
+        for(x in roles){
+            p |= guild.roles.get(x).permissions;
+        }
+        return p;
+    }
+    
+    public function getPermissionList():Array<Int>{
+        return DPERMS.PermsAsList(getPermissions());
+    }
+
+    public function getPermissionStrings():Array<String>{
+        return DPERMS.PermsAsNamedList(getPermissions());
+    }
+
 }

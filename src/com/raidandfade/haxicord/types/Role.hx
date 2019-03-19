@@ -1,5 +1,7 @@
 package com.raidandfade.haxicord.types;
 
+import com.raidandfade.haxicord.utils.DPERMS;
+
 class Role { 
     var client:DiscordClient;
 
@@ -94,5 +96,13 @@ class Role {
      */
     public function delete(cb = null) {
         client.endpoints.deleteRole(guild.id.id, id.id, cb);
+    }
+
+    public function getPermissionList():Array<Int>{
+        return DPERMS.PermsAsList(this.permissions);
+    }
+
+    public function getPermissionStrings():Array<String>{
+        return DPERMS.PermsAsNamedList(this.permissions);
     }
 }
