@@ -14,13 +14,13 @@ class MemoryCache implements DataCache{
     public var messageCache:CacheMap<Message> = new CacheMap<Message>(50000); // should be enough honestly..
 
     @:dox(hide)
-    public var userCache:CacheMap<User> = new CacheMap<User>(null); 
+    public var userCache:CacheMap<User> = new CacheMap<User>(0); 
 
     @:dox(hide)
-    public var channelCache:CacheMap<Channel> = new CacheMap<Channel>(null);
+    public var channelCache:CacheMap<Channel> = new CacheMap<Channel>(0);
 
     @:dox(hide)
-    public var dmChannelCache:CacheMap<DMChannel> = new CacheMap<DMChannel>(null); 
+    public var dmChannelCache:CacheMap<DMChannel> = new CacheMap<DMChannel>(0); 
 
     @:dox(hide)
     public var guildCache:CacheMap<Guild> = new CacheMap<Guild>(2500); // shard-max, literally cannot have more than this

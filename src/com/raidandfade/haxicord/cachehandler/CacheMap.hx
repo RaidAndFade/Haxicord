@@ -12,7 +12,7 @@ class CacheMap<K>{
 
     public function new(maxlen){
         this.maxlen = maxlen;
-        if(this.maxlen == null){
+        if(this.maxlen == 0){
             this.idx = null;
         }
     }
