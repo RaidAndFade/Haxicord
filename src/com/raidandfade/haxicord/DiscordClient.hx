@@ -150,7 +150,7 @@ class DiscordClient {
     public function start(blocking=true) {
 #if sys
         while(blocking) {
-            Sys.sleep(1);
+            Sys.sleep(1000);
         }
 #end
     }
@@ -273,25 +273,36 @@ class DiscordClient {
                 onChannelCreate(_newChannel(d));
             case "CHANNEL_UPDATE":
                 onChannelUpdate(_newChannel(d));
+            case "CHANNEL_PINS_UPDATE":
+                
+                //TODO this
             case "CHANNEL_DELETE":
                 removeChannel(d);
                 onChannelDelete(d);
             case "GUILD_CREATE":
-                onGuildCreate(_newGuild(d));
-                //Wait for all guilds to be loaded before readying. Might cause problems if guilds are genuinely unavailable so maybe check if name is set too
-                
-                //TODO this more efficiently
-                unavailableGuilds = dataCache.getAllGuilds().filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
-                var done = unavailableGuilds==0;
-                if( done && !ready ) {
-                    ready = true;
-                    _onReady();
+                if(ready && dataCache.getGuild(d.id) == null){
+                    var g:Guild = _newGuild(d);
+                    onGuildCreate(g);
+                    onGuildJoin(g);
+                }else{
+                    var g = _newGuild(d);
+                    onGuildCreate(g);
+                    //Wait for all guilds to be loaded before readying. Might cause problems if guilds are genuinely unavailable so maybe check if name is set too
+                    
+                    //TODO this more efficiently
+                    unavailableGuilds = dataCache.getAllGuilds().filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
+                    var done = unavailableGuilds==0;
+                    if( done && !ready ) {
+                        ready = true;
+                        _onReady();
+                    }
                 }
             case "GUILD_UPDATE":
                 onGuildUpdate(_newGuild(d));
             case "GUILD_DELETE":
-                removeGuild(d.id);
+                onGuildLeave(getGuildUnsafe(d.id));
                 onGuildDelete(d.id);
+                removeGuild(d.id);
             case "GUILD_BAN_ADD":
                 var u = getUserUnsafe(d);
                 var g = getGuildUnsafe(d.guild_id);
@@ -855,7 +866,19 @@ class DiscordClient {
     public dynamic function onChannelDelete(channel_id: String) {}
 
     /**
-        Event hook for when a guild is created or joined by you.
+        NON-API Event hook for when a guild has been joined by you.
+        @param g - The guild object.
+     */
+    public dynamic function onGuildJoin(g: Guild) {}
+
+    /**
+        NON-API Event hook for when a guild has been joined by you.
+        @param g - The guild object.
+     */
+    public dynamic function onGuildLeave(g: Guild) {}
+
+    /**
+        Event hook for when a guild is created or joined by you, fired when bot is starting up as well.
         @param g - The guild object.
      */
     public dynamic function onGuildCreate(g: Guild) {}
