@@ -9,7 +9,7 @@ import com.raidandfade.haxicord.DiscordClient;
 import com.raidandfade.haxicord.cachehandler.DataCache;
 import com.raidandfade.haxicord.cachehandler.MemoryCache;
 
-import haxe.Https;
+import com.raidandfade.haxicord.utils.Https;
 import haxe.Timer;
 
 class Sharder{
