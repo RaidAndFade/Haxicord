@@ -57,6 +57,7 @@ class Logger{
             }
         }
         infostr = infostrt;
+        try{
         if(infos != null){
             infostr = StringTools.replace(infostr, "%fn", infos.methodName);
             infostr = StringTools.replace(infostr, "%l", Std.string(infos.lineNumber));
@@ -68,6 +69,7 @@ class Logger{
             infostr = StringTools.replace(infostr, ":%l>", "");
             infostr = StringTools.replace(infostr, "%f->", "");
         }
+        }catch(e:Dynamic){}
 
 
         //The rest is the normal haxe trace function.
