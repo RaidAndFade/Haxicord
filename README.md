@@ -3,7 +3,7 @@
 
 Haxicord is a Discord API wrapper for Haxe.
 
-[![Haxelib](https://img.shields.io/badge/dynamic/json.svg?label=haxelib&colorB=00bb00&prefix=&suffix=&query=version&uri=https%3A%2F%2Fraw.githubusercontent.com%2FRaidAndFade%2FHaxicord%2Fmaster%2Fhaxelib.json)](https://lib.haxe.org/p/Haxicord) [![Discord](https://discordapp.com/api/guilds/419929794957017108/embed.png?style=shield)](https://discord.gg/E338QZH)
+[![Haxelib](https://img.shields.io/badge/dynamic/json.svg?label=haxelib&colorB=00bb00&query=version&uri=https%3A%2F%2Fraw.githubusercontent.com%2FRaidAndFade%2FHaxicord%2Fmaster%2Fhaxelib.json)](https://lib.haxe.org/p/Haxicord) [![Discord](https://discordapp.com/api/guilds/419929794957017108/embed.png?style=shield)](https://discord.gg/E338QZH)
 
 ## Installation
 To install the library in your project, use the haxelib package manager:
@@ -16,6 +16,11 @@ To install the library in your project, use the haxelib package manager:
 Those of a lower level of dedication can use the example below: (Takes advantage of the command api)
 
 ```hx
+package;
+
+import com.raidandfade.haxicord.commands.CommandBot;
+import com.raidandfade.haxicord.types.Message;
+
 class Main extends CommandBot {
 
     static function main() {
