@@ -204,11 +204,6 @@ class Guild{
             if(_guild.splash != null)
                 splash = _guild.splash;
 
-            if(_guild.owner_id != null){
-                owner_id = new Snowflake(_guild.owner_id);
-                owner = members[owner_id.id];
-            }
-
             if(_guild.region != null)
                 region = _guild.region;
 
@@ -253,6 +248,11 @@ class Guild{
 
             if(_guild.members != null) 
                 for(m in _guild.members) { _newMember(m); }
+
+            if(_guild.owner_id != null){
+                owner_id = new Snowflake(_guild.owner_id);
+                owner = members[owner_id.id];
+            }
 
             if(_guild.channels != null) {
                 for(c in _guild.channels) {
@@ -326,6 +326,7 @@ class Guild{
             return roles.get(roleStruct.id);
         }
     }
+
     //Live structs
     /**
         Get the channels in a guild
@@ -365,6 +366,42 @@ class Guild{
         client.getChannel(cid, cb);
     }
 
+    /**
+        Try to find all channels that have names that contain (or equal are to) the given string
+        @return - A list of applicable channels, ordered by absolute equality first and then partial equality afterwards
+    */
+    public function findChannels(name:String):Array<GuildChannel>{
+        var rs = [];
+        var cs = [];
+        for(r in textChannels.iterator()){
+            if(r.name == name){
+                rs.push(cast(r,GuildChannel));
+            }else if(r.name.indexOf(name)>-1){
+                cs.push(cast(r,GuildChannel));
+            }
+        }
+        for(r in voiceChannels.iterator()){
+            if(r.name == name){
+                rs.push(cast(r,GuildChannel));
+            }else if(r.name.indexOf(name)>-1){
+                cs.push(cast(r,GuildChannel));
+            }
+        }
+        for(r in categoryChannels.iterator()){
+            if(r.name == name){
+                rs.push(cast(r,GuildChannel));
+            }else if(r.name.indexOf(name)>-1){
+                cs.push(cast(r,GuildChannel));
+            }
+        }
+
+        for(r in cs){
+            rs.push(r);
+        }
+
+        return rs;
+    }
+
     public function moveChannels() {
         //TODO this...
     }
@@ -383,6 +420,36 @@ class Guild{
      */
     public function getRoles(cb = null) {
         client.endpoints.getGuildRoles(id.id, cb); 
+    }
+
+    /**
+        Get a role by ID.  
+        @return - The role being asked for, or null
+    */
+    public function getRole(rid){
+        return roles.get(rid);
+    }
+
+    /**
+        Try to find a role whose name contains (or is equal to) the given string
+        @return - A list of applicable roles, ordered by absolute equality first and then partial equality afterwards
+    */
+    public function findRoles(name:String):Array<Role>{
+        var rs = [];
+        var cs = [];
+        for(r in roles){
+            if(r.name == name){
+                rs.push(r);
+            }else if(r.name.indexOf(name)>-1){
+                cs.push(r);
+            }
+        }
+
+        for(r in cs){
+            rs.push(r);
+        }
+
+        return rs;
     }
 
     /**
