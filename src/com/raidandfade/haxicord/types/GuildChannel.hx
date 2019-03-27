@@ -40,6 +40,7 @@ class GuildChannel extends Channel {
 
     @:dox(hide)
     public static function fromStruct(_chan):Dynamic->DiscordClient->GuildChannel{
+        //Notice that DMs are not here, that's because DM channels aren't guild channels you wad.
         if(_chan.type == 0) {
             return TextChannel.fromStruct;
         }
@@ -48,6 +49,12 @@ class GuildChannel extends Channel {
         }
         if(_chan.type == 4) {
             return CategoryChannel.fromStruct;
+        }
+        if(_chan.type == 5){ //News Channel, Literally the same as a regular channel
+            return NewsChannel.fromStruct; //news, and store, respectively
+        }
+        if(_chan.type == 6){
+            return StoreChannel.fromStruct;
         }
         throw "Invalid Struct";
     }
