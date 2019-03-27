@@ -19,6 +19,10 @@ typedef VoiceChannel = {>GuildChannel,
     @:optional var user_limit:Int;
 }
 
+typedef NewsChannel = {>TextChannel,} // why the fuck is this it's own type? I wish i fucking knew.
+
+typedef StoreChannel = {>GuildChannel,} // why the fuck is this it's own type? I wish i fucking knew.
+
 enum OverwriteType{
     Role;
     Member;
