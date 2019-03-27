@@ -1,6 +1,6 @@
 package com.raidandfade.haxicord.types;
 
-class NewsChannel extends GuildChannel implements MessageChannel {
+class NewsChannel extends TextChannel{
     /**
         The topic of the channel.
      */
