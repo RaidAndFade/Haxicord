@@ -272,7 +272,7 @@ class Guild{
                         categoryChannels.set(ch.id.id, cast(ch, CategoryChannel));
                     }else if(Std.is(ch, StoreChannel)){ 
                         // I can't do similar things to newschannel here since storechannel is distinct
-                        storeChannels.set(ch.id.id, cast(ch, Storechannel));
+                        storeChannels.set(ch.id.id, cast(ch, StoreChannel));
                     }else{
                         throw "Unsupported channel type in guild initialization";
                     }
@@ -304,7 +304,7 @@ class Guild{
             categoryChannels.set(ch.id.id, cast(ch, CategoryChannel));
         }else if(Std.is(ch, StoreChannel)){ 
             // I can't do similar things to newschannel here since storechannel is distinct
-            storeChannels.set(ch.id.id, cast(ch, Storechannel));
+            storeChannels.set(ch.id.id, cast(ch, StoreChannel));
         }else{
             throw "Unsupported channel type in channel addition in guild";
         }
