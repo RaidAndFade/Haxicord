@@ -9,6 +9,14 @@ class TextChannel extends GuildChannel implements MessageChannel {
        The id of the last Message that was sent in the chat.
      */
     public var last_message_id:Snowflake;
+    /**
+       The time in seconds of the current slowmode.
+     */
+    public var rate_limit_per_user:Int;
+    /**
+       The timestamp of the last pin, as a string.
+     */
+    public var last_pin_timestamp:String;
 
     @:dox(hide)
     public function new(_chan:com.raidandfade.haxicord.types.structs.GuildChannel.TextChannel, _client:DiscordClient) {
@@ -24,6 +32,12 @@ class TextChannel extends GuildChannel implements MessageChannel {
         permission_overwrites = _chan.permission_overwrites;
         topic = _chan.topic;
         last_message_id = new Snowflake(_chan.last_message_id);
+        
+        if(_chan.rate_limit_per_user != null )        
+            rate_limit_per_user = _chan.rate_limit_per_user;
+        
+        if(_chan.last_pin_timestamp != null )        
+            last_pin_timestamp = _chan.last_pin_timestamp;
     }
 
     @:dox(hide)
@@ -42,6 +56,12 @@ class TextChannel extends GuildChannel implements MessageChannel {
 
         if(_chan.nsfw != null) 
             nsfw = _chan.nsfw;
+
+        if(_chan.rate_limit_per_user != null )        
+            rate_limit_per_user = _chan.rate_limit_per_user;
+        
+        if(_chan.last_pin_timestamp != null )        
+            last_pin_timestamp = _chan.last_pin_timestamp;
     }
 
     @:dox(hide)

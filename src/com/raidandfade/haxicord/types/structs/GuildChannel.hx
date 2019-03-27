@@ -12,6 +12,8 @@ typedef GuildChannel = {>Channel,
 typedef TextChannel = {>GuildChannel,
     @:optional var topic:String;
     @:optional var last_message_id:String; //flake 
+    @:optional var rate_limit_per_user:Int; //Text channel ratelimiting (the slow mode thing)
+    @:optional var last_pin_timestamp:String;
 }
 
 typedef VoiceChannel = {>GuildChannel,
