@@ -113,6 +113,10 @@ class Guild{
      */
     public var categoryChannels:Map<String, CategoryChannel> = new Map<String, CategoryChannel>();
     /**
+       A dictionary of storeChannels in the guild by Id
+     */
+    public var storeChannels:Map<String, StoreChannel> = new Map<String, StoreChannel>();
+    /**
        An array of partial presence updates of users in the guild.
      */
     public var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
@@ -258,12 +262,19 @@ class Guild{
                 for(c in _guild.channels) {
                     var ch = cast(client._newChannel(c), GuildChannel);
                     ch.guild_id = this.id;
-                    if(Std.is(ch, TextChannel)) {
+                    if(Std.is(ch, TextChannel) || Std.is(ch, NewsChannel)) { 
+                        // since they are literally the same thing, and i don't think it's necessary to 
+                        //  have a new map of just news channels considering how niche it is
                         textChannels.set(ch.id.id, cast(ch, TextChannel));
                     }else if(Std.is(ch, VoiceChannel)) {
                         voiceChannels.set(ch.id.id, cast(ch, VoiceChannel));
-                    }else{
+                    }else if(Std.is(ch, CategoryChannel)){
                         categoryChannels.set(ch.id.id, cast(ch, CategoryChannel));
+                    }else if(Std.is(ch, StoreChannel)){ 
+                        // I can't do similar things to newschannel here since storechannel is distinct
+                        storeChannels.set(ch.id.id, cast(ch, Storechannel));
+                    }else{
+                        throw "Unsupported channel type in guild initialization";
                     }
                 }
             }
@@ -279,16 +290,30 @@ class Guild{
     }
 
     @:dox(hide)
-    public function _addChannel(c) {
+    public function _addChannel(ch) {
         if(nextChancb.length > 0)
-            nextChancb.splice(0, 1)[0](c);
+            nextChancb.splice(0, 1)[0](ch);
 
-        if(c.type == 0)
-            textChannels.set(c.id.id, cast(c, TextChannel));
-        else if(c.type == 2)
-            voiceChannels.set(c.id.id, cast(c, VoiceChannel));
-        else
-            categoryChannels.set(c.id.id, cast(c, CategoryChannel));
+        if(Std.is(ch, TextChannel) || Std.is(ch, NewsChannel)) { 
+            // since they are literally the same thing, and i don't think it's necessary to 
+            //  have a new map of just news channels considering how niche it is
+            textChannels.set(ch.id.id, cast(ch, TextChannel));
+        }else if(Std.is(ch, VoiceChannel)) {
+            voiceChannels.set(ch.id.id, cast(ch, VoiceChannel));
+        }else if(Std.is(ch, CategoryChannel)){
+            categoryChannels.set(ch.id.id, cast(ch, CategoryChannel));
+        }else if(Std.is(ch, StoreChannel)){ 
+            // I can't do similar things to newschannel here since storechannel is distinct
+            storeChannels.set(ch.id.id, cast(ch, Storechannel));
+        }else{
+            throw "Unsupported channel type in channel addition in guild";
+        }
+        // if(c.type == 0)
+        //     textChannels.set(c.id.id, cast(c, TextChannel));
+        // else if(c.type == 2)
+        //     voiceChannels.set(c.id.id, cast(c, VoiceChannel));
+        // else
+        //     categoryChannels.set(c.id.id, cast(c, CategoryChannel));
     }
 
     @:dox(hide)
@@ -388,6 +413,13 @@ class Guild{
             }
         }
         for(r in categoryChannels.iterator()){
+            if(r.name == name){
+                rs.push(cast(r,GuildChannel));
+            }else if(r.name.indexOf(name)>-1){
+                cs.push(cast(r,GuildChannel));
+            }
+        }
+        for(r in storeChannels.iterator()){
             if(r.name == name){
                 rs.push(cast(r,GuildChannel));
             }else if(r.name.indexOf(name)>-1){
