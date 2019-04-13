@@ -174,7 +174,17 @@ class Guild{
             if(_guild.members != null)
                 for(m in _guild.members) { _newMember(m); }
 
-            owner = members[owner_id.id];
+            owner = getMemberUnsafe(owner_id.id);
+            if(owner_id != null && owner_id.id != "" && owner == null){
+                try{
+                    getMember(owner_id.id,function(m){
+                        owner=m;
+                    });
+                }catch(f:Dynamic){
+                    trace("["+id.id+"] Failed to load the guild owner manually (they were not in cache and this error occured when attempting to retrieve them):");
+                    trace(f);
+                }
+            }
 
             if(_guild.channels != null)
                 for(c in _guild.channels) {
@@ -255,7 +265,17 @@ class Guild{
 
             if(_guild.owner_id != null){
                 owner_id = new Snowflake(_guild.owner_id);
-                owner = members[owner_id.id];
+                owner = getMemberUnsafe(owner_id.id);
+                if(owner_id != null && owner_id.id != "" && owner == null){
+                    try{
+                        getMember(owner_id.id,function(m){
+                            owner=m;
+                        });
+                    }catch(f:Dynamic){
+                        trace("["+id.id+"] Failed to load the guild owner manually (they were not in cache and this error occured when attempting to retrieve them):");
+                        trace(f);
+                    }
+                }
             }
 
             if(_guild.channels != null) {
