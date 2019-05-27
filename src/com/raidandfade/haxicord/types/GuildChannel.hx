@@ -118,6 +118,7 @@ class GuildChannel extends Channel {
             p |= x.allow;
             p &= 0xffffffff ^ x.deny; 
         }
+        return p;
     }
 
     public override function hasPermission(uid:String, dp:Int):Bool{

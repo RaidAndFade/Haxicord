@@ -308,9 +308,9 @@ class Message {
         @param channel_overrides - bool representing whether or not to include channel specific overrides
         @return - True or False, representing if they have permission or not
     */
-    public function hasPermission(p, channel_overrides:Bool=False){
+    public function hasPermission(p, channel_overrides:Bool=false){
         if(channel_overrides || !this.inGuild()){ // if it's not in a guild this is the only check we CAN do, so we do this.
-            return this.getChannel().hasPermission(m.author.id.id,p);
+            return this.getChannel().hasPermission(this.author.id.id,p);
         }else{
             return this.getMember().hasPermissions(p);
         }

@@ -36,8 +36,10 @@ class Channel {
         return "<#" + id.id + ">";
     }
 
-
+    public function getPermission(uid:String):Int{
+        return 0;
+    }
     public function hasPermission(uid:String, p:Int):Bool{
-        return true;
+        return false;
     }
 }

@@ -665,7 +665,7 @@ class DiscordClient {
         }else{
             c = dataCache.getDMChannel(id);
             if(c != null){
-                return c
+                return c;
             }else{
                 throw "Channel not in cache. try loading it safely first!";
             }
