@@ -663,7 +663,12 @@ class DiscordClient {
         if(c != null) {
             return c;
         }else{
-            throw "Channel not in cache. try loading it safely first!";
+            c = dataCache.getDMChannel(id);
+            if(c != null){
+                return c
+            }else{
+                throw "Channel not in cache. try loading it safely first!";
+            }
         }
     }
 
@@ -818,6 +823,7 @@ class DiscordClient {
         }else{
             var channel = DMChannel.fromStruct(channel_struct, this);
             dataCache.setDMChannel(id, channel);
+            trace(id);
             if(channel.recipient != null) 
                 dataCache.setUserDMChannel(channel.recipient.id.id, id);
             else if(channel.recipients != null && channel.recipients.length == 1)
