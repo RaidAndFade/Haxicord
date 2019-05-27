@@ -117,5 +117,6 @@ interface MessageChannel{
      */
     public function inGuild():Bool;
 
+    public function getPermission(uid:String):Int;
     public function hasPermission(uid:String, p:Int):Bool;
 }

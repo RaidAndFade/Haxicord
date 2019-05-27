@@ -109,17 +109,18 @@ class GuildChannel extends Channel {
         client.endpoints.deleteChannelPermission(id.id, pid, cb);
     }
 
-
-    public override function hasPermission(uid:String, dp:Int):Bool{
+    public override function getPermission(uid:String):Int{
         var u = getGuild().getMemberUnsafe(uid);
         var p = u.getPermissions();
         for(x in permission_overwrites){
             if(x.type == OverwriteType.Member && x.id != uid) continue;
             if(x.type == OverwriteType.Role && u.roles.indexOf(x.id) == -1) continue;
             p |= x.allow;
-            p &= 0xffffffff ^ x.deny; //probably not correct but whATevER!
+            p &= 0xffffffff ^ x.deny; 
         }
+    }
 
-        return p & dp == dp;
+    public override function hasPermission(uid:String, dp:Int):Bool{
+        return getPermission(uid) & dp == dp;
     }
 }

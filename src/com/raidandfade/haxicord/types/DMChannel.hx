@@ -1,5 +1,6 @@
 package com.raidandfade.haxicord.types;
 
+import com.raidandfade.haxicord.utils.DPERMS;
 
 class DMChannel extends Channel implements MessageChannel{
 
@@ -160,4 +161,14 @@ class DMChannel extends Channel implements MessageChannel{
     public function unpinMessage(mid, cb = null) {
         client.endpoints.deleteChannelPin(id.id, mid, cb);
     }   
+
+
+    public override function getPermission(uid:String):Int{
+        // these are permissions that every dm channel has.
+        return DPERMS.ADD_REACTIONS | DPERMS.SEND_MESSAGES | DPERMS.READ_MESSAGE_HISTORY | DPERMS.VIEW_CHANNEL | DPERMS.EMBED_LINKS | DPERMS.USE_EXTERNAL_EMOJIS;
+    }
+
+    public override function hasPermission(uid:String, dp:Int):Bool{
+        return getPermission(uid) & dp == dp;
+    }
 }
