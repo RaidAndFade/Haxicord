@@ -2,6 +2,7 @@ package com.raidandfade.haxicord.types;
 
 import com.raidandfade.haxicord.types.structs.MessageStruct.Attachment;
 import com.raidandfade.haxicord.types.structs.MessageStruct.Reaction;
+import com.raidandfade.haxicord.utils.DPERMS;
 
 import haxe.DateUtils;
 
@@ -299,5 +300,19 @@ class Message {
      */
     public function removeAllReactions(cb = null) {
         client.endpoints.deleteAllReactions(channel_id.id, id.id, cb);
+    }
+
+    /**
+        Check if a message's author has a specific permission. If channel_overrides is true or if it's not a guild channel it will include guild permissions, otherwise it will not.
+        @param p - integer representing the permission to check against
+        @param channel_overrides - bool representing whether or not to include channel specific overrides
+        @return - True or False, representing if they have permission or not
+    */
+    public function hasPermission(p, channel_overrides:Bool=False){
+        if(channel_overrides || !this.inGuild()){ // if it's not in a guild this is the only check we CAN do, so we do this.
+            return this.getChannel().hasPermission(m.author.id.id,p);
+        }else{
+            return this.getMember().hasPermissions(p);
+        }
     }
 }
