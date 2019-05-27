@@ -138,7 +138,7 @@ class GuildMember {
         client.endpoints.banMember(guild.id.id, user.id.id, days, reason, cb);
     }
 
-    public function hasPermissions(channel:Channel, p:Int):Bool{
+    public function hasPermissions(p:Int):Bool{
         return (getPermissions() & p) == p;
     }
 
