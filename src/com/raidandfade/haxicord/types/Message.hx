@@ -301,6 +301,19 @@ class Message {
     public function removeAllReactions(cb = null) {
         client.endpoints.deleteAllReactions(channel_id.id, id.id, cb);
     }
+    
+    /**
+        Get the permissions of the author. If channel_overrides is true or if it's not a guild channel it will include guild permissions, otherwise it will not.
+        @param channel_overrides - bool representing whether or not to include channel specific overrides
+        @return - True or False, representing if they have permission or not
+    */
+    public function getPermission(channel_overrides:Bool=false){
+        if(channel_overrides || !this.inGuild()){ // if it's not in a guild this is the only check we CAN do, so we do this.
+            return this.getChannel().getPermission(this.author.id.id);
+        }else{
+            return this.getMember().getPermissions();
+        }
+    }
 
     /**
         Check if a message's author has a specific permission. If channel_overrides is true or if it's not a guild channel it will include guild permissions, otherwise it will not.
