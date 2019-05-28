@@ -81,11 +81,15 @@ class CommandBot {
             if(cnt.substr(0, pre.length) == pre) {
                 cnt = cnt.substr(pre.length);
                 var cmd = cnt.split(" ")[0];
-                if(commands.exists(cmd)) { //thread the command handler so that an error/failure doesnt affect the whole bot
-                    Timer.delay(callCommand.bind(cmd, m),0);
-                }
+                onCommand(cmd,m);
                 return;
             }
+        }
+    }
+
+    private function onCommand(cmd:String,m:Message){
+        if(commands.exists(cmd)) { //thread the command handler so that an error/failure doesnt affect the whole bot
+            Timer.delay(callCommand.bind(cmd, m),0);
         }
     }
 
