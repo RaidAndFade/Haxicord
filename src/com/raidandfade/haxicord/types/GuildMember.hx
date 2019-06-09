@@ -44,7 +44,11 @@ class GuildMember {
         user = client._newUser(_mem.user); 
         displayName = _mem.nick == null?_mem.user.username:_mem.nick;
         roles = _mem.roles; 
-        joined_at = DateUtils.fromISO8601(_mem.joined_at);
+        try{
+            joined_at = DateUtils.fromISO8601(_mem.joined_at);
+        }catch(e:Dynamic){
+            //apparently this can be fucking NULL....
+        }
         deaf = _mem.deaf;
         mute = _mem.mute;
     }
@@ -54,6 +58,7 @@ class GuildMember {
         if(_mem.user != null) user = client._newUser(_mem.user);
         displayName = _mem.nick == null ? _mem.user.username : _mem.nick;
         if(_mem.roles != null) roles = _mem.roles;
+        if(_mem.joined_at != null) joined_at = DateUtils.fromISO8601(_mem.joined_at);
     }
 
     @:dox(hide)
