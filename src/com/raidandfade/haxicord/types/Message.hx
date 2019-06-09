@@ -1,5 +1,7 @@
 package com.raidandfade.haxicord.types;
 
+import com.raidandfade.haxicord.types.structs.MessageStruct.MessageActivity;
+import com.raidandfade.haxicord.types.structs.MessageStruct.MessageApplication;
 import com.raidandfade.haxicord.types.structs.MessageStruct.Attachment;
 import com.raidandfade.haxicord.types.structs.MessageStruct.Reaction;
 import com.raidandfade.haxicord.utils.DPERMS;
@@ -76,6 +78,11 @@ class Message {
      */
     public var webhook_id:String;
 
+    //TODO doc these
+    public var type:Int;
+    public var activity:MessageActivity;
+    public var application:MessageApplication;
+
     var client:DiscordClient;
 
     @:dox(hide)
@@ -121,6 +128,10 @@ class Message {
         }
         pinned = _msg.pinned;
         webhook_id = _msg.webhook_id;
+
+        if(_msg.type) type=_msg.type;
+        if(_msg.activity) activity=_msg.activity;
+        if(_msg.application) application=_msg.application;
     }
 
     @:dox(hide)
@@ -163,6 +174,10 @@ class Message {
 
         if(_msg.webhook_id != null)
             webhook_id = _msg.webhook_id;
+
+        if(_msg.type) type=_msg.type;
+        if(_msg.activity) activity=_msg.activity;
+        if(_msg.application) application=_msg.application;
     }
 
     @:dox(hide)
