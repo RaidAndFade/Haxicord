@@ -45,6 +45,7 @@ class Snowflake {
        Check if the snowflake is equal to another snowflake
        @param b - The other snowflake
      */
+    @:op(a==b)
     public function equals(b:Snowflake) {
         return eq(this, b);
     }
