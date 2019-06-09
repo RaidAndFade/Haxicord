@@ -57,7 +57,11 @@ class User {
     /**
         Is the user loaded? If this is false you should consider doing user.load()
      */
-     public var isLoaded:Bool;
+    public var isLoaded:Bool;
+
+    // TODO doc these
+    public var flags:Int;
+    public var premium_type:Int;
 
 
     @:dox(hide)
@@ -86,6 +90,12 @@ class User {
 
         if(_user.email != null)
             email = _user.email;
+
+            
+        if(_user.flags != null)
+            flags = _user.flags;
+        if(_user.premium_type != null)
+            premium_type = _user.premium_type;
     }
 
     @:dox(hide)
@@ -113,6 +123,11 @@ class User {
         
         if(_user.email != null)       
             email = _user.email;
+        
+        if(_user.flags != null)
+            flags = _user.flags;
+        if(_user.premium_type != null)
+            premium_type = _user.premium_type;
     }
 
     /**
