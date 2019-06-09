@@ -121,10 +121,18 @@ class Guild{
      */
     public var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
 
-    @:dox(hide)
-    public var nextChancb:Array<GuildChannel->Void> = new Array<GuildChannel->Void>();
+    // TODO doc
+    public var widget_enabled:Bool;
+    public var widget_channel_id:Snowflake;
+    public var system_channel_id:Snowflake;
+    public var max_members:Int;
+    public var max_presences:Int;
+    public var vanity_url_code:String;
+    public var description:String;
+    public var banner:String;
+    public var boost_tier:Int;
+    public var boost_count:Int;
 
-    //live variables
     /**
         A list of banned users.
      */
@@ -133,6 +141,10 @@ class Guild{
        The owner of the guild
      */
     public var owner:GuildMember;
+
+    @:dox(hide)
+    public var nextChancb:Array<GuildChannel->Void> = new Array<GuildChannel->Void>();
+
 
     @:dox(hide)
     public function new(_guild:com.raidandfade.haxicord.types.structs.Guild, _client:DiscordClient) {
@@ -155,12 +167,26 @@ class Guild{
             verification_level = _guild.verification_level;
             default_message_notifications = _guild.default_message_notifications;
             explicit_content_filter = _guild.explicit_content_filter;
+
             for(r in _guild.roles) {
                 _newRole(r);
             }
             emojis = _guild.emojis;
             features = _guild.features;
             mfa_level = _guild.mfa_level;
+
+            if(_guild.widget_enabled != null) widget_enabled = _guild.widget_enabled;
+            if(_guild.widget_channel_id != null) widget_channel_id = new Snowflake(_guild.widget_channel_id);
+            if(_guild.system_channel_id != null) system_channel_id = new Snowflake(_guild.system_channel_id);
+
+            max_members = _guild.max_members;
+            max_presences = _guild.max_presences;
+
+            vanity_url_code = _guild.vanity_url_code;
+            description = _guild.description;
+            banner = _guild.banner;
+            boost_tier = _guild.premium_tier;
+            if(_guild.premium_subscription_count != null) boost_count = _guild.premium_subscription_count;
 
             if(_guild.joined_at != null)
                 joined_at = DateUtils.fromISO8601(_guild.joined_at);
@@ -299,8 +325,20 @@ class Guild{
                 }
             }
 
-            if(_guild.presences != null)
-                presences = _guild.presences;
+            if(_guild.presences != null) presences = _guild.presences;
+
+            if(_guild.widget_enabled != null) widget_enabled = _guild.widget_enabled;
+            if(_guild.widget_channel_id != null) widget_channel_id = new Snowflake(_guild.widget_channel_id);
+            if(_guild.system_channel_id != null) system_channel_id = new Snowflake(_guild.system_channel_id);
+
+            if(_guild.max_members != null) max_members = _guild.max_members;
+            if(_guild.max_presences != null) max_presences = _guild.max_presences;
+
+            if(_guild.vanity_url_code != null) vanity_url_code = _guild.vanity_url_code;
+            if(_guild.description != null) description = _guild.description;
+            if(_guild.banner != null) banner = _guild.banner;
+            if(_guild.premium_tier != null) boost_tier = _guild.premium_tier;
+            if(_guild.premium_subscription_count != null) boost_count = _guild.premium_subscription_count;
         }
     }
 

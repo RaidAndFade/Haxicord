@@ -23,6 +23,7 @@ typedef Guild = {
 
     //SENT ON GUILD_CREATE : 
 
+
     @:optional var joined_at:String;
     @:optional var large:Bool;
     @:optional var unavailable:Bool; //if this is true, only this and ID can be set because the guild data could not be received.
@@ -30,6 +31,16 @@ typedef Guild = {
     @:optional var members:Array<GuildMember>; 
     @:optional var channels:Array<GuildChannelTypes>;
     @:optional var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
+    @:optional var widget_enabled:Bool;
+    @:optional var widget_channel_id:String;
+    @:optional var system_channel_id:String;
+    @:optional var max_presences:Int;
+    @:optional var max_members:Int;
+    @:optional var vanity_url_code:String;
+    @:optional var description:String;
+    @:optional var banner:String;
+    @:optional var premium_tier:Int;
+    @:optional var premium_subscription_count:Int;
 }
 
 typedef Update = {
@@ -59,6 +70,16 @@ typedef Update = {
     @:optional var members:Array<GuildMember>; 
     @:optional var channels:Array<GuildChannelTypes>;
     @:optional var presences:Array<Presence>; //https://discordapp.com/developers/docs/topics/gateway#presence-update
+    @:optional var widget_enabled:Bool;
+    @:optional var widget_channel_id:String;
+    @:optional var system_channel_id:String;
+    @:optional var max_presences:Int;
+    @:optional var max_members:Int;
+    @:optional var vanity_url_code:String;
+    @:optional var description:String;
+    @:optional var banner:String;
+    @:optional var premium_tier:Int;
+    @:optional var premium_subscription_count:Int;
 }
 
 typedef GuildChannelTypes = EitherType < GuildChannel.TextChannel , GuildChannel.VoiceChannel >
