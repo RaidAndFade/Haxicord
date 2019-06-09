@@ -323,9 +323,9 @@ class Message {
     */
     public function hasPermission(p, channel_overrides:Bool=false){
         if(channel_overrides || !this.inGuild()){ // if it's not in a guild this is the only check we CAN do, so we do this.
-            return this.getChannel().hasPermission(this.author.id.id,p);
+            return this.getChannel().hasPermission(this.author.id.id,p) || this.getMember().hasPermissions(DPERMS.ADMINISTRATOR);
         }else{
-            return this.getMember().hasPermissions(p);
+            return this.getMember().hasPermissions(p) || this.getMember().hasPermissions(DPERMS.ADMINISTRATOR) || this.getGuild().owner_id==this.author.id;
         }
     }
 }
