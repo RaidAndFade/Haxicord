@@ -16,6 +16,7 @@ typedef MessageStruct = {
     @:optional var reactions:Array<Reaction>;
     @:optional var nonce:String;
     @:optional var pinned:Bool;
+    @:optional var webhook_id:String;
     @:optional var type:Int;
     @:optional var activity:MessageActivity;
     @:optional var application:MessageApplication;

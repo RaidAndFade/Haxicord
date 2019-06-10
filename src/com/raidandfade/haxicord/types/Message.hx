@@ -129,9 +129,9 @@ class Message {
         pinned = _msg.pinned;
         webhook_id = _msg.webhook_id;
 
-        if(_msg.type) type=_msg.type;
-        if(_msg.activity) activity=_msg.activity;
-        if(_msg.application) application=_msg.application;
+        if(_msg.type != null) type=_msg.type;
+        if(_msg.activity != null) activity=_msg.activity;
+        if(_msg.application != null) application=_msg.application;
     }
 
     @:dox(hide)
@@ -175,9 +175,9 @@ class Message {
         if(_msg.webhook_id != null)
             webhook_id = _msg.webhook_id;
 
-        if(_msg.type) type=_msg.type;
-        if(_msg.activity) activity=_msg.activity;
-        if(_msg.application) application=_msg.application;
+        if(_msg.type != null) type=_msg.type;
+        if(_msg.activity != null) activity=_msg.activity;
+        if(_msg.application != null) application=_msg.application;
     }
 
     @:dox(hide)
