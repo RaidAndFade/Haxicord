@@ -16,7 +16,7 @@ class Snowflake {
         if(flake != null) {
             id = flake;
             var _f = Std.parseFloat(flake) / 4194304;
-            timestamp = _f + 1420060400000;
+            timestamp = _f + 1420070400000;
         } else {
             id = "-1";
             timestamp = -1;
@@ -30,7 +30,7 @@ class Snowflake {
     public static function generate() {
         var flake = new Snowflake();
         flake.timestamp = Date.now().getTime() / 1000;
-        var now = flake.timestamp - 1420060400000;
+        var now = flake.timestamp - 1420070400000;
         flake.id = "" + (now * 4194304);
         return flake;
     }
