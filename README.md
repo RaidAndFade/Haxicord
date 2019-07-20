@@ -3,7 +3,7 @@
 
 Haxicord is a Discord API wrapper for Haxe.
 
-[![Haxelib](https://img.shields.io/badge/dynamic/json.svg?label=haxelib&colorB=00bb00&query=version&uri=https%3A%2F%2Fraw.githubusercontent.com%2FRaidAndFade%2FHaxicord%2Fmaster%2Fhaxelib.json)](https://lib.haxe.org/p/Haxicord) [![Discord](https://discordapp.com/api/guilds/419929794957017108/embed.png?style=shield)](https://discord.gg/E338QZH)
+[![Haxelib](https://img.shields.io/badge/dynamic/json.svg?label=haxelib&colorB=00bb00&query=version&uri=https%3A%2F%2Fraw.githubusercontent.com%2FRaidAndFade%2FHaxicord%2Fmaster%2Fhaxelib.json)](https://lib.haxe.org/p/Haxicord) [![Discord](https://discordapp.com/api/guilds/602009441281507349/embed.png?style=shield)](https://discord.gg/Hfq2djq)
 
 ## Installation
 To install the library in your project, use the haxelib package manager:
@@ -40,4 +40,4 @@ You can find the documentation [here](https://raidandfade.github.io/Haxicord/)
 
 ## Community
 Join the Haxicord Discord for more help & to meet others using the library (as well as the dev)
-[![Discord](https://discordapp.com/api/guilds/419929794957017108/embed.png?style=banner2)](https://discord.gg/E338QZH)
+[![Discord](https://discordapp.com/api/guilds/602009441281507349/embed.png?style=banner2)](https://discord.gg/Hfq2djq)
