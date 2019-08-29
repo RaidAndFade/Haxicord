@@ -1357,6 +1357,11 @@ class Endpoints{
         if(callback == null) {
             callback = function(f, a) {}
         }
+        var reqstart = Sys.time();
+        var latency_cb = function(f,a){
+            client.api_latency = Sys.time() - reqstart;
+            callback(f,a);
+        }
         method = method.toUpperCase();
 
         if(["GET", "HEAD", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"].indexOf(method) == -1) 
@@ -1377,7 +1382,7 @@ class Endpoints{
             headers.set("Content-Length", "0");
 
         try{
-            Https.makeRequest(url, method, callback, data, headers, false);
+            Https.makeRequest(url, method, latency_cb, data, headers, false);
         }catch(e:Dynamic) {
             trace(e);
             trace(haxe.CallStack.toString(haxe.CallStack.exceptionStack() ) );
