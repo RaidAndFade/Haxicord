@@ -87,7 +87,7 @@ class CommandBot {
         }
     }
 
-    private function onCommand(cmd:String,m:Message){
+    private dynamic function onCommand(cmd:String,m:Message){
         if(commands.exists(cmd)) { //thread the command handler so that an error/failure doesnt affect the whole bot
             Timer.delay(callCommand.bind(cmd, m),0);
         }
