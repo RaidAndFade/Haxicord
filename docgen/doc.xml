@@ -1,5 +1,5 @@
 <haxe>
-	<class path="Array" params="T" file="/usr/local/lib/haxe/std/Array.hx" extern="1">
+	<class path="Array" params="T" file="C:\HaxeToolkit\haxe\std/Array.hx" extern="1">
 		<length public="1" set="null">
 			<x path="Int"/>
 			<haxe_doc>The length of `this` Array.</haxe_doc>
@@ -298,7 +298,7 @@
 	@see https://haxe.org/manual/lf-array-comprehension.html</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<abstract path="Class" params="T" file="/usr/local/lib/haxe/std/Class.hx">
+	<abstract path="Class" params="T" file="C:\HaxeToolkit\haxe\std/Class.hx">
 		<this><x path="Class"><c path="Class.T"/></x></this>
 		<haxe_doc>An abstract type that represents a Class.
 
@@ -310,7 +310,7 @@
 			<m n=":runtimeValue"/>
 		</meta>
 	</abstract>
-	<class path="Date" params="" file="/usr/local/lib/haxe/std/Date.hx" extern="1">
+	<class path="Date" params="" file="C:\HaxeToolkit\haxe\std/Date.hx" extern="1">
 		<now public="1" set="method" static="1">
 			<f a=""><c path="Date"/></f>
 			<haxe_doc>Returns a Date representing the current local time.</haxe_doc>
@@ -411,7 +411,7 @@
 	milliseconds elapsed since 1st January 1970.</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="DateTools" params="" file="/usr/local/lib/haxe/std/DateTools.hx">
+	<class path="DateTools" params="" file="C:\HaxeToolkit\haxe\std/DateTools.hx">
 		<DAY_SHORT_NAMES expr="[&quot;Sun&quot;, &quot;Mon&quot;, &quot;Tue&quot;, &quot;Wed&quot;, &quot;Thu&quot;, &quot;Fri&quot;, &quot;Sat&quot;]" line="36" static="1">
 			<c path="Array"><c path="String"/></c>
 			<meta><m n=":value"><e>["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]</e></m></meta>
@@ -477,7 +477,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="EReg" params="" file="/usr/local/lib/haxe/std/EReg.hx">
+	<class path="EReg" params="" file="C:\HaxeToolkit\haxe\std/EReg.hx">
 		<match public="1" set="method" line="59">
 			<f a="s">
 				<c path="String"/>
@@ -550,7 +550,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<abstract path="Enum" params="T" file="/usr/local/lib/haxe/std/Enum.hx">
+	<abstract path="Enum" params="T" file="C:\HaxeToolkit\haxe\std/Enum.hx">
 		<this><x path="Enum"><c path="Enum.T"/></x></this>
 		<haxe_doc>An abstract type that represents an Enum type.
 
@@ -564,7 +564,7 @@
 			<m n=":runtimeValue"/>
 		</meta>
 	</abstract>
-	<abstract path="EnumValue" params="" file="/usr/local/lib/haxe/std/EnumValue.hx">
+	<abstract path="EnumValue" params="" file="C:\HaxeToolkit\haxe\std/EnumValue.hx">
 		<this><x path="EnumValue"/></this>
 		<haxe_doc>An abstract type that represents any enum value.
 	See `Type` for the Haxe Reflection API.
@@ -572,7 +572,7 @@
 	@see https://haxe.org/manual/types-enum-instance.html</haxe_doc>
 		<meta><m n=":coreType"/></meta>
 	</abstract>
-	<class path="Lambda" params="" file="/usr/local/lib/haxe/std/Lambda.hx">
+	<class path="Lambda" params="" file="C:\HaxeToolkit\haxe\std/Lambda.hx">
 		<exists public="1" params="A" set="method" line="141" static="1">
 			<f a="it:f">
 				<t path="Iterable"><c path="exists.A"/></t>
@@ -624,7 +624,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="List" params="T" file="/usr/local/lib/haxe/std/List.hx">
+	<class path="List" params="T" file="C:\HaxeToolkit\haxe\std/List.hx">
 		<h><c path="_List.ListNode"><c path="List.T"/></c></h>
 		<q><c path="_List.ListNode"><c path="List.T"/></c></q>
 		<length public="1" set="null">
@@ -667,7 +667,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="_List.ListNode" params="T" file="/usr/local/lib/haxe/std/List.hx" private="1" module="List">
+	<class path="_List.ListNode" params="T" file="C:\HaxeToolkit\haxe\std/List.hx" private="1" module="List">
 		<item public="1"><c path="_List.ListNode.T"/></item>
 		<next public="1"><c path="_List.ListNode"><c path="_List.ListNode.T"/></c></next>
 		<new public="1" set="method" line="255"><f a="item:next">
@@ -680,7 +680,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="_List.ListIterator" params="T" file="/usr/local/lib/haxe/std/List.hx" private="1" module="List">
+	<class path="_List.ListIterator" params="T" file="C:\HaxeToolkit\haxe\std/List.hx" private="1" module="List">
 		<head><c path="_List.ListNode"><c path="_List.ListIterator.T"/></c></head>
 		<hasNext public="1" get="inline" set="null" line="272"><f a=""><x path="Bool"/></f></hasNext>
 		<next public="1" get="inline" set="null" line="276"><f a=""><c path="_List.ListIterator.T"/></f></next>
@@ -693,7 +693,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<abstract path="Map" params="K:V" file="/usr/local/lib/haxe/std/Map.hx">
+	<abstract path="Map" params="K:V" file="C:\HaxeToolkit\haxe\std/Map.hx">
 		<from>
 			<icast field="fromStringMap"><c path="haxe.ds.StringMap"><c path="fromStringMap.V"/></c></icast>
 			<icast field="fromIntMap"><c path="haxe.ds.IntMap"><c path="fromIntMap.V"/></c></icast>
@@ -733,12 +733,12 @@
 
 	@see https://haxe.org/manual/std-Map.html]]></haxe_doc>
 		<meta><m n=":multiType"><e>@:followWithAbstracts K</e></m></meta>
-		<impl><class path="_Map.Map_Impl_" params="" file="/usr/local/lib/haxe/std/Map.hx" private="1" module="Map"><meta>
+		<impl><class path="_Map.Map_Impl_" params="" file="C:\HaxeToolkit\haxe\std/Map.hx" private="1" module="Map"><meta>
 	<m n=":keep"/>
 	<m n=":final"/>
 </meta></class></impl>
 	</abstract>
-	<typedef path="IMap" params="K:V" file="/usr/local/lib/haxe/std/Map.hx" module="Map">
+	<typedef path="IMap" params="K:V" file="C:\HaxeToolkit\haxe\std/Map.hx" module="Map">
 		<c path="haxe.IMap">
 			<c path="IMap.K"/>
 			<c path="IMap.V"/>
@@ -748,7 +748,7 @@
 			<m n=":deprecated"/>
 		</meta>
 	</typedef>
-	<class path="Math" params="" file="/usr/local/lib/haxe/std/Math.hx" extern="1">
+	<class path="Math" params="" file="C:\HaxeToolkit\haxe\std/Math.hx" extern="1">
 		<PI public="1" set="null" static="1">
 			<x path="Float"/>
 			<haxe_doc>Represents the ratio of the circumference of a circle to its diameter,
@@ -1027,7 +1027,7 @@
 	@see https://haxe.org/manual/std-math.html</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="Reflect" params="" file="/usr/local/lib/haxe/std/Reflect.hx" extern="1">
+	<class path="Reflect" params="" file="C:\HaxeToolkit\haxe\std/Reflect.hx" extern="1">
 		<hasField public="1" set="method" static="1">
 			<f a="o:field">
 				<d/>
@@ -1254,7 +1254,7 @@
 	@see https://haxe.org/manual/std-reflection.html</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="Std" params="" file="/usr/local/lib/haxe/std/Std.hx" extern="1">
+	<class path="Std" params="" file="C:\HaxeToolkit\haxe\std/Std.hx" extern="1">
 		<is public="1" set="method" static="1">
 			<f a="v:t">
 				<d/>
@@ -1363,14 +1363,14 @@
 		<haxe_doc>The Std class provides standard methods for manipulating basic types.</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<abstract path="Void" params="" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes">
+	<abstract path="Void" params="" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes">
 		<this><x path="Void"/></this>
 		<haxe_doc>The standard `Void` type. Only `null` values can be of the type `Void`.
 
 	@see https://haxe.org/manual/types-void.html</haxe_doc>
 		<meta><m n=":coreType"/></meta>
 	</abstract>
-	<abstract path="Float" params="" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes">
+	<abstract path="Float" params="" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes">
 		<this><x path="Float"/></this>
 		<haxe_doc><![CDATA[The standard `Float` type, this is a double-precision IEEE 64bit float.
 
@@ -1388,7 +1388,7 @@
 			<m n=":runtimeValue"/>
 		</meta>
 	</abstract>
-	<abstract path="Int" params="" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes">
+	<abstract path="Int" params="" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes">
 		<this><x path="Int"/></this>
 		<to><icast><x path="Float"/></icast></to>
 		<haxe_doc><![CDATA[The standard `Int` type. Its precision depends on the platform.
@@ -1409,7 +1409,7 @@
 			<m n=":runtimeValue"/>
 		</meta>
 	</abstract>
-	<typedef path="Null" params="T" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes">
+	<typedef path="Null" params="T" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes">
 		<c path="Null.T"/>
 		<haxe_doc>`Null` can be useful in two cases. In order to document some methods
 	that accept or can return a `null` value, or for the Flash compiler and AS3
@@ -1418,7 +1418,7 @@
 
 	@see https://haxe.org/manual/types-nullability.html</haxe_doc>
 	</typedef>
-	<abstract path="Bool" params="" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes">
+	<abstract path="Bool" params="" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes">
 		<this><x path="Bool"/></this>
 		<haxe_doc><![CDATA[The standard Boolean type, which can either be `true` or `false`.
 
@@ -1433,7 +1433,7 @@
 			<m n=":runtimeValue"/>
 		</meta>
 	</abstract>
-	<abstract path="Dynamic" params="T" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes">
+	<abstract path="Dynamic" params="T" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes">
 		<this><x path="Dynamic"><c path="Dynamic.T"/></x></this>
 		<haxe_doc>`Dynamic` is a special type which is compatible with all other types.
 
@@ -1447,7 +1447,7 @@
 			<m n=":runtimeValue"/>
 		</meta>
 	</abstract>
-	<typedef path="Iterator" params="T" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes">
+	<typedef path="Iterator" params="T" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes">
 		<a>
 			<next set="method">
 				<f a=""><c path="Iterator.T"/></f>
@@ -1477,14 +1477,14 @@
 
 	@see https://haxe.org/manual/lf-iterators.html</haxe_doc>
 	</typedef>
-	<typedef path="Iterable" params="T" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes">
+	<typedef path="Iterable" params="T" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes">
 		<a><iterator set="method"><f a=""><t path="Iterator"><c path="Iterable.T"/></t></f></iterator></a>
 		<haxe_doc>An `Iterable` is a data structure which has an `iterator()` method.
 	See `Lambda` for generic functions on iterable structures.
 
 	@see https://haxe.org/manual/lf-iterators.html</haxe_doc>
 	</typedef>
-	<class path="ArrayAccess" params="T" file="/usr/local/lib/haxe/std/StdTypes.hx" module="StdTypes" extern="1" interface="1"><haxe_doc>`ArrayAccess` is used to indicate a class that can be accessed using brackets.
+	<class path="ArrayAccess" params="T" file="C:\HaxeToolkit\haxe\std/StdTypes.hx" module="StdTypes" extern="1" interface="1"><haxe_doc>`ArrayAccess` is used to indicate a class that can be accessed using brackets.
 	The type parameter represents the type of the elements stored.
 
 	This interface should be used for externs only. Haxe does not support custom
@@ -1492,7 +1492,7 @@
 	abstract types.
 
 	@see https://haxe.org/manual/types-abstract-array-access.html</haxe_doc></class>
-	<class path="String" params="" file="/usr/local/lib/haxe/std/String.hx" extern="1">
+	<class path="String" params="" file="C:\HaxeToolkit\haxe\std/String.hx" extern="1">
 		<fromCharCode public="1" set="method" static="1">
 			<f a="code">
 				<x path="Int"/>
@@ -1660,7 +1660,7 @@
 	@see https://haxe.org/manual/std-String.html</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="StringBuf" params="" file="/usr/local/lib/haxe/std/StringBuf.hx">
+	<class path="StringBuf" params="" file="C:\HaxeToolkit\haxe\std/StringBuf.hx">
 		<b><c path="String"/></b>
 		<length public="1" get="null" set="null">
 			<x path="Int"/>
@@ -1686,7 +1686,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="StringTools" params="" file="/usr/local/lib/haxe/std/StringTools.hx">
+	<class path="StringTools" params="" file="C:\HaxeToolkit\haxe\std/StringTools.hx">
 		<isSpace public="1" set="method" line="245" static="1">
 			<f a="s:pos">
 				<c path="String"/>
@@ -1773,7 +1773,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="Sys" params="" file="/usr/local/lib/haxe/std/Sys.hx" extern="1">
+	<class path="Sys" params="" file="C:\HaxeToolkit\haxe\std/Sys.hx" extern="1">
 		<print public="1" set="method" static="1">
 			<f a="v">
 				<d/>
@@ -1915,7 +1915,7 @@
 			<m n=":require"><e>sys</e></m>
 		</meta>
 	</class>
-	<class path="Type" params="" file="/usr/local/lib/haxe/std/Type.hx" extern="1">
+	<class path="Type" params="" file="C:\HaxeToolkit\haxe\std/Type.hx" extern="1">
 		<getClass public="1" params="T" set="method" static="1">
 			<f a="o">
 				<c path="getClass.T"/>
@@ -2222,7 +2222,7 @@
 	@see https://haxe.org/manual/std-reflection.html</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<enum path="ValueType" params="" file="/usr/local/lib/haxe/std/Type.hx" module="Type">
+	<enum path="ValueType" params="" file="C:\HaxeToolkit\haxe\std/Type.hx" module="Type">
 		<TNull/>
 		<TInt/>
 		<TFloat/>
@@ -2234,7 +2234,7 @@
 		<TUnknown/>
 		<haxe_doc>The different possible runtime types of a value.</haxe_doc>
 	</enum>
-	<abstract path="UInt" params="" file="/usr/local/lib/haxe/std/UInt.hx">
+	<abstract path="UInt" params="" file="C:\HaxeToolkit\haxe\std/UInt.hx">
 		<from><icast><x path="Int"/></icast></from>
 		<this><x path="Int"/></this>
 		<to>
@@ -2245,23 +2245,23 @@
 	Simulate it for other platforms.
 
 	@see https://haxe.org/manual/types-basic-types.html</haxe_doc>
-		<impl><class path="_UInt.UInt_Impl_" params="" file="/usr/local/lib/haxe/std/UInt.hx" private="1" module="UInt"><meta>
+		<impl><class path="_UInt.UInt_Impl_" params="" file="C:\HaxeToolkit\haxe\std/UInt.hx" private="1" module="UInt"><meta>
 	<m n=":keep"/>
 	<m n=":final"/>
 </meta></class></impl>
 	</abstract>
 	<class path="com.raidandfade.haxicord.DiscordClient" params="" file="src/com/raidandfade/haxicord/DiscordClient.hx">
-		<libName public="1" expr="&quot;Haxicord&quot;" line="49" static="1">
+		<libName public="1" expr="&quot;Haxicord&quot;" line="51" static="1">
 			<c path="String"/>
 			<meta><m n=":value"><e>"Haxicord"</e></m></meta>
 			<haxe_doc>The name of the library</haxe_doc>
 		</libName>
-		<userAgent public="1" expr="&quot;DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.2.0)&quot;" line="53" static="1">
+		<userAgent public="1" expr="&quot;DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.2.0)&quot;" line="55" static="1">
 			<c path="String"/>
 			<meta><m n=":value"><e>"DiscordBot (https://github.com/RaidAndFade/Haxicord, 0.2.0)"</e></m></meta>
 			<haxe_doc>The library's useragent</haxe_doc>
 		</userAgent>
-		<gatewayVersion public="1" expr="6" line="57" static="1">
+		<gatewayVersion public="1" expr="6" line="59" static="1">
 			<x path="Int"/>
 			<meta><m n=":value"><e>6</e></m></meta>
 			<haxe_doc>The gateway version being used.</haxe_doc>
@@ -2300,6 +2300,9 @@
 			<c path="String"/>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</token>
+		<lastbeat public="1"><x path="Float"/></lastbeat>
+		<ws_latency public="1"><x path="Float"/></ws_latency>
+		<api_latency public="1"><x path="Float"/></api_latency>
 		<isBot public="1">
 			<x path="Bool"/>
 			<haxe_doc><![CDATA[Is the bot a bot account? <Always true>]]></haxe_doc>
@@ -2339,7 +2342,7 @@
 			<x path="Bool"/>
 			<meta><m n=":value"><e>false</e></m></meta>
 		</etfFormat>
-		<start public="1" set="method" line="150">
+		<start public="1" set="method" line="156">
 			<f a="?blocking" v="true">
 				<x path="Bool"/>
 				<x path="Void"/>
@@ -2348,7 +2351,7 @@
 			<haxe_doc>This is basically just a while true loop to keep the main thread alive while the other threads work.
         @param blocking=true - If you dont want to have the while loop activate, set this to false and make your own loop.</haxe_doc>
 		</start>
-		<connect set="method" line="159">
+		<connect set="method" line="165">
 			<f a="gateway:error">
 				<a><url set="null"><c path="String"/></url></a>
 				<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
@@ -2356,21 +2359,33 @@
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</connect>
-		<webSocketMessage set="method" line="208">
+		<sendWs set="method" line="213"><f a="d">
+	<d/>
+	<x path="Void"/>
+</f></sendWs>
+		<webSocketMessage set="method" line="219">
 			<f a="msg">
 				<c path="String"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</webSocketMessage>
-		<receiveEvent set="method" line="242">
+		<prepareWebSocketMessage set="method" line="228"><f a="msg">
+	<c path="String"/>
+	<x path="Void"/>
+</f></prepareWebSocketMessage>
+		<handleWebSocketMessage set="method" line="232"><f a="m">
+	<t path="com.raidandfade.haxicord._DiscordClient.WSMessage"/>
+	<x path="Void"/>
+</f></handleWebSocketMessage>
+		<receiveEvent set="method" line="269">
 			<f a="msg">
 				<t path="com.raidandfade.haxicord._DiscordClient.WSMessage"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</receiveEvent>
-		<setStatus public="1" set="method" line="414">
+		<setStatus public="1" set="method" line="443">
 			<f a="status">
 				<t path="com.raidandfade.haxicord.types.structs.Status"/>
 				<x path="Void"/>
@@ -2378,7 +2393,7 @@
 			<haxe_doc>Set the status of the bot
         @param status - The status object to set, All fields are optional</haxe_doc>
 		</setStatus>
-		<setActivity public="1" set="method" line="439">
+		<setActivity public="1" set="method" line="468">
 			<f a="activity">
 				<t path="com.raidandfade.haxicord.types.structs.Activity"/>
 				<x path="Void"/>
@@ -2386,7 +2401,7 @@
 			<haxe_doc>Set the activity of the bot
         @param activity - The activity object to set</haxe_doc>
 		</setActivity>
-		<getInviteLink public="1" set="method" line="446">
+		<getInviteLink public="1" set="method" line="475">
 			<f a="?perms" v="0">
 				<x path="Int"/>
 				<c path="String"/>
@@ -2395,7 +2410,7 @@
 			<haxe_doc>Get the invite link of the bot.
         @param perms=0 - The permissions to put on the link.</haxe_doc>
 		</getInviteLink>
-		<listVoiceRegions public="1" set="method" line="459">
+		<listVoiceRegions public="1" set="method" line="488">
 			<f a="cb">
 				<t path="Null"><f a=":">
 	<c path="Array"><t path="com.raidandfade.haxicord.types.structs.VoiceRegion"/></c>
@@ -2407,7 +2422,7 @@
 			<haxe_doc>Get a list of voice regions.
         @param cb - Returns a list of voice regions, or an error.</haxe_doc>
 		</listVoiceRegions>
-		<createGuild public="1" set="method" line="468">
+		<createGuild public="1" set="method" line="497">
 			<f a="guild_data:cb">
 				<t path="com.raidandfade.haxicord.endpoints.GuildCreate"/>
 				<t path="Null"><f a=":">
@@ -2421,7 +2436,7 @@
         @param guild_data - The data to be changed, All fields are optional.
         @param cb - Returns the new guild object, or an error.</haxe_doc>
 		</createGuild>
-		<sendMessage public="1" set="method" line="478">
+		<sendMessage public="1" set="method" line="507">
 			<f a="channel_id:message:?cb" v="::null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.MessageCreate"/>
@@ -2438,7 +2453,7 @@
         @param message - Message data
         @param cb - Return the message sent, or an error</haxe_doc>
 		</sendMessage>
-		<getInvite public="1" set="method" line="498">
+		<getInvite public="1" set="method" line="527">
 			<f a="invite_code:?cb" v=":null">
 				<c path="String"/>
 				<x path="Bool"/>
@@ -2449,7 +2464,7 @@
         @param invite_code - The invite code.
         @param cb - Returns an Invite object, or an error.</haxe_doc>
 		</getInvite>
-		<joinInvite public="1" set="method" line="507">
+		<joinInvite public="1" set="method" line="536">
 			<f a="invite_code:?cb" v=":null">
 				<c path="String"/>
 				<f a=":">
@@ -2464,7 +2479,7 @@
         @param invite_code - The invite code to join.
         @param cb - Returns the invite that was joined, or an error.</haxe_doc>
 		</joinInvite>
-		<deleteInvite public="1" set="method" line="518">
+		<deleteInvite public="1" set="method" line="547">
 			<f a="invite_code:?cb" v=":null">
 				<c path="String"/>
 				<f a=":">
@@ -2479,7 +2494,7 @@
         @param invite_code - The invite code of the invite to delete.
         @param cb - Returns the Invite that was removed, or an error.</haxe_doc>
 		</deleteInvite>
-		<createDMGroup public="1" set="method" line="527">
+		<createDMGroup public="1" set="method" line="556">
 			<f a="data:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.CreateGroupDM"/>
 				<f a=":">
@@ -2494,7 +2509,7 @@
         @param data - A struct that contains the necessary arguments required to invite members.
         @param cb - Returns the group dm channel, or an error.</haxe_doc>
 		</createDMGroup>
-		<editUser public="1" set="method" line="538">
+		<editUser public="1" set="method" line="567">
 			<f a="user_data:?cb" v=":null">
 				<a>
 					<username><c path="String"/></username>
@@ -2512,7 +2527,7 @@
         @param user_data - The parameters to change, all fields are optional.
         @param cb - Return the changed user, or an error.</haxe_doc>
 		</editUser>
-		<getGuilds public="1" set="method" line="547">
+		<getGuilds public="1" set="method" line="576">
 			<f a="filter:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.GetGuildFilter"/>
 				<f a=":">
@@ -2527,7 +2542,7 @@
         @param filter - Filter the list depending on these parameters, Only one of BEFORE or AFTER can be specified.
         @param cb - Returns the list of Guilds according to the filter specified, or an error.</haxe_doc>
 		</getGuilds>
-		<getConnections public="1" set="method" line="555">
+		<getConnections public="1" set="method" line="584">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><t path="com.raidandfade.haxicord.types.structs.Connection"/></c>
@@ -2540,35 +2555,35 @@
 			<haxe_doc>Get a list of connections hooked up to the current account.
         @param cb - Returns a list of connections, or an error.</haxe_doc>
 		</getConnections>
-		<removeChannel public="1" set="method" line="560">
+		<removeChannel public="1" set="method" line="589">
 			<f a="id">
 				<c path="String"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</removeChannel>
-		<removeMessage public="1" set="method" line="576">
+		<removeMessage public="1" set="method" line="605">
 			<f a="id">
 				<c path="String"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</removeMessage>
-		<removeGuild public="1" set="method" line="581">
+		<removeGuild public="1" set="method" line="610">
 			<f a="id">
 				<c path="String"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</removeGuild>
-		<removeUser public="1" set="method" line="586">
+		<removeUser public="1" set="method" line="615">
 			<f a="id">
 				<c path="String"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</removeUser>
-		<getGuild public="1" set="method" line="595">
+		<getGuild public="1" set="method" line="624">
 			<f a="id:cb">
 				<c path="String"/>
 				<f a="">
@@ -2581,7 +2596,7 @@
         @param id - The id of the desired guild.
         @param cb - The Callback to return the guild to.</haxe_doc>
 		</getGuild>
-		<getGuildUnsafe public="1" set="method" line="612">
+		<getGuildUnsafe public="1" set="method" line="641">
 			<f a="id">
 				<c path="String"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.Guild"/></t>
@@ -2590,7 +2605,7 @@
         Throws an error if the guild is not cached.
         @param id - The id of the desired guild</haxe_doc>
 		</getGuildUnsafe>
-		<getDMChannels public="1" set="method" line="625">
+		<getDMChannels public="1" set="method" line="654">
 			<f a="cb">
 				<f a="">
 					<c path="Array"><c path="com.raidandfade.haxicord.types.DMChannel"/></c>
@@ -2601,11 +2616,11 @@
 			<haxe_doc>Get a list of all dm channels the bot is in.
         @param cb - Callback to return the channels to.</haxe_doc>
 		</getDMChannels>
-		<getDMChannelsUnsafe public="1" set="method" line="635">
+		<getDMChannelsUnsafe public="1" set="method" line="664">
 			<f a=""><c path="Array"><c path="com.raidandfade.haxicord.types.DMChannel"/></c></f>
 			<haxe_doc>Get a list of all DMChannels currently in cache</haxe_doc>
 		</getDMChannelsUnsafe>
-		<getChannel public="1" set="method" line="644">
+		<getChannel public="1" set="method" line="673">
 			<f a="id:cb">
 				<c path="String"/>
 				<f a="">
@@ -2618,7 +2633,7 @@
         @param id - The id of the desired channel.
         @param cb - The callback to return the channel to.</haxe_doc>
 		</getChannel>
-		<getChannelUnsafe public="1" set="method" line="661">
+		<getChannelUnsafe public="1" set="method" line="690">
 			<f a="id">
 				<c path="String"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.Channel"/></t>
@@ -2627,7 +2642,7 @@
         Throws an error if the channel could not be loaded.
         @param id - The id of the desired channel.</haxe_doc>
 		</getChannelUnsafe>
-		<getUser public="1" set="method" line="675">
+		<getUser public="1" set="method" line="709">
 			<f a="id:cb">
 				<c path="String"/>
 				<f a="">
@@ -2640,7 +2655,7 @@
         @param id - The id of the desired user.
         @param cb - The callback to return the user to.</haxe_doc>
 		</getUser>
-		<getUserUnsafe public="1" set="method" line="693">
+		<getUserUnsafe public="1" set="method" line="727">
 			<f a="id:?partial" v=":true">
 				<c path="String"/>
 				<x path="Bool"/>
@@ -2651,7 +2666,7 @@
         Throws an error if the user could not be loaded.
         @param id - The id of the desired user.</haxe_doc>
 		</getUserUnsafe>
-		<getMessage public="1" set="method" line="714">
+		<getMessage public="1" set="method" line="748">
 			<f a="id:channel_id:cb">
 				<c path="String"/>
 				<c path="String"/>
@@ -2666,7 +2681,7 @@
         @param channel_id - The id of the channel the message is from.
         @param cb - The callback to return the message to.</haxe_doc>
 		</getMessage>
-		<getMessageUnsafe public="1" set="method" line="731">
+		<getMessageUnsafe public="1" set="method" line="765">
 			<f a="id">
 				<c path="String"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.Message"/></t>
@@ -2675,28 +2690,28 @@
         Throws an error if the message could not be loaded.
         @param id - The id of the desired message.</haxe_doc>
 		</getMessageUnsafe>
-		<_newMessage public="1" set="method" line="744">
+		<_newMessage public="1" set="method" line="778">
 			<f a="message_struct">
 				<t path="com.raidandfade.haxicord.types.structs.MessageStruct"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.Message"/></t>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_newMessage>
-		<_newUser public="1" set="method" line="759">
+		<_newUser public="1" set="method" line="793">
 			<f a="user_struct">
 				<t path="com.raidandfade.haxicord.types.structs.User"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.User"/></t>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_newUser>
-		<_newChannel public="1" set="method" line="774">
+		<_newChannel public="1" set="method" line="808">
 			<f a="channel_struct">
 				<t path="com.raidandfade.haxicord.types.structs.GuildChannelTypes"/>
 				<c path="com.raidandfade.haxicord.types.Channel"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_newChannel>
-		<__newChannel public="1" set="method" line="779">
+		<__newChannel public="1" set="method" line="813">
 			<f a="channel_struct">
 				<d/>
 				<f a="">
@@ -2706,26 +2721,26 @@
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</__newChannel>
-		<_newDMChannel public="1" set="method" line="812">
+		<_newDMChannel public="1" set="method" line="846">
 			<f a="channel_struct">
 				<t path="com.raidandfade.haxicord.types.structs.DMChannel"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.DMChannel"/></t>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_newDMChannel>
-		<_newGuild public="1" set="method" line="831">
+		<_newGuild public="1" set="method" line="865">
 			<f a="guild_struct">
 				<t path="com.raidandfade.haxicord.types.structs.Guild"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.Guild"/></t>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_newGuild>
-		<_onReady public="1" set="dynamic" line="846"><f a=""><x path="Void"/></f></_onReady>
-		<onReady public="1" set="dynamic" line="850">
+		<_onReady public="1" set="dynamic" line="880"><f a=""><x path="Void"/></f></_onReady>
+		<onReady public="1" set="dynamic" line="884">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>Event hook for when the bot has connected, loaded cache, and is ready to go.</haxe_doc>
 		</onReady>
-		<onChannelCreate public="1" set="dynamic" line="856">
+		<onChannelCreate public="1" set="dynamic" line="890">
 			<f a="c">
 				<c path="com.raidandfade.haxicord.types.Channel"/>
 				<x path="Void"/>
@@ -2733,7 +2748,7 @@
 			<haxe_doc>Event hook for when a new channel is created.
         @param c - The channel object.</haxe_doc>
 		</onChannelCreate>
-		<onChannelUpdate public="1" set="dynamic" line="861">
+		<onChannelUpdate public="1" set="dynamic" line="895">
 			<f a="c">
 				<c path="com.raidandfade.haxicord.types.Channel"/>
 				<x path="Void"/>
@@ -2741,7 +2756,7 @@
 			<haxe_doc>Event hook for when a channel is changed/updated.
         @param c - The new channel object.</haxe_doc>
 		</onChannelUpdate>
-		<onChannelDelete public="1" set="dynamic" line="866">
+		<onChannelDelete public="1" set="dynamic" line="900">
 			<f a="channel_id">
 				<c path="String"/>
 				<x path="Void"/>
@@ -2749,7 +2764,7 @@
 			<haxe_doc>Event hook for when a channel is deleted.
         @param channel_id - The id of the deleted channel.</haxe_doc>
 		</onChannelDelete>
-		<onGuildJoin public="1" set="dynamic" line="872">
+		<onGuildJoin public="1" set="dynamic" line="906">
 			<f a="g">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<x path="Void"/>
@@ -2757,7 +2772,7 @@
 			<haxe_doc>NON-API Event hook for when a guild has been joined by you.
         @param g - The guild object.</haxe_doc>
 		</onGuildJoin>
-		<onGuildLeave public="1" set="dynamic" line="878">
+		<onGuildLeave public="1" set="dynamic" line="912">
 			<f a="g">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<x path="Void"/>
@@ -2765,7 +2780,7 @@
 			<haxe_doc>NON-API Event hook for when a guild has been joined by you.
         @param g - The guild object.</haxe_doc>
 		</onGuildLeave>
-		<onGuildCreate public="1" set="dynamic" line="884">
+		<onGuildCreate public="1" set="dynamic" line="918">
 			<f a="g">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<x path="Void"/>
@@ -2773,7 +2788,7 @@
 			<haxe_doc>Event hook for when a guild is created or joined by you, fired when bot is starting up as well.
         @param g - The guild object.</haxe_doc>
 		</onGuildCreate>
-		<onGuildUpdate public="1" set="dynamic" line="889">
+		<onGuildUpdate public="1" set="dynamic" line="923">
 			<f a="g">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<x path="Void"/>
@@ -2781,7 +2796,7 @@
 			<haxe_doc>Event hook for when a guild is updated or changed.
         @param g - The new guild object.</haxe_doc>
 		</onGuildUpdate>
-		<onGuildDelete public="1" set="dynamic" line="894">
+		<onGuildDelete public="1" set="dynamic" line="928">
 			<f a="guild_id">
 				<c path="String"/>
 				<x path="Void"/>
@@ -2789,7 +2804,7 @@
 			<haxe_doc>Event hook for when a guild is deleted
         @param guild_id - The id of the guild that was deleted.</haxe_doc>
 		</onGuildDelete>
-		<onGuildEmojisUpdate public="1" set="dynamic" line="900">
+		<onGuildEmojisUpdate public="1" set="dynamic" line="934">
 			<f a="g:emojis">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<c path="Array"><t path="com.raidandfade.haxicord.types.structs.Emoji"/></c>
@@ -2799,7 +2814,7 @@
         @param g - The guild the emojis were updated for.
         @param emojis - The new list of emojis</haxe_doc>
 		</onGuildEmojisUpdate>
-		<onMemberJoin public="1" set="dynamic" line="907">
+		<onMemberJoin public="1" set="dynamic" line="941">
 			<f a="g:m">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<c path="com.raidandfade.haxicord.types.GuildMember"/>
@@ -2809,7 +2824,7 @@
         @param g - The guild the user has joined.
         @param m - The instanced member object of the user.</haxe_doc>
 		</onMemberJoin>
-		<onMemberUpdate public="1" set="dynamic" line="913">
+		<onMemberUpdate public="1" set="dynamic" line="947">
 			<f a="g:m">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<c path="com.raidandfade.haxicord.types.GuildMember"/>
@@ -2819,7 +2834,7 @@
         @param g - The guild the user is in.
         @param m - The instanced member object of the user.</haxe_doc>
 		</onMemberUpdate>
-		<onMemberBan public="1" set="dynamic" line="919">
+		<onMemberBan public="1" set="dynamic" line="953">
 			<f a="g:u">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.User"/></t>
@@ -2829,7 +2844,7 @@
         @param g - The guild the ban was from.
         @param u - The user that was banned (May be null).</haxe_doc>
 		</onMemberBan>
-		<onMemberUnban public="1" set="dynamic" line="925">
+		<onMemberUnban public="1" set="dynamic" line="959">
 			<f a="g:u">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.User"/></t>
@@ -2839,7 +2854,7 @@
         @param g - The guild the ban was from.
         @param u - The user that was unbanned (May be null).</haxe_doc>
 		</onMemberUnban>
-		<onMemberLeave public="1" set="dynamic" line="931">
+		<onMemberLeave public="1" set="dynamic" line="965">
 			<f a="g:u">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.User"/></t>
@@ -2849,7 +2864,7 @@
         @param g - The guild the member belonged to.
         @param u - The user of the member (May be null).</haxe_doc>
 		</onMemberLeave>
-		<onRoleCreate public="1" set="dynamic" line="938">
+		<onRoleCreate public="1" set="dynamic" line="972">
 			<f a="g:r">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<c path="com.raidandfade.haxicord.types.Role"/>
@@ -2859,7 +2874,7 @@
         @param g - The guild it was created in.
         @param r - The role.</haxe_doc>
 		</onRoleCreate>
-		<onRoleUpdate public="1" set="dynamic" line="944">
+		<onRoleUpdate public="1" set="dynamic" line="978">
 			<f a="g:r">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<c path="com.raidandfade.haxicord.types.Role"/>
@@ -2869,7 +2884,7 @@
         @param g - The guild it was updated in.
         @param r - The new role.</haxe_doc>
 		</onRoleUpdate>
-		<onRoleDelete public="1" set="dynamic" line="950">
+		<onRoleDelete public="1" set="dynamic" line="984">
 			<f a="g:role_id">
 				<c path="com.raidandfade.haxicord.types.Guild"/>
 				<c path="String"/>
@@ -2879,7 +2894,7 @@
         @param g - The guild it was deleted from.
         @param role_id - The id of the role that was deleted.</haxe_doc>
 		</onRoleDelete>
-		<onMessage public="1" set="dynamic" line="956">
+		<onMessage public="1" set="dynamic" line="990">
 			<f a="m">
 				<c path="com.raidandfade.haxicord.types.Message"/>
 				<x path="Void"/>
@@ -2887,7 +2902,7 @@
 			<haxe_doc>Event hook for when a message is sent.
         @param m - The message.</haxe_doc>
 		</onMessage>
-		<onMessageEdit public="1" set="dynamic" line="961">
+		<onMessageEdit public="1" set="dynamic" line="995">
 			<f a="m">
 				<c path="com.raidandfade.haxicord.types.Message"/>
 				<x path="Void"/>
@@ -2895,7 +2910,7 @@
 			<haxe_doc>Event hook for when a message is edited.
         @param m - The new message.</haxe_doc>
 		</onMessageEdit>
-		<onMessageDelete public="1" set="dynamic" line="966">
+		<onMessageDelete public="1" set="dynamic" line="1000">
 			<f a="message_id">
 				<c path="String"/>
 				<x path="Void"/>
@@ -2903,7 +2918,7 @@
 			<haxe_doc>Event hook for when a message is deleted.
         @param message_id - The id of the deleted message.</haxe_doc>
 		</onMessageDelete>
-		<onReactionAdd public="1" set="dynamic" line="974">
+		<onReactionAdd public="1" set="dynamic" line="1008">
 			<f a="m:u:e">
 				<c path="com.raidandfade.haxicord.types.Message"/>
 				<c path="com.raidandfade.haxicord.types.User"/>
@@ -2915,7 +2930,7 @@
         @param u - The user that added the reaction.
         @param e - The emoji of the reaction.</haxe_doc>
 		</onReactionAdd>
-		<onReactionRemove public="1" set="dynamic" line="981">
+		<onReactionRemove public="1" set="dynamic" line="1015">
 			<f a="m:u:e">
 				<c path="com.raidandfade.haxicord.types.Message"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.User"/></t>
@@ -2927,7 +2942,7 @@
         @param u - The user that removed the reaction. (Do not rely on this for purges, may be null)
         @param e - The emoji of the reaction.</haxe_doc>
 		</onReactionRemove>
-		<onReactionPurge public="1" set="dynamic" line="986">
+		<onReactionPurge public="1" set="dynamic" line="1020">
 			<f a="m">
 				<c path="com.raidandfade.haxicord.types.Message"/>
 				<x path="Void"/>
@@ -2935,7 +2950,7 @@
 			<haxe_doc>Event hook for when reactions are purged from a message.
         @param m - The message that was purged.</haxe_doc>
 		</onReactionPurge>
-		<onTypingStart public="1" set="dynamic" line="995">
+		<onTypingStart public="1" set="dynamic" line="1029">
 			<f a="u:c:t">
 				<c path="com.raidandfade.haxicord.types.User"/>
 				<c path="com.raidandfade.haxicord.types.Channel"/>
@@ -2947,7 +2962,7 @@
         @param c - The channel they are typing in
         @param t - Timestamp of when they started typing (in seconds)</haxe_doc>
 		</onTypingStart>
-		<onRawEvent public="1" set="dynamic" line="1002">
+		<onRawEvent public="1" set="dynamic" line="1036">
 			<f a="e:d">
 				<c path="String"/>
 				<d/>
@@ -2957,7 +2972,7 @@
         @param e - The event name as defined by API Docs.
         @param d - The event data.</haxe_doc>
 		</onRawEvent>
-		<new public="1" set="method" line="116">
+		<new public="1" set="method" line="122">
 			<f a="_tkn:?_shardInfo:?_etf:?_zlib:?_storage" v=":null:false:true:null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord._DiscordClient.WSShard"/>
@@ -2983,7 +2998,7 @@
 	<d><d/></d>
 </a></typedef>
 	<class path="com.raidandfade.haxicord._DiscordClient.WSPrepareData" params="" file="src/com/raidandfade/haxicord/DiscordClient.hx" private="1" module="com.raidandfade.haxicord.DiscordClient">
-		<Identify public="1" set="method" line="1014" static="1">
+		<Identify public="1" set="method" line="1048" static="1">
 			<f a="t:?s:?p:?c:?l" v=":null:null:false:59">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord._DiscordClient.WSShard"/>
@@ -3003,7 +3018,7 @@
 			</f>
 			<meta><m n=":value"><e>{ l : 59, c : false, p : null, s : null }</e></m></meta>
 		</Identify>
-		<Resume public="1" set="method" line="1039" static="1"><f a="token:session_id:sequence">
+		<Resume public="1" set="method" line="1073" static="1"><f a="token:session_id:sequence">
 	<c path="String"/>
 	<c path="String"/>
 	<x path="Int"/>
@@ -3016,7 +3031,7 @@
 </a></d>
 	</a>
 </f></Resume>
-		<Heartbeat public="1" set="method" line="1052" static="1">
+		<Heartbeat public="1" set="method" line="1086" static="1">
 			<f a="?seq" v="null">
 				<x path="Int"/>
 				<a>
@@ -3094,21 +3109,22 @@
 	</_trace>
 </a></typedef>
 	<class path="com.raidandfade.haxicord._DiscordClient.HeartbeatThread" params="" file="src/com/raidandfade/haxicord/DiscordClient.hx" private="1" module="com.raidandfade.haxicord.DiscordClient">
-		<delay public="1"><x path="Int"/></delay>
+		<delay public="1"><x path="Float"/></delay>
 		<seq><t path="Null"><x path="Int"/></t></seq>
 		<ws><c path="com.raidandfade.haxicord.websocket.WebSocketConnection"/></ws>
 		<timer><c path="haxe.Timer"/></timer>
 		<cl><c path="com.raidandfade.haxicord.DiscordClient"/></cl>
+		<l><x path="Float"/></l>
 		<paused><x path="Bool"/></paused>
-		<setSeq public="1" set="method" line="1090"><f a="_s">
+		<setSeq public="1" set="method" line="1125"><f a="_s">
 	<t path="Null"><x path="Int"/></t>
 	<x path="Void"/>
 </f></setSeq>
-		<getSeq public="1" set="method" line="1094"><f a=""><t path="Null"><x path="Int"/></t></f></getSeq>
-		<beat public="1" set="method" line="1107"><f a=""><x path="Void"/></f></beat>
-		<pause public="1" set="method" line="1112"><f a=""><x path="Void"/></f></pause>
-		<resume public="1" set="method" line="1117"><f a=""><x path="Void"/></f></resume>
-		<new public="1" set="method" line="1098"><f a="_d:_w:_s:_b">
+		<getSeq public="1" set="method" line="1129"><f a=""><t path="Null"><x path="Int"/></t></f></getSeq>
+		<beat public="1" set="method" line="1143"><f a=""><x path="Void"/></f></beat>
+		<pause public="1" set="method" line="1152"><f a=""><x path="Void"/></f></pause>
+		<resume public="1" set="method" line="1157"><f a=""><x path="Void"/></f></resume>
+		<new public="1" set="method" line="1133"><f a="_d:_w:_s:_b">
 	<x path="Int"/>
 	<c path="com.raidandfade.haxicord.websocket.WebSocketConnection"/>
 	<t path="Null"><x path="Int"/></t>
@@ -3234,10 +3250,10 @@
 	</class>
 	<class path="com.raidandfade.haxicord.cachehandler.MemoryCache" params="" file="src/com/raidandfade/haxicord/cachehandler/MemoryCache.hx">
 		<implements path="com.raidandfade.haxicord.cachehandler.DataCache"/>
-		<messageCache public="1" expr="new CacheMap&lt;Message&gt;(50000)">
+		<messageCache public="1" expr="new CacheMap&lt;Message&gt;(5000)">
 			<c path="com.raidandfade.haxicord.cachehandler.CacheMap"><c path="com.raidandfade.haxicord.types.Message"/></c>
 			<meta>
-				<m n=":value"><e><![CDATA[new CacheMap<Message>(50000)]]></e></m>
+				<m n=":value"><e><![CDATA[new CacheMap<Message>(5000)]]></e></m>
 				<m n=":dox"><e>hide</e></m>
 			</meta>
 		</messageCache>
@@ -4822,8 +4838,8 @@
 		<limit public="1"><x path="Int"/></limit>
 		<remaining public="1"><x path="Int"/></remaining>
 		<reset public="1"><x path="Float"/></reset>
-		<toString public="1" set="method" line="1400"><f a=""><c path="String"/></f></toString>
-		<new public="1" set="method" line="1394"><f a="_l:_rm:_rs">
+		<toString public="1" set="method" line="1405"><f a=""><c path="String"/></f></toString>
+		<new public="1" set="method" line="1399"><f a="_l:_rm:_rs">
 	<x path="Int"/>
 	<x path="Int"/>
 	<x path="Float"/>
@@ -4844,7 +4860,7 @@
 </f></t></callback>
 		<data public="1"><a/></data>
 		<authorized public="1"><x path="Bool"/></authorized>
-		<new public="1" set="method" line="1412">
+		<new public="1" set="method" line="1417">
 			<f a="_m:_e:?_c:?_d:?_a" v="::null:null:true">
 				<c path="String"/>
 				<c path="com.raidandfade.haxicord.endpoints.EndpointPath"/>
@@ -4867,9 +4883,9 @@
 	<class path="com.raidandfade.haxicord.endpoints.EndpointPath" params="" file="src/com/raidandfade/haxicord/endpoints/Endpoints.hx" module="com.raidandfade.haxicord.endpoints.Endpoints">
 		<endpoint public="1"><c path="String"/></endpoint>
 		<data public="1"><c path="Array"><c path="String"/></c></data>
-		<getRoute public="1" set="method" line="1430"><f a=""><c path="String"/></f></getRoute>
-		<getPath public="1" set="method" line="1437"><f a=""><c path="String"/></f></getPath>
-		<new public="1" set="method" line="1425"><f a="_e:_d">
+		<getRoute public="1" set="method" line="1435"><f a=""><c path="String"/></f></getRoute>
+		<getPath public="1" set="method" line="1442"><f a=""><c path="String"/></f></getPath>
+		<new public="1" set="method" line="1430"><f a="_e:_d">
 	<c path="String"/>
 	<c path="Array"><c path="String"/></c>
 	<x path="Void"/>
@@ -5468,7 +5484,11 @@
 			<f a=""><c path="String"/></f>
 			<haxe_doc>Get the tag for the channel as a string.</haxe_doc>
 		</getTag>
-		<hasPermission public="1" set="method" line="40"><f a="uid:p">
+		<getPermission public="1" set="method" line="39"><f a="uid">
+	<c path="String"/>
+	<x path="Int"/>
+</f></getPermission>
+		<hasPermission public="1" set="method" line="42"><f a="uid:p">
 	<c path="String"/>
 	<x path="Int"/>
 	<x path="Bool"/>
@@ -5516,7 +5536,7 @@
 			<f a=""><t path="Null"><c path="com.raidandfade.haxicord.types.Guild"/></t></f>
 			<haxe_doc>Get the guild object that this channel is a part of. If this returns null or throws an error something has seriously gone wrong.</haxe_doc>
 		</getGuild>
-		<getInvites public="1" set="method" line="61">
+		<getInvites public="1" set="method" line="68">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><t path="com.raidandfade.haxicord.types.structs.Invite"/></c>
@@ -5529,7 +5549,7 @@
 			<haxe_doc>Get the invites of a given channel
         @param cb - Array of Invites (or error).</haxe_doc>
 		</getInvites>
-		<createInvite public="1" set="method" line="69">
+		<createInvite public="1" set="method" line="76">
 			<f a="invite_data:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.InviteCreate"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -5540,7 +5560,7 @@
         @param invite_data - The invite data.
         @param cb - Return the invite or an error.</haxe_doc>
 		</createInvite>
-		<editChannel public="1" set="method" line="77">
+		<editChannel public="1" set="method" line="84">
 			<f a="cd:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.ChannelUpdate"/>
 				<f a=":">
@@ -5555,7 +5575,7 @@
         @param cd - The changed channel data, all fields are optional
         @param cb - Callback to send the new channel object to. Or null if result is not desired.</haxe_doc>
 		</editChannel>
-		<deleteChannel public="1" set="method" line="84">
+		<deleteChannel public="1" set="method" line="91">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="com.raidandfade.haxicord.types.Channel"/>
@@ -5568,7 +5588,7 @@
 			<haxe_doc>Delete the given channel.
         @param cb - Callback to send old channel to. Or null if result is not desired.</haxe_doc>
 		</deleteChannel>
-		<editPermission public="1" set="method" line="93">
+		<editPermission public="1" set="method" line="100">
 			<f a="perm:pid:?cb" v="::null">
 				<t path="com.raidandfade.haxicord.types.structs.Overwrite"/>
 				<c path="String"/>
@@ -5581,7 +5601,7 @@
         @param pid - The overwrite Id, Id of user or role.
         @param cb - Call once finished.</haxe_doc>
 		</editPermission>
-		<deletePermission public="1" set="method" line="101">
+		<deletePermission public="1" set="method" line="108">
 			<f a="pid:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -5592,7 +5612,11 @@
         @param pid - The overwrite id to delete
         @param cb - Call once finished.</haxe_doc>
 		</deletePermission>
-		<hasPermission public="1" set="method" line="106" override="1"><f a="uid:dp">
+		<getPermission public="1" set="method" line="112" override="1"><f a="uid">
+	<c path="String"/>
+	<x path="Int"/>
+</f></getPermission>
+		<hasPermission public="1" set="method" line="124" override="1"><f a="uid:dp">
 	<c path="String"/>
 	<x path="Int"/>
 	<x path="Bool"/>
@@ -5787,6 +5811,10 @@
 			<f a=""><x path="Bool"/></f>
 			<haxe_doc>Returns whether the channel is part of a guild or not. Always true for TextChannels. Always false for DMChannels</haxe_doc>
 		</inGuild>
+		<getPermission public="1" set="method"><f a="uid">
+	<c path="String"/>
+	<x path="Int"/>
+</f></getPermission>
 		<hasPermission public="1" set="method"><f a="uid:p">
 	<c path="String"/>
 	<x path="Int"/>
@@ -5797,7 +5825,7 @@
 	<class path="com.raidandfade.haxicord.types.DMChannel" params="" file="src/com/raidandfade/haxicord/types/DMChannel.hx">
 		<extends path="com.raidandfade.haxicord.types.Channel"/>
 		<implements path="com.raidandfade.haxicord.types.MessageChannel"/>
-		<fromStruct public="1" set="method" line="62" static="1">
+		<fromStruct public="1" set="method" line="63" static="1">
 			<f a="_chan:_client">
 				<t path="com.raidandfade.haxicord.types.structs.DMChannel"/>
 				<c path="com.raidandfade.haxicord.DiscordClient"/>
@@ -5817,18 +5845,18 @@
 			<c path="com.raidandfade.haxicord.types.Snowflake"/>
 			<haxe_doc>The id of the last Message that was sent in the chat.</haxe_doc>
 		</last_message_id>
-		<_update public="1" set="method" line="43">
+		<_update public="1" set="method" line="44">
 			<f a="_chan">
 				<t path="com.raidandfade.haxicord.types.structs.DMChannel"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_update>
-		<inGuild public="1" set="method" line="70">
+		<inGuild public="1" set="method" line="71">
 			<f a=""><x path="Bool"/></f>
 			<haxe_doc>Returns whether the channel is in a guild or not (Always false for DM channels)</haxe_doc>
 		</inGuild>
-		<sendMessage public="1" set="method" line="78">
+		<sendMessage public="1" set="method" line="79">
 			<f a="mesg:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.MessageCreate"/>
 				<f a=":">
@@ -5843,7 +5871,7 @@
         @param mesg - Message data
         @param cb - Return the message sent, or an error</haxe_doc>
 		</sendMessage>
-		<addMember public="1" set="method" line="88">
+		<addMember public="1" set="method" line="89">
 			<f a="user_id:access_token:nick:?cb" v=":::null">
 				<c path="String"/>
 				<c path="String"/>
@@ -5858,7 +5886,7 @@
         @param nick - The nickname of the user.
         @param cb - Called once completed.</haxe_doc>
 		</addMember>
-		<kickMember public="1" set="method" line="96">
+		<kickMember public="1" set="method" line="97">
 			<f a="user_id:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -5869,7 +5897,7 @@
         @param user_id - The user to be removed
         @param cb - Called once completed, or errored</haxe_doc>
 		</kickMember>
-		<getMessages public="1" set="method" line="104">
+		<getMessages public="1" set="method" line="105">
 			<f a="?format:?cb" v="null:null">
 				<a/>
 				<f a=":">
@@ -5884,7 +5912,7 @@
         @param format - Before, After, or Around. 
         @param cb - The array of messages, or an error.</haxe_doc>
 		</getMessages>
-		<getMessage public="1" set="method" line="114">
+		<getMessage public="1" set="method" line="115">
 			<f a="mid:?cb" v=":null">
 				<c path="String"/>
 				<f a=":">
@@ -5899,7 +5927,7 @@
         @param mid - The message id
         @param cb - Return the message, or an error.</haxe_doc>
 		</getMessage>
-		<deleteMessage public="1" set="method" line="122">
+		<deleteMessage public="1" set="method" line="123">
 			<f a="mid:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -5910,7 +5938,7 @@
         @param mid - The id of the message.
         @param cb - Return when complete.</haxe_doc>
 		</deleteMessage>
-		<deleteMessages public="1" set="method" line="130">
+		<deleteMessages public="1" set="method" line="131">
 			<f a="ids:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.MessageBulkDelete"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -5921,7 +5949,7 @@
         @param ids - an array of id of the messages.
         @param cb - Return when complete.</haxe_doc>
 		</deleteMessages>
-		<startTyping public="1" set="method" line="137">
+		<startTyping public="1" set="method" line="138">
 			<f a="?cb" v="null">
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
 				<x path="Void"/>
@@ -5930,7 +5958,7 @@
 			<haxe_doc>Send a typing event in the given channel. This lasts for 10 seconds or when a message is sent, whichever comes first.
         @param cb - Return when complete.</haxe_doc>
 		</startTyping>
-		<getPins public="1" set="method" line="144">
+		<getPins public="1" set="method" line="145">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><c path="com.raidandfade.haxicord.types.Message"/></c>
@@ -5943,7 +5971,7 @@
 			<haxe_doc>Get the pins of a channel
         @param cb - Return an array of pins (or an error)</haxe_doc>
 		</getPins>
-		<pinMessage public="1" set="method" line="152">
+		<pinMessage public="1" set="method" line="153">
 			<f a="mid:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -5954,7 +5982,7 @@
         @param mid - The message
         @param cb - Called once completed. Leave blank to ignore.</haxe_doc>
 		</pinMessage>
-		<unpinMessage public="1" set="method" line="160">
+		<unpinMessage public="1" set="method" line="161">
 			<f a="mid:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -5965,7 +5993,16 @@
         @param mid - The pin id
         @param cb - Called once completed. Leave blank to ignore.</haxe_doc>
 		</unpinMessage>
-		<new public="1" set="method" line="20">
+		<getPermission public="1" set="method" line="166" override="1"><f a="uid">
+	<c path="String"/>
+	<x path="Int"/>
+</f></getPermission>
+		<hasPermission public="1" set="method" line="171" override="1"><f a="uid:dp">
+	<c path="String"/>
+	<x path="Int"/>
+	<x path="Bool"/>
+</f></hasPermission>
+		<new public="1" set="method" line="21">
 			<f a="_chan:_client">
 				<t path="com.raidandfade.haxicord.types.structs.DMChannel"/>
 				<c path="com.raidandfade.haxicord.DiscordClient"/>
@@ -6099,10 +6136,37 @@
 			<meta><m n=":value"><e><![CDATA[new Map<String,CategoryChannel>()]]></e></m></meta>
 			<haxe_doc>A dictionary of categoryChannels in the guild by Id</haxe_doc>
 		</categoryChannels>
+		<storeChannels public="1" expr="new Map&lt;String,StoreChannel&gt;()">
+			<x path="Map">
+				<c path="String"/>
+				<c path="com.raidandfade.haxicord.types.StoreChannel"/>
+			</x>
+			<meta><m n=":value"><e><![CDATA[new Map<String,StoreChannel>()]]></e></m></meta>
+			<haxe_doc>A dictionary of storeChannels in the guild by Id</haxe_doc>
+		</storeChannels>
 		<presences public="1">
 			<c path="Array"><t path="com.raidandfade.haxicord.types.structs.Presence"/></c>
 			<haxe_doc>An array of partial presence updates of users in the guild.</haxe_doc>
 		</presences>
+		<widget_enabled public="1"><x path="Bool"/></widget_enabled>
+		<widget_channel_id public="1"><c path="com.raidandfade.haxicord.types.Snowflake"/></widget_channel_id>
+		<system_channel_id public="1"><c path="com.raidandfade.haxicord.types.Snowflake"/></system_channel_id>
+		<max_members public="1"><x path="Int"/></max_members>
+		<max_presences public="1"><x path="Int"/></max_presences>
+		<vanity_url_code public="1"><c path="String"/></vanity_url_code>
+		<description public="1"><c path="String"/></description>
+		<banner public="1"><c path="String"/></banner>
+		<boost_tier public="1"><x path="Int"/></boost_tier>
+		<boost_count public="1"><x path="Int"/></boost_count>
+		<bans public="1" expr="new Array&lt;User&gt;()">
+			<c path="Array"><c path="com.raidandfade.haxicord.types.User"/></c>
+			<meta><m n=":value"><e><![CDATA[new Array<User>()]]></e></m></meta>
+			<haxe_doc>A list of banned users.</haxe_doc>
+		</bans>
+		<owner public="1">
+			<c path="com.raidandfade.haxicord.types.GuildMember"/>
+			<haxe_doc>The owner of the guild</haxe_doc>
+		</owner>
 		<nextChancb public="1" expr="new Array&lt;GuildChannel&gt;()">
 			<c path="Array"><f a="">
 	<c path="com.raidandfade.haxicord.types.GuildChannel"/>
@@ -6113,65 +6177,56 @@
 				<m n=":dox"><e>hide</e></m>
 			</meta>
 		</nextChancb>
-		<bans public="1" expr="new Array&lt;User&gt;()">
-			<c path="Array"><c path="com.raidandfade.haxicord.types.User"/></c>
-			<meta><m n=":value"><e><![CDATA[new Array<User>()]]></e></m></meta>
-			<haxe_doc>A list of banned users.</haxe_doc>
-		</bans>
-		<owner public="1">
-			<c path="com.raidandfade.haxicord.types.GuildMember"/>
-			<haxe_doc>The owner of the guild</haxe_doc>
-		</owner>
-		<_update public="1" set="method" line="193">
+		<_update public="1" set="method" line="233">
 			<f a="_guild">
 				<t path="com.raidandfade.haxicord.types.structs.Update"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_update>
-		<_updateEmojis public="1" set="method" line="277">
+		<_updateEmojis public="1" set="method" line="346">
 			<f a="e">
 				<c path="Array"><t path="com.raidandfade.haxicord.types.structs.Emoji"/></c>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_updateEmojis>
-		<_addChannel public="1" set="method" line="282">
-			<f a="c">
+		<_addChannel public="1" set="method" line="351">
+			<f a="ch">
 				<c path="com.raidandfade.haxicord.types.GuildChannel"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_addChannel>
-		<_addBan public="1" set="method" line="295">
+		<_addBan public="1" set="method" line="378">
 			<f a="user">
 				<c path="com.raidandfade.haxicord.types.User"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_addBan>
-		<_removeBan public="1" set="method" line="300">
+		<_removeBan public="1" set="method" line="383">
 			<f a="user">
 				<c path="com.raidandfade.haxicord.types.User"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_removeBan>
-		<_newMember public="1" set="method" line="305">
+		<_newMember public="1" set="method" line="388">
 			<f a="memberStruct">
 				<t path="com.raidandfade.haxicord.types.structs.GuildMember"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.GuildMember"/></t>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_newMember>
-		<_newRole public="1" set="method" line="318">
+		<_newRole public="1" set="method" line="401">
 			<f a="roleStruct">
 				<t path="com.raidandfade.haxicord.types.structs.Role"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.Role"/></t>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_newRole>
-		<getChannels public="1" set="method" line="335">
+		<getChannels public="1" set="method" line="418">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><c path="com.raidandfade.haxicord.types.Channel"/></c>
@@ -6184,7 +6239,7 @@
 			<haxe_doc>Get the channels in a guild
         @param cb - Return an array of channel objects, or an error.</haxe_doc>
 		</getChannels>
-		<createChannel public="1" set="method" line="344">
+		<createChannel public="1" set="method" line="427">
 			<f a="cs:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.ChannelCreate"/>
 				<f a=":">
@@ -6199,7 +6254,7 @@
         @param cs - The channel's starting data 
         @param cb - Callback to send the new channel object to. Or null if result is not desired.</haxe_doc>
 		</createChannel>
-		<getChannel public="1" set="method" line="365">
+		<getChannel public="1" set="method" line="448">
 			<f a="cid:?cb" v=":null">
 				<c path="String"/>
 				<f a="">
@@ -6213,7 +6268,7 @@
         @param channel_id - The channel id to get the channel from
         @param cb - Callback to send the receivied channel object to. Or null if result is not desired.</haxe_doc>
 		</getChannel>
-		<findChannels public="1" set="method" line="373">
+		<findChannels public="1" set="method" line="456">
 			<f a="name">
 				<c path="String"/>
 				<c path="Array"><c path="com.raidandfade.haxicord.types.GuildChannel"/></c>
@@ -6221,8 +6276,8 @@
 			<haxe_doc>Try to find all channels that have names that contain (or equal are to) the given string
         @return - A list of applicable channels, ordered by absolute equality first and then partial equality afterwards</haxe_doc>
 		</findChannels>
-		<moveChannels public="1" set="method" line="405"><f a=""><x path="Void"/></f></moveChannels>
-		<getInvites public="1" set="method" line="413">
+		<moveChannels public="1" set="method" line="495"><f a=""><x path="Void"/></f></moveChannels>
+		<getInvites public="1" set="method" line="503">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><t path="com.raidandfade.haxicord.types.structs.Invite"/></c>
@@ -6235,7 +6290,7 @@
 			<haxe_doc>Get a list of all invites in a guild. requires the MANAGE_GUILD permission.
         @param cb - Returns an array of invites, or an error.</haxe_doc>
 		</getInvites>
-		<getRoles public="1" set="method" line="421">
+		<getRoles public="1" set="method" line="511">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><c path="com.raidandfade.haxicord.types.Role"/></c>
@@ -6248,7 +6303,7 @@
 			<haxe_doc>Get the roles of a guild. Requires the MANAGE_ROLES permission.
         @param cb - Returns an array of guilds, or an error.</haxe_doc>
 		</getRoles>
-		<getRole public="1" set="method" line="429">
+		<getRole public="1" set="method" line="519">
 			<f a="rid">
 				<c path="String"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.Role"/></t>
@@ -6256,7 +6311,7 @@
 			<haxe_doc>Get a role by ID.  
         @return - The role being asked for, or null</haxe_doc>
 		</getRole>
-		<findRoles public="1" set="method" line="437">
+		<findRoles public="1" set="method" line="527">
 			<f a="name">
 				<c path="String"/>
 				<c path="Array"><c path="com.raidandfade.haxicord.types.Role"/></c>
@@ -6264,7 +6319,7 @@
 			<haxe_doc>Try to find a role whose name contains (or is equal to) the given string
         @return - A list of applicable roles, ordered by absolute equality first and then partial equality afterwards</haxe_doc>
 		</findRoles>
-		<createRole public="1" set="method" line="460">
+		<createRole public="1" set="method" line="550">
 			<f a="rs:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.RoleInfo"/>
 				<f a=":">
@@ -6279,7 +6334,7 @@
         @param rs - The role's data.
         @param cb - Returns the new role, or an error.</haxe_doc>
 		</createRole>
-		<moveRole public="1" set="method" line="464">
+		<moveRole public="1" set="method" line="554">
 			<f a="rs:?cb" v=":null">
 				<unknown/>
 				<unknown/>
@@ -6287,7 +6342,7 @@
 			</f>
 			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
 		</moveRole>
-		<getMember public="1" set="method" line="473">
+		<getMember public="1" set="method" line="563">
 			<f a="mid:cb">
 				<c path="String"/>
 				<f a="">
@@ -6300,7 +6355,7 @@
         @param mid - The member's id.
         @param cb - Return a member instance of the user. Or an error.</haxe_doc>
 		</getMember>
-		<getMemberUnsafe public="1" set="method" line="490">
+		<getMemberUnsafe public="1" set="method" line="580">
 			<f a="id">
 				<c path="String"/>
 				<t path="Null"><c path="com.raidandfade.haxicord.types.GuildMember"/></t>
@@ -6309,14 +6364,14 @@
         @param id - The id of the member you want
         @returns The member object or null</haxe_doc>
 		</getMemberUnsafe>
-		<getAllMembers public="1" set="method" line="501">
+		<getAllMembers public="1" set="method" line="591">
 			<f a="cb">
 				<c path="List"><c path="com.raidandfade.haxicord.types.GuildMember"/></c>
 				<x path="Void"/>
 			</f>
 			<haxe_doc>To be finished. Will return all members in one callback.</haxe_doc>
 		</getAllMembers>
-		<getMembers public="1" set="method" line="510">
+		<getMembers public="1" set="method" line="600">
 			<f a="format:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.ListGuildMember"/>
 				<f a=":">
@@ -6331,7 +6386,7 @@
         @param format - The limit, and after. both are optional. used for paginating.
         @param cb - The array of guild members. or an error.</haxe_doc>
 		</getMembers>
-		<addMember public="1" set="method" line="521">
+		<addMember public="1" set="method" line="611">
 			<f a="uid:mdata:?cb" v="::null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.AddGuildMember"/>
@@ -6349,7 +6404,7 @@
         @param mdata - The access token, along with other optional parameters.
         @param cb - The added guildmember. or an error.</haxe_doc>
 		</addMember>
-		<changeNickname public="1" set="method" line="530">
+		<changeNickname public="1" set="method" line="620">
 			<f a="s:?m:?cb" v=":null:null">
 				<c path="String"/>
 				<c path="com.raidandfade.haxicord.types.GuildMember"/>
@@ -6365,7 +6420,7 @@
         @param s - The nickname to change to.
         @param cb - Returns the nickname, or an error.</haxe_doc>
 		</changeNickname>
-		<getBans public="1" set="method" line="541">
+		<getBans public="1" set="method" line="631">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><c path="com.raidandfade.haxicord.types.User"/></c>
@@ -6378,7 +6433,7 @@
 			<haxe_doc>List all the bans in a guild. Requires the BAN_MEMBERS permission.
         @param cb - Returns an array of users, or an error.</haxe_doc>
 		</getBans>
-		<getPruneCount public="1" set="method" line="550">
+		<getPruneCount public="1" set="method" line="640">
 			<f a="days:?cb" v=":null">
 				<x path="Int"/>
 				<f a=":">
@@ -6393,7 +6448,7 @@
         @param days - The number of days to count prune for.
         @param cb - Returns the number of users that would be pruned on a real request, or an error.</haxe_doc>
 		</getPruneCount>
-		<getAuditLog public="1" set="method" line="559">
+		<getAuditLog public="1" set="method" line="649">
 			<f a="?filter:?cb" v="null:null">
 				<t path="com.raidandfade.haxicord.endpoints.AuditLogFilter"/>
 				<f a=":">
@@ -6408,7 +6463,7 @@
         @param filter - Filter audit logs by these parameters.
         @param cb - Returns the AuditLog object, or an error.</haxe_doc>
 		</getAuditLog>
-		<beginPrune public="1" set="method" line="567">
+		<beginPrune public="1" set="method" line="657">
 			<f a="days:?cb" v=":null">
 				<x path="Int"/>
 				<f a=":">
@@ -6423,7 +6478,7 @@
         @param days - The number of days to count prune for.
         @param cb - Returns the number of users that were pruned, or an error.</haxe_doc>
 		</beginPrune>
-		<getVoiceRegions public="1" set="method" line="575">
+		<getVoiceRegions public="1" set="method" line="665">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><t path="com.raidandfade.haxicord.types.structs.VoiceRegion"/></c>
@@ -6436,7 +6491,7 @@
 			<haxe_doc>Get a list of voice regions for the guild. Including VIP servers if the server is a VIP-Enabled server.
         @param cb - Returns an array of voiceregion objects, or an error.</haxe_doc>
 		</getVoiceRegions>
-		<getIntegrations public="1" set="method" line="583">
+		<getIntegrations public="1" set="method" line="673">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><t path="com.raidandfade.haxicord.types.structs.GuildIntegration"/></c>
@@ -6449,7 +6504,7 @@
 			<haxe_doc>Get a list of integrations for a given guild. Requires the MANAGE_GUILD permission.
         @param cb - Returns an array of guildintegration objects, or an error.</haxe_doc>
 		</getIntegrations>
-		<addIntegration public="1" set="method" line="592">
+		<addIntegration public="1" set="method" line="682">
 			<f a="intd:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.IntegrationCreate"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6460,7 +6515,7 @@
         @param intd - The data of the new integration. 
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</addIntegration>
-		<editIntegration public="1" set="method" line="602">
+		<editIntegration public="1" set="method" line="692">
 			<f a="intid:intd:?cb" v="::null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.IntegrationModify"/>
@@ -6473,7 +6528,7 @@
         @param intd - The new data for the integration. All parameters are optional.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</editIntegration>
-		<syncIntegration public="1" set="method" line="611">
+		<syncIntegration public="1" set="method" line="701">
 			<f a="intid:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6484,7 +6539,7 @@
         @param intid - The id of the integration to sync.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</syncIntegration>
-		<deleteIntegration public="1" set="method" line="620">
+		<deleteIntegration public="1" set="method" line="710">
 			<f a="intid:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6495,7 +6550,7 @@
         @param intid - The id of the integration to remove.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</deleteIntegration>
-		<getWidget public="1" set="method" line="628">
+		<getWidget public="1" set="method" line="718">
 			<f a="?cb" v="null">
 				<f a=":">
 					<t path="com.raidandfade.haxicord.types.structs.GuildEmbed"/>
@@ -6508,7 +6563,7 @@
 			<haxe_doc>Get the widget/embed for a guild. Requires the MANAGE_GUILD permission.
         @param cb - Returns the GuildEmbed object of the guild, or an error.</haxe_doc>
 		</getWidget>
-		<editWidget public="1" set="method" line="637">
+		<editWidget public="1" set="method" line="727">
 			<f a="wd:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.types.structs.GuildEmbed"/>
 				<f a=":">
@@ -6523,7 +6578,7 @@
         @param wd - The changes to be made to the widget/embed. All parameters are optional.
         @param cb - Returns the changed GuildEmbed object, or an error.</haxe_doc>
 		</editWidget>
-		<edit public="1" set="method" line="646">
+		<edit public="1" set="method" line="736">
 			<f a="gd:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.GuildUpdate"/>
 				<f a=":">
@@ -6538,7 +6593,7 @@
         @param gd - The data to be changed, All fields are optional.
         @param cb - Returns the new guild object, or an error.</haxe_doc>
 		</edit>
-		<delete public="1" set="method" line="654">
+		<delete public="1" set="method" line="744">
 			<f a="?cb" v="null">
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
 				<x path="Void"/>
@@ -6547,7 +6602,7 @@
 			<haxe_doc>Delete a guild. The account must be the owner of the guild.
         @param cb - Return the old guild object, or an error.</haxe_doc>
 		</delete>
-		<leave public="1" set="method" line="662">
+		<leave public="1" set="method" line="752">
 			<f a="?cb" v="null">
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
 				<x path="Void"/>
@@ -6556,7 +6611,7 @@
 			<haxe_doc>Make the current user leave the specified guild.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</leave>
-		<listEmojis public="1" set="method" line="670">
+		<listEmojis public="1" set="method" line="760">
 			<f a="?cb" v="null">
 				<f a=":">
 					<c path="Array"><t path="com.raidandfade.haxicord.types.structs.Emoji"/></c>
@@ -6569,7 +6624,7 @@
 			<haxe_doc>Get all emojis on the guild by guild_id.
         @param cb - Returns an array of emoji objects, or an error.</haxe_doc>
 		</listEmojis>
-		<getEmoji public="1" set="method" line="679">
+		<getEmoji public="1" set="method" line="769">
 			<f a="emoji_id:?cb" v=":null">
 				<c path="String"/>
 				<f a=":">
@@ -6584,7 +6639,7 @@
         @param emoji_id - The emoji to get
         @param cb - Returns an emoji object, or an error.</haxe_doc>
 		</getEmoji>
-		<createEmoji public="1" set="method" line="688">
+		<createEmoji public="1" set="method" line="778">
 			<f a="emoji:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.EmojiCreate"/>
 				<f a=":">
@@ -6599,7 +6654,7 @@
         @param emoji - The emoji to create.
         @param cb - The created emoji, or an error</haxe_doc>
 		</createEmoji>
-		<modifyEmoji public="1" set="method" line="699">
+		<modifyEmoji public="1" set="method" line="789">
 			<f a="emoji_id:emoji:?cb" v="::null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmojiModify"/>
@@ -6616,7 +6671,7 @@
         @param emoji - The new emoji data.
         @param cb - The edited emoji, or an error</haxe_doc>
 		</modifyEmoji>
-		<removeEmoji public="1" set="method" line="708">
+		<removeEmoji public="1" set="method" line="798">
 			<f a="emoji_id:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6626,7 +6681,7 @@
 			<haxe_doc>Remove an emoji by ID in the guild
         @param cb - Called when completed, good for looking for errors</haxe_doc>
 		</removeEmoji>
-		<new public="1" set="method" line="134">
+		<new public="1" set="method" line="150">
 			<f a="_guild:_client">
 				<t path="com.raidandfade.haxicord.types.structs.Guild"/>
 				<c path="com.raidandfade.haxicord.DiscordClient"/>
@@ -6666,21 +6721,21 @@
 			<c path="com.raidandfade.haxicord.types.Guild"/>
 			<haxe_doc>The guild object that this member is a part of.</haxe_doc>
 		</guild>
-		<_update public="1" set="method" line="53">
+		<_update public="1" set="method" line="57">
 			<f a="_mem">
 				<t path="com.raidandfade.haxicord.types.structs.GuildMember"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_update>
-		<_updatePresence public="1" set="method" line="60">
+		<_updatePresence public="1" set="method" line="65">
 			<f a="_pre">
 				<t path="com.raidandfade.haxicord.types.structs.Presence"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_updatePresence>
-		<addRole public="1" set="method" line="79">
+		<addRole public="1" set="method" line="84">
 			<f a="rid:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6691,7 +6746,7 @@
         @param rid - The id of the role desired to be added.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</addRole>
-		<removeRole public="1" set="method" line="88">
+		<removeRole public="1" set="method" line="93">
 			<f a="rid:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6702,7 +6757,7 @@
         @param rid - The id of the role to take away.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</removeRole>
-		<hasRole public="1" set="method" line="96">
+		<hasRole public="1" set="method" line="101">
 			<f a="rid">
 				<c path="String"/>
 				<x path="Bool"/>
@@ -6710,7 +6765,7 @@
 			<haxe_doc>Check if this user has a role by id
         @param rid - The id of the role to check for.</haxe_doc>
 		</hasRole>
-		<edit public="1" set="method" line="109">
+		<edit public="1" set="method" line="114">
 			<f a="data:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.EditGuildMember"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6721,7 +6776,7 @@
         @param data - The updated data, all parameters are optional. All parameters require a different permission.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</edit>
-		<changeNickname public="1" set="method" line="118">
+		<changeNickname public="1" set="method" line="123">
 			<f a="s:?cb" v=":null">
 				<c path="String"/>
 				<f a=":">
@@ -6736,7 +6791,7 @@
         @param s - The nickname to change to.
         @param cb - Returns the nickname, or an error.</haxe_doc>
 		</changeNickname>
-		<kick public="1" set="method" line="127">
+		<kick public="1" set="method" line="132">
 			<f a="?reason:?cb" v="&quot;&quot;:null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6747,7 +6802,7 @@
         @param reason - The reason for this kick, for audit log.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</kick>
-		<ban public="1" set="method" line="137">
+		<ban public="1" set="method" line="142">
 			<f a="?days:?reason:?cb" v="0:&quot;&quot;:null">
 				<x path="Int"/>
 				<c path="String"/>
@@ -6760,14 +6815,13 @@
         @param reason - The reason for this ban, for audit log.
         @param cb - Called on completion, useful for checking for errors.</haxe_doc>
 		</ban>
-		<hasPermissions public="1" set="method" line="141"><f a="channel:p">
-	<c path="com.raidandfade.haxicord.types.Channel"/>
+		<hasPermissions public="1" set="method" line="146"><f a="p">
 	<x path="Int"/>
 	<x path="Bool"/>
 </f></hasPermissions>
-		<getPermissions public="1" set="method" line="145"><f a=""><x path="Int"/></f></getPermissions>
-		<getPermissionList public="1" set="method" line="153"><f a=""><c path="Array"><x path="Int"/></c></f></getPermissionList>
-		<getPermissionStrings public="1" set="method" line="157"><f a=""><c path="Array"><c path="String"/></c></f></getPermissionStrings>
+		<getPermissions public="1" set="method" line="150"><f a=""><x path="Int"/></f></getPermissions>
+		<getPermissionList public="1" set="method" line="158"><f a=""><c path="Array"><x path="Int"/></c></f></getPermissionList>
+		<getPermissionStrings public="1" set="method" line="162"><f a=""><c path="Array"><c path="String"/></c></f></getPermissionStrings>
 		<new public="1" set="method" line="40">
 			<f a="_mem:_guild:_client">
 				<t path="com.raidandfade.haxicord.types.structs.GuildMember"/>
@@ -6849,15 +6903,18 @@
 			<c path="String"/>
 			<haxe_doc>If the message was created by a webhook, this will be the webhook's id</haxe_doc>
 		</webhook_id>
+		<type public="1"><x path="Int"/></type>
+		<activity public="1"><t path="com.raidandfade.haxicord.types.structs.MessageActivity"/></activity>
+		<application public="1"><t path="com.raidandfade.haxicord.types.structs.MessageApplication"/></application>
 		<client><c path="com.raidandfade.haxicord.DiscordClient"/></client>
-		<_update public="1" set="method" line="126">
+		<_update public="1" set="method" line="138">
 			<f a="_msg">
 				<t path="com.raidandfade.haxicord.types.structs.MessageStruct"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_update>
-		<_addReaction public="1" set="method" line="168">
+		<_addReaction public="1" set="method" line="184">
 			<f a="_u:_e">
 				<c path="com.raidandfade.haxicord.types.User"/>
 				<t path="com.raidandfade.haxicord.types.structs.Emoji"/>
@@ -6865,7 +6922,7 @@
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_addReaction>
-		<_delReaction public="1" set="method" line="173">
+		<_delReaction public="1" set="method" line="189">
 			<f a="_u:_e">
 				<c path="com.raidandfade.haxicord.types.User"/>
 				<t path="com.raidandfade.haxicord.types.structs.Emoji"/>
@@ -6873,11 +6930,11 @@
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_delReaction>
-		<_purgeReactions public="1" set="method" line="178">
+		<_purgeReactions public="1" set="method" line="194">
 			<f a=""><x path="Void"/></f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_purgeReactions>
-		<pin public="1" set="method" line="186">
+		<pin public="1" set="method" line="202">
 			<f a="?cb" v="null">
 				<f a=":">
 					<d/>
@@ -6890,7 +6947,7 @@
 			<haxe_doc>Pin this message
         @param cb - Called once completed. Leave blank to ignore.</haxe_doc>
 		</pin>
-		<unpin public="1" set="method" line="194">
+		<unpin public="1" set="method" line="210">
 			<f a="?cb" v="null">
 				<f a=":">
 					<d/>
@@ -6903,24 +6960,24 @@
 			<haxe_doc>Unpin this message
         @param cb - Called once completed. Leave blank to ignore.</haxe_doc>
 		</unpin>
-		<getChannel public="1" set="method" line="202">
+		<getChannel public="1" set="method" line="218">
 			<f a=""><c path="com.raidandfade.haxicord.types.MessageChannel"/></f>
 			<haxe_doc>Return the channel this message is part of
        @return MessageChannel : The channel this message is part of, either a TextChannel or a DMChannel</haxe_doc>
 		</getChannel>
-		<inGuild public="1" set="method" line="209">
+		<inGuild public="1" set="method" line="225">
 			<f a=""><x path="Bool"/></f>
 			<haxe_doc>Return whether this message is in a guild or not.</haxe_doc>
 		</inGuild>
-		<getMember public="1" set="method" line="216">
+		<getMember public="1" set="method" line="232">
 			<f a=""><t path="Null"><c path="com.raidandfade.haxicord.types.GuildMember"/></t></f>
 			<haxe_doc>If this message was in a guild, get the guildmember object of the member who sent it, otherwise return null.</haxe_doc>
 		</getMember>
-		<getGuild public="1" set="method" line="226">
+		<getGuild public="1" set="method" line="242">
 			<f a=""><t path="Null"><c path="com.raidandfade.haxicord.types.Guild"/></t></f>
 			<haxe_doc>If this message was in a guild, get the guild object this was sent in, otherwise return null.</haxe_doc>
 		</getGuild>
-		<reply public="1" set="method" line="238">
+		<reply public="1" set="method" line="254">
 			<f a="msg:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.MessageCreate"/>
 				<f a=":">
@@ -6935,7 +6992,7 @@
         @param msg - Message data
         @param cb - Return the message sent, or an error</haxe_doc>
 		</reply>
-		<edit public="1" set="method" line="247">
+		<edit public="1" set="method" line="263">
 			<f a="msg:?cb" v=":null">
 				<t path="com.raidandfade.haxicord.endpoints.MessageEdit"/>
 				<f a=":">
@@ -6950,7 +7007,7 @@
         @param msg - The new content of the message, all fields are optional.
         @param cb - Return the new message, or an error.</haxe_doc>
 		</edit>
-		<delete public="1" set="method" line="255">
+		<delete public="1" set="method" line="271">
 			<f a="?cb" v="null">
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
 				<x path="Void"/>
@@ -6959,7 +7016,7 @@
 			<haxe_doc>Delete a given message. If the author is not the current user, the MANAGE_MESSAGES permission is required
         @param cb - Return when complete.</haxe_doc>
 		</delete>
-		<getReactions public="1" set="method" line="264">
+		<getReactions public="1" set="method" line="280">
 			<f a="e:?cb" v=":null">
 				<c path="String"/>
 				<f a=":">
@@ -6974,7 +7031,7 @@
         @param e - The emoji to look for.
         @param cb - Returns an array of Reaction objects, or an error.</haxe_doc>
 		</getReactions>
-		<react public="1" set="method" line="273">
+		<react public="1" set="method" line="289">
 			<f a="e:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6985,7 +7042,7 @@
         @param e - The emote to be added, Custom emotes require their TAG.
         @param cb - Called when completed, good for checking for errors.</haxe_doc>
 		</react>
-		<unreact public="1" set="method" line="282">
+		<unreact public="1" set="method" line="298">
 			<f a="e:?cb" v=":null">
 				<c path="String"/>
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
@@ -6996,7 +7053,7 @@
         @param e - The emote to be removed. Custom emotes require their TAG
         @param cb - Called when completed, good for checking for errors.</haxe_doc>
 		</unreact>
-		<removeReaction public="1" set="method" line="292">
+		<removeReaction public="1" set="method" line="308">
 			<f a="e:uid:?cb" v="::null">
 				<c path="String"/>
 				<c path="String"/>
@@ -7009,7 +7066,7 @@
         @param e - The emote to be removed. Custom emotes require their TAG
         @param cb - Called when completed, good for checking for errors.</haxe_doc>
 		</removeReaction>
-		<removeAllReactions public="1" set="method" line="300">
+		<removeAllReactions public="1" set="method" line="316">
 			<f a="?cb" v="null">
 				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
 				<x path="Void"/>
@@ -7018,9 +7075,210 @@
 			<haxe_doc>Delete all reactions from a message. Requires the MANAGE_MESSAGES permission.
         @param cb - Called when completed, good for looking for errors.</haxe_doc>
 		</removeAllReactions>
-		<new public="1" set="method" line="81">
+		<getPermission public="1" set="method" line="325">
+			<f a="?channel_overrides" v="false">
+				<x path="Bool"/>
+				<x path="Int"/>
+			</f>
+			<meta><m n=":value"><e>{ channel_overrides : false }</e></m></meta>
+			<haxe_doc>Get the permissions of the author. If channel_overrides is true or if it's not a guild channel it will include guild permissions, otherwise it will not.
+        @param channel_overrides - bool representing whether or not to include channel specific overrides
+        @return - True or False, representing if they have permission or not</haxe_doc>
+		</getPermission>
+		<hasPermission public="1" set="method" line="339">
+			<f a="p:?channel_overrides" v=":false">
+				<x path="Int"/>
+				<x path="Bool"/>
+				<x path="Bool"/>
+			</f>
+			<meta><m n=":value"><e>{ channel_overrides : false }</e></m></meta>
+			<haxe_doc>Check if a message's author has a specific permission. If channel_overrides is true or if it's not a guild channel it will include guild permissions, otherwise it will not.
+        @param p - integer representing the permission to check against
+        @param channel_overrides - bool representing whether or not to include channel specific overrides
+        @return - True or False, representing if they have permission or not</haxe_doc>
+		</hasPermission>
+		<new public="1" set="method" line="89">
 			<f a="_msg:_client">
 				<t path="com.raidandfade.haxicord.types.structs.MessageStruct"/>
+				<c path="com.raidandfade.haxicord.DiscordClient"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":dox"><e>hide</e></m></meta>
+		</new>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="com.raidandfade.haxicord.types.TextChannel" params="" file="src/com/raidandfade/haxicord/types/TextChannel.hx">
+		<extends path="com.raidandfade.haxicord.types.GuildChannel"/>
+		<implements path="com.raidandfade.haxicord.types.MessageChannel"/>
+		<fromStruct public="1" set="method" line="68" static="1">
+			<f a="_chan:_client">
+				<t path="com.raidandfade.haxicord.types.structs.TextChannel"/>
+				<c path="com.raidandfade.haxicord.DiscordClient"/>
+				<c path="com.raidandfade.haxicord.types.TextChannel"/>
+			</f>
+			<meta><m n=":dox"><e>hide</e></m></meta>
+		</fromStruct>
+		<topic public="1">
+			<c path="String"/>
+			<haxe_doc>The topic of the channel.</haxe_doc>
+		</topic>
+		<last_message_id public="1">
+			<c path="com.raidandfade.haxicord.types.Snowflake"/>
+			<haxe_doc>The id of the last Message that was sent in the chat.</haxe_doc>
+		</last_message_id>
+		<rate_limit_per_user public="1">
+			<x path="Int"/>
+			<haxe_doc>The time in seconds of the current slowmode.</haxe_doc>
+		</rate_limit_per_user>
+		<last_pin_timestamp public="1">
+			<c path="String"/>
+			<haxe_doc>The timestamp of the last pin, as a string.</haxe_doc>
+		</last_pin_timestamp>
+		<_update public="1" set="method" line="44">
+			<f a="_chan">
+				<t path="com.raidandfade.haxicord.types.structs.TextChannel"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":dox"><e>hide</e></m></meta>
+		</_update>
+		<inGuild public="1" set="method" line="76">
+			<f a=""><x path="Bool"/></f>
+			<haxe_doc>Returns whether the channel is part of a guild or not. Always true for TextChannels</haxe_doc>
+		</inGuild>
+		<sendMessage public="1" set="method" line="85">
+			<f a="mesg:?cb" v=":null">
+				<t path="com.raidandfade.haxicord.endpoints.MessageCreate"/>
+				<f a=":">
+					<c path="com.raidandfade.haxicord.types.Message"/>
+					<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
+					<x path="Void"/>
+				</f>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
+			<haxe_doc>Send a message to a channel
+        @param mesg - Message data
+        @param cb - Return the message sent, or an error</haxe_doc>
+		</sendMessage>
+		<getMessages public="1" set="method" line="94">
+			<f a="?format:?cb" v="null:null">
+				<a/>
+				<f a=":">
+					<c path="Array"><c path="com.raidandfade.haxicord.types.Message"/></c>
+					<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
+					<x path="Void"/>
+				</f>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null, format : null }</e></m></meta>
+			<haxe_doc>Get messages from a given channel according to the given format.
+        @param format - Before, After, or Around. 
+        @param cb - The array of messages, or an error.</haxe_doc>
+		</getMessages>
+		<getMessage public="1" set="method" line="105">
+			<f a="mid:?cb" v=":null">
+				<c path="String"/>
+				<f a=":">
+					<c path="com.raidandfade.haxicord.types.Message"/>
+					<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
+					<x path="Void"/>
+				</f>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
+			<haxe_doc>Get a message in a channel
+        @param mid - The message id
+        @param cb - Return the message, or an error.</haxe_doc>
+		</getMessage>
+		<deleteMessage public="1" set="method" line="114">
+			<f a="mid:?cb" v=":null">
+				<c path="String"/>
+				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
+			<haxe_doc>Delete a given message. If the author is not the current user, the MANAGE_MESSAGES permission is required
+        @param mid - The id of the message.
+        @param cb - Return when complete.</haxe_doc>
+		</deleteMessage>
+		<deleteMessages public="1" set="method" line="123">
+			<f a="ids:?cb" v=":null">
+				<t path="com.raidandfade.haxicord.endpoints.MessageBulkDelete"/>
+				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
+			<haxe_doc>Delete a given messages. MANAGE_MESSAGES is required.
+        @param ids - an array of id of the messages.
+        @param cb - Return when complete.</haxe_doc>
+		</deleteMessages>
+		<startTyping public="1" set="method" line="131">
+			<f a="?cb" v="null">
+				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
+			<haxe_doc>Send a typing event in the given channel. This lasts for 10 seconds or when a message is sent, whichever comes first.
+        @param cb - Return when complete.</haxe_doc>
+		</startTyping>
+		<getPins public="1" set="method" line="139">
+			<f a="?cb" v="null">
+				<f a=":">
+					<c path="Array"><c path="com.raidandfade.haxicord.types.Message"/></c>
+					<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
+					<x path="Void"/>
+				</f>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
+			<haxe_doc>Get the pins of a channel
+        @param cb - Return an array of pins (or an error)</haxe_doc>
+		</getPins>
+		<pinMessage public="1" set="method" line="148">
+			<f a="mid:?cb" v=":null">
+				<c path="String"/>
+				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
+			<haxe_doc>Add a channel pin
+        @param mid - The message
+        @param cb - Called once completed. Leave blank to ignore.</haxe_doc>
+		</pinMessage>
+		<unpinMessage public="1" set="method" line="157">
+			<f a="mid:?cb" v=":null">
+				<c path="String"/>
+				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
+			<haxe_doc>Delete a channel's pin
+        @param mid - The pin id
+        @param cb - Called once completed. Leave blank to ignore.</haxe_doc>
+		</unpinMessage>
+		<new public="1" set="method" line="22">
+			<f a="_chan:_client">
+				<t path="com.raidandfade.haxicord.types.structs.TextChannel"/>
+				<c path="com.raidandfade.haxicord.DiscordClient"/>
+				<x path="Void"/>
+			</f>
+			<meta><m n=":dox"><e>hide</e></m></meta>
+		</new>
+		<meta><m n=":directlyUsed"/></meta>
+	</class>
+	<class path="com.raidandfade.haxicord.types.NewsChannel" params="" file="src/com/raidandfade/haxicord/types/NewsChannel.hx">
+		<extends path="com.raidandfade.haxicord.types.TextChannel"/>
+		<fromStruct public="1" set="method" line="10" static="1">
+			<f a="_chan:_client">
+				<t path="com.raidandfade.haxicord.types.structs.NewsChannel"/>
+				<c path="com.raidandfade.haxicord.DiscordClient"/>
+				<c path="com.raidandfade.haxicord.types.NewsChannel"/>
+			</f>
+			<meta><m n=":dox"><e>hide</e></m></meta>
+		</fromStruct>
+		<new public="1" set="method" line="5">
+			<f a="_chan:_client">
+				<t path="com.raidandfade.haxicord.types.structs.NewsChannel"/>
 				<c path="com.raidandfade.haxicord.DiscordClient"/>
 				<x path="Void"/>
 			</f>
@@ -7115,7 +7373,7 @@
 			<f a=""><c path="com.raidandfade.haxicord.types.Snowflake"/></f>
 			<haxe_doc>Generate a snowflake with the current time.</haxe_doc>
 		</generate>
-		<eq get="inline" set="null" line="52" static="1"><f a="a:b">
+		<eq get="inline" set="null" line="53" static="1"><f a="a:b">
 	<c path="com.raidandfade.haxicord.types.Snowflake"/>
 	<c path="com.raidandfade.haxicord.types.Snowflake"/>
 	<x path="Bool"/>
@@ -7132,11 +7390,12 @@
 			<f a=""><c path="String"/></f>
 			<haxe_doc>Return the snowflake in the form of a string.</haxe_doc>
 		</toString>
-		<equals public="1" set="method" line="48">
+		<equals public="1" set="method" line="49">
 			<f a="b">
 				<c path="com.raidandfade.haxicord.types.Snowflake"/>
 				<x path="Bool"/>
 			</f>
+			<meta><m n=":op"><e>a == b</e></m></meta>
 			<haxe_doc>Check if the snowflake is equal to another snowflake
        @param b - The other snowflake</haxe_doc>
 		</equals>
@@ -7150,150 +7409,30 @@
 		</new>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="com.raidandfade.haxicord.types.TextChannel" params="" file="src/com/raidandfade/haxicord/types/TextChannel.hx">
+	<class path="com.raidandfade.haxicord.types.StoreChannel" params="" file="src/com/raidandfade/haxicord/types/StoreChannel.hx">
 		<extends path="com.raidandfade.haxicord.types.GuildChannel"/>
-		<implements path="com.raidandfade.haxicord.types.MessageChannel"/>
-		<fromStruct public="1" set="method" line="48" static="1">
+		<fromStruct public="1" set="method" line="35" static="1">
 			<f a="_chan:_client">
-				<t path="com.raidandfade.haxicord.types.structs.TextChannel"/>
+				<t path="com.raidandfade.haxicord.types.structs.StoreChannel"/>
 				<c path="com.raidandfade.haxicord.DiscordClient"/>
-				<c path="com.raidandfade.haxicord.types.TextChannel"/>
+				<c path="com.raidandfade.haxicord.types.StoreChannel"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</fromStruct>
-		<topic public="1">
-			<c path="String"/>
-			<haxe_doc>The topic of the channel.</haxe_doc>
-		</topic>
-		<last_message_id public="1">
-			<c path="com.raidandfade.haxicord.types.Snowflake"/>
-			<haxe_doc>The id of the last Message that was sent in the chat.</haxe_doc>
-		</last_message_id>
-		<_update public="1" set="method" line="30">
+		<_update public="1" set="method" line="20">
 			<f a="_chan">
-				<t path="com.raidandfade.haxicord.types.structs.TextChannel"/>
+				<t path="com.raidandfade.haxicord.types.structs.StoreChannel"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_update>
-		<inGuild public="1" set="method" line="56">
+		<inGuild public="1" set="method" line="43">
 			<f a=""><x path="Bool"/></f>
-			<haxe_doc>Returns whether the channel is part of a guild or not. Always true for TextChannels</haxe_doc>
+			<haxe_doc>Returns whether the channel is part of a guild or not. Always true for StoreChannels</haxe_doc>
 		</inGuild>
-		<sendMessage public="1" set="method" line="65">
-			<f a="mesg:?cb" v=":null">
-				<t path="com.raidandfade.haxicord.endpoints.MessageCreate"/>
-				<f a=":">
-					<c path="com.raidandfade.haxicord.types.Message"/>
-					<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
-					<x path="Void"/>
-				</f>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
-			<haxe_doc>Send a message to a channel
-        @param mesg - Message data
-        @param cb - Return the message sent, or an error</haxe_doc>
-		</sendMessage>
-		<getMessages public="1" set="method" line="74">
-			<f a="?format:?cb" v="null:null">
-				<a/>
-				<f a=":">
-					<c path="Array"><c path="com.raidandfade.haxicord.types.Message"/></c>
-					<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
-					<x path="Void"/>
-				</f>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null, format : null }</e></m></meta>
-			<haxe_doc>Get messages from a given channel according to the given format.
-        @param format - Before, After, or Around. 
-        @param cb - The array of messages, or an error.</haxe_doc>
-		</getMessages>
-		<getMessage public="1" set="method" line="85">
-			<f a="mid:?cb" v=":null">
-				<c path="String"/>
-				<f a=":">
-					<c path="com.raidandfade.haxicord.types.Message"/>
-					<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
-					<x path="Void"/>
-				</f>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
-			<haxe_doc>Get a message in a channel
-        @param mid - The message id
-        @param cb - Return the message, or an error.</haxe_doc>
-		</getMessage>
-		<deleteMessage public="1" set="method" line="94">
-			<f a="mid:?cb" v=":null">
-				<c path="String"/>
-				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
-			<haxe_doc>Delete a given message. If the author is not the current user, the MANAGE_MESSAGES permission is required
-        @param mid - The id of the message.
-        @param cb - Return when complete.</haxe_doc>
-		</deleteMessage>
-		<deleteMessages public="1" set="method" line="103">
-			<f a="ids:?cb" v=":null">
-				<t path="com.raidandfade.haxicord.endpoints.MessageBulkDelete"/>
-				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
-			<haxe_doc>Delete a given messages. MANAGE_MESSAGES is required.
-        @param ids - an array of id of the messages.
-        @param cb - Return when complete.</haxe_doc>
-		</deleteMessages>
-		<startTyping public="1" set="method" line="111">
-			<f a="?cb" v="null">
-				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
-			<haxe_doc>Send a typing event in the given channel. This lasts for 10 seconds or when a message is sent, whichever comes first.
-        @param cb - Return when complete.</haxe_doc>
-		</startTyping>
-		<getPins public="1" set="method" line="119">
-			<f a="?cb" v="null">
-				<f a=":">
-					<c path="Array"><c path="com.raidandfade.haxicord.types.Message"/></c>
-					<t path="com.raidandfade.haxicord.endpoints.ErrorReport"/>
-					<x path="Void"/>
-				</f>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
-			<haxe_doc>Get the pins of a channel
-        @param cb - Return an array of pins (or an error)</haxe_doc>
-		</getPins>
-		<pinMessage public="1" set="method" line="128">
-			<f a="mid:?cb" v=":null">
-				<c path="String"/>
-				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
-			<haxe_doc>Add a channel pin
-        @param mid - The message
-        @param cb - Called once completed. Leave blank to ignore.</haxe_doc>
-		</pinMessage>
-		<unpinMessage public="1" set="method" line="137">
-			<f a="mid:?cb" v=":null">
-				<c path="String"/>
-				<t path="com.raidandfade.haxicord.endpoints.EmptyResponseCallback"/>
-				<x path="Void"/>
-			</f>
-			<meta><m n=":value"><e>{ cb : null }</e></m></meta>
-			<haxe_doc>Delete a channel's pin
-        @param mid - The pin id
-        @param cb - Called once completed. Leave blank to ignore.</haxe_doc>
-		</unpinMessage>
-		<new public="1" set="method" line="14">
+		<new public="1" set="method" line="6">
 			<f a="_chan:_client">
-				<t path="com.raidandfade.haxicord.types.structs.TextChannel"/>
+				<t path="com.raidandfade.haxicord.types.structs.StoreChannel"/>
 				<c path="com.raidandfade.haxicord.DiscordClient"/>
 				<x path="Void"/>
 			</f>
@@ -7354,18 +7493,20 @@
 			<x path="Bool"/>
 			<haxe_doc>Is the user loaded? If this is false you should consider doing user.load()</haxe_doc>
 		</isLoaded>
-		<_update public="1" set="method" line="92">
+		<flags public="1"><x path="Int"/></flags>
+		<premium_type public="1"><x path="Int"/></premium_type>
+		<_update public="1" set="method" line="102">
 			<f a="_user">
 				<t path="com.raidandfade.haxicord.types.structs.User"/>
 				<x path="Void"/>
 			</f>
 			<meta><m n=":dox"><e>hide</e></m></meta>
 		</_update>
-		<load public="1" set="method" line="121">
+		<load public="1" set="method" line="136">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>Load this user if it's not loaded (if isLoaded == false)</haxe_doc>
 		</load>
-		<new public="1" set="method" line="64">
+		<new public="1" set="method" line="68">
 			<f a="_user:_client">
 				<t path="com.raidandfade.haxicord.types.structs.User"/>
 				<c path="com.raidandfade.haxicord.DiscordClient"/>
@@ -8145,11 +8286,27 @@
 	</animated>
 </a></typedef>
 	<typedef path="com.raidandfade.haxicord.types.structs.Guild" params="" file="src/com/raidandfade/haxicord/types/structs/Guild.hx"><a>
+	<widget_enabled>
+		<t path="Null"><x path="Bool"/></t>
+		<meta><m n=":optional"/></meta>
+	</widget_enabled>
+	<widget_channel_id>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</widget_channel_id>
 	<verification_level><x path="Int"/></verification_level>
+	<vanity_url_code>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</vanity_url_code>
 	<unavailable>
 		<t path="Null"><x path="Bool"/></t>
 		<meta><m n=":optional"/></meta>
 	</unavailable>
+	<system_channel_id>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</system_channel_id>
 	<splash><c path="String"/></splash>
 	<roles><c path="Array"><t path="com.raidandfade.haxicord.types.structs.Role"/></c></roles>
 	<region><c path="String"/></region>
@@ -8157,6 +8314,14 @@
 		<t path="Null"><c path="Array"><t path="com.raidandfade.haxicord.types.structs.Presence"/></c></t>
 		<meta><m n=":optional"/></meta>
 	</presences>
+	<premium_tier>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</premium_tier>
+	<premium_subscription_count>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</premium_subscription_count>
 	<owner_id><c path="String"/></owner_id>
 	<name><c path="String"/></name>
 	<mfa_level><x path="Int"/></mfa_level>
@@ -8168,6 +8333,14 @@
 		<t path="Null"><x path="Int"/></t>
 		<meta><m n=":optional"/></meta>
 	</member_count>
+	<max_presences>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</max_presences>
+	<max_members>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</max_members>
 	<large>
 		<t path="Null"><x path="Bool"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8183,23 +8356,47 @@
 	<emojis><c path="Array"><t path="com.raidandfade.haxicord.types.structs.Emoji"/></c></emojis>
 	<embed_enabled><x path="Bool"/></embed_enabled>
 	<embed_channel_id><c path="String"/></embed_channel_id>
+	<description>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</description>
 	<default_message_notifications><x path="Int"/></default_message_notifications>
 	<channels>
 		<t path="Null"><c path="Array"><t path="com.raidandfade.haxicord.types.structs.GuildChannelTypes"/></c></t>
 		<meta><m n=":optional"/></meta>
 	</channels>
+	<banner>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</banner>
 	<afk_timeout><x path="Int"/></afk_timeout>
 	<afk_channel_id><c path="String"/></afk_channel_id>
 </a></typedef>
 	<typedef path="com.raidandfade.haxicord.types.structs.Update" params="" file="src/com/raidandfade/haxicord/types/structs/Guild.hx" module="com.raidandfade.haxicord.types.structs.Guild"><a>
+	<widget_enabled>
+		<t path="Null"><x path="Bool"/></t>
+		<meta><m n=":optional"/></meta>
+	</widget_enabled>
+	<widget_channel_id>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</widget_channel_id>
 	<verification_level>
 		<t path="Null"><x path="Int"/></t>
 		<meta><m n=":optional"/></meta>
 	</verification_level>
+	<vanity_url_code>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</vanity_url_code>
 	<unavailable>
 		<t path="Null"><x path="Bool"/></t>
 		<meta><m n=":optional"/></meta>
 	</unavailable>
+	<system_channel_id>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</system_channel_id>
 	<splash>
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8216,6 +8413,14 @@
 		<t path="Null"><c path="Array"><t path="com.raidandfade.haxicord.types.structs.Presence"/></c></t>
 		<meta><m n=":optional"/></meta>
 	</presences>
+	<premium_tier>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</premium_tier>
+	<premium_subscription_count>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</premium_subscription_count>
 	<owner_id>
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8236,6 +8441,14 @@
 		<t path="Null"><x path="Int"/></t>
 		<meta><m n=":optional"/></meta>
 	</member_count>
+	<max_presences>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</max_presences>
+	<max_members>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</max_members>
 	<large>
 		<t path="Null"><x path="Bool"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8265,6 +8478,10 @@
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
 	</embed_channel_id>
+	<description>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</description>
 	<default_message_notifications>
 		<t path="Null"><x path="Int"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8273,6 +8490,10 @@
 		<t path="Null"><c path="Array"><t path="com.raidandfade.haxicord.types.structs.GuildChannelTypes"/></c></t>
 		<meta><m n=":optional"/></meta>
 	</channels>
+	<banner>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</banner>
 	<afk_timeout>
 		<t path="Null"><x path="Int"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8317,6 +8538,10 @@
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
 	</topic>
+	<rate_limit_per_user>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</rate_limit_per_user>
 	<position>
 		<t path="Null"><x path="Int"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8337,6 +8562,10 @@
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
 	</name>
+	<last_pin_timestamp>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</last_pin_timestamp>
 	<last_message_id>
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8376,6 +8605,72 @@
 		<t path="Null"><x path="Int"/></t>
 		<meta><m n=":optional"/></meta>
 	</bitrate>
+</a></typedef>
+	<typedef path="com.raidandfade.haxicord.types.structs.NewsChannel" params="" file="src/com/raidandfade/haxicord/types/structs/GuildChannel.hx" module="com.raidandfade.haxicord.types.structs.GuildChannel"><a>
+	<type><x path="Int"/></type>
+	<topic>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</topic>
+	<rate_limit_per_user>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</rate_limit_per_user>
+	<position>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</position>
+	<permission_overwrites>
+		<t path="Null"><c path="Array"><t path="com.raidandfade.haxicord.types.structs.Overwrite"/></c></t>
+		<meta><m n=":optional"/></meta>
+	</permission_overwrites>
+	<parent_id>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</parent_id>
+	<nsfw>
+		<t path="Null"><x path="Bool"/></t>
+		<meta><m n=":optional"/></meta>
+	</nsfw>
+	<name>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</name>
+	<last_pin_timestamp>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</last_pin_timestamp>
+	<last_message_id>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</last_message_id>
+	<id><c path="String"/></id>
+	<guild_id><c path="String"/></guild_id>
+</a></typedef>
+	<typedef path="com.raidandfade.haxicord.types.structs.StoreChannel" params="" file="src/com/raidandfade/haxicord/types/structs/GuildChannel.hx" module="com.raidandfade.haxicord.types.structs.GuildChannel"><a>
+	<type><x path="Int"/></type>
+	<position>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</position>
+	<permission_overwrites>
+		<t path="Null"><c path="Array"><t path="com.raidandfade.haxicord.types.structs.Overwrite"/></c></t>
+		<meta><m n=":optional"/></meta>
+	</permission_overwrites>
+	<parent_id>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</parent_id>
+	<nsfw>
+		<t path="Null"><x path="Bool"/></t>
+		<meta><m n=":optional"/></meta>
+	</nsfw>
+	<name>
+		<t path="Null"><c path="String"/></t>
+		<meta><m n=":optional"/></meta>
+	</name>
+	<id><c path="String"/></id>
+	<guild_id><c path="String"/></guild_id>
 </a></typedef>
 	<enum path="com.raidandfade.haxicord.types.structs.OverwriteType" params="" file="src/com/raidandfade/haxicord/types/structs/GuildChannel.hx" module="com.raidandfade.haxicord.types.structs.GuildChannel">
 		<Role/>
@@ -8470,6 +8765,10 @@
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
 	</webhook_id>
+	<type>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</type>
 	<tts>
 		<t path="Null"><x path="Bool"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8524,6 +8823,25 @@
 		<t path="Null"><c path="Array"><t path="com.raidandfade.haxicord.types.structs.Attachment"/></c></t>
 		<meta><m n=":optional"/></meta>
 	</attachments>
+	<application>
+		<t path="Null"><t path="com.raidandfade.haxicord.types.structs.MessageApplication"/></t>
+		<meta><m n=":optional"/></meta>
+	</application>
+	<activity>
+		<t path="Null"><t path="com.raidandfade.haxicord.types.structs.MessageActivity"/></t>
+		<meta><m n=":optional"/></meta>
+	</activity>
+</a></typedef>
+	<typedef path="com.raidandfade.haxicord.types.structs.MessageActivity" params="" file="src/com/raidandfade/haxicord/types/structs/MessageStruct.hx" module="com.raidandfade.haxicord.types.structs.MessageStruct"><a>
+	<type><x path="Int"/></type>
+	<party_id><c path="String"/></party_id>
+</a></typedef>
+	<typedef path="com.raidandfade.haxicord.types.structs.MessageApplication" params="" file="src/com/raidandfade/haxicord/types/structs/MessageStruct.hx" module="com.raidandfade.haxicord.types.structs.MessageStruct"><a>
+	<name><c path="String"/></name>
+	<id><c path="String"/></id>
+	<icon><c path="String"/></icon>
+	<description><c path="String"/></description>
+	<cover_image><c path="String"/></cover_image>
 </a></typedef>
 	<typedef path="com.raidandfade.haxicord.types.structs.Attachment" params="" file="src/com/raidandfade/haxicord/types/structs/MessageStruct.hx" module="com.raidandfade.haxicord.types.structs.MessageStruct"><a>
 	<width><x path="Int"/></width>
@@ -8691,6 +9009,10 @@
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
 	</username>
+	<premium_type>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</premium_type>
 	<mfa_enabled>
 		<t path="Null"><x path="Bool"/></t>
 		<meta><m n=":optional"/></meta>
@@ -8700,6 +9022,10 @@
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
 	</guild_id>
+	<flags>
+		<t path="Null"><x path="Int"/></t>
+		<meta><m n=":optional"/></meta>
+	</flags>
 	<email>
 		<t path="Null"><c path="String"/></t>
 		<meta><m n=":optional"/></meta>
@@ -9060,7 +9386,7 @@
 		</new>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<enum path="haxe.StackItem" params="" file="/usr/local/lib/haxe/std/haxe/CallStack.hx" module="haxe.CallStack">
+	<enum path="haxe.StackItem" params="" file="C:\HaxeToolkit\haxe\std/haxe/CallStack.hx" module="haxe.CallStack">
 		<CFunction/>
 		<Module a="m"><c path="String"/></Module>
 		<FilePos a="s:file:line">
@@ -9075,7 +9401,7 @@
 		<LocalFunction a="?v"><x path="Int"/></LocalFunction>
 		<haxe_doc>Elements return by `CallStack` methods.</haxe_doc>
 	</enum>
-	<class path="haxe.CallStack" params="" file="/usr/local/lib/haxe/std/haxe/CallStack.hx">
+	<class path="haxe.CallStack" params="" file="C:\HaxeToolkit\haxe\std/haxe/CallStack.hx">
 		<callStack public="1" set="method" line="77" static="1">
 			<f a=""><c path="Array"><e path="haxe.StackItem"/></c></f>
 			<haxe_doc>Return the call stack elements, or an empty array if not available.</haxe_doc>
@@ -9104,31 +9430,31 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<abstract path="haxe.Function" params="" file="/usr/local/lib/haxe/std/haxe/Constraints.hx" module="haxe.Constraints">
+	<abstract path="haxe.Function" params="" file="C:\HaxeToolkit\haxe\std/haxe/Constraints.hx" module="haxe.Constraints">
 		<this><d/></this>
 		<haxe_doc>This type unifies with any function type.
 
 	It is intended to be used as a type parameter constraint. If used as a real
 	type, the underlying type will be `Dynamic`.</haxe_doc>
 		<meta><m n=":callable"/></meta>
-		<impl><class path="haxe._Constraints.Function_Impl_" params="" file="/usr/local/lib/haxe/std/haxe/Constraints.hx" private="1" module="haxe.Constraints"><meta>
+		<impl><class path="haxe._Constraints.Function_Impl_" params="" file="C:\HaxeToolkit\haxe\std/haxe/Constraints.hx" private="1" module="haxe.Constraints"><meta>
 	<m n=":keep"/>
 	<m n=":final"/>
 </meta></class></impl>
 	</abstract>
-	<abstract path="haxe.FlatEnum" params="" file="/usr/local/lib/haxe/std/haxe/Constraints.hx" module="haxe.Constraints">
+	<abstract path="haxe.FlatEnum" params="" file="C:\HaxeToolkit\haxe\std/haxe/Constraints.hx" module="haxe.Constraints">
 		<this><d/></this>
 		<haxe_doc>This type unifies with an enum instance if all constructors of the enum
 	require no arguments.
 
 	It is intended to be used as a type parameter constraint. If used as a real
 	type, the underlying type will be `Dynamic`.</haxe_doc>
-		<impl><class path="haxe._Constraints.FlatEnum_Impl_" params="" file="/usr/local/lib/haxe/std/haxe/Constraints.hx" private="1" module="haxe.Constraints"><meta>
+		<impl><class path="haxe._Constraints.FlatEnum_Impl_" params="" file="C:\HaxeToolkit\haxe\std/haxe/Constraints.hx" private="1" module="haxe.Constraints"><meta>
 	<m n=":keep"/>
 	<m n=":final"/>
 </meta></class></impl>
 	</abstract>
-	<abstract path="haxe.Constructible" params="T" file="/usr/local/lib/haxe/std/haxe/Constraints.hx" module="haxe.Constraints">
+	<abstract path="haxe.Constructible" params="T" file="C:\HaxeToolkit\haxe\std/haxe/Constraints.hx" module="haxe.Constraints">
 		<this><d/></this>
 		<haxe_doc><![CDATA[This type unifies with any instance of classes that have a constructor
 	which
@@ -9141,12 +9467,12 @@
 
 	It is intended to be used as a type parameter constraint. If used as a real
 	type, the underlying type will be `Dynamic`.]]></haxe_doc>
-		<impl><class path="haxe._Constraints.Constructible_Impl_" params="" file="/usr/local/lib/haxe/std/haxe/Constraints.hx" private="1" module="haxe.Constraints"><meta>
+		<impl><class path="haxe._Constraints.Constructible_Impl_" params="" file="C:\HaxeToolkit\haxe\std/haxe/Constraints.hx" private="1" module="haxe.Constraints"><meta>
 	<m n=":keep"/>
 	<m n=":final"/>
 </meta></class></impl>
 	</abstract>
-	<class path="haxe.IMap" params="K:V" file="/usr/local/lib/haxe/std/haxe/Constraints.hx" module="haxe.Constraints" interface="1">
+	<class path="haxe.IMap" params="K:V" file="C:\HaxeToolkit\haxe\std/haxe/Constraints.hx" module="haxe.Constraints" interface="1">
 		<remove public="1" set="method"><f a="k">
 	<c path="haxe.IMap.K"/>
 	<x path="Bool"/>
@@ -9176,21 +9502,31 @@
 		<main public="1" set="method" line="89" static="1"><f a=""><x path="Void"/></f></main>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="haxe._EntryPoint.Lock" params="" file="/usr/local/lib/haxe/std/haxe/EntryPoint.hx" private="1" module="haxe.EntryPoint">
+	<class path="haxe._EntryPoint.Lock" params="" file="C:\HaxeToolkit\haxe\std/haxe/EntryPoint.hx" private="1" module="haxe.EntryPoint">
 		<new public="1" set="method" line="17"><f a=""><x path="Void"/></f></new>
 		<meta>
 			<m n=":keep"/>
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe._EntryPoint.Mutex" params="" file="/usr/local/lib/haxe/std/haxe/EntryPoint.hx" private="1" module="haxe.EntryPoint">
+	<class path="haxe._EntryPoint.Mutex" params="" file="C:\HaxeToolkit\haxe\std/haxe/EntryPoint.hx" private="1" module="haxe.EntryPoint">
 		<new public="1" set="method" line="25"><f a=""><x path="Void"/></f></new>
 		<meta>
 			<m n=":keep"/>
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.EntryPoint" params="" file="/usr/local/lib/haxe/std/haxe/EntryPoint.hx">
+	<class path="haxe._EntryPoint.Thread" params="" file="C:\HaxeToolkit\haxe\std/haxe/EntryPoint.hx" private="1" module="haxe.EntryPoint">
+		<create public="1" set="method" line="33" static="1"><f a="f">
+	<f a=""><x path="Void"/></f>
+	<x path="Void"/>
+</f></create>
+		<meta>
+			<m n=":keep"/>
+			<m n=":directlyUsed"/>
+		</meta>
+	</class>
+	<class path="haxe.EntryPoint" params="" file="C:\HaxeToolkit\haxe\std/haxe/EntryPoint.hx">
 		<sleepLock expr="new Lock()" line="46" static="1">
 			<c path="haxe._EntryPoint.Lock"/>
 			<meta><m n=":value"><e>new Lock()</e></m></meta>
@@ -9207,6 +9543,18 @@
 			<x path="Int"/>
 			<meta><m n=":value"><e>0</e></m></meta>
 		</threadCount>
+		<wakeup public="1" set="method" line="56" static="1">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>Wakeup a sleeping run()</haxe_doc>
+		</wakeup>
+		<runInMainThread public="1" set="method" line="62" static="1"><f a="f">
+	<f a=""><x path="Void"/></f>
+	<x path="Void"/>
+</f></runInMainThread>
+		<addThread public="1" set="method" line="73" static="1"><f a="f">
+	<f a=""><x path="Void"/></f>
+	<x path="Void"/>
+</f></addThread>
 		<processEvents set="method" line="91" static="1"><f a=""><x path="Float"/></f></processEvents>
 		<run public="1" set="method" line="112" static="1">
 			<f a=""><x path="Void"/></f>
@@ -9220,7 +9568,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.EnumTools" params="" file="/usr/local/lib/haxe/std/haxe/EnumTools.hx" extern="1">
+	<class path="haxe.EnumTools" params="" file="C:\HaxeToolkit\haxe\std/haxe/EnumTools.hx" extern="1">
 		<getName public="1" params="T" get="inline" set="null" line="50" static="1">
 			<f a="e">
 				<x path="Enum"><c path="getName.T"/></x>
@@ -9310,7 +9658,7 @@
 	If the first argument to any of the methods is null, the result is
 	unspecified.</haxe_doc>
 	</class>
-	<class path="haxe.EnumValueTools" params="" file="/usr/local/lib/haxe/std/haxe/EnumTools.hx" module="haxe.EnumTools" extern="1">
+	<class path="haxe.EnumValueTools" params="" file="C:\HaxeToolkit\haxe\std/haxe/EnumTools.hx" module="haxe.EnumTools" extern="1">
 		<equals public="1" params="T" get="inline" set="null" line="132" static="1">
 			<f a="a:b">
 				<c path="equals.T"/>
@@ -9402,7 +9750,7 @@
 	If the first argument to any of the methods is null, the result is
 	unspecified.</haxe_doc>
 	</class>
-	<class path="haxe.Http" params="" file="/usr/local/lib/haxe/std/haxe/Http.hx">
+	<class path="haxe.Http" params="" file="C:\HaxeToolkit\haxe\std/haxe/Http.hx">
 		<PROXY public="1" expr="null" line="65" static="1">
 			<a>
 				<port><x path="Int"/></port>
@@ -9550,7 +9898,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<abstract path="haxe.Int32" params="" file="/usr/local/lib/haxe/std/haxe/Int32.hx">
+	<abstract path="haxe.Int32" params="" file="C:\HaxeToolkit\haxe\std/haxe/Int32.hx">
 		<from><icast><x path="Int"/></icast></from>
 		<this><x path="Int"/></this>
 		<to>
@@ -9559,12 +9907,12 @@
 		</to>
 		<haxe_doc>Int32 provides a 32-bit integer with consistent overflow behavior across
  	all platforms.</haxe_doc>
-		<impl><class path="haxe._Int32.Int32_Impl_" params="" file="/usr/local/lib/haxe/std/haxe/Int32.hx" private="1" module="haxe.Int32"><meta>
+		<impl><class path="haxe._Int32.Int32_Impl_" params="" file="C:\HaxeToolkit\haxe\std/haxe/Int32.hx" private="1" module="haxe.Int32"><meta>
 	<m n=":keep"/>
 	<m n=":final"/>
 </meta></class></impl>
 	</abstract>
-	<abstract path="haxe.Int64" params="" file="/usr/local/lib/haxe/std/haxe/Int64.hx">
+	<abstract path="haxe.Int64" params="" file="C:\HaxeToolkit\haxe\std/haxe/Int64.hx">
 		<from>
 			<icast><t path="haxe._Int64.__Int64"/></icast>
 			<icast field="ofInt"><x path="Int"/></icast>
@@ -9573,7 +9921,7 @@
 		<to><icast><t path="haxe._Int64.__Int64"/></icast></to>
 		<haxe_doc>A cross-platform signed 64-bit integer.
 	Int64 instances can be created from two 32-bit words using `Int64.make()`.</haxe_doc>
-		<impl><class path="haxe._Int64.Int64_Impl_" params="" file="/usr/local/lib/haxe/std/haxe/Int64.hx" private="1" module="haxe.Int64">
+		<impl><class path="haxe._Int64.Int64_Impl_" params="" file="C:\HaxeToolkit\haxe\std/haxe/Int64.hx" private="1" module="haxe.Int64">
 	<high public="1" get="accessor" set="null" static="1">
 		<x path="haxe.Int32"/>
 		<meta><m n=":impl"/></meta>
@@ -9588,13 +9936,13 @@
 	</meta>
 </class></impl>
 	</abstract>
-	<typedef path="haxe._Int64.__Int64" params="" file="/usr/local/lib/haxe/std/haxe/Int64.hx" private="1" module="haxe.Int64">
+	<typedef path="haxe._Int64.__Int64" params="" file="C:\HaxeToolkit\haxe\std/haxe/Int64.hx" private="1" module="haxe.Int64">
 		<c path="haxe._Int64.___Int64"/>
 		<haxe_doc>* This typedef will fool @:coreApi into thinking that we are using
   * the same underlying type, even though it might be different on
   * specific platforms.</haxe_doc>
 	</typedef>
-	<class path="haxe.Log" params="" file="/usr/local/lib/haxe/std/haxe/Log.hx">
+	<class path="haxe.Log" params="" file="C:\HaxeToolkit\haxe\std/haxe/Log.hx">
 		<trace public="1" set="dynamic" line="47" static="1">
 			<f a="v:?infos">
 				<d/>
@@ -9624,25 +9972,57 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.MainEvent" params="" file="/usr/local/lib/haxe/std/haxe/MainLoop.hx" module="haxe.MainLoop">
+	<class path="haxe.MainEvent" params="" file="C:\HaxeToolkit\haxe\std/haxe/MainLoop.hx" module="haxe.MainLoop">
 		<f><f a=""><x path="Void"/></f></f>
 		<prev><c path="haxe.MainEvent"/></prev>
 		<next><c path="haxe.MainEvent"/></next>
 		<nextRun public="1" set="null"><x path="Float"/></nextRun>
 		<priority public="1" set="null"><x path="Int"/></priority>
+		<delay public="1" set="method" line="22">
+			<f a="t">
+				<t path="Null"><x path="Float"/></t>
+				<x path="Void"/>
+			</f>
+			<haxe_doc>Delay the execution of the event for the given time, in seconds.
+		If t is null, the event will be run at tick() time.</haxe_doc>
+		</delay>
+		<stop public="1" set="method" line="36">
+			<f a=""><x path="Void"/></f>
+			<haxe_doc>Stop the event from firing anymore.</haxe_doc>
+		</stop>
 		<new set="method" line="12"><f a="f:p">
 	<f a=""><x path="Void"/></f>
 	<x path="Int"/>
 	<x path="Void"/>
 </f></new>
-		<meta><m n=":keep"/></meta>
+		<meta>
+			<m n=":keep"/>
+			<m n=":directlyUsed"/>
+		</meta>
 	</class>
-	<class path="haxe.MainLoop" params="" file="/usr/local/lib/haxe/std/haxe/MainLoop.hx">
+	<class path="haxe.MainLoop" params="" file="C:\HaxeToolkit\haxe\std/haxe/MainLoop.hx">
 		<pending expr="null" line="53" static="1">
 			<c path="haxe.MainEvent"/>
 			<meta><m n=":value"><e>null</e></m></meta>
 		</pending>
 		<threadCount public="1" get="null" set="null" static="1"><x path="Int"/></threadCount>
+		<addThread public="1" set="method" line="63" static="1"><f a="f">
+	<f a=""><x path="Void"/></f>
+	<x path="Void"/>
+</f></addThread>
+		<runInMainThread public="1" set="method" line="67" static="1"><f a="f">
+	<f a=""><x path="Void"/></f>
+	<x path="Void"/>
+</f></runInMainThread>
+		<add public="1" set="method" line="74" static="1">
+			<f a="f:?priority" v=":0">
+				<f a=""><x path="Void"/></f>
+				<x path="Int"/>
+				<c path="haxe.MainEvent"/>
+			</f>
+			<meta><m n=":value"><e>{ priority : 0 }</e></m></meta>
+			<haxe_doc>Add a pending event to be run into the main loop.</haxe_doc>
+		</add>
 		<sortEvents set="method" line="85" static="1"><f a=""><x path="Void"/></f></sortEvents>
 		<tick set="method" line="146" static="1">
 			<f a=""><x path="Float"/></f>
@@ -9654,7 +10034,7 @@
 			<m n=":access"><e>haxe.MainEvent</e></m>
 		</meta>
 	</class>
-	<typedef path="haxe.PosInfos" params="" file="/usr/local/lib/haxe/std/haxe/PosInfos.hx">
+	<typedef path="haxe.PosInfos" params="" file="C:\HaxeToolkit\haxe\std/haxe/PosInfos.hx">
 		<a>
 			<methodName><c path="String"/></methodName>
 			<lineNumber><x path="Int"/></lineNumber>
@@ -9675,8 +10055,8 @@
 	This can be used to track positions of calls in e.g. a unit testing
 	framework.</haxe_doc>
 	</typedef>
-	<class path="haxe.Timer" params="" file="src/haxe/Timer.hx">
-		<delay public="1" set="method" line="151" static="1">
+	<class path="haxe.Timer" params="" file="C:\HaxeToolkit\haxe\std/haxe/Timer.hx">
+		<delay public="1" set="method" line="136" static="1">
 			<f a="f:time_ms">
 				<f a=""><x path="Void"/></f>
 				<x path="Int"/>
@@ -9690,40 +10070,8 @@
 
 		If `f` is null, the result is unspecified.</haxe_doc>
 		</delay>
-		<measure public="1" params="T" set="method" line="171" static="1">
-			<f a="f:?pos">
-				<f a=""><c path="measure.T"/></f>
-				<t path="haxe.PosInfos"/>
-				<c path="measure.T"/>
-			</f>
-			<haxe_doc>Measures the time it takes to execute `f`, in seconds with fractions.
-
-		This is a convenience function for calculating the difference between
-		Timer.stamp() before and after the invocation of `f`.
-
-		The difference is passed as argument to Log.trace(), with "s" appended
-		to denote the unit. The optional `pos` argument is passed through.
-
-		If `f` is null, the result is unspecified.</haxe_doc>
-		</measure>
-		<stamp public="1" get="inline" set="null" line="184" static="1">
-			<f a=""><x path="Float"/></f>
-			<haxe_doc>Returns a timestamp, in seconds with fractions.
-
-		The value itself might differ depending on platforms, only differences
-		between two values make sense.</haxe_doc>
-		</stamp>
 		<event><c path="haxe.MainEvent"/></event>
-		<stopped expr="true">
-			<x path="Bool"/>
-			<meta><m n=":value"><e>true</e></m></meta>
-		</stopped>
-		<runDelay expr="0">
-			<x path="Float"/>
-			<meta><m n=":value"><e>0</e></m></meta>
-		</runDelay>
-		<fn public="1" set="method" line="91"><f a=""><x path="Void"/></f></fn>
-		<stop public="1" set="method" line="106">
+		<stop public="1" set="method" line="88">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>Stops `this` Timer.
 
@@ -9732,7 +10080,7 @@
 
 		It is not possible to restart `this` Timer once stopped.</haxe_doc>
 		</stop>
-		<run public="1" set="dynamic" line="138">
+		<run public="1" set="dynamic" line="123">
 			<f a=""><x path="Void"/></f>
 			<haxe_doc>This method is invoked repeatedly on `this` Timer.
 
@@ -9744,8 +10092,7 @@
 		Once bound, it can still be rebound to different functions until `this`
 		Timer is stopped through a call to `this.stop`.</haxe_doc>
 		</run>
-		<isStopped public="1" set="method" line="204"><f a=""><x path="Bool"/></f></isStopped>
-		<new public="1" set="method" line="62">
+		<new public="1" set="method" line="60">
 			<f a="time_ms">
 				<x path="Int"/>
 				<x path="Void"/>
@@ -9753,7 +10100,7 @@
 			<haxe_doc>Creates a new timer that will run every `time_ms` milliseconds.
 
 		After creating the Timer instance, it calls `this.run` repeatedly,
-		with delays of `time_ms` milliseconds,  until `this.stop` is called.
+		with delays of `time_ms` milliseconds, until `this.stop` is called.
 
 		The first invocation occurs after `time_ms` milliseconds, not
 		immediately.
@@ -9772,9 +10119,12 @@
 
 	It is also possible to extend this class and override its run() method in
 	the child class.</haxe_doc>
-		<meta><m n=":directlyUsed"/></meta>
+		<meta>
+			<m n=":keep"/>
+			<m n=":directlyUsed"/>
+		</meta>
 	</class>
-	<class path="haxe.io.Bytes" params="" file="/usr/local/lib/haxe/std/haxe/io/Bytes.hx">
+	<class path="haxe.io.Bytes" params="" file="C:\HaxeToolkit\haxe\std/haxe/io/Bytes.hx">
 		<alloc public="1" set="method" line="462" static="1"><f a="length">
 	<x path="Int"/>
 	<c path="haxe.io.Bytes"/>
@@ -9807,7 +10157,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.crypto.Base64" params="" file="/usr/local/lib/haxe/std/haxe/crypto/Base64.hx">
+	<class path="haxe.crypto.Base64" params="" file="C:\HaxeToolkit\haxe\std/haxe/crypto/Base64.hx">
 		<CHARS public="1" set="null" expr="&quot;ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/&quot;" line="29" static="1">
 			<c path="String"/>
 			<meta><m n=":value"><e>"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"</e></m></meta>
@@ -9830,7 +10180,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.crypto.BaseCode" params="" file="/usr/local/lib/haxe/std/haxe/crypto/BaseCode.hx">
+	<class path="haxe.crypto.BaseCode" params="" file="C:\HaxeToolkit\haxe\std/haxe/crypto/BaseCode.hx">
 		<base><c path="haxe.io.Bytes"/></base>
 		<nbits><x path="Int"/></nbits>
 		<encodeBytes public="1" set="method" line="44"><f a="b">
@@ -9847,7 +10197,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.crypto.Sha1" params="" file="/usr/local/lib/haxe/std/haxe/crypto/Sha1.hx">
+	<class path="haxe.crypto.Sha1" params="" file="C:\HaxeToolkit\haxe\std/haxe/crypto/Sha1.hx">
 		<make public="1" set="method" line="39" static="1"><f a="b">
 	<c path="haxe.io.Bytes"/>
 	<c path="haxe.io.Bytes"/>
@@ -9884,7 +10234,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<abstract path="haxe.ds.HashMap" params="K:V" file="/usr/local/lib/haxe/std/haxe/ds/HashMap.hx">
+	<abstract path="haxe.ds.HashMap" params="K:V" file="C:\HaxeToolkit\haxe\std/haxe/ds/HashMap.hx">
 		<this><c path="haxe.ds._HashMap.HashMapData">
 	<c path="haxe.ds.HashMap.K"/>
 	<c path="haxe.ds.HashMap.V"/>
@@ -9894,12 +10244,12 @@
 	See `Map` for documentation details.
 
 	@see https://haxe.org/manual/std-Map.html</haxe_doc>
-		<impl><class path="haxe.ds._HashMap.HashMap_Impl_" params="" file="/usr/local/lib/haxe/std/haxe/ds/HashMap.hx" private="1" module="haxe.ds.HashMap"><meta>
+		<impl><class path="haxe.ds._HashMap.HashMap_Impl_" params="" file="C:\HaxeToolkit\haxe\std/haxe/ds/HashMap.hx" private="1" module="haxe.ds.HashMap"><meta>
 	<m n=":keep"/>
 	<m n=":final"/>
 </meta></class></impl>
 	</abstract>
-	<class path="haxe.ds.IntMap" params="T" file="/usr/local/lib/haxe/std/haxe/ds/IntMap.hx" extern="1">
+	<class path="haxe.ds.IntMap" params="T" file="C:\HaxeToolkit\haxe\std/haxe/ds/IntMap.hx" extern="1">
 		<implements path="haxe.IMap">
 			<x path="Int"/>
 			<c path="haxe.ds.IntMap.T"/>
@@ -9955,7 +10305,7 @@
 
 	@see https://haxe.org/manual/std-Map.html</haxe_doc>
 	</class>
-	<class path="haxe.ds.ObjectMap" params="K:V" file="/usr/local/lib/haxe/std/haxe/ds/ObjectMap.hx" extern="1">
+	<class path="haxe.ds.ObjectMap" params="K:V" file="C:\HaxeToolkit\haxe\std/haxe/ds/ObjectMap.hx" extern="1">
 		<implements path="haxe.IMap">
 			<c path="haxe.ds.ObjectMap.K"/>
 			<c path="haxe.ds.ObjectMap.V"/>
@@ -10014,7 +10364,7 @@
 
 	@see https://haxe.org/manual/std-Map.html</haxe_doc>
 	</class>
-	<class path="haxe.ds.StringMap" params="T" file="/usr/local/lib/haxe/std/haxe/ds/StringMap.hx" extern="1">
+	<class path="haxe.ds.StringMap" params="T" file="C:\HaxeToolkit\haxe\std/haxe/ds/StringMap.hx" extern="1">
 		<implements path="haxe.IMap">
 			<c path="String"/>
 			<c path="haxe.ds.StringMap.T"/>
@@ -10071,7 +10421,7 @@
 	@see https://haxe.org/manual/std-Map.html</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<abstract path="haxe.extern.EitherType" params="T1:T2" file="/usr/local/lib/haxe/std/haxe/extern/EitherType.hx">
+	<abstract path="haxe.extern.EitherType" params="T1:T2" file="C:\HaxeToolkit\haxe\std/haxe/extern/EitherType.hx">
 		<from>
 			<icast><c path="haxe.extern.EitherType.T2"/></icast>
 			<icast><c path="haxe.extern.EitherType.T1"/></icast>
@@ -10090,12 +10440,12 @@
 	Otherwise, use of this type is discouraged.
 	
 	@see <https://haxe.org/manual/lf-externs.html>]]></haxe_doc>
-		<impl><class path="haxe.extern._EitherType.EitherType_Impl_" params="" file="/usr/local/lib/haxe/std/haxe/extern/EitherType.hx" private="1" module="haxe.extern.EitherType"><meta>
+		<impl><class path="haxe.extern._EitherType.EitherType_Impl_" params="" file="C:\HaxeToolkit\haxe\std/haxe/extern/EitherType.hx" private="1" module="haxe.extern.EitherType"><meta>
 	<m n=":keep"/>
 	<m n=":final"/>
 </meta></class></impl>
 	</abstract>
-	<class path="haxe.format.JsonParser" params="" file="/usr/local/lib/haxe/std/haxe/format/JsonParser.hx">
+	<class path="haxe.format.JsonParser" params="" file="C:\HaxeToolkit\haxe\std/haxe/format/JsonParser.hx">
 		<str><c path="String"/></str>
 		<pos><x path="Int"/></pos>
 		<parseRec set="method" line="56"><f a=""><d/></f></parseRec>
@@ -10120,7 +10470,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.format.JsonPrinter" params="" file="/usr/local/lib/haxe/std/haxe/format/JsonPrinter.hx">
+	<class path="haxe.format.JsonPrinter" params="" file="C:\HaxeToolkit\haxe\std/haxe/format/JsonPrinter.hx">
 		<print public="1" set="method" line="44" static="1">
 			<f a="o:?replacer:?space">
 				<d/>
@@ -10184,7 +10534,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.io.Input" params="" file="/usr/local/lib/haxe/std/haxe/io/Input.hx">
+	<class path="haxe.io.Input" params="" file="C:\HaxeToolkit\haxe\std/haxe/io/Input.hx">
 		<readByte public="1" set="method" line="49">
 			<f a=""><x path="Int"/></f>
 			<haxe_doc>Read and return one byte.</haxe_doc>
@@ -10209,7 +10559,7 @@
 	is reached.</haxe_doc>
 		<meta><m n=":keep"/></meta>
 	</class>
-	<class path="haxe.io.BytesBuffer" params="" file="/usr/local/lib/haxe/std/haxe/io/BytesBuffer.hx">
+	<class path="haxe.io.BytesBuffer" params="" file="C:\HaxeToolkit\haxe\std/haxe/io/BytesBuffer.hx">
 		<b><c path="Array"><x path="Int"/></c></b>
 		<length public="1" get="null" set="null">
 			<x path="Int"/>
@@ -10227,8 +10577,8 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<typedef path="haxe.io.BytesData" params="" file="/usr/local/lib/haxe/std/haxe/io/BytesData.hx"><c path="Array"><x path="Int"/></c></typedef>
-	<class path="haxe.io.Output" params="" file="/usr/local/lib/haxe/std/haxe/io/Output.hx">
+	<typedef path="haxe.io.BytesData" params="" file="C:\HaxeToolkit\haxe\std/haxe/io/BytesData.hx"><c path="Array"><x path="Int"/></c></typedef>
+	<class path="haxe.io.Output" params="" file="C:\HaxeToolkit\haxe\std/haxe/io/Output.hx">
 		<writeByte public="1" set="method" line="46">
 			<f a="c">
 				<x path="Int"/>
@@ -10302,7 +10652,7 @@
 	Output.</haxe_doc>
 		<meta><m n=":keep"/></meta>
 	</class>
-	<class path="haxe.io.BytesOutput" params="" file="/usr/local/lib/haxe/std/haxe/io/BytesOutput.hx">
+	<class path="haxe.io.BytesOutput" params="" file="C:\HaxeToolkit\haxe\std/haxe/io/BytesOutput.hx">
 		<extends path="haxe.io.Output"/>
 		<b><c path="haxe.io.BytesBuffer"/></b>
 		<length public="1" get="null" set="null">
@@ -10332,7 +10682,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="haxe.io.Eof" params="" file="/usr/local/lib/haxe/std/haxe/io/Eof.hx">
+	<class path="haxe.io.Eof" params="" file="C:\HaxeToolkit\haxe\std/haxe/io/Eof.hx">
 		<toString set="method" line="30">
 			<f a=""><c path="String"/></f>
 			<meta><m n=":keep"/></meta>
@@ -10344,7 +10694,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<enum path="haxe.io.Error" params="" file="/usr/local/lib/haxe/std/haxe/io/Error.hx">
+	<enum path="haxe.io.Error" params="" file="C:\HaxeToolkit\haxe\std/haxe/io/Error.hx">
 		<Blocked><haxe_doc>The IO is set into nonblocking mode and some data cannot be read or written</haxe_doc></Blocked>
 		<Overflow><haxe_doc>An integer value is outside its allowed range</haxe_doc></Overflow>
 		<OutsideBounds><haxe_doc>An operation on Bytes is outside of its valid range</haxe_doc></OutsideBounds>
@@ -11125,7 +11475,7 @@
 </f></decode>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<enum path="haxe.zip.FlushMode" params="" file="/usr/local/lib/haxe/std/haxe/zip/FlushMode.hx">
+	<enum path="haxe.zip.FlushMode" params="" file="C:\HaxeToolkit\haxe\std/haxe/zip/FlushMode.hx">
 		<NO/>
 		<SYNC/>
 		<FULL/>
@@ -11136,7 +11486,7 @@
 			<m n=":flatEnum"/>
 		</meta>
 	</enum>
-	<class path="haxe.zip.Uncompress" params="" file="/usr/local/lib/haxe/std/haxe/zip/Uncompress.hx">
+	<class path="haxe.zip.Uncompress" params="" file="C:\HaxeToolkit\haxe\std/haxe/zip/Uncompress.hx">
 		<execute public="1" set="method" line="30"><f a="src:srcPos:dst:dstPos">
 	<c path="haxe.io.Bytes"/>
 	<x path="Int"/>
@@ -11161,7 +11511,7 @@
 			<m n=":directlyUsed"/>
 		</meta>
 	</class>
-	<class path="sys.net.Host" params="" file="/usr/local/lib/haxe/std/sys/net/Host.hx" extern="1">
+	<class path="sys.net.Host" params="" file="C:\HaxeToolkit\haxe\std/sys/net/Host.hx" extern="1">
 		<localhost public="1" set="method" static="1">
 			<f a=""><c path="String"/></f>
 			<haxe_doc>Returns the local computer host name</haxe_doc>
@@ -11193,7 +11543,7 @@
 		<haxe_doc>A given IP host name.</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="sys.net.Socket" params="" file="/usr/local/lib/haxe/std/sys/net/Socket.hx" extern="1">
+	<class path="sys.net.Socket" params="" file="C:\HaxeToolkit\haxe\std/sys/net/Socket.hx" extern="1">
 		<select public="1" set="method" static="1">
 			<f a="read:write:others:?timeout">
 				<c path="Array"><c path="sys.net.Socket"/></c>
@@ -11323,7 +11673,7 @@
 		<haxe_doc>A TCP socket class : allow you to both connect to a given server and exchange messages or start your own server and wait for connections.</haxe_doc>
 		<meta><m n=":directlyUsed"/></meta>
 	</class>
-	<class path="sys.ssl.Certificate" params="" file="/usr/local/lib/haxe/std/sys/ssl/Certificate.hx" extern="1">
+	<class path="sys.ssl.Certificate" params="" file="C:\HaxeToolkit\haxe\std/sys/ssl/Certificate.hx" extern="1">
 		<loadFile public="1" set="method" static="1"><f a="file">
 	<c path="String"/>
 	<c path="sys.ssl.Certificate"/>
@@ -11363,7 +11713,7 @@
 		<get_notBefore set="method"><f a=""><c path="Date"/></f></get_notBefore>
 		<get_notAfter set="method"><f a=""><c path="Date"/></f></get_notAfter>
 	</class>
-	<class path="sys.ssl.Key" params="" file="/usr/local/lib/haxe/std/sys/ssl/Key.hx" extern="1">
+	<class path="sys.ssl.Key" params="" file="C:\HaxeToolkit\haxe\std/sys/ssl/Key.hx" extern="1">
 		<loadFile public="1" set="method" static="1"><f a="file:?isPublic:?pass">
 	<c path="String"/>
 	<x path="Bool"/>
@@ -11382,7 +11732,7 @@
 	<c path="sys.ssl.Key"/>
 </f></readDER>
 	</class>
-	<class path="sys.ssl.Socket" params="" file="/usr/local/lib/haxe/std/sys/ssl/Socket.hx" extern="1">
+	<class path="sys.ssl.Socket" params="" file="C:\HaxeToolkit\haxe\std/sys/ssl/Socket.hx" extern="1">
 		<extends path="sys.net.Socket"/>
 		<DEFAULT_VERIFY_CERT public="1" static="1"><t path="Null"><x path="Bool"/></t></DEFAULT_VERIFY_CERT>
 		<DEFAULT_CA public="1" static="1"><t path="Null"><c path="sys.ssl.Certificate"/></t></DEFAULT_CA>
