@@ -11,7 +11,7 @@ class MemoryCache implements DataCache{
     public function new(){}
 
     @:dox(hide)
-    public var messageCache:CacheMap<Message> = new CacheMap<Message>(50000); // should be enough honestly..
+    public var messageCache:CacheMap<Message> = new CacheMap<Message>(5000); // should be enough honestly..
 
     @:dox(hide)
     public var userCache:CacheMap<User> = new CacheMap<User>(0); 

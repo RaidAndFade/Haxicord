@@ -25,8 +25,10 @@ import com.raidandfade.haxicord.types.structs.Status.Activity;
 import com.raidandfade.haxicord.cachehandler.DataCache;
 import com.raidandfade.haxicord.cachehandler.MemoryCache;
 
-import haxe.Json;
+// import com.raidandfade.haxicord.utils.Timer;
+
 import haxe.Timer;
+import haxe.Json;
 
 /*
 TODO rn
@@ -78,6 +80,10 @@ class DiscordClient {
 
     @:dox(hide)
     public var token:String;
+
+    public var lastbeat:Float;
+    public var ws_latency:Float;
+    public var api_latency:Float;
     
     /**
         Is the bot a bot account? <Always true>
@@ -150,7 +156,7 @@ class DiscordClient {
     public function start(blocking=true) {
 #if sys
         while(blocking) {
-            Sys.sleep(1000);
+            Sys.sleep(100);
         }
 #end
     }
@@ -186,11 +192,11 @@ class DiscordClient {
                 if(session == "") 
                     resumeable = false; //can't be resumed if i don't have a session
 
-                trace("Socket Closed with code " + m  +", Re-Opening in " + reconnectTimeout + "s. " + (resumeable?"Resuming":""));
+                trace("Socket Closed with code " + m  +", Re-Opening in " + this.reconnectTimeout + "s. " + (resumeable?"Resuming":""));
 
-                    Timer.delay(connect.bind(gateway,error), reconnectTimeout * 1000);
+                Timer.delay(connect.bind(gateway,error), this.reconnectTimeout * 1000);
                 
-                reconnectTimeout *= 2; //double every time it dies.
+                this.reconnectTimeout *= 2; //double every time it dies.
             }
 
             ws.onError = function(e) {
@@ -204,9 +210,26 @@ class DiscordClient {
         }
     }
 
+    function sendWs(d:Dynamic){
+        // trace(d);
+        ws.sendJson(d);
+    }
+
     @:dox(hide)
     function webSocketMessage(msg) {
+        // webSocketMessageHandle(msg);
+        if(haxe.MainLoop.threadCount<15){
+            haxe.MainLoop.addThread(prepareWebSocketMessage.bind(msg));
+        }else{
+            Timer.delay(webSocketMessage.bind(msg),100);
+        }
+        // Timer.delay(webSocketMessageHandle.bind(msg),0);
+    }
+    function prepareWebSocketMessage(msg:String){
         var m:WSMessage = Json.parse(msg);
+        haxe.MainLoop.runInMainThread(handleWebSocketMessage.bind(m));
+    }
+    function handleWebSocketMessage(m:WSMessage) {
         try{
         //trace(msg);
         switch(m.op) {
@@ -218,18 +241,22 @@ class DiscordClient {
 
                 if(resumeable) {
                     //trace("Resuming");
-                    ws.sendJson(WSPrepareData.Resume(token, session, seq));
+                    sendWs(WSPrepareData.Resume(token, session, seq));
                 }else{
                     //trace("Identifying");
-                    ws.sendJson(WSPrepareData.Identify(token,shardInfo));
+                    sendWs(WSPrepareData.Identify(token,shardInfo));
                 }
 
                 hbThread = new HeartbeatThread(m.d.heartbeat_interval, ws, seq, this);
             case 9:
+                trace("Session was invalidated, killing.");
                 resumeable = !m.d;
                 ws.close();
             case 0:
                 receiveEvent(m);
+            case 11:
+                this.ws_latency = Sys.time()-this.lastbeat;
+                this.reconnectTimeout = 1;
             default:
         }
         }catch(er:Dynamic){
@@ -280,10 +307,12 @@ class DiscordClient {
                 removeChannel(d);
                 onChannelDelete(d);
             case "GUILD_CREATE":
-                if(ready && dataCache.getGuild(d.id) == null){
-                    var g:Guild = _newGuild(d);
-                    onGuildCreate(g);
-                    onGuildJoin(g);
+                if(ready){
+                    if(dataCache.getGuild(d.id) == null){
+                        var g:Guild = _newGuild(d);
+                        onGuildCreate(g);
+                        onGuildJoin(g);
+                    }
                 }else{
                     var g = _newGuild(d);
                     onGuildCreate(g);
@@ -429,7 +458,7 @@ class DiscordClient {
         if(msg.d.game == null) 
             msg.d.game = null;
 
-        ws.sendJson(msg);
+        sendWs(msg);
     }
 
     /**
@@ -1083,12 +1112,13 @@ private typedef WSReady = {
 }
 
 private class HeartbeatThread { 
-    public var delay: Int;
+    public var delay: Float;
 
     var seq: Null<Int>;
     var ws: WebSocketConnection;
     var timer: Timer;
     var cl: DiscordClient;
+    var l:Float;
 
     var paused: Bool;
 
@@ -1101,16 +1131,21 @@ private class HeartbeatThread {
     } 
 
     public function new(_d, _w, _s, _b) {
-        delay = _d;
+        delay = _d/1000-2;
         ws = _w;
         seq = _s;
         cl = _b;
-        timer = new Timer(delay);
+        cl.lastbeat=Sys.time();
+        timer = new Timer(2000);
         timer.run = beat;
     }
 
     public function beat() {
-        cl.reconnectTimeout = 1;
+        // trace("tick");
+        if(Sys.time()-cl.lastbeat<delay)
+            return;
+        // trace("hb");
+        cl.lastbeat = Sys.time();
         ws.sendJson(WSPrepareData.Heartbeat(seq));
     }
 
@@ -1121,7 +1156,7 @@ private class HeartbeatThread {
 
     public function resume() {
         beat();
-        timer = new Timer(delay);
+        timer = new Timer(2000);
         timer.run = beat;
     }
 }

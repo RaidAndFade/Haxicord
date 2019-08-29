@@ -19,7 +19,7 @@
  * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
  * DEALINGS IN THE SOFTWARE.
  */
-package haxe;
+package com.raidandfade.haxicord.utils;
 
 /**
 	The Timer class allows you to create asynchronous timers on platforms that
@@ -43,7 +43,7 @@ class Timer {
 		private var timer : java.util.Timer;
 		private var task : java.util.TimerTask;
 	#else
-		private var event : MainLoop.MainEvent;
+		private var event : haxe.MainLoop.MainEvent;
 		private var stopped = true;
 		private var runDelay:Float = 0;
 	#end
@@ -168,10 +168,10 @@ class Timer {
 
 		If `f` is null, the result is unspecified.
 	**/
-	public static function measure<T>( f : Void -> T, ?pos : PosInfos ) : T {
+	public static function measure<T>( f : Void -> T, ?pos : haxe.PosInfos ) : T {
 		var t0 = stamp();
 		var r = f();
-		Log.trace((stamp() - t0) + "s", pos);
+		haxe.Log.trace((stamp() - t0) + "s", pos);
 		return r;
 	}
 
