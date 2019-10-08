@@ -6,7 +6,7 @@
     "description": "Interface with Discord using Haxe",
     "version": "0.4.5",
     "classPath": "src",
-    "releasenote": "Stability improvements (Messages are run on main thread but parsed on sidethread, reconnect timeout is properly reset)",
+    "releasenote": "Stability improvements (Messages are run on main thread but parsed on side thread, reconnect timeout is properly reset)",
     "contributors": ["RaidAndFade"],
     "dependencies": {}
 }
