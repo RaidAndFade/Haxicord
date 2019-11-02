@@ -2,6 +2,9 @@ package com.raidandfade.haxicord.types;
 
 import com.raidandfade.haxicord.utils.DPERMS;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class Role { 
     var client:DiscordClient;
 

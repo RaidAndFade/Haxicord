@@ -1,5 +1,8 @@
 package com.raidandfade.haxicord.types;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class Tag{
     /**
        The string representation of the tag

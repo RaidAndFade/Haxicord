@@ -1,5 +1,8 @@
 package com.raidandfade.haxicord.types;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class TextChannel extends GuildChannel implements MessageChannel {
     /**
         The topic of the channel.
@@ -91,9 +94,7 @@ class TextChannel extends GuildChannel implements MessageChannel {
         @param format - Before, After, or Around. 
         @param cb - The array of messages, or an error.
      */
-    public function getMessages(format = null, cb = null) {
-        if(format == null)
-            format = {};
+    @:profile public function getMessages(format = null, cb = null) {
         client.endpoints.getMessages(id.id, format, cb);
     }
 

@@ -11,6 +11,9 @@ import haxe.DateUtils;
 //TODO do it properly.
 //import com.raidandfade.haxicord.types.structs.Embed;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class Message {
 
     /**

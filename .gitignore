@@ -2,3 +2,4 @@
 test/*
 bin/*
 pages
+runenv.sh

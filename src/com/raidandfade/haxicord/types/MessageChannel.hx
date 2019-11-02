@@ -1,5 +1,6 @@
 package com.raidandfade.haxicord.types;
 
+
 interface MessageChannel{
     @:dox(hide)
     public var client:DiscordClient;

@@ -1,5 +1,8 @@
 package com.raidandfade.haxicord.types;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class Snowflake {
     /**
        The id string of the snowflake

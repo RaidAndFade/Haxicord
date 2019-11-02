@@ -2,6 +2,9 @@ package com.raidandfade.haxicord.types;
 
 import haxe.extern.EitherType;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class Channel {
     @:dox(hide)
     public var client:DiscordClient;

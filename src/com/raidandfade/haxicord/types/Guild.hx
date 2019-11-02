@@ -5,6 +5,9 @@ import com.raidandfade.haxicord.types.structs.Presence;
 
 import haxe.DateUtils;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class Guild{
     var client:DiscordClient;
 

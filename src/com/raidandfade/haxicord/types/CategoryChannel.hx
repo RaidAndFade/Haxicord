@@ -1,5 +1,8 @@
 package com.raidandfade.haxicord.types;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class CategoryChannel extends GuildChannel {
     @:dox(hide)
     public function new(_chan:com.raidandfade.haxicord.types.structs.GuildChannel, _client) {

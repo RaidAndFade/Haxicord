@@ -1,5 +1,8 @@
 package com.raidandfade.haxicord.types;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class User {
 
     var client:DiscordClient;

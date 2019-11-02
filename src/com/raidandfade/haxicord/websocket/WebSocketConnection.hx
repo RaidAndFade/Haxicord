@@ -30,15 +30,13 @@ class WebSocketConnection {
      */
     public function new(_host) { 
         host = _host;
-#if cpp
-        var th = cpp.vm.Thread.create(create);
-#elseif java
-        var th = java.vm.Thread.create(create);
-#elseif neko
-        var th = neko.vm.Thread.create(create);
-#elseif cs
+#if sys
+#if cs
         var th = new cs.system.threading.Thread(new cs.system.threading.ThreadStart(create));
         th.Start();
+#else
+        haxe.MainLoop.addThread(create);
+#end
 #else
         create();
 #end
@@ -54,22 +52,22 @@ class WebSocketConnection {
                 for(m in queue) {
                     send(m);
                 }
-                onReady();
+                haxe.EntryPoint.runInMainThread(onReady);
             })
         );
         ws.add_OnMessage(
             new cs.system.EventHandler_1<websocketsharp.MessageEventArgs> ( function(f:Dynamic, m:websocketsharp.MessageEventArgs) {
-                this.onMessage(m.Data);
+                haxe.EntryPoint.runInMainThread(this.onMessage.bind(m.Data));
             })
         );
         ws.add_OnError(
             new cs.system.EventHandler_1<websocketsharp.MessageEventArgs> ( function(f:Dynamic, m:websocketsharp.ErrorEventArgs) {
-                this.onError(m.Message);
+                haxe.EntryPoint.runInMainThread(this.onError.bind(m.Message));
             })
         );
         ws.add_OnClose( 
             new cs.system.EventHandler_1<websocketsharp.MessageEventArgs> ( function(f:Dynamic, m:websocketsharp.ErrorEventArgs) {
-                this._onClose();
+                haxe.EntryPoint.runInMainThread(this._onClose);
             })
         );
         ws.Connect();
@@ -81,10 +79,10 @@ class WebSocketConnection {
             for(m in queue) {
                 send(m);
             }
-            onReady();
+            haxe.EntryPoint.runInMainThread(onReady);
         }
         ws.onmessageString = function(m) { 
-            this.onMessage(m);
+            haxe.EntryPoint.runInMainThread(this.onMessage.bind(m));
         }
 
         var buf = new BytesBuffer();
@@ -115,7 +113,8 @@ class WebSocketConnection {
                 }
 
                 buf = new BytesBuffer();
-                onMessage(res.getBytes().toString());
+                var msg = res.getBytes().toString();
+                haxe.EntryPoint.runInMainThread(this.onMessage.bind(msg));
             }catch(e:Dynamic){
                 trace(e);
                 trace(haxe.CallStack.exceptionStack());
@@ -148,7 +147,7 @@ class WebSocketConnection {
         @param d - The object to send.
      */
     public function sendJson(d:Dynamic) {
-        this.send(Json.stringify(d) );
+        this.send(Json.stringify(d));
     }
     
     /**

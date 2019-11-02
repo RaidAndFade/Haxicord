@@ -2,6 +2,9 @@ package com.raidandfade.haxicord.types;
 
 import com.raidandfade.haxicord.utils.DPERMS;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class DMChannel extends Channel implements MessageChannel{
 
     /**
@@ -103,8 +106,6 @@ class DMChannel extends Channel implements MessageChannel{
         @param cb - The array of messages, or an error.
      */
     public function getMessages(format = null, cb = null) {
-        if(format == null)
-            format = {};
         client.endpoints.getMessages(id.id, format, cb);
     }
     /**

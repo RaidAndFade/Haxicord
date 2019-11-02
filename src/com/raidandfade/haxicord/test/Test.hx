@@ -19,6 +19,8 @@ class Test
 	static var sharder:Sharder;
 	static var discordBot:DiscordClient;
 
+    static var startTime:Date;
+
 	static function main()
 	{
 		//INIT the actual client with your token
@@ -29,32 +31,41 @@ class Test
 		// };
 
 		// sharder.start();
+
+        startTime = Date.now();        
+
 		// //Bind the events to the proper handlers
-		discordBot = new DiscordClient("MzQ5OTk2NzQxNTQ3OTE3MzIy.Dc1xzA.wIlBrSulp46ZXTP4z-7PaDWzR-E",null,false,true);
+		discordBot = new DiscordClient(Sys.getEnv("DevBotToken"),[0,30],false,true);
 		discordBot.onReady = onReady;
 		discordBot.onMessage = onMessage;
-		discordBot.start();
 		// discordBot.onMemberJoin = onMemberJoin;
 
 		//Start the bot.
 		//IF BUILDING ON SYS, THIS FUNC IS BLOCKING UNTIL THE BOT STOPS
 		//If you dont want it to be blocking, use `start(false)`
 		//discordBot.start();
+        trace("cbt?");
 	}
 
 	public static function onMessage(m:Message) {
 		//m.content
-		m.content.indexOf
-		if(m.content == "!test"){
-			m.reply({content:"Hello from zlib-stream!"});
-		}
+		// m.content.indexOf
+		if(m.author.id.id != "120308435639074816"){
+            return;
+        }
+        if(m.content=="-!p"){
+            m.reply({content:"cbt!"});
+#if Profiler
+        Profiler.traceResults();
+#end
+        }
 	}
 
 	public static function onReady() {
         trace("My invite link is: " + discordBot.getInviteLink());
-	}
-
-	public static function onMemberJoin(g:Guild, m:GuildMember) {
-
+        trace(Date.now().getTime()-startTime.getTime());
+#if Profiler
+        Profiler.traceResults();
+#end
 	}
 }

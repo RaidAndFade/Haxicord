@@ -5,6 +5,9 @@ import com.raidandfade.haxicord.types.structs.GuildChannel.OverwriteType;
 
 import haxe.extern.EitherType;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class GuildChannel extends Channel {
     /**
         The ID of the guild this is part of.

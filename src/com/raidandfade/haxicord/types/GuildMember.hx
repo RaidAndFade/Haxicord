@@ -4,6 +4,9 @@ import haxe.DateUtils;
 
 import com.raidandfade.haxicord.utils.DPERMS;
 
+#if Profiler
+@:build(Profiler.buildAll())
+#end
 class GuildMember {
     var client:DiscordClient;
 
@@ -22,7 +25,9 @@ class GuildMember {
     /**
        The date this member joined
      */
-    public var joined_at:Date;
+    @:isVar public var joined_at(get,null):Date;
+    var joined_at_iso:String;
+    private var joined_at_cache:Date;
     /**
        Is this member deafened?
      */
@@ -44,13 +49,18 @@ class GuildMember {
         user = client._newUser(_mem.user); 
         displayName = _mem.nick == null?_mem.user.username:_mem.nick;
         roles = _mem.roles; 
-        try{
-            joined_at = DateUtils.fromISO8601(_mem.joined_at);
-        }catch(e:Dynamic){
-            //apparently this can be fucking NULL....
-        }
+        joined_at_iso = _mem.joined_at;
+        joined_at_cache = null;
+
         deaf = _mem.deaf;
         mute = _mem.mute;
+    }
+
+    public function get_joined_at(){
+        if(joined_at_cache == null){
+            joined_at_cache = DateUtils.fromISO8601(joined_at_iso);
+        }
+        return joined_at_cache;
     }
 
     @:dox(hide)
@@ -58,7 +68,10 @@ class GuildMember {
         if(_mem.user != null) user = client._newUser(_mem.user);
         displayName = _mem.nick == null ? _mem.user.username : _mem.nick;
         if(_mem.roles != null) roles = _mem.roles;
-        if(_mem.joined_at != null) joined_at = DateUtils.fromISO8601(_mem.joined_at);
+        if(_mem.joined_at != null) {
+            joined_at_iso = _mem.joined_at;
+            joined_at_cache = null;
+        }
     }
 
     @:dox(hide)

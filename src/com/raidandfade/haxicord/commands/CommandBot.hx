@@ -69,7 +69,6 @@ class CommandBot {
                 registerCommand(comName, params, func);
             }
         }
-        if(block)client.start();
         }catch(e:Dynamic){trace(e);}
     }
 

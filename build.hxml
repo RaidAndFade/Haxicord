@@ -83,11 +83,13 @@
 # -main com/raidandfade/haxicord/test/Test.hx
 # -lua test/bin/Haxicord-lua/Haxicord.lua
 
---next
+# --next
 -cp src
+# -dce no
+# -lib Profiler
 -main com/raidandfade/haxicord/test/Test.hx
--neko test/bin/Haxicord-neko/Haxicord.n
 -debug
+-x test/bin/Haxicord-neko/Haxicord.n
 
 # # --next
 # # -cp src

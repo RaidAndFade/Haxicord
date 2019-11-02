@@ -37,6 +37,9 @@ import com.raidandfade.haxicord.types.structs.Connection;
 import com.raidandfade.haxicord.types.structs.Webhook;
 import com.raidandfade.haxicord.types.structs.Emoji;
 
+#if Profiler
+@:build(Profiler.buildMarked())
+#end
 class Endpoints{
 
     @:dox(hide)
@@ -253,7 +256,7 @@ class Endpoints{
         @param format - Before, After, or Around. 
         @param cb - The array of messages, or an error.
      */
-    public function getMessages(channel_id:String, format:Typedefs.MessagesRequest, cb:Array<Message>->ErrorReport->Void = null) {
+    @:profile public function getMessages(channel_id:String, format:Typedefs.MessagesRequest, cb:Array<Message>->ErrorReport->Void = null) {
         //Requires read_messages
         var endpoint = new EndpointPath("/channels/{0}/messages{1}", [channel_id, Https.queryString(format)]);
         callEndpoint("GET", endpoint, function(r:Array<com.raidandfade.haxicord.types.structs.MessageStruct>, e) {
@@ -1258,7 +1261,7 @@ class Endpoints{
         @param data - Any extra data to send along (as POST body).
         @param authorized - Whether the endpoint requires a token or not.
      */
-    public function callEndpoint(method:String, endpoint:EndpointPath, callback:Null<Dynamic->ErrorReport->Void> = null, data:{} = null, authorized:Bool = true) {
+    @:profile public function callEndpoint(method:String, endpoint:EndpointPath, callback:Null<Dynamic->ErrorReport->Void> = null, data:{} = null, authorized:Bool = true) {
         var origCall = new EndpointCall(method, endpoint, callback, data, authorized);
         if(globalLocked){
             globalQueue.push(origCall);

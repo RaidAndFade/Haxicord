@@ -44,6 +44,9 @@ TODO long term
 
 @:keep
 @:expose
+#if Profiler
+@:build(Profiler.buildMarked())
+#end
 class DiscordClient { 
      /**
       The name of the library
@@ -113,13 +116,17 @@ class DiscordClient {
     private var zlibCompress:Bool = false;
     private var etfFormat:Bool = false;
 
+    
+    private var webSocketMessages:Array<String>;
+    private var webSocketProcessTimer:Timer;
+
 
 //TODO update comment
     /**
         Initialize the bot with your token. This should be the first thing you run in your program.
         @param _tkn - Your BOT token. User tokens do not work! 
      */
-    public function new(_tkn:String,_shardInfo:Null<WSShard>=null,_etf=false,_zlib=true,_storage:DataCache=null) {
+    @:profile public function new(_tkn:String,_shardInfo:Null<WSShard>=null,_etf=false,_zlib=true,_storage:DataCache=null) {
         Logger.registerLogger();
 
         token = _tkn; //ASSUME BOT FOR NOW. Deal with users later maybe.
@@ -147,22 +154,20 @@ class DiscordClient {
         //trace("Getting gotten");
         trace("Starting Client");
         endpoints.getGateway(isBot, connect);
+
+        webSocketMessages = new Array<String>();
+        webSocketProcessTimer = new Timer(100);
+        webSocketProcessTimer.run = this.processWebsocketMessages;
     }
     
     /**
-        This is basically just a while true loop to keep the main thread alive while the other threads work.
-        @param blocking=true - If you dont want to have the while loop activate, set this to false and make your own loop.
+        This no longer has any function. Threads are all dependant on mainloop.
      */
-    public function start(blocking=true) {
-#if sys
-        while(blocking) {
-            Sys.sleep(100);
-        }
-#end
-    }
+     @:deprecated public function start() {}
+
 //Flowchart
     @:dox(hide)
-    function connect(gateway, error) {
+    @:profile function connect(gateway, error) {
         try{
             trace("Connecting");
             if(error != null) throw error; 
@@ -181,7 +186,7 @@ class DiscordClient {
             }
 
             ws = new WebSocketConnection(url);
-            ws.onMessage = webSocketMessage;
+            ws.onMessage = this.webSocketMessage;
 
             ws.onClose = function(m) {
                 if(hbThread != null) hbThread.pause();
@@ -210,28 +215,43 @@ class DiscordClient {
         }
     }
 
-    function sendWs(d:Dynamic){
+    @:profile function sendWs(d:Dynamic){
         // trace(d);
         ws.sendJson(d);
     }
 
     @:dox(hide)
-    function webSocketMessage(msg) {
+    @:profile function webSocketMessage(msg) {
+        // trace(msg);
         // webSocketMessageHandle(msg);
-        if(haxe.MainLoop.threadCount<15){
-            haxe.MainLoop.addThread(prepareWebSocketMessage.bind(msg));
-        }else{
-            Timer.delay(webSocketMessage.bind(msg),100);
-        }
+        webSocketMessages.push(msg);
+        // if(haxe.MainLoop.threadCount<25){
+        //     haxe.MainLoop.addThread(prepareWebSocketMessage.bind(msg));
+        // }else{
+        //     Timer.delay(haxe.MainLoop.add.bind(webSocketMessage.bind(msg)),100);
+        // }
         // Timer.delay(webSocketMessageHandle.bind(msg),0);
     }
+
+    function processWebsocketMessages(){
+        while(webSocketMessages.length>0 && haxe.MainLoop.threadCount<25){
+            var cm = webSocketMessages.shift();
+            haxe.MainLoop.addThread(prepareWebSocketMessage.bind(cm));
+        }
+    }
+
     function prepareWebSocketMessage(msg:String){
         var m:WSMessage = Json.parse(msg);
+        // trace(m);
         haxe.MainLoop.runInMainThread(handleWebSocketMessage.bind(m));
+        // trace("cbt");
     }
-    function handleWebSocketMessage(m:WSMessage) {
+
+    @:profile function handleWebSocketMessage(m:WSMessage) {
+        // trace(m);
+        // trace("cbt");
         try{
-        //trace(msg);
+        // trace(m);
         switch(m.op) {
             case 10: 
                 var seq = 0;
@@ -270,7 +290,7 @@ class DiscordClient {
         var m:WSMessage = msg;
         var d:Dynamic;
         d = m.d;
-        //trace(m.t);
+        // trace(m.t);
         hbThread.setSeq(m.s);
 
         onRawEvent(m.t, d);
@@ -586,7 +606,7 @@ class DiscordClient {
     }
 
     @:dox(hide)
-    public function removeChannel(id) {
+    @:profile public function removeChannel(id) {
         //remove from guild too.
         var c = dataCache.getChannel(id);
         if(c != null && c.type != 1) {
@@ -865,6 +885,8 @@ class DiscordClient {
     public function _newGuild(guild_struct: com.raidandfade.haxicord.types.structs.Guild) {
         var id = guild_struct.id;
         var g = dataCache.getGuild(id);
+        // if(!guild_struct.unavailable)
+        //     trace("New guild Object "+guild_struct.name+"("+id+")");
         if(g!=null) {
             g._update(guild_struct);
             return g;
@@ -944,7 +966,7 @@ class DiscordClient {
         @param g - The guild the user is in.
         @param m - The instanced member object of the user.
      */
-    public dynamic function onMemberUpdate(g: Guild, m: GuildMember) {}
+    @:profile public dynamic function onMemberUpdate(g: Guild, m: GuildMember) {}
     /**
         Event hook for when a user is banned from a guild.
         @param g - The guild the ban was from.
@@ -981,7 +1003,7 @@ class DiscordClient {
         @param g - The guild it was deleted from.
         @param role_id - The id of the role that was deleted.
      */
-    public dynamic function onRoleDelete(g: Guild, role_id: String) {}
+    @:profile public dynamic function onRoleDelete(g: Guild, role_id: String) {}
 
     /**
         Event hook for when a message is sent.
