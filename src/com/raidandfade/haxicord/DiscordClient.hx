@@ -845,9 +845,9 @@ class DiscordClient {
                 cast(chan, VoiceChannel)._update(channel_struct);
             else //It must be category
                 cast(chan, CategoryChannel)._update(channel_struct);
-            return function(c, _) {
+            return (function(c, _) {
                 return c;
-            }.bind(c, _);
+            }).bind(c, _);
         }else{
             var channel = Channel.fromStruct(channel_struct)(channel_struct, this);
             dataCache.setChannel(id, channel);
