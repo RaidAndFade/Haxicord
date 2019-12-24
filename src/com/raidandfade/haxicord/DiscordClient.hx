@@ -155,9 +155,9 @@ class DiscordClient {
         trace("Starting Client");
         endpoints.getGateway(isBot, connect);
 
-        webSocketMessages = new Array<String>();
-        webSocketProcessTimer = new Timer(100);
-        webSocketProcessTimer.run = this.processWebsocketMessages;
+        // webSocketMessages = new Array<String>();
+        // webSocketProcessTimer = new Timer(100);
+        // webSocketProcessTimer.run = this.processWebsocketMessages;
     }
     
     /**
@@ -189,7 +189,7 @@ class DiscordClient {
             ws.onMessage = this.webSocketMessage;
 
             ws.onClose = function(m) {
-                if(hbThread != null) hbThread.pause();
+                if(hbThread != null) hbThread.stop();
 
                 if(m == 4006) //The session is invalid. stop it
                     session = "";
@@ -200,8 +200,7 @@ class DiscordClient {
                 trace("Socket Closed with code " + m  +", Re-Opening in " + this.reconnectTimeout + "s. " + (resumeable?"Resuming":""));
 
                 Timer.delay(connect.bind(gateway,error), this.reconnectTimeout * 1000);
-                
-                this.reconnectTimeout *= 2; //double every time it dies.
+                this.reconnectTimeout = Math.floor(Math.min(this.reconnectTimeout*2,300)); // double until 300s (5m)
             }
 
             ws.onError = function(e) {
@@ -222,37 +221,14 @@ class DiscordClient {
 
     @:dox(hide)
     @:profile function webSocketMessage(msg) {
-        // trace(msg);
-        // webSocketMessageHandle(msg);
-        webSocketMessages.push(msg);
-        // if(haxe.MainLoop.threadCount<25){
-        //     haxe.MainLoop.addThread(prepareWebSocketMessage.bind(msg));
-        // }else{
-        //     Timer.delay(haxe.MainLoop.add.bind(webSocketMessage.bind(msg)),100);
-        // }
-        // Timer.delay(webSocketMessageHandle.bind(msg),0);
-    }
-
-    function processWebsocketMessages(){
-        while(webSocketMessages.length>0 && haxe.MainLoop.threadCount<25){
-            var cm = webSocketMessages.shift();
-            haxe.MainLoop.addThread(prepareWebSocketMessage.bind(cm));
-        }
-    }
-
-    function prepareWebSocketMessage(msg:String){
-        var m:WSMessage = Json.parse(msg);
-        // trace(m);
-        haxe.MainLoop.runInMainThread(handleWebSocketMessage.bind(m));
-        // trace("cbt");
+        haxe.MainLoop.runInMainThread(handleWebSocketMessage.bind(Json.parse(msg)));
     }
 
     @:profile function handleWebSocketMessage(m:WSMessage) {
-        // trace(m);
-        // trace("cbt");
         try{
-        // trace(m);
         switch(m.op) {
+            case 0:
+                receiveEvent(m);
             case 10: 
                 var seq = 0;
 
@@ -272,8 +248,6 @@ class DiscordClient {
                 trace("Session was invalidated, killing.");
                 resumeable = !m.d;
                 ws.close();
-            case 0:
-                receiveEvent(m);
             case 11:
                 this.ws_latency = Sys.time()-this.lastbeat;
                 this.reconnectTimeout = 1;
@@ -296,6 +270,10 @@ class DiscordClient {
         onRawEvent(m.t, d);
 
         switch(m.t) {
+            case "PRESENCE_UPDATE": // user
+                var m = getGuildUnsafe(d.guild_id).getMemberUnsafe(d.user.id);
+                if(m != null)
+                    m._updatePresence(d);
             case "READY":
                 //TODO save the session, for resumes.
                 var re:WSReady = d;
@@ -430,10 +408,6 @@ class DiscordClient {
                     }
                     m._purgeReactions();
                 });
-            case "PRESENCE_UPDATE": // user
-                var m = getGuildUnsafe(d.guild_id).getMemberUnsafe(d.user.id);
-                if(m != null)
-                    m._updatePresence(d);
             case "TYPING_START": // event
                 try{
                     onTypingStart(getUserUnsafe(d.user_id), getChannelUnsafe(d.channel_id), d.timestamp);
@@ -441,9 +415,7 @@ class DiscordClient {
                     //this is a problem with shardid != 0 getting DM CHANNEL typing_starts.
                     // idk what to do about this.
                 }
-            case "USER_UPDATE": // never seen this so idk how to handle it.
-                trace("User Changed");
-                trace(d);
+            case "USER_UPDATE": // This user updated?
             case "VOICE_STATE_UPDATE": // ... yeah i'll definitely do voice for sure
             case "VOICE_SERVER_UPDATE": // ... yeah i'll definitely do voice for sure
             case "WEBHOOKS_UPDATE": //eventually...
@@ -1142,7 +1114,7 @@ private class HeartbeatThread {
     var cl: DiscordClient;
     var l:Float;
 
-    var paused: Bool;
+    var going: Bool;
 
     public function setSeq(_s) {
         seq = _s;
@@ -1157,28 +1129,29 @@ private class HeartbeatThread {
         ws = _w;
         seq = _s;
         cl = _b;
-        cl.lastbeat=Sys.time();
-        timer = new Timer(2000);
-        timer.run = beat;
+        cl.lastbeat = Sys.time();
+        going = true;
+        haxe.MainLoop.addThread(this.beat);
     }
 
     public function beat() {
-        // trace("tick");
-        if(Sys.time()-cl.lastbeat<delay)
-            return;
-        // trace("hb");
-        cl.lastbeat = Sys.time();
-        ws.sendJson(WSPrepareData.Heartbeat(seq));
+        while(going){
+            while(Sys.time() - cl.lastbeat < delay) { Sys.sleep(0.5); }
+            cl.lastbeat = Sys.time();
+            ws.sendJson(WSPrepareData.Heartbeat(seq));
+        }
     }
 
-    public function pause() {
-        paused = true;
-        timer.stop();
+    public function stop() {
+        going = false;
     }
 
-    public function resume() {
-        beat();
-        timer = new Timer(2000);
-        timer.run = beat;
-    }
+    // public function pause() {
+    //     paused = true;
+    //     timer.stop();
+    // }
+
+    // public function resume() {
+    //     haxe.MainLoop.addThread(this.beat);
+    // }
 }
