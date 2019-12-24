@@ -72,7 +72,7 @@ class User {
         client = _client;
 
         isLoaded = _user != null;
-        if(_user == null) return;
+        if(!isLoaded) return;
 
         id = new Snowflake(_user.id);
         tag = "<@"+id.id+">";

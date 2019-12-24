@@ -32,14 +32,27 @@ class Message {
         The message content.
      */
     public var content:String;
+
     /**
         When the message was sent.
      */
-    public var timestamp:Date;
+    public var timestamp(get,null):Date;
+    @:dox(hide)
+    private var timestamp_str:String;
+    @:dox(hide)
+    function get_timestamp(){
+        return DateUtils.fromISO8601(this.timestamp_str);
+    }
     /**
         Last time the message was edited (or null)
      */
-    public var edited_timestamp:Date;
+    public var edited_timestamp(get,null):Date;
+    @:dox(hide)
+    private var edited_timestamp_str:String;
+    @:dox(hide)
+    function get_edited_timestamp(){
+        return DateUtils.fromISO8601(this.edited_timestamp_str);
+    }
     /**
         Was the message TTS?
      */
@@ -98,10 +111,10 @@ class Message {
         content = _msg.content;
 
         if(_msg.timestamp != null)
-            timestamp = DateUtils.fromISO8601(_msg.timestamp);
+            timestamp_str = _msg.timestamp;
 
         if(_msg.edited_timestamp != null)
-            edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
+            edited_timestamp_str =_msg.edited_timestamp;
 
         tts = _msg.tts;
         mention_everyone = _msg.mention_everyone;
@@ -140,7 +153,7 @@ class Message {
     @:dox(hide)
     public function _update(_msg:com.raidandfade.haxicord.types.structs.MessageStruct) {
         if(_msg.edited_timestamp != null)
-            edited_timestamp = DateUtils.fromISO8601(_msg.edited_timestamp);
+            edited_timestamp_str =_msg.edited_timestamp;
         
         if(_msg.content != null)
             content = _msg.content;
