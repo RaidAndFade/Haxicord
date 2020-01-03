@@ -30,25 +30,14 @@ class CommandBot {
      */
     private function new(token:String, commandBot:Class<CommandBot>, _prefix = "!", tagPrefix=true, etf=false, zlib=true, block=true, shardInfo=null) {
         try{
-        client = new DiscordClient(token,shardInfo,etf,zlib);
-        if(_prefix!=null&&_prefix!=""){
-            prefixes.push(_prefix);
-        }
-        client.onMessage = onMessage;
-        client._onReady = function(){
-            if(tagPrefix){
-                prefixes.push(client.user.tag+" ");
-                prefixes.push("<@!"+client.user.id.id+"> "); //nickname
-                prefixes.push(client.user.tag); //for the crazies who dont put spaces
-                prefixes.push("<@!"+client.user.id.id+">"); //for the crazies who have nicknames and dont put spaces
-            }
-            trace("My invite link is: " + client.getInviteLink());
-            client.onReady();
-        }
-
+        trace(commandBot);
         var annr = Meta.getFields(commandBot);
+        trace(annr);
         for(comName in Reflect.fields(annr)) {
-            var com = Reflect.field(annr, comName);
+            var com:haxe.DynamicAccess<Dynamic> = Reflect.field(annr, comName);
+            // if(com.exists("Command")){
+            //     trace("!");
+            // }
             var params:CommandParams = null;
             for(annName in Reflect.fields(com)) {
                 if(annName == "Command") {
@@ -68,6 +57,22 @@ class CommandBot {
                 trace("Registered " + comName + " Command");
                 registerCommand(comName, params, func);
             }
+        }
+
+        client = new DiscordClient(token,shardInfo,etf,zlib);
+        if(_prefix!=null&&_prefix!=""){
+            prefixes.push(_prefix);
+        }
+        client.onMessage = onMessage;
+        client._onReady = function(){
+            if(tagPrefix){
+                prefixes.push(client.user.tag+" ");
+                prefixes.push("<@!"+client.user.id.id+"> "); //nickname
+                prefixes.push(client.user.tag); //for the crazies who dont put spaces
+                prefixes.push("<@!"+client.user.id.id+">"); //for the crazies who have nicknames and dont put spaces
+            }
+            trace("My invite link is: " + client.getInviteLink());
+            client.onReady();
         }
         }catch(e:Dynamic){trace(e);}
     }

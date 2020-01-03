@@ -155,11 +155,15 @@ class DiscordClient {
         trace("Starting Client");
         endpoints.getGateway(isBot, connect);
 
-        // webSocketMessages = new Array<String>();
-        // webSocketProcessTimer = new Timer(100);
-        // webSocketProcessTimer.run = this.processWebsocketMessages;
+#if (js&&nodejs)
+        // needs a main event or the event loop closes and the bot hangs. isnt nodejs great?
+        haxe.MainLoop.add(tick);
+#end
     }
     
+    public function tick(){
+    }
+
     /**
         This no longer has any function. Threads are all dependant on mainloop.
      */
@@ -174,6 +178,7 @@ class DiscordClient {
 
             //trace("Gottening");
             var url = gateway.url + "/?v=" + gatewayVersion;
+            // url = StringTools.replace(url,"wss","ws");
 
             if(etfFormat){
                 url += "&encoding=etf";
@@ -215,16 +220,17 @@ class DiscordClient {
     }
 
     @:profile function sendWs(d:Dynamic){
-        // trace(d);
         ws.sendJson(d);
     }
 
     @:dox(hide)
     @:profile function webSocketMessage(msg) {
-        haxe.MainLoop.runInMainThread(handleWebSocketMessage.bind(Json.parse(msg)));
+        haxe.MainLoop.runInMainThread(handleWebSocketMessage.bind(msg));
     }
 
-    @:profile function handleWebSocketMessage(m:WSMessage) {
+    @:profile function handleWebSocketMessage(msg:String) {
+        var m:Dynamic = Json.parse(msg);
+        // trace(m);
         try{
         switch(m.op) {
             case 0:
@@ -259,12 +265,10 @@ class DiscordClient {
         }
     }
 
-    @:dox(hide)
-    function receiveEvent(msg) {
-        var m:WSMessage = msg;
-        var d:Dynamic;
-        d = m.d;
-        // trace(m.t);
+    @:dox(hide) 
+    function receiveEvent(m) {
+        var d:Dynamic = m.d;
+
         hbThread.setSeq(m.s);
 
         onRawEvent(m.t, d);
@@ -285,7 +289,7 @@ class DiscordClient {
                 session = re.session_id;
                 resumeable = true;
 
-                trace(re.guilds);
+                // trace(re.guilds);
                 unavailableGuilds = re.guilds.filter(function(g){return g.unavailable;}).length; //assume all guilds unavail
                 
                 if(re.guilds.length == 0) {
@@ -1135,11 +1139,19 @@ private class HeartbeatThread {
     }
 
     public function beat() {
+#if js
+        if(Sys.time() - cl.lastbeat >= delay) {
+            cl.lastbeat = Sys.time();
+            ws.sendJson(WSPrepareData.Heartbeat(seq));
+        }
+        Timer.delay(this.beat,500);
+#else
         while(going){
             while(Sys.time() - cl.lastbeat < delay) { Sys.sleep(0.5); }
             cl.lastbeat = Sys.time();
             ws.sendJson(WSPrepareData.Heartbeat(seq));
         }
+#end
     }
 
     public function stop() {
