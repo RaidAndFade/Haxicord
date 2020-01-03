@@ -28,70 +28,11 @@
 # com.raidandfade.haxicord.endpoints.Endpoints
 # -neko bin/Haxicord-neko/Haxicord.n
 
-### TEST BUILDS : 
-# ###NOT IMPLEMENTED gotta make some sort of http proxy for this, it wont send user-agent.
-# # -cp src
-# # -main com/raidandfade/haxicord/test/Test.hx
-# # -js test/bin/Haxicord-js/Haxicord.js
-# # -cmd echo '<script src="haxicord.js"></script>' > test/bin/Haxicord-js/index.html
-
-#--next
-# -debug
-# -cp src 
-# -lib hxnodejs
-# -main com/raidandfade/haxicord/test/Test.hx
-# -js test/bin/Haxicord-nodejs/Haxicord.js
-# -D nodejs
-
-# # ###NOT IMPLEMENTED _SOCKET BROKE_
-# # --next
-# # -debug
-# # -cp src
-# # -main com/raidandfade/haxicord/test/Test.hx
-# # -java test/bin/Haxicord-java
-
-# # ###NOT IMPLEMENTED _SOCKET BROKE_
-# # --next
-# # -cp src
-# # -main com/raidandfade/haxicord/test/Test.hx
-# # -php test/bin/Haxicord-php
-
-## callbacks are not a thing apparently.
-# --next
-# -debug
-# -lib nme
-# -cp src
-# -main com/raidandfade/haxicord/test/Test.hx
-# -cpp test/bin/Haxicord-cpp
-
-# --next
-# -debug
-# -net-lib libs/websocket-sharp.dll
-# -cp src
-# -main com/raidandfade/haxicord/test/Test.hx
-# -cs test/bin/Haxicord-cs
-# -D net-ver=40
-
-# ###maybe when i feel like it 
-# # --next
-# # -cp src
-# # -main com/raidandfade/haxicord/test/Test.hx
-# # -python test/bin/Haxicord-python/Haxicord.py
-
-# --next
-# -cp src
-# -main com/raidandfade/haxicord/test/Test.hx
-# -lua test/bin/Haxicord-lua/Haxicord.lua
-
-# --next
 -cp src
-# -dce no
-# -lib Profiler
--main com/raidandfade/haxicord/test/Test.hx
+# -lib nme
+# -lib hxnodejs
+-main com.raidandfade.haxicord.test.Test
 -debug
--x test/bin/Haxicord-neko/Haxicord.n
-
-# # --next
-# # -cp src
-# # -main com/raidandfade/haxicord/test/Test.hx
-# # -hl test/bin/Haxicord-hl/Haxicord.hl
+# --js test/bin/Haxicord-js/Haxicord.js
+--cpp test/bin/Haxicord-cpp
+# --neko test/bin/Haxicord-neko/Haxicord.n
