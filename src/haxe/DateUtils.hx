@@ -63,7 +63,7 @@ class DateUtils {
     }
 
 #if neko
-    static var date_get_tz = Lib.load("std","date_get_tz",0);
+    static var date_get_tz = Lib.load("std","date_get_tz",1);
 #end
     /**
        Number of seconds from the current time zone to UTC.
@@ -71,9 +71,9 @@ class DateUtils {
      */
     public static function getTimezoneOffset():Int{
     #if js
-        return untyped new Date().getTimezoneOffset()*60;
+        return untyped new Date(null,null,null,null,null,null).getTimezoneOffset()*60;
     #elseif neko
-        return untyped -date_get_tz();
+        return untyped -date_get_tz(1);
     #else
         throw "Not supported!";
     #end
