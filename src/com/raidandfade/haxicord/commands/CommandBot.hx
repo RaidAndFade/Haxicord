@@ -30,14 +30,9 @@ class CommandBot {
      */
     private function new(token:String, commandBot:Class<CommandBot>, _prefix = "!", tagPrefix=true, etf=false, zlib=true, block=true, shardInfo=null) {
         try{
-        trace(commandBot);
         var annr = Meta.getFields(commandBot);
-        trace(annr);
         for(comName in Reflect.fields(annr)) {
             var com:haxe.DynamicAccess<Dynamic> = Reflect.field(annr, comName);
-            // if(com.exists("Command")){
-            //     trace("!");
-            // }
             var params:CommandParams = null;
             for(annName in Reflect.fields(com)) {
                 if(annName == "Command") {

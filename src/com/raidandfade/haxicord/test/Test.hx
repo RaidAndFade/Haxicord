@@ -35,21 +35,18 @@ class Test
         startTime = Date.now();        
 
 		// //Bind the events to the proper handlers
-		discordBot = new DiscordClient(Sys.getEnv("DevBotToken"),[0,30],false,true);
+		discordBot = new DiscordClient(Sys.getEnv("DevBotToken"));
 		discordBot.onReady = onReady;
 		discordBot.onMessage = onMessage;
-		// discordBot.onMemberJoin = onMemberJoin;
-
-		//Start the bot.
-		//IF BUILDING ON SYS, THIS FUNC IS BLOCKING UNTIL THE BOT STOPS
-		//If you dont want it to be blocking, use `start(false)`
-		//discordBot.start();
+        
+        discordBot.onGuildCreate = function(g){
+            trace("Guild Object Created For "+g.name+"("+g.id.id+")");
+        }
+        
         trace("cbt?");
 	}
 
 	public static function onMessage(m:Message) {
-		//m.content
-		// m.content.indexOf
 		if(m.author.id.id != "120308435639074816"){
             return;
         }

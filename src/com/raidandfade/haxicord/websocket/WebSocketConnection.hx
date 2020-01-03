@@ -76,9 +76,11 @@ class WebSocketConnection {
         ws = WebSocket.create(host, [], null, false);
         ws.onopen = function() {
             ready = true;
-            for(m in queue) {
-                send(m);
-            }
+            haxe.EntryPoint.runInMainThread(function(){
+                for(m in queue) {
+                    send(m);
+                }
+            });
             haxe.EntryPoint.runInMainThread(onReady);
         }
         ws.onmessageString = function(m) { 
@@ -86,42 +88,53 @@ class WebSocketConnection {
         }
 
         var buf = new BytesBuffer();
+        
+#if js
+        var z = js.node.Zlib.createInflate();
+#else
         var z = new Uncompress();
         z.setFlushMode(haxe.zip.FlushMode.SYNC);
-        ws.onmessageBytes = function(m) {
-            buf.addBytes(m,0,m.length);
+#end
+        ws.onmessageBytes = function(bytes) {
+            // buf.addBytes(m,0,m.length);
             try{
-                var bytes = buf.getBytes();
+                // var bytes = buf.getBytes();
                 if( bytes.toHex().length < 8 || bytes.toHex().substr(-8) != ZLIB_SUFFIX ){
-                    buf = new BytesBuffer();
+                    var buf = new BytesBuffer();
                     buf.addBytes(bytes,0,bytes.length);
                     return;
                 }
 
+                #if (js&&nodejs)
+                var data = untyped bytes.b;
+                var buf = js.node.buffer.Buffer.from(data.buffer,data.byteOffset,bytes.length);
+                var opts = untyped {flush: js.node.Zlib.Z_SYNC_FLUSH, finishFlush: js.node.Zlib.Z_SYNC_FLUSH};
+                z.write(buf,function(){
+                    var x = z.read();
+                    haxe.EntryPoint.runInMainThread(this.onMessage.bind(x));
+                });
+                #else
                 var res = new BytesBuffer();
-
+                
                 var chnk = {done:false,write:0,read:0};
                 var p = 0;
                 var len = bytes.length;
-                
-                var chbuf:Bytes;
                 while(p<len){
-                    chbuf = Bytes.alloc(BUFFER_SIZE);
+                    var chbuf = Bytes.alloc(BUFFER_SIZE);
                     chnk = z.execute(bytes,p,chbuf,0);
-                    p+=chnk.read;
+                    p += chnk.read;
                     res.addBytes(chbuf,0,chnk.write);
                 }
 
-                buf = new BytesBuffer();
                 var msg = res.getBytes().toString();
                 haxe.EntryPoint.runInMainThread(this.onMessage.bind(msg));
+                #end
             }catch(e:Dynamic){
-                trace(e);
-                trace(haxe.CallStack.exceptionStack());
-                trace(haxe.CallStack.callStack());
+                trace(Std.string(e)+haxe.CallStack.toString(haxe.CallStack.exceptionStack()));
 
             }
         }
+        
         ws.onerror = onError;
         ws.onclose = _onClose;
 #if sys

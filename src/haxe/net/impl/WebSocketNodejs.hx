@@ -8,7 +8,7 @@ import haxe.extern.EitherType;
 class WebSocketNodejs extends WebSocket {
     private var impl:NodeJsWS;
 
-    public function new(url:String, options:Array<String> = null) {
+    public function new(url:String, options = null) {
         super();
 
         impl = new NodeJsWS(url);
@@ -25,22 +25,23 @@ class WebSocketNodejs extends WebSocket {
             this.onerror(e);
         });
 
-        impl.on("message",function(e:EitherType< String, EitherType< js.node.buffer.Buffer, EitherType< js.html.ArrayBuffer, Array< js.node.buffer.Buffer >>>>) {
+        impl.on("message",function(e:EitherType< String, EitherType< js.node.buffer.Buffer, EitherType< js.lib.ArrayBuffer, Array< js.node.buffer.Buffer >>>>) {
             var m = e;
             if (Std.is(m, String)) {
                 this.onmessageString(m);
-            } else if (Std.is(m, js.html.ArrayBuffer)) {
+            } else if (Std.is(m, js.lib.ArrayBuffer)) {
                 //haxe.io.Int8Array
                 //js.html.ArrayBuffer
                 trace('Unhandled websocket onmessage ' + m);
-            } else if (Std.is(m, js.html.Blob)) {
-				var arrayBuffer : js.html.ArrayBuffer;
-				var fileReader = new js.html.FileReader();
-				fileReader.onload = function() {
-					arrayBuffer = fileReader.result;
-					this.onmessageBytes(Bytes.ofData(arrayBuffer));
-				}
-				fileReader.readAsArrayBuffer(cast (m, js.html.Blob));
+            } else if (Std.is(m, js.node.Buffer)) {
+                this.onmessageBytes(Bytes.ofData(m));
+				// var arrayBuffer : js.lib.ArrayBuffer;
+				// var fileReader = new js.html.FileReader();
+				// fileReader.onload = function() {
+				// 	arrayBuffer = fileReader.result;
+				// 	this.onmessageBytes(Bytes.ofData(arrayBuffer));
+				// }
+				// fileReader.readAsArrayBuffer(cast (m, js.html.Blob));
             } else {
                 //ArrayBuffer but bigger
                 trace('Unhandled websocket onmessage ' + m);
@@ -54,7 +55,7 @@ class WebSocketNodejs extends WebSocket {
 
     override public function sendBytes(message:Bytes) {
 //	Separate message data, because 'message.getData().length' not equal 'message.length'
-	message = message.sub(0, message.length);
+	// message = message.sub(0, message.length);
         this.impl.send(message.getData());
     }
 	

@@ -131,7 +131,6 @@ class Https{
             "method": method,
             "headers": headers
         };
-
         var req = js.node.Https.request(options,function(res:IncomingMessage){
             //trace(res.headers);
             var datas = "";
@@ -150,10 +149,10 @@ class Https{
                 else
                     _cb(isJson?parseJson(res.statusCode,datas):{status:res.statusCode,data:datas},m);
             });
-            req.on('error',function(e){
-                _cb({status:res.statusCode,error:e,data:isJson?parseJson(res.statusCode,datas,true):datas},m);
-            }); 
         });
+        req.on('error',function(e){
+            _cb({status:0,error:e,data:null},null);
+        }); 
 
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&_data!=null)
             req.write(_data);

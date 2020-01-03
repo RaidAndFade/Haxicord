@@ -71,71 +71,7 @@ class Logger{
         }
         }catch(e:Dynamic){}
 
-
-        //The rest is the normal haxe trace function.
-		#if flash
-			#if (fdb || native_trace)
-				var str = flash.Boot.__string_rec(v, "");
-				if( infos != null && infos.customParams != null ) for( v in infos.customParams ) str += "," + flash.Boot.__string_rec(v, "");
-				untyped __global__["trace"](infostr+""+str);
-			#else
-				untyped flash.Boot.__trace(v, infos);
-			#end
-		#elseif neko
-			untyped {
-				$print(infostr, v);
-				if( infos.customParams != null ) for( v in infos.customParams ) $print(",", v);
-				$print("\n");
-			}
-		#elseif js
-			untyped js.Boot.__trace(v, infos); //TODO this
-		#elseif (php && php7)
-			php.Boot.trace(v, infos); //TODO this
-		#elseif php
-			if (infos!=null && infos.customParams!=null) {
-				var extra:String = "";
-				for( v in infos.customParams )
-					extra += "," + v;
-				untyped __call__('_hx_trace', v + extra, infos); //TODO this
-			}
-			else
-				untyped __call__('_hx_trace', v, infos); //TODO this
-		#elseif cpp
-			if (infos!=null && infos.customParams!=null) {
-				var extra:String = "";
-				for( v in infos.customParams )
-					extra += "," + v;
-				untyped __trace(v + extra, infos); //TODO this
-			}
-			else
-				untyped __trace(v, infos); //TODO this
-		#elseif (cs || java || lua)
-			var str:String = null;
-			str = infostr + v;
-			if (infos != null && infos.customParams != null)
-            {
-                str += "," + infos.customParams.join(",");
-            }
-			#if cs
-			cs.system.Console.WriteLine(str);
-			#elseif java
-			untyped __java__("java.lang.System.out.println(str)");
-			#elseif lua
-			if (str == null) str = "null";
-			untyped __define_feature__("use._hx_print", _hx_print(str));
-			#end
-		#elseif (python)
-			var str:String = null;
-		    str = infostr + " " + v;
-			if (infos != null && infos.customParams != null) {
-                str += "," + infos.customParams.join(",");
-            }
-			python.Lib.println(str);
-		#elseif hl
-			var str = Std.string(v);
-			if( infos != null && infos.customParams != null ) for( v in infos.customParams ) str += "," + Std.string(v);
-			Sys.println(infostr+": "+str);
-		#end
+        origTrace(infostr+v,null);
     }
 
     public static function out(s:String) {

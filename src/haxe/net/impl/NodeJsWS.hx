@@ -9,13 +9,13 @@ import js.node.events.EventEmitter;
     
     var Close   : NodeJsWSEvent<Int->String->Void>                      = "close";
 
-    var Error   : NodeJsWSEvent<js.Error->Void>                         = "error";
+    var Error   : NodeJsWSEvent<js.lib.Error->Void>                         = "error";
 
     var Headers : NodeJsWSEvent< Dynamic -> js.node.http.IncomingMessage -> Void> 
                                                                         = "headers";
     var Message : NodeJsWSEvent< EitherType< String,
                                     EitherType< js.node.buffer.Buffer,
-                                        EitherType< js.html.ArrayBuffer,
+                                        EitherType< js.lib.ArrayBuffer,
                                             Array< js.node.buffer.Buffer >
                                         >
                                     >
