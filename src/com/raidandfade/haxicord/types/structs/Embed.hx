@@ -1,7 +1,7 @@
 package com.raidandfade.haxicord.types.structs;
 
 
-//@serverside is for when you decide to at some point have an embed creator. fun times.
+// @serverside is for when you decide to at some point have an embed creator. fun times.
 
 typedef Embed = {
     @:optional var title:String;
@@ -19,7 +19,7 @@ typedef Embed = {
     @:optional var fields:Array<EmbedField>;
 }
 
-typedef EmbedFooter = { 
+typedef EmbedFooter = {
     @:optional var text:String;
     @:optional var icon_url:String;
     @:optional @serverSide var proxy_icon_url:String; // http(s) and attachments.
@@ -32,7 +32,7 @@ typedef EmbedImage = {
     @:optional @serverSide var width:Int;
 }
 
-//might be able to just use EmbedImage...
+// might be able to just use EmbedImage...
 typedef EmbedThumbnail = {
     @:optional var url:String;
     @:optional @serverSide var proxy_url:String;
@@ -58,10 +58,15 @@ typedef EmbedAuthor = {
     @:optional @serverSide var proxy_icon_url:String; // http(s) and attachments.
 }
 
-typedef EmbedField = {
+@:structInit
+class EmbedField {
     @:optional var name:String;
     @:optional var value:String;
-    @:optional var _inline:Bool;
+    @:optional @:native("inline") var _inline:Bool;
 
-    //TODO somehow fix the issue with inline being an identifier
+    public function new(name:String, value:String, _inline:Bool) {
+        this.name = name;
+        this.value = value;
+        this._inline = _inline;
+    }
 }
