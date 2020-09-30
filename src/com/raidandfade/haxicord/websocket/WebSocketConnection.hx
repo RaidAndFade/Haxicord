@@ -138,11 +138,10 @@ class WebSocketConnection {
         ws.onerror = onError;
         ws.onclose = _onClose;
 #if sys
-        while (true) {
+        while (ws.readyState != Closed) {
             ws.process();
             Sys.sleep(0.1);
         }
-        trace("Escaped while, somehow.");
 #end
 #end
     }
