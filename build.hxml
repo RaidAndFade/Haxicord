@@ -28,11 +28,16 @@
 # com.raidandfade.haxicord.endpoints.Endpoints
 # -neko bin/Haxicord-neko/Haxicord.n
 
--cp src
+# -cp src
 # -lib nme
 # -lib hxnodejs
--main com.raidandfade.haxicord.test.Test
--debug
+# -main com.raidandfade.haxicord.test.Test
+# -debug
 # --js test/bin/Haxicord-js/Haxicord.js
 --cpp test/bin/Haxicord-cpp
 # --neko test/bin/Haxicord-neko/Haxicord.n
+
+-cp src
+-main com.raidandfade.haxicord.test.Test
+--debug
+# -hl test/bin/Haxicord-hlc/haxicord.c

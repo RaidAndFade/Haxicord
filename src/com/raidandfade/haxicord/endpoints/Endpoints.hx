@@ -292,6 +292,13 @@ class Endpoints{
         @param cb - Return the message sent, or an error
      */
     public function sendMessage(channel_id:String, message:Typedefs.MessageCreate, cb:Message->ErrorReport->Void = null) {
+        if(message.embed != null && message.embed.fields != null){
+            for(field in message.embed.fields){
+                if(field._inline != null && field._inline == true){
+                    Reflect.setField(field,"inline",true);
+                }
+            }
+        }
         //Requires send_messages
         var endpoint = new EndpointPath("/channels/{0}/messages", [channel_id]);
         callEndpoint("POST", endpoint, function(m, e) {
