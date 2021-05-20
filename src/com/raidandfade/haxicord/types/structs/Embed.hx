@@ -1,6 +1,5 @@
 package com.raidandfade.haxicord.types.structs;
 
-
 // @serverside is for when you decide to at some point have an embed creator. fun times.
 
 typedef Embed = {
@@ -58,15 +57,8 @@ typedef EmbedAuthor = {
     @:optional @serverSide var proxy_icon_url:String; // http(s) and attachments.
 }
 
-@:structInit
-class EmbedField {
+typedef EmbedField = {
     @:optional var name:String;
     @:optional var value:String;
-    @:optional @:native("inline") var _inline:Bool;
-
-    public function new(name:String, value:String, _inline:Bool) {
-        this.name = name;
-        this.value = value;
-        this._inline = _inline;
-    }
+    @:optional var _inline:Bool;
 }
