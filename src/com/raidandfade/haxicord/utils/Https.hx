@@ -110,7 +110,7 @@ class Https{
         if(!_headers.exists("User-Agent"))
             _headers.set("User-Agent",DiscordClient.userAgent);
 
-        var _data = Std.is(_d,String)?_d:stringify(_d);
+        var _data = Std.isOfType(_d,String)?_d:stringify(_d);
 
         if(["POST","PUT","PATCH"].indexOf(method)>-1&&_data==null)
             _headers.set("Content-Length","0");

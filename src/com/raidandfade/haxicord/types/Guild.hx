@@ -219,9 +219,9 @@ class Guild{
                 for(c in _guild.channels) {
                     var ch = cast(_client._newChannel(c), GuildChannel);
                     ch.guild_id = this.id;
-                    if(Std.is(ch, TextChannel)) {
+                    if(Std.isOfType(ch, TextChannel)) {
                         textChannels.set(ch.id.id, cast(ch, TextChannel));
-                    } else if(Std.is(ch, VoiceChannel)) {
+                    } else if(Std.isOfType(ch, VoiceChannel)) {
                         voiceChannels.set(ch.id.id, cast(ch, VoiceChannel));
                     } else {
                         categoryChannels.set(ch.id.id, cast(ch, CategoryChannel));
@@ -311,15 +311,15 @@ class Guild{
                 for(c in _guild.channels) {
                     var ch = cast(client._newChannel(c), GuildChannel);
                     ch.guild_id = this.id;
-                    if(Std.is(ch, TextChannel) || Std.is(ch, NewsChannel)) { 
+                    if(Std.isOfType(ch, TextChannel) || Std.isOfType(ch, NewsChannel)) { 
                         // since they are literally the same thing, and i don't think it's necessary to 
                         //  have a new map of just news channels considering how niche it is
                         textChannels.set(ch.id.id, cast(ch, TextChannel));
-                    }else if(Std.is(ch, VoiceChannel)) {
+                    }else if(Std.isOfType(ch, VoiceChannel)) {
                         voiceChannels.set(ch.id.id, cast(ch, VoiceChannel));
-                    }else if(Std.is(ch, CategoryChannel)){
+                    }else if(Std.isOfType(ch, CategoryChannel)){
                         categoryChannels.set(ch.id.id, cast(ch, CategoryChannel));
-                    }else if(Std.is(ch, StoreChannel)){ 
+                    }else if(Std.isOfType(ch, StoreChannel)){ 
                         // I can't do similar things to newschannel here since storechannel is distinct
                         storeChannels.set(ch.id.id, cast(ch, StoreChannel));
                     }else{
@@ -355,15 +355,15 @@ class Guild{
         if(nextChancb.length > 0)
             nextChancb.splice(0, 1)[0](ch);
 
-        if(Std.is(ch, TextChannel) || Std.is(ch, NewsChannel)) { 
+        if(Std.isOfType(ch, TextChannel) || Std.isOfType(ch, NewsChannel)) { 
             // since they are literally the same thing, and i don't think it's necessary to 
             //  have a new map of just news channels considering how niche it is
             textChannels.set(ch.id.id, cast(ch, TextChannel));
-        }else if(Std.is(ch, VoiceChannel)) {
+        }else if(Std.isOfType(ch, VoiceChannel)) {
             voiceChannels.set(ch.id.id, cast(ch, VoiceChannel));
-        }else if(Std.is(ch, CategoryChannel)){
+        }else if(Std.isOfType(ch, CategoryChannel)){
             categoryChannels.set(ch.id.id, cast(ch, CategoryChannel));
-        }else if(Std.is(ch, StoreChannel)){ 
+        }else if(Std.isOfType(ch, StoreChannel)){ 
             // I can't do similar things to newschannel here since storechannel is distinct
             storeChannels.set(ch.id.id, cast(ch, StoreChannel));
         }else{

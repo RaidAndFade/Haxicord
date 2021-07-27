@@ -114,7 +114,7 @@ class SocketSys extends Socket2 {
 						out.writeBytes(data.sub(0, readed));
 					}
 				} catch (e:Dynamic) {
-					needClose = !(e == 'Blocking' || (Std.is(e, Error) && (e:Error).match(Error.Blocked)));
+					needClose = !(e == 'Blocking' || (Std.isOfType(e, Error) && (e:Error).match(Error.Blocked)));
 					if(needClose && debug) trace('closing socket because of $e');
 				}
 				ondata(out.readAllAvailableBytes());
