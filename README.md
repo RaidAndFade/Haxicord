@@ -1,7 +1,7 @@
 <p align="center"><img src="https://raw.githubusercontent.com/RaidAndFade/Haxicord/master/logos/haxicord.png" alt="Haxicord" width="300"></p>
 <h1 align="center">Haxicord</h1>
 
-Haxicord is a Discord API wrapper for Haxe.
+Haxicord is a Discord API wrapper for Haxe. Slash Commands are NOT supported.
 
 [![Haxelib](https://img.shields.io/badge/dynamic/json.svg?label=haxelib&colorB=00bb00&query=version&uri=https%3A%2F%2Fraw.githubusercontent.com%2FRaidAndFade%2FHaxicord%2Fmaster%2Fhaxelib.json)](https://lib.haxe.org/p/Haxicord) [![Discord](https://discordapp.com/api/guilds/602009441281507349/embed.png?style=shield)](https://discord.gg/Hfq2djq)
 
