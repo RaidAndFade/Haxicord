@@ -10,6 +10,15 @@ To install the library in your project, use the haxelib package manager:
 
 `haxelib install haxicord`
 
+## Supported Targets
+
+- [x] Neko
+- [x] CPP
+- [x] C#
+- [x] NodeJS
+
+Any other target is not supported, and may not work. 
+
 ## Usage
 [Normal humans can click here for a proper example of some base features](https://github.com/RaidAndFade/Haxicord/blob/master/src/com/raidandfade/haxicord/test/Test.hx)
 
